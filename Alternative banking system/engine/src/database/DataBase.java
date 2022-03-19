@@ -1,8 +1,10 @@
 
 package database;
 
+import java.util.List;
+
 public class DataBase {
-//    private List<Client> clients;
-//    private List<Loans> loads;
-    // Time
+   private List<ClientImp> clients;
+   private List<LoansImpl> loads;
+    int Time;
 }

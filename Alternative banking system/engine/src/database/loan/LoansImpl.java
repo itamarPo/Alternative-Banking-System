@@ -10,18 +10,7 @@ import java.util.Map;
 
 public class LoansImpl implements  Loans{
 
-
-    public enum LoansStatus{
-        Active(pay = null, startingActiveTime = 0,),
-        Risk(),
-        Finished(),
-        private List<Payment> pay;
-        private int startingActiveTime;
-        private int finishTime;
-    }
-    private LoansStatus status = LoansStatus.Active;
-    status = LoansStatus.Risk(status.pay, status.startingActiveTime, status.finishTime);
-    private String loanName;
+    //private String loanName;
     private String borrowerName;
     private final String LOANID;
     private String loanCategory;

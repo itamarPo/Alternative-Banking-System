@@ -1,6 +1,7 @@
 
-package database.client;
+package database;
 
+import database.client.ClientImp;
 import database.loan.LoansImpl;
 
 import java.util.*;
@@ -9,7 +10,7 @@ public class DataBase {
    private List<ClientImp> clients;
    private List<LoansImpl> loans;
    private Map<String, List<LoansImpl>> loansByCategories;
-   private static int time=0;
+   public static int time=0;
 
    public DataBase(){
       clients = new ArrayList<ClientImp>();

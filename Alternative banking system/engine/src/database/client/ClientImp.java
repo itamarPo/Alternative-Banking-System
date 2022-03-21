@@ -2,10 +2,11 @@ package database.client;
 
 import database.loan.LoansImpl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientImp  implements Client{
+public class ClientImp  implements Client, Serializable {
     private String name;
     private final int ID;
     double balance;

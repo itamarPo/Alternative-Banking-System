@@ -10,7 +10,7 @@ public class DataBase {
    private List<ClientImp> clients;
    private List<LoansImpl> loans;
    private Map<String, List<LoansImpl>> loansByCategories;
-   public static int time=0;
+   private static int time=0;
 
    public DataBase(){
       clients = new ArrayList<ClientImp>();
@@ -18,12 +18,14 @@ public class DataBase {
       loansByCategories = new Hashtable<>();
    }
 
+   public static int getTime(){return time;}
    public void loadFile(){
       //... zarih lirot ma ha peulot she anu osim kshe anahnu toanim at ha kovetz
       //loansBycategorizes.add(...)
       //loans.add(...)
       //clients.add(...)
       //etc
+
    }
 
 }

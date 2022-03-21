@@ -3,12 +3,13 @@ package database.loan;
 import database.loan.status.LoanStatus;
 import database.loan.status.LoanStatusImpl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LoansImpl implements  Loans{
+public class LoansImpl implements Serializable, Loans{
 
     //private String loanName;
     private String borrowerName;
@@ -67,5 +68,10 @@ public class LoansImpl implements  Loans{
             System.out.println("Pending");
         else
             status.print();
+    }
+
+    @Override
+    public void payment() {
+
     }
 }

@@ -28,7 +28,12 @@ public class LoanStatusImpl implements LoanStatus{
     public LoanStatusImpl() {
         this.status = "Active";
         this.pay = new ArrayList<Payment>();
-        this.startingActiveTime = DataBase.time;
+        this.startingActiveTime = DataBase.getTime();
         this.finishTime = 0;
+    }
+
+    @Override
+    public void print() {
+
     }
 }

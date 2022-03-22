@@ -8,17 +8,17 @@ import java.util.List;
 
 public class ClientImp  implements Client, Serializable {
     private String name;
-    private final int ID;
+   // private final int ID;
     double balance;
     private List<LoansImpl> lenderList;
     private List<LoansImpl> borrowerList;
 
-    public ClientImp(String clientName, int clientId){
+    public ClientImp(String clientName, double balance){
         name = clientName;
-        ID = clientId;
+      //  ID = clientId;
         lenderList = new ArrayList<LoansImpl>(); //need to implemet List<LoansImpl>
         borrowerList = new ArrayList<LoansImpl>();
-        balance = 0;
+        this.balance = balance;
     }
 
     @Override
@@ -31,9 +31,6 @@ public class ClientImp  implements Client, Serializable {
 
     @Override
     public double getBalance() { return balance; }
-
-    @Override
-    public int getID() { return ID; }
 
     @Override
     public String getName() { return name; }

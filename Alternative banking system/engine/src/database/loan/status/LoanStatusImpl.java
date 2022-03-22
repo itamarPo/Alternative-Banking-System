@@ -1,6 +1,6 @@
 package database.loan.status;
 
-import database.DataBase;
+import database.DataBaseImpl;
 import database.loan.Payment;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class LoanStatusImpl implements LoanStatus{
     public LoanStatusImpl() {
         this.status = "Active";
         this.pay = new ArrayList<Payment>();
-        this.startingActiveTime = DataBase.getTime();
+        this.startingActiveTime = DataBaseImpl.getTime();
         this.finishTime = 0;
     }
 

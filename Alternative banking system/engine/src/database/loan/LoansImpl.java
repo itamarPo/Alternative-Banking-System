@@ -17,7 +17,7 @@ public class LoansImpl implements Serializable, Loans{
     private String loanCategory;
     private double loanSize; // includinginterest
     private int timeLimitOfLoan;
-    private double loanInterest;
+    private int loanInterest;
     private int timePerPayment;
     private Map<String, Double> listOflenders;
 
@@ -28,7 +28,7 @@ public class LoansImpl implements Serializable, Loans{
     private double collectedSoFar; //two implentations: pending- money collected so far by lenders. active: money payed by customer so far
     // sum that needed to make load active is (loanSizeNoInterest - collectedSoFar)
 
-    public LoansImpl(String borrowerName, String LOANID, String loanCategory, int timeLimitOfLoan, double loanInterest, int timePerPayment, double loanSizeNoInterest) {
+    public LoansImpl(String borrowerName, String LOANID, String loanCategory, int timeLimitOfLoan, int loanInterest, int timePerPayment, double loanSizeNoInterest) {
         this.borrowerName = borrowerName;
         this.LOANID = LOANID;
         this.loanCategory = loanCategory;
@@ -48,11 +48,13 @@ public class LoansImpl implements Serializable, Loans{
         if (loanSizeNoInterest - collectedSoFar == 0) {
             status = new LoanStatusImpl();
         }
-        double sum = 0;
-        for (Map.Entry entry : listOflenders.entrySet()) {
-            sum = (double) entry.getValue() + sum;
+        else {
+            double sum = 0;
+            for (Map.Entry entry : listOflenders.entrySet()) {
+                sum = (double) entry.getValue() + sum;
+            }
+            collectedSoFar = sum;
         }
-
 
     }
 

@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class DataBaseImpl implements DataBase{
@@ -28,13 +30,17 @@ public class DataBaseImpl implements DataBase{
 
    public static int getTime(){return time;}
 
-   public void loadFile() throws FileNotFoundException, JAXBException {
+   public void loadFile(String filePath) throws FileNotFoundException, JAXBException {
       /* yesh aod kama dvarim lifney she zarih lasot behetem la mismah.
       kaha ze amur lehiraot. neshapets at ze aim funkziot shonot
       * ani lo mevin ma ze ha class descriptor she ha java yazar
       * kanal gam al ha objectFactory.
       *  */
-      InputStream file = new FileInputStream(new File("src/database/fileresource/ex1-big.xml"));
+      File file = new File(filePath);
+      if(!file.exists()) {
+         InputStream file2 = new FileInputStream(new File(filePath));
+      }
+
       JAXBContext jc = JAXBContext.newInstance("database.fileresource.generated");
       Unmarshaller u = jc.createUnmarshaller();
       //AbsCategories categories = (AbsCategories) u.unmarshal(file);
@@ -42,7 +48,12 @@ public class DataBaseImpl implements DataBase{
      // AbsLoans generatedLoans = (AbsLoans) u.unmarshal(file);
       AbsDescriptor descriptor = (AbsDescriptor) u.unmarshal(file);
       Map <String, Double> customerInfo = organizeInformation(descriptor);
-      organizeClientInformation(customerInfo);
+      if(customerInfo != null)
+         organizeClientInformation(customerInfo);
+      else
+         System.out.println("error message");
+      //hodaat shgia matima la ui.
+
       //... zarih lirot ma ha peulot she anu osim kshe anahnu toanim at ha kovetz
       //loansBycategorizes.add(...)
       //loans.add(...)
@@ -54,7 +65,7 @@ public class DataBaseImpl implements DataBase{
    @Override
    public void organizeClientInformation(Map<String, Double> customerInfo) {
       for (Map.Entry<String, Double> entry: customerInfo.entrySet()) {
-         clients.add(new ClientImp(entry.getKey(), entry.getValue()));
+           clients.add(new ClientImp(entry.getKey(), entry.getValue()));
       }
    }
 

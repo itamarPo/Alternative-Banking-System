@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 
 public interface DataBase {
-    void loadFile() throws FileNotFoundException, JAXBException;
+    void loadFile(String filePath) throws FileNotFoundException, JAXBException;
     void organizeClientInformation(Map<String, Double> customerInfo);
     Map<String, Double> organizeInformation(AbsDescriptor descriptor);
 }

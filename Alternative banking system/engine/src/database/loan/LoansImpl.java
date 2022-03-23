@@ -57,7 +57,7 @@ public class LoansImpl implements Serializable, Loans{
         }
 
     }
-
+    
     public void print(){
         System.out.println(this.LOANID);
         System.out.println(this.borrowerName);

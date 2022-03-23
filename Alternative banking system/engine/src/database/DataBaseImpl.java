@@ -64,6 +64,7 @@ public class DataBaseImpl implements DataBase{
 
    @Override
    public void organizeClientInformation(Map<String, Double> customerInfo) {
+
       for (Map.Entry<String, Double> entry: customerInfo.entrySet()) {
            clients.add(new ClientImp(entry.getKey(), entry.getValue()));
       }
@@ -77,7 +78,10 @@ public class DataBaseImpl implements DataBase{
       AbsLoans absLoans = descriptor.getAbsLoans();
       /*questions to ask aviad: can we assume that the placements of the nods in the lists are parallel?*/
       for (AbsCustomer itr : names.getAbsCustomer()) {
-        customerInfo.put(itr.getName(), (double) itr.getAbsBalance());
+         if(!customerInfo.containsKey(itr.getName()))
+            customerInfo.put(itr.getName(), (double) itr.getAbsBalance());
+         else
+            return null;
       }
 
       /*handels the loans list and loans by category. */

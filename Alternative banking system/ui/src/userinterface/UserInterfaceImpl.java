@@ -99,8 +99,18 @@ public class UserInterfaceImpl implements UserInterface {
         }
     @Override
     public void printMenu() {
-        System.out.println("1. ");
+
+        System.out.println("1. Load file ");
+        System.out.println("2. Show loans information and their status  ");
+        System.out.println("3. Show clients information ");
+        System.out.println("4. Add money to an account ");
+        System.out.println("5. Draw money from an account");
+        System.out.println("6.  ");
+        System.out.println("7.  Advance To next time period and provide payment");
+        System.out.println("8.  Exit program");
     }
+
+
 
     @Override
     public Client getClientInfo() {

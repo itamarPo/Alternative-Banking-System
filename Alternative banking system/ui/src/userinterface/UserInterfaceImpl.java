@@ -15,69 +15,42 @@ import java.util.Scanner;
 public class UserInterfaceImpl implements UserInterface {
     private DataBase data;
     private Scanner scanner;
+    private Boolean FileLoaded;
 
 
     public UserInterfaceImpl(){
         this.data = new DataBaseImpl();
         this.scanner = new Scanner(System.in);
+        this.FileLoaded = false;
     }
 
     public void start(){
-
-        boolean start = true;
+        //boolean start = true;
        menu();
-
     }
 
     public void menu()  {
         int userIntegerInput;
-        Boolean FileLoaded = false;
         printMenu();
         do {
             userIntegerInput = getValidInput();
-            if(!FileLoaded && userIntegerInput != 1) {
+            if(!FileLoaded && userIntegerInput != 1 && userIntegerInput != 8) {
                 System.out.println("A file was not loaded! please load a file before choosing any other option.");
             }
             else {
                 switch (userIntegerInput) {
                     case 1: {
-                        System.out.println("Please enter the full file's path:");
-                        //String string = scanner.nextLine();
-                        try {
-                            data.loadFile(scanner.nextLine());
-                        } catch (JAXBException e) {
-                            e.printStackTrace();
-                            System.out.println("JAXB related error");
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                            System.out.println("The file's path was incorrect. please make sure that the path is correct.");
-                        }
+                        loadFile();
                         break;
                     }
-                    case 2: {
 
-                    }
-                    case 3: {
-
-                    }
-                    case 4: {
-
-                    }
-                    case 5: {
-
-                    }
-                    case 6: {
-
-                    }
                     default: {
-
                     }
-
                 }
                 printMenu();
             }
-        }
-            while (userIntegerInput != 8) ;
+        } while (userIntegerInput != 8) ;
+        System.out.println("Goodbye!");
     }
 
         public int getValidInput() {
@@ -87,10 +60,13 @@ public class UserInterfaceImpl implements UserInterface {
             while (!validInput) {
                 try {
                     userIntegerInput = scanner.nextInt();
+                    scanner.nextLine(); // clear /r/n
                     validInput = true;
-                } catch (InputMismatchException exception) {
+                }
+                catch (InputMismatchException exception) {
                     System.out.println("This is not a natural number, please enter a natural number between 1 to 8:");
                     validInput = false;
+                    System.out.println(scanner.nextLine());
                 }
                 if ((userIntegerInput < 1 || userIntegerInput > 8) && validInput)
                     System.out.println("Invalid number input! /r/n Please try again. Make sure that you enter a natural number between 1 to 8: ");
@@ -99,18 +75,35 @@ public class UserInterfaceImpl implements UserInterface {
         }
     @Override
     public void printMenu() {
-
+        System.out.println("Welcome! please select one fo the following options:" );
         System.out.println("1. Load file ");
         System.out.println("2. Show loans information and their status  ");
         System.out.println("3. Show clients information ");
         System.out.println("4. Add money to an account ");
         System.out.println("5. Draw money from an account");
         System.out.println("6.  ");
-        System.out.println("7.  Advance To next time period and provide payment");
-        System.out.println("8.  Exit program");
+        System.out.println("7. Advance To next time period and provide payment");
+        System.out.println("8. Exit program");
     }
 
+    @Override
+    public void loadFile(){
+        System.out.println("Please enter a file name that you wish to load:");
+        try {
+            data.loadFile(scanner.nextLine());
+        }
+        //JAXB error
+        catch (JAXBException e) {
+            //e.printStackTrace();
+            System.out.println("JAXB related error");
+        }
+        //No such file
+        catch (FileNotFoundException e) {
+            System.out.println("The file's path was incorrect. please make sure that the path is correct.");
+        }
+        //catch() all other things that can go wrong with xml file.
 
+    }
 
     @Override
     public Client getClientInfo() {
@@ -127,10 +120,7 @@ public class UserInterfaceImpl implements UserInterface {
 
     }
 
-    @Override
-    public void loadFile() {
 
-    }
 
     @Override
     public void addMoneyToAccount(Client client) {

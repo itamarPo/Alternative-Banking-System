@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Alternative-Banking-System.iml" filepath="$PROJECT_DIR$/.idea/Alternative-Banking-System.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Alternative banking system/DTO/DTO.iml" filepath="$PROJECT_DIR$/Alternative banking system/DTO/DTO.iml" />
       <module fileurl="file://$PROJECT_DIR$/Alternative banking system/engine/engine.iml" filepath="$PROJECT_DIR$/Alternative banking system/engine/engine.iml" />
       <module fileurl="file://$PROJECT_DIR$/Alternative banking system/ui/ui.iml" filepath="$PROJECT_DIR$/Alternative banking system/ui/ui.iml" />
     </modules>

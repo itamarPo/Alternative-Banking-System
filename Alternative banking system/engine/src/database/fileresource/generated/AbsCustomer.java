@@ -41,7 +41,8 @@ import javax.xml.bind.annotation.XmlType;
     "absBalance"
 })
 @XmlRootElement(name = "abs-customer")
-public class AbsCustomer {
+public class
+AbsCustomer {
 
     @XmlElement(name = "abs-balance")
     protected int absBalance;

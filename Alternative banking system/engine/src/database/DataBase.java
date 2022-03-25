@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface DataBase {
     void loadFile(String filePath) throws FileNotFoundException, JAXBException;
-    void organizeClientInformation(Map<String, Double> customerInfo);
-    Map<String, Double> organizeInformation(AbsDescriptor descriptor);
+    //void organizeClientInformation(Map<String, Double> customerInfo);
+    void  organizeInformation(AbsDescriptor descriptor);
 }

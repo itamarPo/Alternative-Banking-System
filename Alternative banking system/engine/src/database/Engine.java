@@ -4,8 +4,7 @@ package database;
 import database.client.Customer;
 import database.loan.Loans;
 import database.fileresource.generated.*;
-import exceptions.NotXmlExcpetion;
-import exceptions.TwoClientsWithSameNameException;
+import exceptions.filesexepctions.*;
 
 
 import javax.xml.bind.JAXBContext;

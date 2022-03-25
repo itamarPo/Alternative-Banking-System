@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.filesexepctions;
 
 public class NotXmlExcpetion extends Exception implements ExcepctionInterface{
     public void printMessage(){

@@ -5,8 +5,7 @@ import database.EngineInterface;
 import database.Engine;
 import database.client.CustomerInterface;
 import database.loan.LoansInterface;
-import exceptions.NotXmlExcpetion;
-import exceptions.TwoClientsWithSameNameException;
+import exceptions.filesexepctions.*;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;

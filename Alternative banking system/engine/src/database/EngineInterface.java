@@ -7,7 +7,7 @@ import exceptions.TwoClientsWithSameNameException;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
-import java.util.Map;
+import java.util.List;
 
 public interface EngineInterface {
     void loadFile(String filePath) throws FileNotFoundException, JAXBException , Exception;

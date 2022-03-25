@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.filesexepctions;
 
 public class TwoClientsWithSameNameException extends Exception implements ExcepctionInterface{
     public String name;

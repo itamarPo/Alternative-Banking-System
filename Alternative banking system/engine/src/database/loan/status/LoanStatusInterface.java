@@ -1,6 +1,6 @@
 package database.loan.status;
 
-public interface LoanStatus {
+public interface LoanStatusInterface {
 
     void print();
 }

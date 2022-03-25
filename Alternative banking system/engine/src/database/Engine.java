@@ -1,8 +1,8 @@
 
 package database;
 
-import database.client.ClientImp;
-import database.loan.LoansImpl;
+import database.client.Customer;
+import database.loan.Loans;
 import database.fileresource.generated.*;
 import exceptions.TwoClientsWithSameNameException;
 
@@ -14,19 +14,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
-public class DataBaseImpl implements DataBase{
-   private List<ClientImp> clients;
-   private List<LoansImpl> loans;
-   private Map<String, LoansImpl> loansByCategories;
+public class Engine implements EngineInterface {
+   private List<Customer> clients;
+   private List<Loans> loans;
+   private Map<String, Loans> loansByCategories;
    private static int time=0;
 
-   public DataBaseImpl() {
-      clients = new ArrayList<ClientImp>();
-      loans = new ArrayList<LoansImpl>();
+   public Engine() {
+      clients = new ArrayList<Customer>();
+      loans = new ArrayList<Loans>();
       loansByCategories = new Hashtable<>();
    }
 
@@ -56,14 +54,18 @@ public class DataBaseImpl implements DataBase{
 //      AbsCategories categories = descriptor.getAbsCategories();
 //      AbsLoans absLoans = descriptor.getAbsLoans();
       /*questions to ask aviad: can we assume that the placements of the nods in the lists are parallel?*/
-      for (AbsCustomer customer : customers.getAbsCustomer()) {
-         for(ClientImp client : clients){
-            if(customer.getName().equals(client.getName())){
-               throw new TwoClientsWithSameNameException(client.getName());
-            }
-         }
-         clients.add(new ClientImp(customer.getName(),customer.getAbsBalance()));
-      }
+//      for (AbsCustomer customer : customers.getAbsCustomer()) {
+//         for(Customer client : clients){
+//            if(customer.getName().equals(client.getName())){
+//               throw new TwoClientsWithSameNameException(client.getName());
+//            }
+//         }
+//         clients.add(new Customer(customer.getName(),customer.getAbsBalance()));
+//      }
+
+//      for (Map.Entry<String, Double> entry: customerInfo.entrySet()) {
+//         clients.add(new Customer(entry.getKey(), entry.getValue()));
+//      }
 
 //      /*handels the loans list and loans by category. */
 //      for(AbsLoan itr : absLoans.getAbsLoan()){
@@ -72,15 +74,17 @@ public class DataBaseImpl implements DataBase{
 //      }
 //      return customerInfo;
    }
-//   @Override
-//   public void organizeClientInformation(Map<String, Double> customerInfo) {
-//
-//      for (Map.Entry<String, Double> entry: customerInfo.entrySet()) {
-//           clients.add(new ClientImp(entry.getKey(), entry.getValue()));
-//      }
-//   }
+   @Override
+   public void checkCustomerInfo(AbsCustomers customers) throws TwoClientsWithSameNameException{
 
-
-
+      List<String> customerInfo = new ArrayList<String>();
+//      Map <String, Double> customerInfo = new HashMap<String, Double>();
+      for (AbsCustomer customer : customers.getAbsCustomer()){
+         if(customerInfo.contains(customer.getName().toLowerCase())){
+            throw  new TwoClientsWithSameNameException(customer.getName());
+         }
+         customerInfo.add(customer.getName().toLowerCase());
+      }
+   }
 
 }

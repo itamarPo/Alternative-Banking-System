@@ -2,19 +2,16 @@ package userinterface;
 
 
 
-import database.client.Client;
-import database.loan.Loans;
-
-import javax.xml.bind.JAXBException;
-import java.io.FileNotFoundException;
+import database.client.CustomerInterface;
+import database.loan.LoansInterface;
 
 
 public interface UserInterface {
     void printMenu();
-    Client getClientInfo();
-    Loans getLoanInfo();
+    CustomerInterface getClientInfo();
+    LoansInterface getLoanInfo();
     void moveTimeForward();
     void loadFile();
-    void addMoneyToAccount(Client client);
-    void getMoneyFromAccount(Client client);
+    void addMoneyToAccount(CustomerInterface client);
+    void getMoneyFromAccount(CustomerInterface client);
 }

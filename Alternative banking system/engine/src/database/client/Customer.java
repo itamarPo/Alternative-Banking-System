@@ -1,23 +1,23 @@
 package database.client;
 
-import database.loan.LoansImpl;
+import database.loan.Loans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientImp  implements Client, Serializable {
+public class Customer implements CustomerInterface, Serializable {
     private String name;
    // private final int ID;
     double balance;
-    private List<LoansImpl> lenderList;
-    private List<LoansImpl> borrowerList;
+    private List<Loans> lenderList;
+    private List<Loans> borrowerList;
 
-    public ClientImp(String clientName, double balance){
+    public Customer(String clientName, double balance){
         name = clientName;
       //  ID = clientId;
-        lenderList = new ArrayList<LoansImpl>(); //need to implemet List<LoansImpl>
-        borrowerList = new ArrayList<LoansImpl>();
+        lenderList = new ArrayList<Loans>(); //need to implemet List<LoansImpl>
+        borrowerList = new ArrayList<Loans>();
         this.balance = balance;
     }
 
@@ -36,7 +36,7 @@ public class ClientImp  implements Client, Serializable {
     public String getName() { return name; }
 
     @Override
-    public void addLoanToClient(LoansImpl loan, boolean lenderOrBorrower) {
+    public void addLoanToClient(Loans loan, boolean lenderOrBorrower) {
         if(lenderOrBorrower) // lender
            lenderList.add(loan);
         else

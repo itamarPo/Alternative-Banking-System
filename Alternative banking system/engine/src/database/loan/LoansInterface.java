@@ -1,8 +1,6 @@
 package database.loan;
 
-import java.util.List;
-
-public interface Loans {
+public interface LoansInterface {
     void pending();
     void print();
     void payment();

@@ -1,25 +1,26 @@
 
 package userinterface;
 
-import database.DataBase;
-import database.DataBaseImpl;
-import database.client.Client;
-import database.client.ClientImp;
-import database.loan.Loans;
+import database.EngineInterface;
+import database.Engine;
+import database.client.CustomerInterface;
+import database.loan.LoansInterface;
+import exceptions.NotXmlExcpetion;
+import exceptions.TwoClientsWithSameNameException;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class UserInterfaceImpl implements UserInterface {
-    private DataBase data;
+public class User implements UserInterface {
+    private EngineInterface data;
     private Scanner scanner;
     private Boolean FileLoaded;
 
 
-    public UserInterfaceImpl(){
-        this.data = new DataBaseImpl();
+    public User(){
+        this.data = new Engine();
         this.scanner = new Scanner(System.in);
         this.FileLoaded = false;
     }
@@ -100,18 +101,24 @@ public class UserInterfaceImpl implements UserInterface {
         //No such file
         catch (FileNotFoundException e) {
             System.out.println("The file's path was incorrect. please make sure that the path is correct.");
+        } catch (TwoClientsWithSameNameException e) {
+            e.printMessage();
+        } catch (NotXmlExcpetion e) {
+            e.printMessage();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         //catch() all other things that can go wrong with xml file.
 
     }
 
     @Override
-    public Client getClientInfo() {
+    public CustomerInterface getClientInfo() {
         return null;
     }
 
     @Override
-    public Loans getLoanInfo() {
+    public LoansInterface getLoanInfo() {
         return null;
     }
 
@@ -123,12 +130,12 @@ public class UserInterfaceImpl implements UserInterface {
 
 
     @Override
-    public void addMoneyToAccount(Client client) {
+    public void addMoneyToAccount(CustomerInterface client) {
 
     }
 
     @Override
-    public void getMoneyFromAccount(Client client) {
+    public void getMoneyFromAccount(CustomerInterface client) {
 
     }
 }

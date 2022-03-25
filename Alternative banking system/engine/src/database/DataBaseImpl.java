@@ -41,16 +41,23 @@ public class DataBaseImpl implements DataBase{
    }
 
    @Override
-   public void organizeInformation(AbsDescriptor descriptor) {
+   public void organizeInformation(AbsDescriptor descriptor) throws Exception {
       AbsCustomers customers = descriptor.getAbsCustomers();
-//      Map <String, Double> customerInfo = new HashMap<String, Double>();
+      Map <String, Double> customerInfo = new HashMap<String, Double>();
+      for (AbsCustomer customer : customers.getAbsCustomer()){
+         if(customerInfo.containsKey(customer.getName())){
+            throw  new TwoClientsWithSameNameException(customer.getName());
+         }
+         customerInfo.put(customer.getName(), (double)customer.getAbsBalance());
+      }
+
 //      AbsCategories categories = descriptor.getAbsCategories();
 //      AbsLoans absLoans = descriptor.getAbsLoans();
       /*questions to ask aviad: can we assume that the placements of the nods in the lists are parallel?*/
       for (AbsCustomer customer : customers.getAbsCustomer()) {
          for(ClientImp client : clients){
             if(customer.getName().equals(client.getName())){
-              // throw new TwoClientsWithSameNameException(client.getName());
+               throw new TwoClientsWithSameNameException(client.getName());
             }
          }
          clients.add(new ClientImp(customer.getName(),customer.getAbsBalance()));

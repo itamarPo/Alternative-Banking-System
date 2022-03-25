@@ -9,5 +9,5 @@ import java.util.Map;
 public interface DataBase {
     void loadFile(String filePath) throws FileNotFoundException, JAXBException;
     //void organizeClientInformation(Map<String, Double> customerInfo);
-    void  organizeInformation(AbsDescriptor descriptor);
+    void  organizeInformation(AbsDescriptor descriptor) throws Exception;
 }

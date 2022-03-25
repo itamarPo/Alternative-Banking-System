@@ -4,6 +4,7 @@ package database;
 import database.client.Customer;
 import database.loan.Loans;
 import database.fileresource.generated.*;
+import exceptions.NotXmlExcpetion;
 import exceptions.TwoClientsWithSameNameException;
 
 
@@ -30,7 +31,15 @@ public class Engine implements EngineInterface {
 
    public static int getTime(){return time;}
 
-   public void loadFile(String filePath) throws FileNotFoundException, JAXBException {
+   public void loadFile(String filePath) throws FileNotFoundException, JAXBException, TwoClientsWithSameNameException, NotXmlExcpetion {
+      String[] list = filePath.split("\\.");
+
+//      List <String> list = new ArrayList();
+      //list = filePath.split("\\.");
+      if(!list[list.length - 1].equals("xml")){
+          throw new NotXmlExcpetion();
+      }
+
       InputStream XMLFile = new FileInputStream(new File(filePath));
       JAXBContext jc = JAXBContext.newInstance("database.fileresource.generated");
       Unmarshaller u = jc.createUnmarshaller();
@@ -41,15 +50,9 @@ public class Engine implements EngineInterface {
    }
 
    @Override
-   public void organizeInformation(AbsDescriptor descriptor) throws Exception {
+   public void organizeInformation(AbsDescriptor descriptor) throws TwoClientsWithSameNameException {
       AbsCustomers customers = descriptor.getAbsCustomers();
-      Map <String, Double> customerInfo = new HashMap<String, Double>();
-      for (AbsCustomer customer : customers.getAbsCustomer()){
-         if(customerInfo.containsKey(customer.getName())){
-            throw  new TwoClientsWithSameNameException(customer.getName());
-         }
-         customerInfo.put(customer.getName(), (double)customer.getAbsBalance());
-      }
+      checkCustomerInfo(customers);
 
 //      AbsCategories categories = descriptor.getAbsCategories();
 //      AbsLoans absLoans = descriptor.getAbsLoans();

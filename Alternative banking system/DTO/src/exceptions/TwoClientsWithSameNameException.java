@@ -1,6 +1,6 @@
 package exceptions;
 
-public class TwoClientsWithSameNameException extends Exception{
+public class TwoClientsWithSameNameException extends Exception implements ExcepctionInterface{
     public String name;
 
     public TwoClientsWithSameNameException(String name){

@@ -75,7 +75,7 @@ public class User implements UserInterface {
         }
     @Override
     public void printMenu() {
-        System.out.println("Welcome! please select one fo the following options:" );
+        System.out.println("\r\nnWelcome! please select one fo the following options:" );
         System.out.println("1. Load file ");
         System.out.println("2. Show loans information and their status  ");
         System.out.println("3. Show clients information ");
@@ -94,20 +94,23 @@ public class User implements UserInterface {
         }
         //JAXB error
         catch (JAXBException e) {
-            //e.printStackTrace();
             System.out.println("JAXB related error");
-        }
-        //No such file
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("The file's path was incorrect. please make sure that the path is correct.");
         } catch (TwoClientsWithSameNameException e) {
             e.printMessage();
         } catch (NotXmlExcpetion e) {
             e.printMessage();
+        } catch (OwnerLoanNotExistException e) {
+            e.printMessage();
+        } catch (LoanCategoryNotExistException e){
+            e.printMessage();
+        } catch (TimeOfPaymentNotDivideEqualyException e){
+            e.printMessage();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        //catch() all other things that can go wrong with xml file.
+
 
     }
 

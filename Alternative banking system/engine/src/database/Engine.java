@@ -30,7 +30,7 @@ public class Engine implements EngineInterface {
 
    public static int getTime(){return time;}
 
-   public void loadFile(String filePath) throws FileNotFoundException, JAXBException, TwoClientsWithSameNameException, NotXmlExcpetion {
+   public void loadFile(String filePath) throws FileNotFoundException, JAXBException, Exception {
       String[] list = filePath.split("\\.");
 
 //      List <String> list = new ArrayList();
@@ -49,12 +49,14 @@ public class Engine implements EngineInterface {
    }
 
    @Override
-   public void organizeInformation(AbsDescriptor descriptor) throws TwoClientsWithSameNameException {
+   public void organizeInformation(AbsDescriptor descriptor) throws Exception {
       AbsCustomers customers = descriptor.getAbsCustomers();
       checkCustomerInfo(customers);
+      AbsCategories categories = descriptor.getAbsCategories();
+      AbsLoans loans = descriptor.getAbsLoans();
+      checkLoansInfo(customers.getAbsCustomer(), categories.getAbsCategory(), loans);
+     // checkLoansInfo(customers,categories,loans);
 
-//      AbsCategories categories = descriptor.getAbsCategories();
-//      AbsLoans absLoans = descriptor.getAbsLoans();
       /*questions to ask aviad: can we assume that the placements of the nods in the lists are parallel?*/
 //      for (AbsCustomer customer : customers.getAbsCustomer()) {
 //         for(Customer client : clients){
@@ -89,4 +91,23 @@ public class Engine implements EngineInterface {
       }
    }
 
+   @Override
+   public void checkLoansInfo(List<AbsCustomer> customers, List<String> categories, AbsLoans loans) throws Exception {
+      boolean customerFound = false;
+      for (AbsLoan loan: loans.getAbsLoan()){
+         if(!categories.contains(loan.getAbsCategory())){
+            throw new LoanCategoryNotExistException(loan.getAbsCategory(), loan.getId());
+         }
+         for (AbsCustomer customer : customers){
+            customerFound = loan.getAbsOwner().equals(customer.getName());
+            if(customerFound)
+               break;
+         }
+         if (!customerFound)
+            throw new OwnerLoanNotExistException(loan.getAbsOwner(),loan.getId());
+         if(loan.getAbsTotalYazTime() % loan.getAbsPaysEveryYaz() != 0){
+            throw new TimeOfPaymentNotDivideEqualyException(loan.getAbsTotalYazTime(), loan.getAbsPaysEveryYaz());
+         }
+      }
+   }
 }

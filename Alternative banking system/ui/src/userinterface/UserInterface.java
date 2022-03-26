@@ -8,8 +8,8 @@ import database.loan.LoansInterface;
 
 public interface UserInterface {
     void printMenu();
-    CustomerInterface getClientInfo();
-    LoansInterface getLoanInfo();
+    void getCustomersInfo();
+    void getLoansInfo();
     void moveTimeForward();
     void loadFile();
     void addMoneyToAccount(CustomerInterface client);

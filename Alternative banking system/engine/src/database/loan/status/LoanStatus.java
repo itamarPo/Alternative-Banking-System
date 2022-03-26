@@ -10,16 +10,17 @@ import java.util.List;
 public class LoanStatus implements LoanStatusInterface {
  //TODO: changes to status according to the word file.
     private String status;
-    private List<Payment> pay;
+    private List<Payment> payments;
     private int startingActiveTime;
     private int finishTime;
+    private int nextPaymentTime;
 
     public void setStatus(String status) {
         this.status = status;
     }
 
-    public void addPay(Payment pay) {
-        this.pay.add(pay) ;
+    public void addPay(Payment payment) {
+        this.payments.add(payment) ;
     }
 
     public void setFinishTime(int finishTime) {
@@ -28,9 +29,14 @@ public class LoanStatus implements LoanStatusInterface {
 
     public LoanStatus() {
         this.status = "Active";
-        this.pay = new ArrayList<Payment>();
+        this.payments = new ArrayList<>();
         this.startingActiveTime = Engine.getTime();
         this.finishTime = 0;
+        this.nextPaymentTime = startingActiveTime;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     @Override

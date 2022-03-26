@@ -1,14 +1,18 @@
 package database;
 
 import database.fileresource.generated.*;
+import objects.Loans.NewLoanDTO;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 import java.util.List;
 
 public interface EngineInterface {
-    void loadFile(String filePath) throws FileNotFoundException, JAXBException , Exception;
-    void checkCustomerInfo(AbsCustomers customers) throws Exception;
+    Boolean loadFile(String filePath) throws FileNotFoundException, JAXBException , Exception;
+    void checkCustomerInfo(AbsCustomers newCustomers) throws Exception;
     void organizeInformation(AbsDescriptor descriptor) throws Exception;
-    void checkLoansInfo(List<AbsCustomer> customers, List<String> categories, AbsLoans loans) throws Exception;
+    void checkLoansInfo(List<AbsCustomer> newCustomers, List<String> newCategories, AbsLoans newLoans) throws Exception;
+    void copyDataToEngineFields(AbsCustomers newCustomers, AbsLoans newLoans, AbsCategories newCategories);
+    void resetTime();
+    List<NewLoanDTO> getLoansInfo();
 }

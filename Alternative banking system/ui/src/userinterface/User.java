@@ -6,10 +6,12 @@ import database.Engine;
 import database.client.CustomerInterface;
 import database.loan.LoansInterface;
 import exceptions.filesexepctions.*;
+import objects.Loans.NewLoanDTO;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class User implements UserInterface {
@@ -31,6 +33,7 @@ public class User implements UserInterface {
 
     public void menu()  {
         int userIntegerInput;
+        System.out.println("Welcome!");
         printMenu();
         do {
             userIntegerInput = getValidInput();
@@ -43,8 +46,8 @@ public class User implements UserInterface {
                         loadFile();
                         break;
                     }
-
                     default: {
+                        System.out.println("This option has not been implemented yet!");
                     }
                 }
                 printMenu();
@@ -54,13 +57,12 @@ public class User implements UserInterface {
     }
 
         public int getValidInput() {
-
             int userIntegerInput = 0;
             Boolean validInput = false;
             while (!validInput) {
                 try {
                     userIntegerInput = scanner.nextInt();
-                    scanner.nextLine(); // clear /r/n
+                    scanner.nextLine(); // clear buffer
                     validInput = true;
                 }
                 catch (InputMismatchException exception) {
@@ -75,7 +77,7 @@ public class User implements UserInterface {
         }
     @Override
     public void printMenu() {
-        System.out.println("\r\nnWelcome! please select one fo the following options:" );
+        System.out.println("\r\nPlease select one fo the following options:" );
         System.out.println("1. Load file ");
         System.out.println("2. Show loans information and their status  ");
         System.out.println("3. Show clients information ");
@@ -88,9 +90,10 @@ public class User implements UserInterface {
 
     @Override
     public void loadFile(){
+        Boolean FileLoadedSuccessfully = false;
         System.out.println("Please enter a file name that you wish to load:");
         try {
-            data.loadFile(scanner.nextLine());
+            FileLoadedSuccessfully = data.loadFile(scanner.nextLine());
         }
         //JAXB error
         catch (JAXBException e) {
@@ -110,19 +113,27 @@ public class User implements UserInterface {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if(FileLoadedSuccessfully){
+            FileLoaded = true;
+            System.out.println("File loaded successfully!");
+        }
 
 
     }
 
     @Override
-    public CustomerInterface getClientInfo() {
-        return null;
+    public void getLoansInfo() {
+        List<NewLoanDTO> loans = data.getLoansInfo();
+        for(NewLoanDTO loan : loans){
+            loan.print();
+        }
     }
 
     @Override
-    public LoansInterface getLoanInfo() {
-        return null;
+    public void getCustomersInfo() {
+
     }
+
 
     @Override
     public void moveTimeForward() {

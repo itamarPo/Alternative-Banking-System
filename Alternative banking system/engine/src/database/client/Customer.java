@@ -35,6 +35,10 @@ public class Customer implements CustomerInterface, Serializable {
     @Override
     public String getName() { return name; }
 
+    public List<Loans> getBorrowerList() {
+        return borrowerList;
+    }
+
     @Override
     public void addLoanToClient(Loans loan, boolean lenderOrBorrower) {
         if(lenderOrBorrower) // lender

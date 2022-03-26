@@ -3,21 +3,18 @@ package database.loan;
 import database.Engine;
 
 public class Payment {
-    private int currentTime;
-    private double payComponent;
+    private int timeOfPayment;
+    private double interestComponent;
     private double sumOfPayment;
-    private double initialPayment;
+    private double initialComponent;
     private boolean payedSuccesfully;
 
-    public Payment(int currentTime, double payComponent, double sumOfPayment, double initialPayment, boolean payedSuccesfully) {
-        this.currentTime = Engine.getTime(); //problem with time being public. solved!!!! returned it to private and created a public static getter
-        this.payComponent = payComponent;
+    public Payment(int timeOfPayment, double interestComponent, double sumOfPayment, double initialComponent, boolean payedSuccesfully) {
+        this.timeOfPayment = Engine.getTime(); //problem with time being public. solved!!!! returned it to private and created a public static getter
+        this.interestComponent = interestComponent;
         this.sumOfPayment = sumOfPayment;
-        this.initialPayment = initialPayment;
+        this.initialComponent = initialComponent;
         this.payedSuccesfully = payedSuccesfully;
     }
-
-
-
-
+    public void print(){}
 }

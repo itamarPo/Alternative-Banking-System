@@ -19,7 +19,6 @@ public class Loans implements Serializable, LoansInterface {
     private int InterestPerPayment;
     private int timePerPayment;
     private Map<String, Double> listOflenders;
-
     private double loanSizeNoInterest;
     private double normalPay;
 
@@ -37,11 +36,12 @@ public class Loans implements Serializable, LoansInterface {
         this.timeLimitOfLoan = timeLimitOfLoan;
         this.InterestPerPayment = InterestPerPayment;
         this.timePerPayment = timePerPayment;
-        this.listOflenders = new HashMap<String, Double>();
+        this.listOflenders = new HashMap<>();
         this.loanSizeNoInterest = loanSizeNoInterest;
         this.normalPay = 0;
         this.collectedSoFar = 0;
-        this.status = null;
+        this.status = LoanStatus.valueOf("NEW");
+        status = LoanStatus.ACTIVE;
     }
 
     public String getLOANID() {
@@ -113,8 +113,8 @@ public class Loans implements Serializable, LoansInterface {
         System.out.println(this.timePerPayment);
         if(this.status == null)
             System.out.println("Pending");
-        else
-            status.print();
+//        else
+////            status.print();
     }
 
     @Override

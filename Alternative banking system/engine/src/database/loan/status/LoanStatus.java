@@ -7,7 +7,7 @@ import database.loan.Payment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoanStatus implements LoanStatusInterface {
+public enum LoanStatus implements LoanStatusInterface {
  //TODO: changes to status according to the word file.
     NEW("New", null, 0, 0,0,0,0,0,0),
     PENDING("Pending", null,0,0,0,0,0,0,0),
@@ -56,7 +56,7 @@ public class LoanStatus implements LoanStatusInterface {
         this.status = status;
     }
 
-    public void addPay(Payment payment) {
+    public void addPayment(Payment payment) {
         this.payments.add(payment) ;
     }
 
@@ -64,20 +64,5 @@ public class LoanStatus implements LoanStatusInterface {
         this.finishTime = finishTime;
     }
 
-    public LoanStatus() {
-        this.status = "Active";
-        this.payments = new ArrayList<>();
-        this.startingActiveTime = Engine.getTime();
-        this.finishTime = 0;
-        this.nextPaymentTime = startingActiveTime;
-    }
 
-    public String getStatus() {
-        return status;
-    }
-
-    @Override
-    public void print() {
-
-    }
 }

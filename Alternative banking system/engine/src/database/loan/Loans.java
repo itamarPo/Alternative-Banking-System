@@ -1,6 +1,8 @@
 package database.loan;
 
+import database.client.Customer;
 import database.loan.status.LoanStatus;
+import database.loan.status.LoanStatusInterface;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -24,6 +26,8 @@ public class Loans implements Serializable, LoansInterface {
     private LoanStatus status;
     private double collectedSoFar; //two implentations: pending- money collected so far by lenders. active: money payed by customer so far
     // sum that needed to make load active is (loanSizeNoInterest - collectedSoFar)
+
+
 
     public Loans(String borrowerName, String LOANID, String loanCategory, int timeLimitOfLoan, int InterestPerPayment, int timePerPayment, double loanSizeNoInterest) {
         this.borrowerName = borrowerName;
@@ -87,7 +91,7 @@ public class Loans implements Serializable, LoansInterface {
     //checks if load should switch to active
     public void pending() {
         if (loanSizeNoInterest - collectedSoFar == 0) {
-            status = new LoanStatus();
+           // status = new LoanStatus();
         }
         else {
             double sum = 0;

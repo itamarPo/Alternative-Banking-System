@@ -5,7 +5,9 @@ import database.client.Customer;
 import database.loan.Loans;
 import database.fileresource.generated.*;
 import exceptions.filesexepctions.*;
+import objects.Loans.FinishedLoanDTO;
 import objects.Loans.NewLoanDTO;
+import objects.Loans.Payments.PaymentsDTO;
 import objects.Loans.PendingLoanDTO;
 
 
@@ -158,6 +160,9 @@ public class Engine implements EngineInterface {
    }
 }
 
+public List<PaymentsDTO> blba(){
+
+        }
 
 
 

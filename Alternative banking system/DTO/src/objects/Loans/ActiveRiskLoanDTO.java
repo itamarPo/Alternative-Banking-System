@@ -3,7 +3,7 @@ package objects.Loans;
 import objects.Loans.Payments.PaymentsDTO;
 import java.util.List;
 
-public class ActiveLoanDTO extends NewLoanDTO{
+public class ActiveRiskLoanDTO extends NewLoanDTO{
     private int startingActiveTime;
     private int nextPaymentTime;
     private List<PaymentsDTO> successfulPayments;
@@ -12,7 +12,7 @@ public class ActiveLoanDTO extends NewLoanDTO{
     private double allInterestLeftToPay;
     private double allInitialLeftToPay;
 
-    public ActiveLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, int interestPerPayment, int timePerPayment, String status, int startingActiveTime, int nextPaymentTime, List<PaymentsDTO> successfulPayments, double allInterestPayedSoFar, double allInitialPayedSoFar, double allInterestLeftToPay, double allInitialLeftToPay) {
+    public ActiveRiskLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, int interestPerPayment, int timePerPayment, String status, int startingActiveTime, int nextPaymentTime, List<PaymentsDTO> successfulPayments, double allInterestPayedSoFar, double allInitialPayedSoFar, double allInterestLeftToPay, double allInitialLeftToPay) {
         super(loanID, borrowerName, loanCategory, sizeNoInterest, timeLimitOfLoan, interestPerPayment, timePerPayment, status);
         this.startingActiveTime = startingActiveTime;
         this.nextPaymentTime = nextPaymentTime;

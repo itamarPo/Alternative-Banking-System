@@ -1,11 +1,15 @@
 
 package database;
 
+import database.client.AccountTransaction;
 import database.client.Customer;
 import database.loan.Loans;
 import database.fileresource.generated.*;
 import database.loan.Payment;
 import exceptions.filesexepctions.*;
+import objects.Customers.AccountTransactionDTO;
+import objects.Customers.CustomerInfoDTO;
+import objects.Customers.LoanInfoDTO;
 import objects.Loans.ActiveRiskLoanDTO;
 import objects.Loans.FinishedLoanDTO;
 import objects.Loans.NewLoanDTO;
@@ -30,7 +34,7 @@ public class Engine implements EngineInterface {
    public Engine() {
       customers = new ArrayList<>();
       loans = new ArrayList<>();
-      loansByCategories = new Hashtable<>();
+      loansByCategories = new TreeMap<>();
    }
 
    public static int getTime() {
@@ -179,6 +183,33 @@ public class Engine implements EngineInterface {
 //            }
 //         } else{
 
+   }
+
+   @Override
+   public List<CustomerInfoDTO> getCustomerInfo() {
+     List<AccountTransactionDTO> accountTransactionDTOList = new ArrayList<>();
+     List<LoanInfoDTO> lenderList = new ArrayList<>();
+     List<LoanInfoDTO> borrowerList = new ArrayList<>();
+     List<CustomerInfoDTO> customersInfo = new ArrayList<>();
+     for(Customer customer: customers)
+     {
+        for(AccountTransaction accountTransaction: customer.getTransactions()){
+           accountTransactionDTOList.add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(),accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(), accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
+        }
+        for(Loans lenderLoan : customer.getLenderList())
+        {
+
+           lenderList.add(new LoanInfoDTO(lenderLoan.getLoanSize(),lenderLoan.getLOANID(),lenderLoan.getLoanCategory(),lenderLoan.getLoanSizeNoInterest(),lenderLoan.getInterestPerPayment(),lenderLoan.getTimePerPayment(),lenderLoan.getStatus().toString()));
+        }
+        for(Loans borrowerLoan: customer.getBorrowerList()){
+           borrowerList.add(new LoanInfoDTO(borrowerLoan.getLoanSize(),borrowerLoan.getLOANID(),borrowerLoan.getLoanCategory(),borrowerLoan.getLoanSizeNoInterest(),borrowerLoan.getInterestPerPayment(),borrowerLoan.getTimePerPayment(),borrowerLoan.getStatus().toString()));
+        }
+        customersInfo.add(new CustomerInfoDTO(accountTransactionDTOList, lenderList, borrowerList, customer.getName(), customer.getBalance()));
+        accountTransactionDTOList.clear();
+        lenderList.clear();
+        borrowerList.clear();
+     }
+     return customersInfo;
    }
 
 

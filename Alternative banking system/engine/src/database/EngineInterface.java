@@ -1,6 +1,7 @@
 package database;
 
 import database.fileresource.generated.*;
+import objects.Customers.CustomerInfoDTO;
 import objects.Loans.NewLoanDTO;
 
 import javax.xml.bind.JAXBException;
@@ -15,4 +16,5 @@ public interface EngineInterface {
     void copyDataToEngineFields(AbsCustomers newCustomers, AbsLoans newLoans, AbsCategories newCategories);
     void resetTime();
     List<NewLoanDTO> getLoansInfo();
+    List<CustomerInfoDTO> getCustomerInfo();
 }

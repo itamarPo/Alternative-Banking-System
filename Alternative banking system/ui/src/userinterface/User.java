@@ -6,6 +6,7 @@ import database.Engine;
 import database.client.CustomerInterface;
 import database.loan.LoansInterface;
 import exceptions.filesexepctions.*;
+import objects.Customers.CustomerInfoDTO;
 import objects.Loans.NewLoanDTO;
 
 import javax.xml.bind.JAXBException;
@@ -48,6 +49,10 @@ public class User implements UserInterface {
                     }
                     case 2: {
                         getLoansInfo();
+                        break;
+                    }
+                    case 3:{
+                        getCustomersInfo();
                         break;
                     }
                     default: {
@@ -135,7 +140,9 @@ public class User implements UserInterface {
 
     @Override
     public void getCustomersInfo() {
-
+        List<CustomerInfoDTO> customersInfo= data.getCustomerInfo();
+        for(CustomerInfoDTO customerInfo : customersInfo)
+            customerInfo.print();
     }
 
 

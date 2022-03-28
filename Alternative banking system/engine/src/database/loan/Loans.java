@@ -40,8 +40,7 @@ public class Loans implements Serializable, LoansInterface {
         this.loanSizeNoInterest = loanSizeNoInterest;
         this.normalPay = 0;
         this.collectedSoFar = 0;
-        this.status = LoanStatus.valueOf("NEW");
-        status = LoanStatus.ACTIVE;
+        status = LoanStatus.NEW;
     }
 
     public String getLOANID() {
@@ -103,19 +102,7 @@ public class Loans implements Serializable, LoansInterface {
 
     }
     
-    public void print(){
-        System.out.println(this.LOANID);
-        System.out.println(this.borrowerName);
-        System.out.println(this.loanCategory);
-        System.out.println(this.loanSizeNoInterest);
-        System.out.println(this.timeLimitOfLoan);
-        System.out.println(this.InterestPerPayment);
-        System.out.println(this.timePerPayment);
-        if(this.status == null)
-            System.out.println("Pending");
-//        else
-////            status.print();
-    }
+
 
     @Override
     public void payment() {

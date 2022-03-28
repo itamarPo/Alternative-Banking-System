@@ -46,6 +46,10 @@ public class User implements UserInterface {
                         loadFile();
                         break;
                     }
+                    case 2: {
+                        getLoansInfo();
+                        break;
+                    }
                     default: {
                         System.out.println("This option has not been implemented yet!");
                     }

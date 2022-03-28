@@ -16,5 +16,26 @@ public class Payment {
         this.initialComponent = initialComponent;
         this.payedSuccesfully = payedSuccesfully;
     }
+
+    public int getTimeOfPayment() {
+        return timeOfPayment;
+    }
+
+    public double getInterestComponent() {
+        return interestComponent;
+    }
+
+    public double getSumOfPayment() {
+        return sumOfPayment;
+    }
+
+    public double getInitialComponent() {
+        return initialComponent;
+    }
+
+    public boolean isPayedSuccesfully() {
+        return payedSuccesfully;
+    }
+
     public void print(){}
 }

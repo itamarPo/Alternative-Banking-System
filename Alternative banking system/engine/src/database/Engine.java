@@ -4,7 +4,9 @@ package database;
 import database.client.Customer;
 import database.loan.Loans;
 import database.fileresource.generated.*;
+import database.loan.Payment;
 import exceptions.filesexepctions.*;
+import objects.Loans.ActiveRiskLoanDTO;
 import objects.Loans.FinishedLoanDTO;
 import objects.Loans.NewLoanDTO;
 import objects.Loans.Payments.PaymentsDTO;
@@ -120,13 +122,48 @@ public class Engine implements EngineInterface {
                break;
             }
          }
-         //customers.get(customers.indexOf(loan.getBorrowerName())).getBorrowerList().add(loan);
       }
    }
 
    @Override
    public List<NewLoanDTO> getLoansInfo() {
       List<NewLoanDTO> DTOloans = new ArrayList<>();
+      for(Loans loan : loans){
+         List<PaymentsDTO> paymentList = null;
+         if(loan.getStatus().getPayments() != null)
+            paymentList = copyPaymentList(loan);
+         switch (loan.getStatus().toString()){
+            case "NEW": {
+               DTOloans.add(new NewLoanDTO(loan.getLOANID(),loan.getBorrowerName(), loan.getLoanCategory(),
+                       loan.getLoanSizeNoInterest(),loan.getTimeLimitOfLoan(),loan.getInterestPerPayment(),
+                       loan.getTimePerPayment(),loan.getStatus().toString()));
+               break;
+            }
+            case "PENDING": {
+               DTOloans.add(new PendingLoanDTO(loan.getLOANID(),loan.getBorrowerName(), loan.getLoanCategory(),
+                       loan.getLoanSizeNoInterest(),loan.getTimeLimitOfLoan(),loan.getInterestPerPayment(),
+                       loan.getTimePerPayment(),loan.getStatus().toString(),loan.getListOflenders()
+                       ,loan.getCollectedSoFar(),loan.getLoanSize() - loan.getCollectedSoFar()));
+               break;
+            }
+            case "FINISHED": {
+               DTOloans.add(new FinishedLoanDTO(loan.getLOANID(),loan.getBorrowerName(), loan.getLoanCategory(),
+                       loan.getLoanSizeNoInterest(),loan.getTimeLimitOfLoan(),loan.getInterestPerPayment(),
+                       loan.getTimePerPayment(),loan.getStatus().toString(),loan.getStatus().getStartingActiveTime(),
+                       paymentList,loan.getStatus().getFinishTime()));
+               break;
+            }
+            default: //ACTIVE OR RISK{
+               DTOloans.add(new ActiveRiskLoanDTO(loan.getLOANID(),loan.getBorrowerName(), loan.getLoanCategory(),
+                       loan.getLoanSizeNoInterest(),loan.getTimeLimitOfLoan(),loan.getInterestPerPayment(),
+                       loan.getTimePerPayment(),loan.getStatus().toString(),loan.getStatus().getStartingActiveTime(),
+                       loan.getStatus().getNextPaymentTime(),paymentList,loan.getStatus().getInterestPayed(),
+                       loan.getStatus().getInitialPayed(),loan.getStatus().getInterestLeftToPay(),loan.getStatus().getInitialLeftToPay()));
+               break;
+         }
+
+      }
+      return DTOloans;
 //
 //         //Either NEW or PENDING
 //         if(loan.getStatus() == null){
@@ -141,41 +178,21 @@ public class Engine implements EngineInterface {
 //                       loan.getCollectedSoFar(),loan.getLoanSize()-loan.getCollectedSoFar()));
 //            }
 //         } else{
-      for(Loans loan : loans){
-            switch (loan.getStatus().toString()){
-               case "NEW": {
-                  DTOloans.add(new NewLoanDTO(loan.getLOANID(),loan.getBorrowerName(), loan.getLoanCategory(),
-                      loan.getLoanSizeNoInterest(),loan.getTimeLimitOfLoan(),loan.getInterestPerPayment(),
-                       loan.getTimePerPayment(),loan.getStatus().toString()));
-                  break;
-               }
-               case "PENDING": {
-                  DTOloans.add(new PendingLoanDTO(loan.getLOANID(),loan.getBorrowerName(), loan.getLoanCategory(),
-                       loan.getLoanSizeNoInterest(),loan.getTimeLimitOfLoan(),loan.getInterestPerPayment(),
-                       loan.getTimePerPayment(),loan.getStatus().toString(),loan.getListOflenders()
-                          ,loan.getCollectedSoFar(),loan.getLoanSize() - loan.getCollectedSoFar()));
-               }
-               case "FINISHED": {
-                  DTOloans.add(new FinishedLoanDTO(loan.getLOANID(),loan.getBorrowerName(), loan.getLoanCategory(),
-                          loan.getLoanSizeNoInterest(),loan.getTimeLimitOfLoan(),loan.getInterestPerPayment(),
-                          loan.getTimePerPayment(),loan.getStatus().toString(),loan.getStatus().getStartingActiveTime(),
-                        b), loan.getStatus().getFinishTime());
-               }
-               default:{
+
+   }
 
 
-            }
-
-         }
-
+   public List<PaymentsDTO> copyPaymentList(Loans loan){
+      List<PaymentsDTO> list = new ArrayList<>();
+      for(Payment payment: loan.getStatus().getPayments()){
+         list.add(new PaymentsDTO(payment.getTimeOfPayment(), payment.getInterestComponent(),
+                 payment.getSumOfPayment(), payment.getInitialComponent(), payment.isPayedSuccesfully()));
       }
-      return DTOloans;
+      return list;
    }
 }
 
-public List<PaymentsDTO> blba(){
 
-        }
 
 
 

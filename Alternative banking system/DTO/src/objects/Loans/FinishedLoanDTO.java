@@ -15,5 +15,13 @@ public class FinishedLoanDTO extends NewLoanDTO{
         this.payments = payments;
         this.finishingTime = finishingTime;
     }
-    public void print(){}
+    public void print(){
+        super.print();
+        System.out.println("Activation time: " + startingTime);
+        System.out.println("Finishing time: " + finishingTime);
+        for(PaymentsDTO payment : payments){
+            payment.print();
+        }
+
+    }
 }

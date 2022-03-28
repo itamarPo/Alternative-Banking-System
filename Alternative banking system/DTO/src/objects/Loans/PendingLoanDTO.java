@@ -13,7 +13,12 @@ public class PendingLoanDTO extends  NewLoanDTO{
         this.collectedSoFar = collectedSoFar;
         this.sumLeftToBeCollected = sumLeftToBeCollected;
     }
+    @Override
     public void print(){
-
+        super.print();
+        System.out.println("Lenders: ");
+        System.out.println(listOfLenders);
+        System.out.println("Sum collected so far: " + collectedSoFar);
+        System.out.println("Sum left to be collected: " + sumLeftToBeCollected);
     }
 }

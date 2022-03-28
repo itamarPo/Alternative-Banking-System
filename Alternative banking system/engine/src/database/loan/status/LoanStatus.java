@@ -22,11 +22,22 @@ public enum LoanStatus implements LoanStatusInterface {
     private int nextPaymentTime;
     private double interestPayed;
     private double initialPayed;
-
-    public String getStatus() { return status;}
-
     private double interestLeftToPay;
     private double initialLeftToPay;
+
+    LoanStatus(String status, List<Payment> payments, int startingActiveTime, int finishTime, int nextPaymentTime, double interestPayed, double initialPayed, double interestLeftToPay, double initialLeftToPay) {
+        this.status = status;
+        this.payments = payments;
+        this.startingActiveTime = startingActiveTime;
+        this.finishTime = finishTime;
+        this.nextPaymentTime = nextPaymentTime;
+        this.interestPayed = interestPayed;
+        this.initialPayed = initialPayed;
+        this.interestLeftToPay = interestLeftToPay;
+        this.initialLeftToPay = initialLeftToPay;
+    }
+
+    public String getStatus() { return status;}
 
     public List<Payment> getPayments() {
         return payments;
@@ -40,16 +51,24 @@ public enum LoanStatus implements LoanStatusInterface {
         return finishTime;
     }
 
-    LoanStatus(String status, List<Payment> payments, int startingActiveTime, int finishTime, int nextPaymentTime, double interestPayed, double initialPayed, double interestLeftToPay, double initialLeftToPay) {
-        this.status = status;
-        this.payments = payments;
-        this.startingActiveTime = startingActiveTime;
-        this.finishTime = finishTime;
-        this.nextPaymentTime = nextPaymentTime;
-        this.interestPayed = interestPayed;
-        this.initialPayed = initialPayed;
-        this.interestLeftToPay = interestLeftToPay;
-        this.initialLeftToPay = initialLeftToPay;
+    public int getNextPaymentTime() {
+        return nextPaymentTime;
+    }
+
+    public double getInterestPayed() {
+        return interestPayed;
+    }
+
+    public double getInitialPayed() {
+        return initialPayed;
+    }
+
+    public double getInterestLeftToPay() {
+        return interestLeftToPay;
+    }
+
+    public double getInitialLeftToPay() {
+        return initialLeftToPay;
     }
 
     public void setStatus(String status) {

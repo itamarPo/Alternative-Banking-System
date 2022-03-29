@@ -54,6 +54,9 @@ public class User implements UserInterface {
                         getCustomersInfo();
                         break;
                     }
+                    case 4:{
+                        addMoneyToAccount();
+                    }
                     default: {
                         System.out.println("This option has not been implemented yet!");
                     }

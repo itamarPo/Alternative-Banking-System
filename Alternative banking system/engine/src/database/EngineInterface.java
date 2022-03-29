@@ -1,8 +1,8 @@
 package database;
 
 import database.fileresource.generated.*;
-import objects.Customers.CustomerInfoDTO;
-import objects.Loans.NewLoanDTO;
+import objects.customers.CustomerInfoDTO;
+import objects.loans.NewLoanDTO;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;

@@ -4,10 +4,9 @@ package userinterface;
 import database.EngineInterface;
 import database.Engine;
 import database.client.CustomerInterface;
-import database.loan.LoansInterface;
 import exceptions.filesexepctions.*;
-import objects.Customers.CustomerInfoDTO;
-import objects.Loans.NewLoanDTO;
+import objects.customers.CustomerInfoDTO;
+import objects.loans.NewLoanDTO;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;

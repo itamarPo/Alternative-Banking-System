@@ -1,5 +1,7 @@
-package objects.Customers;
+package objects.customers;
 
+
+import objects.customers.loanInfo.LoanInfoDTO;
 
 import java.util.List;
 

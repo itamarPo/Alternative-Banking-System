@@ -1,4 +1,4 @@
-package objects.Customers;
+package objects.customers;
 
 public class AccountTransactionDTO {
     private int timeOfTransaction;

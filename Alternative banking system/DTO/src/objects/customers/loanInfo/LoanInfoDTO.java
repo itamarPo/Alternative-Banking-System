@@ -1,4 +1,4 @@
-package objects.Customers;
+package objects.customers.loanInfo;
 
 public class LoanInfoDTO implements LoanInfoDTOInterface{
 
@@ -10,7 +10,7 @@ public class LoanInfoDTO implements LoanInfoDTOInterface{
     private int timePerPayment;
     private String status;
 
-    public LoanInfoDTO(double loanSize, String loanName, String loanCategory, double sizeNoInterest, int interestPerPayment, int timePerPayment, String status) {
+    public LoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, int interestPerPayment, int timePerPayment, String status) {
         this.loanSize = sizeNoInterest + sizeNoInterest*interestPerPayment/100;
         this.loanName = loanName;
         this.loanCategory = loanCategory;
@@ -19,28 +19,9 @@ public class LoanInfoDTO implements LoanInfoDTOInterface{
         this.timePerPayment = timePerPayment;
         this.status = status;
     }
-    public double getLoanSize() {
-        return loanSize;
-    }
-
-    public String getLoanName() {
-        return loanName;
-    }
-
-    public String getLoanCategory() {
-        return loanCategory;
-    }
 
     public double getSizeNoInterest() {
         return sizeNoInterest;
-    }
-
-    public int getInterestPerPayment() {
-        return interestPerPayment;
-    }
-
-    public int getTimePerPayment() {
-        return timePerPayment;
     }
 
     public String getStatus() {

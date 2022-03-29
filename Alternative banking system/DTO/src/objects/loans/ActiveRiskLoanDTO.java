@@ -1,6 +1,6 @@
-package objects.Loans;
+package objects.loans;
 
-import objects.Loans.Payments.PaymentsDTO;
+import objects.loans.payments.PaymentsDTO;
 import java.util.List;
 
 public class ActiveRiskLoanDTO extends NewLoanDTO{

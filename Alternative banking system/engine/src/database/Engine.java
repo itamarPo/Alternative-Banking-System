@@ -185,24 +185,30 @@ public class Engine implements EngineInterface {
 
    @Override
    public List<CustomerInfoDTO> getCustomerInfo() {
-      List<AccountTransactionDTO> accountTransactionDTOList = new ArrayList<>();
-      List<LoanInfoDTO> lenderList = new ArrayList<>();
-      List<LoanInfoDTO> borrowerList = new ArrayList<>();
+//      List<AccountTransactionDTO> accountTransactionDTOList = new ArrayList<>();
+//      List<LoanInfoDTO> lenderList = new ArrayList<>();
+//      List<LoanInfoDTO> borrowerList = new ArrayList<>();
       List<CustomerInfoDTO> customersInfo = new ArrayList<>();
+      LoanInfoDTO newLoan;
       for (Customer customer : customers) {
+         customersInfo.add(new CustomerInfoDTO(customer.getName(),customer.getBalance()));
          for (AccountTransaction accountTransaction : customer.getTransactions()) {
-            accountTransactionDTOList.add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(), accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(), accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
+            customersInfo.get(customersInfo.size()-1).getTransactionDTOS().add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(),
+             accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(), accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
+//           accountTransactionDTOList.add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(), accountTransaction.getTransactionAmount(),
+//                    accountTransaction.getIncomeOrExpense(), accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
          }
          for (Loans lenderLoan : customer.getLenderList()) {
-            lenderList.add(customerDTOClassArrange(lenderLoan));
+            newLoan = customerDTOClassArrange(lenderLoan);
+           customersInfo.get(customersInfo.size()-1).getLenderList().add(newLoan);
          }
          for (Loans borrowerLoan : customer.getBorrowerList()) {
-            borrowerList.add(customerDTOClassArrange(borrowerLoan));
+            newLoan = customerDTOClassArrange(borrowerLoan);
+            customersInfo.get(customersInfo.size()-1).getBorrowerList().add(newLoan);
          }
-         customersInfo.add(new CustomerInfoDTO(accountTransactionDTOList, lenderList, borrowerList, customer.getName(), customer.getBalance()));
-         accountTransactionDTOList.clear();
-         lenderList.clear();
-         borrowerList.clear();
+//         accountTransactionDTOList.clear();
+//         lenderList.clear();
+//         borrowerList.clear();
       }
       return customersInfo;
    }
@@ -220,19 +226,24 @@ public class Engine implements EngineInterface {
    public LoanInfoDTO customerDTOClassArrange(Loans loan){
       switch(loan.getStatus().toString()){
          case "PENDING":{
-            return new PendingLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(), loan.getTimePerPayment(), loan.getStatus().toString(),loan.getCollectedSoFar());
+            return new PendingLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
+                    loan.getTimePerPayment(), loan.getStatus().toString(),loan.getCollectedSoFar());
          }
          case "ACTIVE":{ //TODO: add the expected next payment
-           return new ActiveLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(), loan.getTimePerPayment(), loan.getStatus().toString(),loan.getStatus().getNextPaymentTime(), 2.0/*need to add next payment*/);
+           return new ActiveLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
+                   loan.getTimePerPayment(), loan.getStatus().toString(),loan.getStatus().getNextPaymentTime(), 2.0/*need to add next payment*/);
          }
          case "RISK":{ //TODO: changes accordingly to the changes at the class
-           return new RiskLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(), loan.getTimePerPayment(), loan.getStatus().toString());
+           return new RiskLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
+                   loan.getTimePerPayment(), loan.getStatus().toString());
          }
          case "FINISHED": {
-            return new FinishedLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(), loan.getTimePerPayment(), loan.getStatus().toString(), loan.getStatus().getStartingActiveTime(), loan.getStatus().getFinishTime());
+            return new FinishedLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
+                    loan.getTimePerPayment(), loan.getStatus().toString(), loan.getStatus().getStartingActiveTime(), loan.getStatus().getFinishTime());
          }
          default: //probably only new loan
-            return new LoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(), loan.getTimePerPayment(), loan.getStatus().toString());
+            return new LoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
+                    loan.getTimePerPayment(), loan.getStatus().toString());
       }
 
    }

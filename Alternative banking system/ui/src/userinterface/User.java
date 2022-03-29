@@ -139,7 +139,7 @@ public class User implements UserInterface {
 
     @Override
     public void getCustomersInfo() {
-        List<CustomerInfoDTO> customersInfo= data.getCustomerInfo();
+        List<CustomerInfoDTO> customersInfo = data.getCustomerInfo();
         for(CustomerInfoDTO customerInfo : customersInfo)
             customerInfo.print();
     }
@@ -153,12 +153,12 @@ public class User implements UserInterface {
 
 
     @Override
-    public void addMoneyToAccount(CustomerInterface client) {
+    public void addMoneyToAccount() {
 
     }
 
     @Override
-    public void getMoneyFromAccount(CustomerInterface client) {
+    public void getMoneyFromAccount() {
 
     }
 }

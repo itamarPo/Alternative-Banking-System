@@ -5,7 +5,7 @@ import database.fileresource.generated.*;
 import exceptions.accountexception.NameException;
 import objects.DisplayCustomerName;
 import objects.customers.CustomerInfoDTO;
-import objects.loans.NewLoanDTO;
+import objects.Loans.NewLoanDTO;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;

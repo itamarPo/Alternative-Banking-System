@@ -11,11 +11,11 @@ import exceptions.filesexepctions.*;
 import objects.DisplayCustomerName;
 import objects.customers.*;
 import objects.customers.loanInfo.*;
-import objects.loans.ActiveRiskLoanDTO;
-import objects.loans.FinishedLoanDTO;
-import objects.loans.NewLoanDTO;
+import objects.Loans.ActiveRiskLoanDTO;
+import objects.Loans.FinishedLoanDTO;
+import objects.Loans.NewLoanDTO;
 import objects.loans.payments.PaymentsDTO;
-import objects.loans.PendingLoanDTO;
+import objects.Loans.PendingLoanDTO;
 
 
 import javax.xml.bind.JAXBContext;
@@ -218,7 +218,7 @@ public class Engine implements EngineInterface {
    @Override
    public Customer getCustomerName(String name) throws Exception{
       for(Customer customer: customers){
-         if(name.toLowerCase().equals(customer.getName().toLowerCase())){
+         if(name.equalsIgnoreCase(customer.getName())){
             return customer;
          }
       }
@@ -272,7 +272,17 @@ public class Engine implements EngineInterface {
       }
       return names;
    }
+
+//   public void drawMoneyFromAccount()
+//   public Customer findCustomerDueToName(String name){
+//      for(Customer customer: customers){
+//         if(customer.getName().equalsIgnoreCase(name))
+//            return customer;
+//      }
+//      return null;
+//   }
 }
+
 
 
 

@@ -29,14 +29,16 @@ public class Customer implements CustomerInterface, Serializable {
     }
 
     @Override
-    public void changeBalance(double amount) {
-        if(balance + amount < 0)
-            balance = 0;
-        else
-            balance += amount;
+    public void addMoney(double amount) {
+        balance += amount;
         addTransaction(amount);
     }
 
+    @Override
+    public void drawMoney(double amount){
+        balance -= amount;
+        addTransaction((-1*amount));
+    }
     @Override
     public double getBalance() { return balance; }
 

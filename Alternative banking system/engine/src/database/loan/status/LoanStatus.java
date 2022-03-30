@@ -7,13 +7,8 @@ import database.loan.Payment;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum LoanStatus implements LoanStatusInterface {
+public class LoanStatus implements LoanStatusInterface {
  //TODO: changes to status according to the word file.
-    NEW("New", null, 0, 0,0,0,0,0,0),
-    PENDING("Pending", null,0,0,0,0,0,0,0),
-    ACTIVE("Active", null, 0,0,0,0,0,0,0),
-    RISK("Risk",null,0,0,0,0,0,0,0),
-    FINISHED("Finished",null,0,0,0,0,0,0,0);
 
     private String status;
     private List<Payment> payments;
@@ -25,7 +20,7 @@ public enum LoanStatus implements LoanStatusInterface {
     private double interestLeftToPay;
     private double initialLeftToPay;
 
-    LoanStatus(String status, List<Payment> payments, int startingActiveTime, int finishTime, int nextPaymentTime, double interestPayed, double initialPayed, double interestLeftToPay, double initialLeftToPay) {
+    public LoanStatus(String status, List<Payment> payments, int startingActiveTime, int finishTime, int nextPaymentTime, double interestPayed, double initialPayed, double interestLeftToPay, double initialLeftToPay) {
         this.status = status;
         this.payments = payments;
         this.startingActiveTime = startingActiveTime;

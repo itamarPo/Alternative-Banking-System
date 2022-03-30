@@ -7,6 +7,7 @@ import database.loan.Loans;
 import database.fileresource.generated.*;
 import database.loan.Payment;
 import exceptions.accountexception.NameException;
+import exceptions.accountexception.WithDrawMoneyException;
 import exceptions.filesexepctions.*;
 import objects.DisplayCustomerName;
 import objects.customers.*;
@@ -136,31 +137,31 @@ public class Engine implements EngineInterface {
          List<PaymentsDTO> paymentList = null;
          if (loan.getStatus().getPayments() != null)
             paymentList = copyPaymentList(loan);
-         switch (loan.getStatus().toString()) {
-            case "NEW": {
+         switch (loan.getStatus().getStatus()) {
+            case "New": {
                DTOloans.add(new NewLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
                        loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
-                       loan.getTimePerPayment(), loan.getStatus().toString()));
+                       loan.getTimePerPayment(), loan.getStatus().getStatus()));
                break;
             }
-            case "PENDING": {
+            case "Pending": {
                DTOloans.add(new PendingLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
                        loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
-                       loan.getTimePerPayment(), loan.getStatus().toString(), loan.getListOflenders()
+                       loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders()
                        , loan.getCollectedSoFar(), loan.getLoanSize() - loan.getCollectedSoFar()));
                break;
             }
-            case "FINISHED": {
+            case "Finished": {
                DTOloans.add(new FinishedLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
                        loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
-                       loan.getTimePerPayment(), loan.getStatus().toString(), loan.getStatus().getStartingActiveTime(),
+                       loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getStatus().getStartingActiveTime(),
                        paymentList, loan.getStatus().getFinishTime()));
                break;
             }
             default: //ACTIVE OR RISK{
                DTOloans.add(new ActiveRiskLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
                        loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
-                       loan.getTimePerPayment(), loan.getStatus().toString(), loan.getStatus().getStartingActiveTime(),
+                       loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getStatus().getStartingActiveTime(),
                        loan.getStatus().getNextPaymentTime(), paymentList, loan.getStatus().getInterestPayed(),
                        loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay()));
                break;
@@ -236,32 +237,33 @@ public class Engine implements EngineInterface {
    }
 
    public LoanInfoDTO customerDTOClassArrange(Loans loan){
-      switch(loan.getStatus().toString()){
-         case "PENDING":{
+      switch(loan.getStatus().getStatus()){
+         case "Pending":{
             return new PendingLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
-                    loan.getTimePerPayment(), loan.getStatus().toString(),loan.getCollectedSoFar());
+                    loan.getTimePerPayment(), loan.getStatus().getStatus(),loan.getCollectedSoFar());
          }
-         case "ACTIVE":{ //TODO: add the expected next payment
+         case "Active":{ //TODO: add the expected next payment
            return new ActiveLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
-                   loan.getTimePerPayment(), loan.getStatus().toString(),loan.getStatus().getNextPaymentTime(), 2.0/*need to add next payment*/);
+                   loan.getTimePerPayment(), loan.getStatus().getStatus(),loan.getStatus().getNextPaymentTime(), 2.0/*need to add next payment*/);
          }
-         case "RISK":{ //TODO: changes accordingly to the changes at the class
+         case "Risk":{ //TODO: changes accordingly to the changes at the class
            return new RiskLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
-                   loan.getTimePerPayment(), loan.getStatus().toString());
+                   loan.getTimePerPayment(), loan.getStatus().getStatus());
          }
-         case "FINISHED": {
+         case "Finished": {
             return new FinishedLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
-                    loan.getTimePerPayment(), loan.getStatus().toString(), loan.getStatus().getStartingActiveTime(), loan.getStatus().getFinishTime());
+                    loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getStatus().getStartingActiveTime(), loan.getStatus().getFinishTime());
          }
          default: //probably only new loan
             return new LoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
-                    loan.getTimePerPayment(), loan.getStatus().toString());
+                    loan.getTimePerPayment(), loan.getStatus().getStatus());
       }
 
    }
 
-   public void addMoneyToAccount(Customer customer, double moneyToAdd) {
-      customer.changeBalance(moneyToAdd);
+   public void addMoneyToAccount(int userChoice, double moneyToAdd) {
+      customers.get(userChoice - 1).addMoney(moneyToAdd);
+//      customer.changeBalance(moneyToAdd);
    }
 
    public DisplayCustomerName namesForDisplay(){
@@ -273,14 +275,20 @@ public class Engine implements EngineInterface {
       return names;
    }
 
-//   public void drawMoneyFromAccount()
-//   public Customer findCustomerDueToName(String name){
-//      for(Customer customer: customers){
-//         if(customer.getName().equalsIgnoreCase(name))
-//            return customer;
-//      }
-//      return null;
-//   }
+   public void drawMoneyFromAccount(int userChoice, double moneyToDraw) throws Exception{
+      if(customers.get(userChoice - 1).getBalance() - moneyToDraw < 0){
+         throw new WithDrawMoneyException(customers.get(userChoice - 1).getBalance(), moneyToDraw);
+      }
+      customers.get(userChoice - 1).drawMoney(moneyToDraw);
+   }
+
+   public Customer findCustomerDueToName(String name){
+      for(Customer customer: customers){
+         if(customer.getName().equalsIgnoreCase(name))
+            return customer;
+      }
+      return null;
+   }
 }
 
 

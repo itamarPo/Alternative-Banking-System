@@ -21,7 +21,6 @@ public class Loans implements Serializable, LoansInterface {
     private Map<String, Double> listOflenders;
     private double loanSizeNoInterest;
     private double normalPay;
-
     private LoanStatus status;
     private double collectedSoFar; //two implentations: pending- money collected so far by lenders. active: money payed by customer so far
     // sum that needed to make load active is (loanSizeNoInterest - collectedSoFar)
@@ -40,7 +39,7 @@ public class Loans implements Serializable, LoansInterface {
         this.loanSizeNoInterest = loanSizeNoInterest;
         this.normalPay = 0;
         this.collectedSoFar = 0;
-        status = LoanStatus.NEW;
+        this.status = new LoanStatus("New", null, 0,0,0,0,0,0,0);
     }
 
     public String getLOANID() {

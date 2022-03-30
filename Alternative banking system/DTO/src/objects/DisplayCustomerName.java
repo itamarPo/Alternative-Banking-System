@@ -1,13 +1,14 @@
 package objects;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class DisplayCustomerName {
    private Map<String, Double> customerMap;
 
     public DisplayCustomerName() {
-        this.customerMap = new HashMap<>();
+        this.customerMap = new LinkedHashMap();
     }
 
     public Map<String, Double> getCustomerList() {

@@ -6,6 +6,7 @@ import database.Engine;
 import database.client.Customer;
 import database.client.CustomerInterface;
 import exceptions.accountexception.NameException;
+import exceptions.accountexception.WithDrawMoneyException;
 import exceptions.filesexepctions.*;
 import objects.DisplayCustomerName;
 import objects.customers.CustomerInfoDTO;
@@ -59,6 +60,10 @@ public class User implements UserInterface {
                     }
                     case 4:{
                         addMoneyToAccount();
+                        break;
+                    }
+                    case 5:{
+                        getMoneyFromAccount();
                         break;
                     }
                     default: {
@@ -161,66 +166,111 @@ public class User implements UserInterface {
 
     @Override
     public void addMoneyToAccount() {
+        System.out.println("Please select the number of the desired customer:");
+        DisplayCustomerName customersList = data.namesForDisplay();
+        customersList.printNamesAndBalance();
+        int numOfCustomers = customersList.getCustomerList().size();
+        int userChoice = 0;
         double moneyToAdd = -1;
-        System.out.println("Please insert the account name from the following list: (type the name)");
-        data.namesForDisplay().printNames();
-        String name = scanner.nextLine();
-        try {
-            data.getCustomerByName(name);
-            System.out.println("Please enter the amount you wish to add. make sure that you enter a positive number.");
-            do {
-                try {
-                    moneyToAdd = scanner.nextDouble();
-                    scanner.nextLine(); //buffer
-                    if(moneyToAdd <= 0)
-                        System.out.println("Incorrect Input. Please make sure that you enter a positive number.");
+        do { // customer number check
+            try {
+                userChoice = scanner.nextInt();
+                if (userChoice < 1 || userChoice > numOfCustomers) {
+                    System.out.println("Invalid input. Please enter a suitable number:");
                 }
-                catch (InputMismatchException exception){
+            } catch (InputMismatchException exception) {
+                System.out.println("This isn't a number! please enter a suitable number:");
+            }
+            scanner.nextLine(); //Buffer
+        } while (userChoice < 1 || userChoice > numOfCustomers);
+        System.out.println("Please enter the amount you wish to draw. make sure that you enter a suitable number:");
+        do { // positive amount of money to draw check
+            try {
+                moneyToAdd = scanner.nextDouble();
+                scanner.nextLine(); //buffer
+                if (moneyToAdd <= 0)
                     System.out.println("Invalid input. Please enter a positive number!");
-                    scanner.nextLine();
-                }
 
-            }while(moneyToAdd <= 0);
-            data.addMoneyToAccount(data.getCustomerByName(name), moneyToAdd);
-            System.out.println("The money was successfully added. Current account's balance: " + data.getCustomerByName(name).getBalance());
-        }
-        catch (InputMismatchException exception){
-            System.out.println("Invalid input. Please enter a positive number!");
-        }
-        catch (NameException exception){
-            exception.printMessage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            } catch (InputMismatchException exception) {
+                System.out.println("Incorrect Input. Please make sure that you enter a positive number.");
+                scanner.nextLine();
+            }
+        } while (moneyToAdd <= 0);
+        data.addMoneyToAccount(userChoice,moneyToAdd);
+        System.out.println("The money was successfully added. ");
+
+//        double moneyToAdd = -1;
+//        System.out.println("Please insert the account name from the following list: (type the name)");
+//        data.namesForDisplay().printNames();
+//        String name = scanner.nextLine();
+//        try {
+//            data.getCustomerByName(name);
+//            System.out.println("Please enter the amount you wish to add. make sure that you enter a positive number.");
+//            do {
+//                try {
+//                    moneyToAdd = scanner.nextDouble();
+//                    scanner.nextLine(); //buffer
+//                    if(moneyToAdd <= 0)
+//                        System.out.println("Incorrect Input. Please make sure that you enter a positive number.");
+//                }
+//                catch (InputMismatchException exception){
+//                    System.out.println("Invalid input. Please enter a positive number!");
+//                    scanner.nextLine();
+//                }
+//
+//            }while(moneyToAdd <= 0);
+//            data.addMoneyToAccount(1, moneyToAdd);
+//            System.out.println("The money was successfully added. Current account's balance: " + data.getCustomerByName(name).getBalance());
+//        }
+//        catch (InputMismatchException exception){
+//            System.out.println("Invalid input. Please enter a positive number!");
+//        }
+//        catch (NameException exception){
+//            exception.printMessage();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
     @Override
     public void getMoneyFromAccount() {
-        System.out.println("Please insert the account name from the following list: (type the name)");
-        data.namesForDisplay().printNames();
-        String customerName = scanner.nextLine();
-        Double moneyToDraw;
-        try{
-            data.getCustomerByName(customerName);
-            System.out.println("Please enter the amount you wish to draw. make sure that you enter a positive number.");
-            do{
-                moneyToDraw = scanner.nextDouble();
-                if(moneyToDraw <= 0){
-                    System.out.println("Invalid input! please enter a positive number:");
+        System.out.println("Please select the number of the desired customer:");
+        DisplayCustomerName customersList = data.namesForDisplay();
+        customersList.printNamesAndBalance();
+        int numOfCustomers = customersList.getCustomerList().size();
+        int userChoice = 0;
+        double moneyToDraw = -1;
+        do { // customer number check
+            try {
+                userChoice = scanner.nextInt();
+                if (userChoice < 1 || userChoice > numOfCustomers) {
+                    System.out.println("Invalid input. Please enter a suitable number:");
                 }
-            }while(moneyToDraw <= 0);
-            // Itamar note: with my decision to unchange the method geyCustomerByName, you can go directly to
-            // addMoneyToAccount with the function getCustomerByName, as was done at the function above.
+            } catch (InputMismatchException exception) {
+                System.out.println("This isn't a number! please enter a suitable number:");
+            }
+            scanner.nextLine(); //Buffer
+        } while (userChoice < 1 || userChoice > numOfCustomers);
+        System.out.println("Please enter the amount you wish to draw. make sure that you enter a suitable number:");
+        do { // positive amount of money to draw check
+            try {
+                moneyToDraw = scanner.nextDouble();
+                scanner.nextLine(); //buffer
+                if (moneyToDraw <= 0)
+                    System.out.println("Invalid input. Please enter a positive number!");
 
+            } catch (InputMismatchException exception) {
+                System.out.println("Incorrect Input. Please make sure that you enter a positive number.");
+                scanner.nextLine();
+            }
+        } while (moneyToDraw <= 0);
+        try {
+            data.drawMoneyFromAccount(userChoice,moneyToDraw);
+            System.out.println("The money was successfully withdrawn. ");
         }
-        catch (NameException e){
+        catch (WithDrawMoneyException e){
             e.printMessage();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch (InputMismatchException exception){
-            System.out.println("Invalid input. Please enter a positive number!");
-        }
-        catch (Exception e){
-
-        }
-
     }
 }

@@ -9,7 +9,7 @@ import exceptions.accountexception.NameException;
 import exceptions.filesexepctions.*;
 import objects.DisplayCustomerName;
 import objects.customers.CustomerInfoDTO;
-import objects.Loans.NewLoanDTO;
+import objects.loans.*;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
@@ -161,28 +161,28 @@ public class User implements UserInterface {
 
     @Override
     public void addMoneyToAccount() {
-        double moneyToAdd=0;
+        double moneyToAdd = -1;
         System.out.println("Please insert the account name from the following list: (type the name)");
         data.namesForDisplay().printNames();
         String name = scanner.nextLine();
-        CustomerInterface customer;
         try {
-            customer = data.getCustomerName(name);
-            System.out.println("Please enter the amount you wish to add. make sure that you enter a number that is above or equal to 0.");
+            data.getCustomerByName(name);
+            System.out.println("Please enter the amount you wish to add. make sure that you enter a positive number.");
             do {
                 try {
                     moneyToAdd = scanner.nextDouble();
                     scanner.nextLine(); //buffer
-                    if(moneyToAdd < 0)
-                        System.out.println("Incorrect Input. Please make sure that you enter a number greater or equal to 0.");
+                    if(moneyToAdd <= 0)
+                        System.out.println("Incorrect Input. Please make sure that you enter a positive number.");
                 }
                 catch (InputMismatchException exception){
                     System.out.println("Invalid input. Please enter a positive number!");
+                    scanner.nextLine();
                 }
 
-            }while(moneyToAdd < 0);
-            data.addMoneyToAccount((Customer) customer, moneyToAdd);
-            System.out.println("The money was successfully added. Current account's balance: " + customer.getBalance());
+            }while(moneyToAdd <= 0);
+            data.addMoneyToAccount(data.getCustomerByName(name), moneyToAdd);
+            System.out.println("The money was successfully added. Current account's balance: " + data.getCustomerByName(name).getBalance());
         }
         catch (InputMismatchException exception){
             System.out.println("Invalid input. Please enter a positive number!");
@@ -200,15 +200,16 @@ public class User implements UserInterface {
         String customerName = scanner.nextLine();
         Double moneyToDraw;
         try{
-            data.getCustomerName(customerName);
-            System.out.println("Please enter the amount you wish to draw. make sure that you enter a number that is above or equal to 0.");
+            data.getCustomerByName(customerName);
+            System.out.println("Please enter the amount you wish to draw. make sure that you enter a positive number.");
             do{
                 moneyToDraw = scanner.nextDouble();
                 if(moneyToDraw <= 0){
                     System.out.println("Invalid input! please enter a positive number:");
                 }
             }while(moneyToDraw <= 0);
-
+            // Itamar note: with my decision to unchange the method geyCustomerByName, you can go directly to
+            // addMoneyToAccount with the function getCustomerByName, as was done at the function above.
 
         }
         catch (NameException e){

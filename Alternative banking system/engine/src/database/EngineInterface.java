@@ -5,7 +5,7 @@ import database.fileresource.generated.*;
 import exceptions.accountexception.NameException;
 import objects.DisplayCustomerName;
 import objects.customers.CustomerInfoDTO;
-import objects.Loans.NewLoanDTO;
+import objects.loans.NewLoanDTO;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
@@ -20,7 +20,7 @@ public interface EngineInterface {
     void resetTime();
     List<NewLoanDTO> getLoansInfo();
     List<CustomerInfoDTO> getCustomerInfo();
-    Customer getCustomerName(String name) throws Exception;
+    Customer getCustomerByName(String name) throws Exception;
     void addMoneyToAccount(Customer customer, double moneyToAdd);
     DisplayCustomerName namesForDisplay();
 }

@@ -170,18 +170,7 @@ public class User implements UserInterface {
         int userChoice = validUserCustomerChoice(numOfCustomers);
         double moneyToAdd = -1;
         System.out.println("Please enter the amount you wish to draw. make sure that you enter a suitable number:");
-        do { // positive amount of money to draw check
-            try {
-                moneyToAdd = scanner.nextDouble();
-                scanner.nextLine(); //buffer
-                if (moneyToAdd <= 0)
-                    System.out.println("Invalid input. Please enter a positive number!");
-
-            } catch (InputMismatchException exception) {
-                System.out.println("Incorrect Input. Please make sure that you enter a positive number.");
-                scanner.nextLine();
-            }
-        } while (moneyToAdd <= 0);
+        moneyToAdd = validTransactionChoice();
         data.addMoneyToAccount(userChoice,moneyToAdd);
         System.out.println("The money was successfully added. ");
     }
@@ -205,4 +194,49 @@ public class User implements UserInterface {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void activationOfInlay() {
+        DisplayCustomerName customerNames = data.namesForDisplay();
+        int numOfCustomers = customerNames.getCustomerList().size();
+        System.out.println("Please select the number of the desired customer for the inlay:");
+        customerNames.printNamesAndBalance();
+        int userChoice = validUserCustomerChoice(numOfCustomers);
+
+
+    }
+
+    public int validUserCustomerChoice(int numOfCustomers) {
+        int userChoice = 0;
+        do{
+            try {
+                userChoice = scanner.nextInt();
+                if (userChoice < 1 || userChoice > numOfCustomers) {
+                    System.out.println("Invalid input. Please enter a suitable number:");
+                }
+            } catch (InputMismatchException exception) {
+                System.out.println("This isn't a number! please enter a suitable number:");
+            }
+            scanner.nextLine(); //Buffer
+        } while (userChoice < 1 || userChoice > numOfCustomers);
+        return userChoice;
+    }
+    public double validTransactionChoice(){
+        double moneyToDraw = 0;
+        do {
+            try {
+                moneyToDraw = scanner.nextDouble();
+                scanner.nextLine(); //buffer
+                if (moneyToDraw <= 0)
+                    System.out.println("Invalid input. Please enter a positive number!");
+
+            } catch (InputMismatchException exception) {
+                System.out.println("Incorrect Input. Please make sure that you enter a positive number.");
+                scanner.nextLine();
+            }
+        } while (moneyToDraw <= 0);
+        return moneyToDraw;
+    }
+
 }
+

@@ -14,4 +14,5 @@ public interface UserInterface {
     void loadFile();
     void addMoneyToAccount();
     void getMoneyFromAccount();
+    void activationOfInlay();
 }

@@ -1,6 +1,9 @@
 package database;
 
+import database.client.Customer;
 import database.fileresource.generated.*;
+import exceptions.accountexception.NameException;
+import objects.DisplayCustomerName;
 import objects.customers.CustomerInfoDTO;
 import objects.loans.NewLoanDTO;
 
@@ -17,4 +20,7 @@ public interface EngineInterface {
     void resetTime();
     List<NewLoanDTO> getLoansInfo();
     List<CustomerInfoDTO> getCustomerInfo();
+    Customer getCustomerName(String name) throws Exception;
+    void addMoneyToAccount(Customer customer, double moneyToAdd);
+    DisplayCustomerName namesForDisplay();
 }

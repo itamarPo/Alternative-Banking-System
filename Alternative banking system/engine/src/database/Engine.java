@@ -6,7 +6,9 @@ import database.client.Customer;
 import database.loan.Loans;
 import database.fileresource.generated.*;
 import database.loan.Payment;
+import exceptions.accountexception.NameException;
 import exceptions.filesexepctions.*;
+import objects.DisplayCustomerName;
 import objects.customers.*;
 import objects.customers.loanInfo.*;
 import objects.loans.ActiveRiskLoanDTO;
@@ -213,6 +215,16 @@ public class Engine implements EngineInterface {
       return customersInfo;
    }
 
+   @Override
+   public Customer getCustomerName(String name) throws Exception{
+      for(Customer customer: customers){
+         if(name.toLowerCase().equals(customer.getName().toLowerCase())){
+            return customer;
+         }
+      }
+      throw new NameException(name);
+   }
+
 
    public List<PaymentsDTO> copyPaymentList(Loans loan) {
       List<PaymentsDTO> list = new ArrayList<>();
@@ -246,6 +258,19 @@ public class Engine implements EngineInterface {
                     loan.getTimePerPayment(), loan.getStatus().toString());
       }
 
+   }
+
+   public void addMoneyToAccount(Customer customer, double moneyToAdd) {
+      customer.changeBalance(moneyToAdd);
+   }
+
+   public DisplayCustomerName namesForDisplay(){
+      DisplayCustomerName names = new DisplayCustomerName();
+      for(Customer customer: customers)
+      {
+         names.getCustomerList().put(customer.getName(),customer.getBalance());
+      }
+      return names;
    }
 }
 

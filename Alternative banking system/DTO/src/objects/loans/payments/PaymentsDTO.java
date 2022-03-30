@@ -1,4 +1,4 @@
-package objects.Loans.Payments;
+package objects.loans.payments;
 
 public class PaymentsDTO {
     private int timeOfPayment;

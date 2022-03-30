@@ -1,4 +1,4 @@
-package objects.Loans;
+package objects.loans;
 
 import java.util.Map;
 

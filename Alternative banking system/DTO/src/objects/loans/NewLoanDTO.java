@@ -1,4 +1,4 @@
-package objects.Loans;
+package objects.loans;
 
 public class NewLoanDTO {
     private String loanID;

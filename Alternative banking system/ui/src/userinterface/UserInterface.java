@@ -12,6 +12,6 @@ public interface UserInterface {
     void getLoansInfo();
     void moveTimeForward();
     void loadFile();
-    void addMoneyToAccount(CustomerInterface client);
-    void getMoneyFromAccount(CustomerInterface client);
+    void addMoneyToAccount();
+    void getMoneyFromAccount();
 }

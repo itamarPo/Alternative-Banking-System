@@ -1,7 +1,11 @@
 package database;
 
+import database.client.Customer;
 import database.fileresource.generated.*;
-import objects.Loans.NewLoanDTO;
+import exceptions.accountexception.NameException;
+import objects.DisplayCustomerName;
+import objects.customers.CustomerInfoDTO;
+import objects.loans.NewLoanDTO;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
@@ -15,4 +19,8 @@ public interface EngineInterface {
     void copyDataToEngineFields(AbsCustomers newCustomers, AbsLoans newLoans, AbsCategories newCategories);
     void resetTime();
     List<NewLoanDTO> getLoansInfo();
+    List<CustomerInfoDTO> getCustomerInfo();
+    Customer getCustomerName(String name) throws Exception;
+    void addMoneyToAccount(Customer customer, double moneyToAdd);
+    DisplayCustomerName namesForDisplay();
 }

@@ -3,10 +3,13 @@ package userinterface;
 
 import database.EngineInterface;
 import database.Engine;
+import database.client.Customer;
 import database.client.CustomerInterface;
-import database.loan.LoansInterface;
+import exceptions.accountexception.NameException;
 import exceptions.filesexepctions.*;
-import objects.Loans.NewLoanDTO;
+import objects.DisplayCustomerName;
+import objects.customers.CustomerInfoDTO;
+import objects.loans.NewLoanDTO;
 
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
@@ -48,6 +51,14 @@ public class User implements UserInterface {
                     }
                     case 2: {
                         getLoansInfo();
+                        break;
+                    }
+                    case 3:{
+                        getCustomersInfo();
+                        break;
+                    }
+                    case 4:{
+                        addMoneyToAccount();
                         break;
                     }
                     default: {
@@ -135,7 +146,9 @@ public class User implements UserInterface {
 
     @Override
     public void getCustomersInfo() {
-
+        List<CustomerInfoDTO> customersInfo = data.getCustomerInfo();
+        for(CustomerInfoDTO customerInfo : customersInfo)
+            customerInfo.print();
     }
 
 
@@ -147,12 +160,33 @@ public class User implements UserInterface {
 
 
     @Override
-    public void addMoneyToAccount(CustomerInterface client) {
-
+    public void addMoneyToAccount() {
+        Double moneyToAdd;
+        System.out.println("Please insert the account name from the following list: (type the name)");
+        DisplayCustomerName nameList = data.namesForDisplay();
+        nameList.printNames();
+        String name = scanner.nextLine();
+        CustomerInterface customer;
+        try {
+            customer = data.getCustomerName(name);
+            System.out.println("Please enter the amount you wish to add. make sure that you enter a number that is above or equal to 0.");
+            do {
+                moneyToAdd = scanner.nextDouble();
+                scanner.nextLine(); //buffer
+                if(moneyToAdd < 0)
+                    System.out.println("Incorrect Input. Please make sure that you enter a number greater or equal to 0.");
+            }while(moneyToAdd < 0);
+            data.addMoneyToAccount((Customer) customer, moneyToAdd);
+            System.out.println("The money was successfully added. Current account's balance: " + customer.getBalance());
+        }
+        catch (NameException exception){
+            exception.printMessage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
     @Override
-    public void getMoneyFromAccount(CustomerInterface client) {
+    public void getMoneyFromAccount() {
 
     }
 }

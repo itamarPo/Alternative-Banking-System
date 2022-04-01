@@ -22,7 +22,7 @@ public class NewLoanDTO {
     }
 
     public void print(){
-        System.out.println("\r\nLoan ID: " + loanID);
+        System.out.println("Loan ID: " + loanID);
         System.out.println("Owner: " + borrowerName);
         System.out.println("Category: " + loanCategory);
         System.out.println("Loan size: " + sizeNoInterest);

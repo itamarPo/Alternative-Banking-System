@@ -299,13 +299,37 @@ public class Engine implements EngineInterface {
       return new CategoriesListDTO(categories);
    }
 
-   public List<NewLoanDTO> getFilteredLoans(double moneyToInvest, List<String> categories,int interest,int minTime){
+   public List<NewLoanDTO> getFilteredLoans(double moneyToInvest, List<String> categories,int interest,int minTime) {
       List<NewLoanDTO> validLoans = new ArrayList<>();
-
-
-
-
+      for (Map.Entry<String, List<Loans>> entry : loansByCategories.entrySet()) {
+         if (categories.contains(entry.getKey())) {
+            for (Loans candidateLoan : entry.getValue()) {
+               if (candidateLoan.getStatus().getStatus() == "New" || candidateLoan.getStatus().getStatus() == "Pending") {
+                  if (interest == 0 || (candidateLoan.getInterestPerPayment() - interest >= 0)) {
+                     if (minTime == 0 || (candidateLoan.getTimeLimitOfLoan() - minTime >= 0)) {
+                        if (candidateLoan.getStatus().getStatus() == "New") {
+                           validLoans.add(new NewLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(), candidateLoan.getLoanCategory(),
+                                   candidateLoan.getLoanSizeNoInterest(), candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
+                                   candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus()));
+                        } else {
+                           validLoans.add(new PendingLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(), candidateLoan.getLoanCategory(),
+                                   candidateLoan.getLoanSizeNoInterest(), candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
+                                   candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus(), candidateLoan.getListOflenders(), candidateLoan.getCollectedSoFar(),
+                                   candidateLoan.getLoanSize() - candidateLoan.getCollectedSoFar()));
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
       return validLoans;
+   }
+
+   public void checkAmountOfInvestment(int userChoice, double moneyToInvest)throws Exception {
+      if(customers.get(userChoice - 1).getBalance() - moneyToInvest < 0){
+         throw new WithDrawMoneyException(customers.get(userChoice - 1).getBalance(), moneyToInvest);
+      }
    }
 }
 

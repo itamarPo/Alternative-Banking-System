@@ -10,6 +10,7 @@ import exceptions.accountexception.NameException;
 import exceptions.accountexception.WithDrawMoneyException;
 import exceptions.filesexepctions.*;
 import objects.DisplayCustomerName;
+import objects.categories.CategoriesListDTO;
 import objects.customers.*;
 import objects.customers.loanInfo.*;
 import objects.loans.ActiveRiskLoanDTO;
@@ -36,7 +37,7 @@ public class Engine implements EngineInterface {
    public Engine() {
       customers = new ArrayList<>();
       loans = new ArrayList<>();
-      loansByCategories = new TreeMap<>();
+      loansByCategories = new LinkedHashMap<>();
    }
 
    public static int getTime() {
@@ -289,7 +290,26 @@ public class Engine implements EngineInterface {
       }
       return null;
    }
+
+   public CategoriesListDTO getCategoriesList(){
+      List<String> categories = new ArrayList<>();
+      for(Map.Entry<String,List<Loans>> entry : loansByCategories.entrySet()){
+         categories.add(entry.getKey());
+      }
+      return new CategoriesListDTO(categories);
+   }
+
+   public List<NewLoanDTO> getFilteredLoans(double moneyToInvest, List<String> categories,int interest,int minTime){
+      List<NewLoanDTO> validLoans = new ArrayList<>();
+
+
+
+
+      return validLoans;
+   }
 }
+
+
 
 
 

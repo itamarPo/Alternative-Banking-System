@@ -6,17 +6,20 @@ import database.Engine;
 import exceptions.accountexception.WithDrawMoneyException;
 import exceptions.filesexepctions.*;
 import objects.DisplayCustomerName;
+import objects.categories.CategoriesListDTO;
 import objects.customers.CustomerInfoDTO;
 import objects.loans.*;
 
+import javax.swing.text.StyledEditorKit;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class User implements UserInterface {
-    private EngineInterface data;
+    private Engine data;
     private Scanner scanner;
     private Boolean FileLoaded;
 
@@ -38,7 +41,7 @@ public class User implements UserInterface {
         printMenu();
         do {
             userIntegerInput = getValidInput();
-            if(!FileLoaded && userIntegerInput != 1 && userIntegerInput != 8) {
+            if(!FileLoaded && userIntegerInput > 1 && userIntegerInput < 8) {
                 System.out.println("A file was not loaded! please load a file before choosing any other option.");
             }
             else {
@@ -63,14 +66,21 @@ public class User implements UserInterface {
                         getMoneyFromAccount();
                         break;
                     }
+                    case 6:{
+                        activationOfInlay();
+                        break;
+                    }
                     default: {
-                        System.out.println("This option has not been implemented yet!");
+                        System.out.println("Goodbye!");
                     }
                 }
-                printMenu();
+                if(userIntegerInput != 8){
+                    printMenu();
+                }
+
             }
         } while (userIntegerInput != 8) ;
-        System.out.println("Goodbye!");
+
     }
 
         public int getValidInput() {
@@ -202,10 +212,82 @@ public class User implements UserInterface {
         System.out.println("Please select the number of the desired customer for the inlay:");
         customerNames.printNamesAndBalance();
         int userChoice = validUserCustomerChoice(numOfCustomers);
-
+        List<NewLoanDTO> possibleLoans = getInlayDetails(customerNames, userChoice);
 
     }
 
+    public List<NewLoanDTO> getInlayDetails(DisplayCustomerName customersNames, int userChoice){
+        System.out.println("Please enter a positive number for the customer to invest: (This option is mandatory!)");
+        double moneyToInvest = validTransactionChoice();
+        System.out.println("Please select the desired categories from the list: \r\n(Enter categories numbers seperated by spaces. This option isn't mandatory! if not interested just press ENTER)");
+        CategoriesListDTO systemCategories = data.getCategoriesList();
+        systemCategories.print();
+        List<String> categoriesAfterFilter = new ArrayList<>();
+        getFilteredCategories(categoriesAfterFilter,systemCategories.getCategoriesList());
+        System.out.println("Please select the minimum interest you're willing to accept: \r\n(This option isn't mandatory! If you aren't interested in this option please press ENTER)");
+        int interest = getPositiveInt(true);
+        System.out.println("Please select the minimum time of loan you're willing to accept: \r\n(This option isn't mandatory! If you aren't interested in this option please press ENTER)");
+        int minTime = getPositiveInt(false);
+        return data.getFilteredLoans(moneyToInvest, categoriesAfterFilter, interest,minTime);
+    }
+
+    public void getFilteredCategories(List<String> categoriesAfterFilter, List<String> categoriesBeforeFilter) {
+        Boolean validInput = false;
+        while (!validInput) {
+            String input = scanner.nextLine();
+            if (input.equals("")) {
+                categoriesAfterFilter = categoriesBeforeFilter;
+                validInput = true;
+            }
+            else {
+                String[] choices = input.split(" ");
+                for (String choice : choices) {
+                    validInput = true;
+                    try {
+                        int number = Integer.parseInt(choice);
+                        if (number > categoriesBeforeFilter.size() || number < 1) {
+                            throw new NumberFormatException();
+                        }
+                        categoriesAfterFilter.add(categoriesBeforeFilter.get(number-1));
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input! please make sure to enter categories numbers seperated by spaces or ENTER. \r\nPlease try again: ");
+                        categoriesAfterFilter.clear();
+                        validInput = false;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public int getPositiveInt(Boolean IsInterest){
+        Boolean validInput = false;
+        int number = 0;
+        while (!validInput) {
+            String input = scanner.nextLine();
+            if (input.equals("")) {
+                return number;
+            } else {
+                validInput = true;
+                try {
+                    number = Integer.parseInt(input);
+                    if(IsInterest) {
+                        if (number > 100 || number < 1) {
+                            throw new NumberFormatException();
+                        }
+                    }else{
+                        if(number < 1){
+                            throw new NumberFormatException();
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input! Please make sure you enter a valid number. \r\nPlease try again:");
+                    validInput = false;
+                }
+            }
+        }
+        return number;
+    }
     public int validUserCustomerChoice(int numOfCustomers) {
         int userChoice = 0;
         do{

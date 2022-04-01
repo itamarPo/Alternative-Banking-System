@@ -10,6 +10,6 @@ public class WithDrawMoneyException extends Exception{
     }
 
     public void printMessage(){
-        System.out.println("This customer cannot Draw " + transaction + " from his account because he has: " + balance +". Transaction failed.");
+        System.out.println("This customer cannot Draw " + transaction + " from his account because he only has: " + balance +". Transaction failed.");
     }
 }

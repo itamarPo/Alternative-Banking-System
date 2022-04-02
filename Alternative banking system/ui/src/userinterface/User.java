@@ -3,6 +3,7 @@ package userinterface;
 
 import database.EngineInterface;
 import database.Engine;
+import exceptions.accountexception.LoansDoesNotReachSumOfInvestment;
 import exceptions.accountexception.NoLoanSelectedForInlay;
 import exceptions.accountexception.NoMatchesFound;
 import exceptions.accountexception.WithDrawMoneyException;
@@ -15,10 +16,7 @@ import objects.loans.*;
 import javax.swing.text.StyledEditorKit;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class User implements UserInterface {
     private Engine data;
@@ -182,7 +180,7 @@ public class User implements UserInterface {
         int numOfCustomers = customersList.getCustomerList().size();
         int userChoice = validUserCustomerChoice(numOfCustomers);
         double moneyToAdd = -1;
-        System.out.println("Please enter the amount you wish to draw. make sure that you enter a suitable number:");
+        System.out.println("Please enter the amount you wish to add. make sure that you enter a suitable number:");
         moneyToAdd = validTransactionChoice();
         data.addMoneyToAccount(userChoice,moneyToAdd);
         System.out.println("The money was successfully added. ");
@@ -215,11 +213,22 @@ public class User implements UserInterface {
         System.out.println("Please select the number of the desired customer for the inlay:");
         customerNames.printNamesAndBalance();
         int userChoice = validUserCustomerChoice(numOfCustomers);
+
         try {
-            List<NewLoanDTO> possibleLoans = getInlayDetails(userChoice);
+            System.out.println("Please enter a positive number for the customer to invest: (This option is mandatory!)");
+            double moneyToInvest = validTransactionChoice();
+            String customerSelected = null;
+            data.checkAmountOfInvestment(userChoice, moneyToInvest);
+            int i = 1,j = 0;
+            for (Map.Entry<String,Double> entry : customerNames.getCustomerList().entrySet()){
+                if(j == userChoice - 1){
+                    customerSelected = entry.getKey();
+                }
+                j++;
+            }
+            List<NewLoanDTO> possibleLoans = getInlayDetails(customerSelected);
             if(possibleLoans.size() == 0)
                 throw new NoMatchesFound();
-            int i = 1;
             for(NewLoanDTO loan : possibleLoans){
                 System.out.println(i + ":");
                 loan.print();
@@ -227,9 +236,8 @@ public class User implements UserInterface {
             }
             System.out.println("\r\nPlease enter the loan numbers that you wish to invest: \r\n(The loan's details are above this statement. Please enter the numbers seperated by spaces or ENTER if you're not interested to invest in any of them.\r\nPlease note that entering the same number twice will make no difference.)");
             possibleLoans = filterLoansAccordingToUser(possibleLoans);
-            // at this stage we have the loans that the customer wants to invest in at "possibleLoans".
-            //now we just need to split the money equally according to his ask, or print an error if the
-            // amount of all the loans he chose does not reach his sumSoInvest
+            data.splitMoneyBetweenLoans(possibleLoans, moneyToInvest, customerSelected);
+            System.out.println("Inlay has completed successfully!");
         }
         catch(WithDrawMoneyException e){
             e.printInvestMessage();
@@ -238,14 +246,16 @@ public class User implements UserInterface {
             e.print();
         } catch(NoMatchesFound e){
             e.printMessage();
-        } catch (Exception e) {
+        }catch (LoansDoesNotReachSumOfInvestment e) {
+            e.print();
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public List<NewLoanDTO> filterLoansAccordingToUser(List<NewLoanDTO> possibleLoans) throws Exception{
         Boolean validInput = false;
-        List<Integer> LoansSelected = new ArrayList<>();
+        List<NewLoanDTO> LoansSelected = new ArrayList<>();
         while (!validInput) {
             String input = scanner.nextLine();
 
@@ -261,28 +271,22 @@ public class User implements UserInterface {
 
                         throw new NumberFormatException();
                     }
-                    if(!LoansSelected.contains(number)){
-                        LoansSelected.add(number);
+                    if(!LoansSelected.contains(possibleLoans.get(number - 1))){
+                        LoansSelected.add(possibleLoans.get(number - 1));
                     }
 
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid input! please make sure to enter loans numbers seperated by spaces or ENTER. \r\nPlease try again: ");
                     validInput = false;
+                    LoansSelected.clear();
                     break;
                 }
             }
         }
-        for(int i = 1 ; i <= possibleLoans.size(); i++ ){
-            if(!LoansSelected.contains(i)){
-                possibleLoans.remove(i-1);
-            }
-        }
-        return possibleLoans;
+        return LoansSelected;
     }
 
-    public List<NewLoanDTO> getInlayDetails(int userChoice) throws Exception{
-        System.out.println("Please enter a positive number for the customer to invest: (This option is mandatory!)");
-        double moneyToInvest = validTransactionChoice();
+    public List<NewLoanDTO> getInlayDetails(String userName) throws Exception{
         System.out.println("Please select the desired categories from the list: \r\n(Enter categories numbers seperated by spaces. This option isn't mandatory! if not interested just press ENTER.\r\nPlease note that entering the same number twice will make no difference)");
         CategoriesListDTO systemCategories = data.getCategoriesList();
         systemCategories.print();
@@ -292,8 +296,7 @@ public class User implements UserInterface {
         int interest = getPositiveInt(true);
         System.out.println("Please select the minimum time of loan you're willing to accept: \r\n(This option isn't mandatory! If you aren't interested in this option please press ENTER)");
         int minTime = getPositiveInt(false);
-        data.checkAmountOfInvestment(userChoice, moneyToInvest);
-        return data.getFilteredLoans(moneyToInvest, categoriesAfterFilter, interest,minTime);
+        return data.getFilteredLoans(categoriesAfterFilter, interest,minTime,userName);
     }
 
     public List<String> getFilteredCategories(List<String> categoriesAfterFilter, List<String> categoriesBeforeFilter) {

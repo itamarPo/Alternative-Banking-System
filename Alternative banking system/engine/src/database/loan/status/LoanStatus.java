@@ -32,51 +32,47 @@ public class LoanStatus implements LoanStatusInterface {
         this.initialLeftToPay = initialLeftToPay;
     }
 
+    //getters
     public String getStatus() { return status;}
-
     public List<Payment> getPayments() {
         return payments;
     }
-
     public int getStartingActiveTime() {
         return startingActiveTime;
     }
-
     public int getFinishTime() {
         return finishTime;
     }
-
     public int getNextPaymentTime() {
         return nextPaymentTime;
     }
-
     public double getInterestPayed() {
         return interestPayed;
     }
-
     public double getInitialPayed() {
         return initialPayed;
     }
-
     public double getInterestLeftToPay() {
         return interestLeftToPay;
     }
-
     public double getInitialLeftToPay() {
         return initialLeftToPay;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public void addPayment(Payment payment) {
         this.payments.add(payment) ;
     }
-
+    //setters
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public void setFinishTime(int finishTime) {
         this.finishTime = finishTime;
     }
+    public void setStartingActiveTime(int startingActiveTime) {
+        this.startingActiveTime = startingActiveTime;
+    }
 
-
+    public void setNextPaymentTime(int nextPaymentTime) {
+        this.nextPaymentTime = nextPaymentTime;
+    }
 }

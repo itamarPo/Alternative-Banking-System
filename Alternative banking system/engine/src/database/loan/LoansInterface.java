@@ -1,7 +1,9 @@
 package database.loan;
 
 public interface LoansInterface {
-    void pending();
     void payment();
+    void updateStatusBeforeActive();
+    void changeToPending();
+    void changeToActive();
  //TODO: add changeStatus!!!
 }

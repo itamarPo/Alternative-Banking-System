@@ -24,6 +24,11 @@ public class ActiveRiskLoanDTO extends NewLoanDTO{
         this.allInitialLeftToPay = allInitialLeftToPay;
         this.loanSize = sizeNoInterest + sizeNoInterest*(interestPerPayment)/100;
     }
+
+    public List<PaymentsDTO> getPayments() {
+        return Payments;
+    }
+
     @Override
     public void print(){
         super.print();
@@ -31,8 +36,10 @@ public class ActiveRiskLoanDTO extends NewLoanDTO{
         System.out.println("Activation time: " + startingActiveTime);
         System.out.println("Next payment date: " + nextPaymentTime);
         System.out.println("Payments: ");
-        for(PaymentsDTO payment: Payments){
-            payment.print();
+        if(getPayments() != null) {
+            for (PaymentsDTO payment : Payments) {
+                payment.print();
+            }
         }
         System.out.println("Initial sum payed so far: " + allInitialPayedSoFar);
         System.out.println("Interest sum payed so far: " + allInterestPayedSoFar);

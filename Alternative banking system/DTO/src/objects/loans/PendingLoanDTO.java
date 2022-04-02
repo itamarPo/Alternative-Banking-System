@@ -7,6 +7,12 @@ public class PendingLoanDTO extends  NewLoanDTO{
     private Double collectedSoFar;
     private Double sumLeftToBeCollected;
 
+    public Double getSumLeftToBeCollected() {
+        return sumLeftToBeCollected;
+    }
+
+
+
     public PendingLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, int interestPerPayment, int timePerPayment, String status, Map<String, Double> listOfLenders, Double collectedSoFar, Double sumLeftToBeCollected) {
         super(loanID, borrowerName, loanCategory, sizeNoInterest, timeLimitOfLoan, interestPerPayment, timePerPayment, status);
         this.listOfLenders = listOfLenders;

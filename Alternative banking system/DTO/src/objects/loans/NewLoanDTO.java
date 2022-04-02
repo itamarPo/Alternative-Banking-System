@@ -2,12 +2,27 @@ package objects.loans;
 
 public class NewLoanDTO {
     private String loanID;
+
+    public String getLoanID() {
+        return loanID;
+    }
+
     private String borrowerName;
+
+    public double getSizeNoInterest() {
+        return sizeNoInterest;
+    }
+
     private String loanCategory;
     private double sizeNoInterest;
     private int timeLimitOfLoan;
     private int interestPerPayment;
     private int timePerPayment;
+
+    public String getStatus() {
+        return status;
+    }
+
     private String status;
 
     public NewLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, int interestPerPayment, int timePerPayment, String status) {

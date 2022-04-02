@@ -1,5 +1,6 @@
 package database.loan;
 
+import database.Engine;
 import database.client.Customer;
 import database.loan.status.LoanStatus;
 import database.loan.status.LoanStatusInterface;
@@ -22,8 +23,9 @@ public class Loans implements Serializable, LoansInterface {
     private double loanSizeNoInterest;
     private double normalPay;
     private LoanStatus status;
-    private double collectedSoFar; //two implentations: pending- money collected so far by lenders. active: money payed by customer so far
-    // sum that needed to make load active is (loanSizeNoInterest - collectedSoFar)
+    private double collectedSoFar;
+    private double leftToBeCollected;
+
 
 
 
@@ -39,9 +41,13 @@ public class Loans implements Serializable, LoansInterface {
         this.loanSizeNoInterest = loanSizeNoInterest;
         this.normalPay = 0;
         this.collectedSoFar = 0;
+        this.leftToBeCollected = loanSizeNoInterest;
         this.status = new LoanStatus("New", null, 0,0,0,0,0,0,0);
     }
 
+    public double getLeftToBeCollected() {
+        return leftToBeCollected;
+    }
     public String getLOANID() {
         return LOANID;
     }
@@ -86,25 +92,49 @@ public class Loans implements Serializable, LoansInterface {
         return collectedSoFar;
     }
 
-    //checks if load should switch to active
-    public void pending() {
-        if (loanSizeNoInterest - collectedSoFar == 0) {
-           // status = new LoanStatus();
-        }
-        else {
-            double sum = 0;
-            for (Map.Entry entry : listOflenders.entrySet()) {
-                sum = (double) entry.getValue() + sum;
-            }
-            collectedSoFar = sum;
-        }
-
+    public void setCollectedSoFar(double collectedSoFar) {
+        this.collectedSoFar += collectedSoFar;
     }
-    
+
+    public void setLeftToBeCollected(double leftToBeCollected) {
+        this.leftToBeCollected -= leftToBeCollected;
+    }
 
 
     @Override
     public void payment() {
 
+    }
+
+    public void updateStatusBeforeActive() {
+        switch (status.getStatus()){
+            case "New":{
+                if(leftToBeCollected != 0 && collectedSoFar != 0){
+                    changeToPending();
+                }
+                if(leftToBeCollected == 0){
+                    changeToActive();
+                }
+                break;
+            }
+            case "Pending":{
+                if(leftToBeCollected == 0){
+                    changeToActive();
+                }
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void changeToPending() {
+        status.setStatus("Pending");
+    }
+
+    @Override
+    public void changeToActive() {
+        status.setStatus("Active");
+        status.setStartingActiveTime(Engine.getTime());
+        status.setNextPaymentTime(Engine.getTime() + timePerPayment);
     }
 }

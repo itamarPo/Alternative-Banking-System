@@ -71,6 +71,6 @@ public class Customer implements CustomerInterface, Serializable {
             incomeOrExpense = '-';
         else
             incomeOrExpense = '+';
-        transactions.add(new AccountTransaction(Engine.getTime(), abs(transaction), incomeOrExpense, balance, balance + transaction));
+        transactions.add(new AccountTransaction(Engine.getTime(), abs(transaction), incomeOrExpense, balance - transaction, balance));
     }
 }

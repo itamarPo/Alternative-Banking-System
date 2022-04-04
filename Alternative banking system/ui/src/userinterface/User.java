@@ -3,7 +3,7 @@ package userinterface;
 
 import database.EngineInterface;
 import database.Engine;
-import exceptions.accountexception.LoansDoesNotReachSumOfInvestment;
+import exceptions.accountexception.notAllAmountSuccessfullyInvested;
 import exceptions.accountexception.NoLoanSelectedForInlay;
 import exceptions.accountexception.NoMatchesFound;
 import exceptions.accountexception.WithDrawMoneyException;
@@ -246,7 +246,7 @@ public class User implements UserInterface {
             e.print();
         } catch(NoMatchesFound e){
             e.printMessage();
-        }catch (LoansDoesNotReachSumOfInvestment e) {
+        }catch (notAllAmountSuccessfullyInvested e) {
             e.print();
         }catch (Exception e) {
             e.printStackTrace();

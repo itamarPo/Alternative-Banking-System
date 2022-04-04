@@ -6,7 +6,7 @@ import database.client.Customer;
 import database.loan.Loans;
 import database.fileresource.generated.*;
 import database.loan.Payment;
-import exceptions.accountexception.LoansDoesNotReachSumOfInvestment;
+import exceptions.accountexception.notAllAmountSuccessfullyInvested;
 import exceptions.accountexception.NameException;
 import exceptions.accountexception.WithDrawMoneyException;
 import exceptions.filesexepctions.*;
@@ -305,11 +305,11 @@ public class Engine implements EngineInterface {
       for (Map.Entry<String, List<Loans>> entry : loansByCategories.entrySet()) {
          if (categories.contains(entry.getKey())) {
             for (Loans candidateLoan : entry.getValue()) {
-               if (candidateLoan.getStatus().getStatus() == "New" || candidateLoan.getStatus().getStatus() == "Pending") {
+               if (candidateLoan.getStatus().getStatus().equals("New")  || candidateLoan.getStatus().getStatus().equals("Pending")) {
                   if (!candidateLoan.getBorrowerName().equals(userName)) {
                      if (interest == 0 || (candidateLoan.getInterestPerPayment() - interest >= 0)) {
                         if (minTime == 0 || (candidateLoan.getTimeLimitOfLoan() - minTime >= 0)) {
-                           if (candidateLoan.getStatus().getStatus() == "New") {
+                           if (candidateLoan.getStatus().getStatus().equals("New")) {
                               validLoans.add(new NewLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(), candidateLoan.getLoanCategory(),
                                       candidateLoan.getLoanSizeNoInterest(), candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
                                       candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus()));
@@ -346,10 +346,10 @@ public class Engine implements EngineInterface {
            }
         }
       }
-      if(sumOfAllLoans < moneyToInvest){
-         throw new LoansDoesNotReachSumOfInvestment(moneyToInvest,sumOfAllLoans);
-      }
-      else if(sumOfAllLoans == moneyToInvest){
+//      if(sumOfAllLoans < moneyToInvest){
+//         throw new LoansDoesNotReachSumOfInvestment(moneyToInvest,sumOfAllLoans);
+//      }
+      if(sumOfAllLoans <= moneyToInvest){
          investInAllLoans(LoansToInvest, moneyToInvest, customerSelected);
       }
       else
@@ -364,6 +364,7 @@ public class Engine implements EngineInterface {
       if (numOfLoans == 0) {
          return;
       }
+      // not sure if this one is needed...
       if (moneyToInvest == 0) {
          return;
       }
@@ -401,13 +402,19 @@ public class Engine implements EngineInterface {
       return min;
    }
 
-   private void investInAllLoans(List<Loans> loansToInvest, double moneyToInvest, String customerSelected) {
+   private void investInAllLoans(List<Loans> loansToInvest, double moneyToInvest, String customerSelected)throws Exception {
       Customer lender = getCustomerByName(customerSelected);
-      double moneyInvested = 0;
+      double moneyInvested;
+      double totalInvested = 0;
       for(Loans investInLoan : loansToInvest){
          moneyInvested = investInLoan.getLeftToBeCollected();
+         totalInvested += moneyInvested;
          addCustomerToLoan(investInLoan,lender,moneyInvested);
       }
+      if(totalInvested < moneyToInvest){
+         throw new notAllAmountSuccessfullyInvested(moneyToInvest - totalInvested, totalInvested);
+      }
+      //throw new notAllAmountSuccessfullyInvested
    }
    public void addCustomerToLoan(Loans loan,Customer investor, double moneyToInvest){
       loan.getListOflenders().put(investor.getName(), moneyToInvest);
@@ -415,8 +422,12 @@ public class Engine implements EngineInterface {
       loan.setCollectedSoFar(moneyToInvest);
       loan.setLeftToBeCollected(moneyToInvest);
       investor.drawMoney(moneyToInvest);
-      getCustomerByName(loan.getBorrowerName()).addMoney(moneyToInvest);
+
+      //getCustomerByName(loan.getBorrowerName()).addMoney(moneyToInvest);
       loan.updateStatusBeforeActive();
+      if(loan.getStatus().getStatus().equals("Active")){
+         getCustomerByName(loan.getBorrowerName()).addMoney(loan.getLoanSize());
+      }
    }
 }
 

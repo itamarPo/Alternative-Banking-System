@@ -15,9 +15,8 @@ public class Loans implements Serializable, LoansInterface {
     private String loanCategory;
     private double loanSize; // includinginterest
     private int timeLimitOfLoan;
-    private int InterestPerPayment;
+    private double InterestPerPayment;
     private int timePerPayment;
-    //TODO: change interest to double!!
     private Map<String, Double> listOflenders;
     private double loanSizeNoInterest;
     private double normalPay;
@@ -41,7 +40,7 @@ public class Loans implements Serializable, LoansInterface {
         this.normalPay = 0;
         this.collectedSoFar = 0;
         this.leftToBeCollected = loanSizeNoInterest;
-        this.status = new LoanStatus("New", 0,0,0,0,0,loanSizeNoInterest*(InterestPerPayment/100),loanSizeNoInterest);
+        this.status = new LoanStatus("New", 0,0,0,0,0,loanSizeNoInterest*((double)InterestPerPayment/100),loanSizeNoInterest);
     }
 
     public double getLeftToBeCollected() {
@@ -59,7 +58,7 @@ public class Loans implements Serializable, LoansInterface {
         return timeLimitOfLoan;
     }
 
-    public int getInterestPerPayment() {
+    public double getInterestPerPayment() {
         return InterestPerPayment;
     }
 

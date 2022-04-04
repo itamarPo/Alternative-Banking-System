@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoanStatus implements LoanStatusInterface {
- //TODO: changes to status according to the word file.
+
 
     private String status;
     private List<Payment> payments;

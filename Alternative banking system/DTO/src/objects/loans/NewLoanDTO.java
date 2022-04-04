@@ -16,7 +16,7 @@ public class NewLoanDTO {
     private String loanCategory;
     private double sizeNoInterest;
     private int timeLimitOfLoan;
-    private int interestPerPayment;
+    private double interestPerPayment;
     private int timePerPayment;
 
     public String getStatus() {
@@ -25,7 +25,7 @@ public class NewLoanDTO {
 
     private String status;
 
-    public NewLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, int interestPerPayment, int timePerPayment, String status) {
+    public NewLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, double interestPerPayment, int timePerPayment, String status) {
         this.loanID = loanID;
         this.borrowerName = borrowerName;
         this.loanCategory = loanCategory;

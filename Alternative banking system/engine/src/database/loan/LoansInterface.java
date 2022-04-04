@@ -5,7 +5,6 @@ public interface LoansInterface extends Comparable<Loans>{
     void updateStatusBeforeActive();
     void changeToPending();
     void changeToActive();
-
     int compareTo(Loans loan);
-    //TODO: add changeStatus!!!
+
 }

@@ -3,7 +3,7 @@ package objects.customers.loanInfo;
 public class PendingLoanInfoDTO extends LoanInfoDTO{
     private double collectedSoFar;
 
-    public PendingLoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, int interestPerPayment, int timePerPayment, String status, double collectedSoFar) {
+    public PendingLoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, double interestPerPayment, int timePerPayment, String status, double collectedSoFar) {
         super(loanName, loanCategory, sizeNoInterest, interestPerPayment, timePerPayment, status);
         this.collectedSoFar = collectedSoFar;
     }

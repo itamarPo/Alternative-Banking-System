@@ -6,11 +6,11 @@ public class LoanInfoDTO implements LoanInfoDTOInterface{
     private String loanName;
     private String loanCategory;
     private double sizeNoInterest;
-    private int interestPerPayment;
+    private double interestPerPayment;
     private int timePerPayment;
     private String status;
 
-    public LoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, int interestPerPayment, int timePerPayment, String status) {
+    public LoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, double interestPerPayment, int timePerPayment, String status) {
         this.loanSize = sizeNoInterest + sizeNoInterest*interestPerPayment/100;
         this.loanName = loanName;
         this.loanCategory = loanCategory;

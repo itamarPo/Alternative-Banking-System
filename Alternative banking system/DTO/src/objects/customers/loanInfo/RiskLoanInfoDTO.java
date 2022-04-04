@@ -2,13 +2,18 @@ package objects.customers.loanInfo;
 
 public class RiskLoanInfoDTO extends LoanInfoDTO{
     //some variables which im not sure what are supposed to be.
-    //TODO: understand what needs to be added and add it accordingly
-    public RiskLoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, int interestPerPayment, int timePerPayment, String status) {
+    private int numberOfPaymentNotPayed ;
+    private double sumOfNotPayed;
+    public RiskLoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, double interestPerPayment, int timePerPayment, String status, int numberOfPaymentNotPayed, double sumOfNotPayed) {
         super(loanName, loanCategory, sizeNoInterest, interestPerPayment, timePerPayment, status);
+        this.sumOfNotPayed = sumOfNotPayed;
+        this.numberOfPaymentNotPayed = numberOfPaymentNotPayed;
     }
 
     @Override
     public void print() {
         super.print();
+        System.out.println("The number of payments yet To be payed: " + numberOfPaymentNotPayed);
+        System.out.println("Their total amount: " + sumOfNotPayed);
     }
 }

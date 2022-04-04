@@ -106,9 +106,13 @@ public class User implements UserInterface {
             }
             return userIntegerInput;
         }
+
+        //TODO: need to print previous time and current time
     @Override
     public void printMenu() {
-        System.out.println("\r\nPlease select one fo the following options:" );
+        if(Engine.getTime()>1)
+            System.out.print("Previous Time: " + (Engine.getTime()-1) + " , ");
+        System.out.println("Current Time: " + Engine.getTime() + "\r\nPlease select one fo the following options:" );
         System.out.println("1. Load file ");
         System.out.println("2. Show loans information and their status  ");
         System.out.println("3. Show clients information ");

@@ -60,7 +60,6 @@ public class Engine implements EngineInterface {
       Unmarshaller u = jc.createUnmarshaller();
       AbsDescriptor descriptor = (AbsDescriptor) u.unmarshal(XMLFile);
       organizeInformation(descriptor);
-      resetTime();
       return true;
    }
 
@@ -71,7 +70,7 @@ public class Engine implements EngineInterface {
       AbsCategories newCategories = descriptor.getAbsCategories();
       AbsLoans newLoans = descriptor.getAbsLoans();
       checkLoansInfo(newCustomers.getAbsCustomer(), newCategories.getAbsCategory(), newLoans);
-      //TODO: override existing file! meaning clean up the current data before adding new data.
+      resetEngine();
       copyDataToEngineFields(newCustomers, newLoans, newCategories);
    }
 
@@ -157,16 +156,16 @@ public class Engine implements EngineInterface {
                break;
             }
             case "Finished": {
-               DTOloans.add(new FinishedLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
-                       loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
-                       loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getStatus().getStartingActiveTime(),
-                       paymentList, loan.getStatus().getFinishTime()));
+               DTOloans.add(new FinishedLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(),
+                       loan.getInterestPerPayment(), loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
+                       loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(), paymentList, loan.getStatus().getFinishTime()));
                break;
             }
             default: //ACTIVE OR RISK{
                DTOloans.add(new ActiveRiskLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
-                       loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
-                       loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getStatus().getStartingActiveTime(),
+                      loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
+                       loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
+                       loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(),
                        loan.getStatus().getNextPaymentTime(), paymentList, loan.getStatus().getInterestPayed(),
                        loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay()));
                break;
@@ -247,13 +246,18 @@ public class Engine implements EngineInterface {
             return new PendingLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
                     loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getCollectedSoFar());
          }
-         case "Active": { //TODO: add the expected next payment
+         case "Active": {
+            double sumNextPayment = loan.getLoanSizeNoInterest()/(loan.getTimeLimitOfLoan()/loan.getTimePerPayment());
+            if(loan.getStatus().getPayments().size() !=0 )
+               sumNextPayment = loan.getStatus().returnLastPayment().getSumOfPayment();
             return new ActiveLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
-                    loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getStatus().getNextPaymentTime(), 2.0/*need to add next payment*/);
+                    loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getStatus().getNextPaymentTime(), sumNextPayment);
          }
-         case "Risk": { //TODO: changes accordingly to the changes at the class
+         case "Risk": {
+            int numberOfPaymentNotPayed = loan.getStatus().getPayments().stream().filter(T->!T.isPayedSuccesfully()).mapToInt(S->{return 1;}).sum();
+            double sumOfNotPayed = loan.getStatus().returnLastPayment().getSumOfPayment();
             return new RiskLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
-                    loan.getTimePerPayment(), loan.getStatus().getStatus());
+                    loan.getTimePerPayment(), loan.getStatus().getStatus(),  numberOfPaymentNotPayed , sumOfNotPayed);
          }
          case "Finished": {
             return new FinishedLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
@@ -286,6 +290,14 @@ public class Engine implements EngineInterface {
       customers.get(userChoice - 1).drawMoney(moneyToDraw);
    }
 
+   @Override
+   public void resetEngine() {
+      customers.clear();
+      loans.clear();
+      loansByCategories.clear();
+      resetTime();
+   }
+
    public Customer findCustomerDueToName(String name) {
       for (Customer customer : customers) {
          if (customer.getName().equalsIgnoreCase(name))
@@ -302,7 +314,7 @@ public class Engine implements EngineInterface {
       return new CategoriesListDTO(categories);
    }
 
-   public List<NewLoanDTO> getFilteredLoans(List<String> categories, int interest, int minTime, String userName) {
+   public List<NewLoanDTO> getFilteredLoans(List<String> categories, double interest, int minTime, String userName) {
       List<NewLoanDTO> validLoans = new ArrayList<>();
       for (Map.Entry<String, List<Loans>> entry : loansByCategories.entrySet()) {
          if (categories.contains(entry.getKey())) {
@@ -436,25 +448,33 @@ public class Engine implements EngineInterface {
       for (Loans itr : loans) {
          if (itr.getStatus().getNextPaymentTime() == time) {
             listByTime.add(itr);
-            double InitialComponent = itr.getLoanSizeNoInterest()/(itr.getTimeLimitOfLoan()/itr.getTimePerPayment());
-            double InterestComponent = InitialComponent*((double)itr.getInterestPerPayment()/100);
-            if(itr.getStatus().getStatus().equals("Risk"))
-               itr.getStatus().addPayment(new Payment(time, itr.getStatus().returnLastPayment().getInterestComponent()+InterestComponent,
-                       itr.getStatus().returnLastPayment().getSumOfPayment()+InterestComponent+InitialComponent,
-                       itr.getStatus().returnLastPayment().getInitialComponent()+InitialComponent, false));
-            else
-               itr.getStatus().addPayment(new Payment(time, InterestComponent,
-                       InterestComponent+InitialComponent,
-                       InitialComponent, false));
+            double InitialComponent = itr.getLoanSizeNoInterest() / (itr.getTimeLimitOfLoan() / itr.getTimePerPayment());
+            double InterestComponent = InitialComponent * ((double) itr.getInterestPerPayment() / 100);
+            if (itr.getStatus().getStatus().equals("Risk")){
+               if ((itr.getStatus().getPayments().size() >= itr.getTimeLimitOfLoan() / itr.getTimePerPayment())) {
+                  itr.getStatus().addPayment(new Payment(time, itr.getStatus().returnLastPayment().getInterestComponent(),
+                          itr.getStatus().returnLastPayment().getSumOfPayment(),
+                          itr.getStatus().returnLastPayment().getInitialComponent(), false));
+               } else {
+                  itr.getStatus().addPayment(new Payment(time, itr.getStatus().returnLastPayment().getInterestComponent() + InterestComponent,
+                          itr.getStatus().returnLastPayment().getSumOfPayment() + InterestComponent + InitialComponent,
+                          itr.getStatus().returnLastPayment().getInitialComponent() + InitialComponent, false));
+               }
+            }
+            else if (itr.getStatus().getStatus().equals("Active")) {
+                  itr.getStatus().addPayment(new Payment(time, InterestComponent,
+                          InterestComponent + InitialComponent,
+                          InitialComponent, false));
+               }
 
          }
       }
       listByTime = listByTime.stream().sorted(Loans::compareTo).collect(Collectors.toList());
       for(Loans itr : listByTime)
       {
-         paymentMethod(itr);
+         if(!itr.getStatus().getStatus().equals("Finished"))
+            paymentMethod(itr);
       }
-      System.out.println("bla");
       time++;
    }
    public void paymentMethod(Loans loan)
@@ -464,7 +484,6 @@ public class Engine implements EngineInterface {
       if(money > customer.getBalance()){
          if(loan.getStatus().getStatus().equals("Active"))
             loan.getStatus().setStatus("Risk");
-         //TODO: change to risk if active.
       }
       else {
          customer.drawMoney(money);
@@ -477,8 +496,13 @@ public class Engine implements EngineInterface {
          if(loan.getStatus().getStatus().equals("Risk")) {
             loan.getStatus().setStatus("Active");
          }
+         updatePaymentComponents(loan);
+
       }
-      updatePaymentComponents(loan);
+      loan.getStatus().setNextPaymentTime(loan.getTimePerPayment());
+      if(loan.getStatus().getInitialLeftToPay() == 0) {
+         loan.changeToFinish();
+      }
    }
 
    public void updatePaymentComponents(Loans loan){
@@ -486,15 +510,9 @@ public class Engine implements EngineInterface {
       loan.getStatus().setInterestLeftToPay(loan.getStatus().returnLastPayment().getInterestComponent());
       loan.getStatus().setInterestPayed(loan.getStatus().returnLastPayment().getInterestComponent());
       loan.getStatus().setInitialPayed(loan.getStatus().returnLastPayment().getInitialComponent());
-      if(loan.getStatus().getInitialLeftToPay() == 0) {
-         loan.changeToFinish();
-         return;
-      }
-      else
-      {
-         loan.getStatus().setNextPaymentTime(loan.getTimePerPayment());
-      }
    }
+
+
 }
 
 

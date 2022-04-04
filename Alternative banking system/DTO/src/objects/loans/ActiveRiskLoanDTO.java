@@ -2,8 +2,9 @@ package objects.loans;
 
 import objects.loans.payments.PaymentsDTO;
 import java.util.List;
+import java.util.Map;
 
-public class ActiveRiskLoanDTO extends NewLoanDTO{
+public class ActiveRiskLoanDTO extends PendingLoanDTO{
     private int startingActiveTime;
     private int nextPaymentTime;
     private List<PaymentsDTO> Payments;
@@ -13,8 +14,8 @@ public class ActiveRiskLoanDTO extends NewLoanDTO{
     private double allInterestLeftToPay;
     private double allInitialLeftToPay;
 
-    public ActiveRiskLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, int interestPerPayment, int timePerPayment, String status, int startingActiveTime, int nextPaymentTime, List<PaymentsDTO> Payments, double allInterestPayedSoFar, double allInitialPayedSoFar, double allInterestLeftToPay, double allInitialLeftToPay) {
-        super(loanID, borrowerName, loanCategory, sizeNoInterest, timeLimitOfLoan, interestPerPayment, timePerPayment, status);
+    public ActiveRiskLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, double interestPerPayment, int timePerPayment, String status, Map<String, Double> listOfLenders, Double collectedSoFar, Double sumLeftToBeCollected, int startingActiveTime, int nextPaymentTime, List<PaymentsDTO> payments, double allInterestPayedSoFar, double allInitialPayedSoFar, double allInterestLeftToPay, double allInitialLeftToPay) {
+        super(loanID, borrowerName, loanCategory, sizeNoInterest, timeLimitOfLoan, interestPerPayment, timePerPayment, status, listOfLenders, collectedSoFar, sumLeftToBeCollected);
         this.startingActiveTime = startingActiveTime;
         this.nextPaymentTime = nextPaymentTime;
         this.Payments = Payments;

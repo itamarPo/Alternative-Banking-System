@@ -3,7 +3,7 @@ package objects.customers.loanInfo;
 public class FinishedLoanInfoDTO extends LoanInfoDTO {
     private int startingTime;
     private int finishingTime;
-    public FinishedLoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, int interestPerPayment, int timePerPayment, String status, int startingTime, int finishingTime) {
+    public FinishedLoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, double interestPerPayment, int timePerPayment, String status, int startingTime, int finishingTime) {
         super(loanName, loanCategory, sizeNoInterest, interestPerPayment, timePerPayment, status);
         this.startingTime = startingTime;
         this.finishingTime = finishingTime;

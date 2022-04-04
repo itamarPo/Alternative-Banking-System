@@ -20,9 +20,9 @@ public class LoanStatus implements LoanStatusInterface {
     private double interestLeftToPay;
     private double initialLeftToPay;
 
-    public LoanStatus(String status, List<Payment> payments, int startingActiveTime, int finishTime, int nextPaymentTime, double interestPayed, double initialPayed, double interestLeftToPay, double initialLeftToPay) {
+    public LoanStatus(String status, int startingActiveTime, int finishTime, int nextPaymentTime, double interestPayed, double initialPayed, double interestLeftToPay, double initialLeftToPay) {
         this.status = status;
-        this.payments = payments;
+        this.payments = new ArrayList<>();
         this.startingActiveTime = startingActiveTime;
         this.finishTime = finishTime;
         this.nextPaymentTime = nextPaymentTime;
@@ -88,7 +88,7 @@ public class LoanStatus implements LoanStatusInterface {
     }
 
     public void setNextPaymentTime(int nextPaymentTime) {
-        this.nextPaymentTime = nextPaymentTime;
+        this.nextPaymentTime += nextPaymentTime;
     }
     public Payment returnLastPayment(){
         return payments.get(payments.size()-1);

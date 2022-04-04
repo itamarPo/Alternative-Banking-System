@@ -17,6 +17,7 @@ public class Loans implements Serializable, LoansInterface {
     private int timeLimitOfLoan;
     private int InterestPerPayment;
     private int timePerPayment;
+    //TODO: change interest to double!!
     private Map<String, Double> listOflenders;
     private double loanSizeNoInterest;
     private double normalPay;
@@ -132,8 +133,9 @@ public class Loans implements Serializable, LoansInterface {
     @Override
     public void changeToActive() {
         status.setStatus("Active");
-        status.setStartingActiveTime(Engine.getTime());
-        status.setNextPaymentTime(Engine.getTime() + timePerPayment);
+        status.setStartingActiveTime(Engine.getTime() + timePerPayment - 1);
+        status.setNextPaymentTime(Engine.getTime());
+        //status.addPayment(new Payment());
     }
 
     @Override

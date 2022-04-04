@@ -301,9 +301,9 @@ public class User implements UserInterface {
         List<String> categoriesAfterFilter = new ArrayList<>();
         categoriesAfterFilter = getFilteredCategories(categoriesAfterFilter,systemCategories.getCategoriesList());
         System.out.println("Please select the minimum interest you're willing to accept: \r\n(This option isn't mandatory! If you aren't interested in this option please press ENTER)");
-        int interest = getPositiveInt(true);
+        double interest = getPositiveDouble();
         System.out.println("Please select the minimum time of loan you're willing to accept: \r\n(This option isn't mandatory! If you aren't interested in this option please press ENTER)");
-        int minTime = getPositiveInt(false);
+        int minTime = getPositiveInt();
         return data.getFilteredLoans(categoriesAfterFilter, interest,minTime,userName);
     }
 
@@ -339,7 +339,7 @@ public class User implements UserInterface {
         return categoriesAfterFilter;
     }
 
-    public int getPositiveInt(Boolean IsInterest){
+    public int getPositiveInt(){
         Boolean validInput = false;
         int number = 0;
         while (!validInput) {
@@ -350,14 +350,30 @@ public class User implements UserInterface {
                 validInput = true;
                 try {
                     number = Integer.parseInt(input);
-                    if(IsInterest) {
-                        if (number > 100 || number < 1) {
-                            throw new NumberFormatException();
-                        }
-                    }else{
-                        if(number < 1){
-                            throw new NumberFormatException();
-                        }
+                    if(number < 1) {
+                        throw new NumberFormatException();
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input! Please make sure you enter a valid number. \r\nPlease try again:");
+                    validInput = false;
+                }
+            }
+        }
+        return number;
+    }
+    public double getPositiveDouble(){
+        Boolean validInput = false;
+        double number = 0;
+        while (!validInput) {
+            String input = scanner.nextLine();
+            if (input.equals("")) {
+                return number;
+            } else {
+                validInput = true;
+                try {
+                    number = Double.parseDouble(input);
+                    if(number < 0 || number > 100) {
+                        throw new NumberFormatException();
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Invalid input! Please make sure you enter a valid number. \r\nPlease try again:");

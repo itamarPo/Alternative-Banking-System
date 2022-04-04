@@ -132,8 +132,8 @@ public class Loans implements Serializable, LoansInterface {
     @Override
     public void changeToActive() {
         status.setStatus("Active");
-        status.setStartingActiveTime(Engine.getTime() + timePerPayment - 1);
-        status.setNextPaymentTime(Engine.getTime());
+        status.setStartingActiveTime(Engine.getTime());
+        status.setNextPaymentTime(Engine.getTime()  + timePerPayment - 1);
         //status.addPayment(new Payment());
     }
 

@@ -1,9 +1,7 @@
 package database.loan;
 
 import database.Engine;
-import database.client.Customer;
 import database.loan.status.LoanStatus;
-import database.loan.status.LoanStatusInterface;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -42,7 +40,7 @@ public class Loans implements Serializable, LoansInterface {
         this.normalPay = 0;
         this.collectedSoFar = 0;
         this.leftToBeCollected = loanSizeNoInterest;
-        this.status = new LoanStatus("New", null, 0,0,0,0,0,0,0);
+        this.status = new LoanStatus("New", 0,0,0,0,0,loanSizeNoInterest*(InterestPerPayment/100),loanSizeNoInterest);
     }
 
     public double getLeftToBeCollected() {
@@ -136,5 +134,21 @@ public class Loans implements Serializable, LoansInterface {
         status.setStatus("Active");
         status.setStartingActiveTime(Engine.getTime());
         status.setNextPaymentTime(Engine.getTime() + timePerPayment);
+    }
+
+    @Override
+    public int compareTo(Loans loan) {
+        if(this.getStatus().getStartingActiveTime() < loan.getStatus().getStartingActiveTime())
+            return -1;
+        else if (this.getStatus().getStartingActiveTime() == loan.getStatus().getStartingActiveTime()) {
+                if (this.getStatus().returnLastPayment().getSumOfPayment() < loan.getStatus().returnLastPayment().getSumOfPayment())
+                    return -1;
+            }
+
+        return 1;
+    }
+    public void changeToFinish(){
+        status.setFinishTime(Engine.getTime());
+        status.setStatus("Finished");
     }
 }

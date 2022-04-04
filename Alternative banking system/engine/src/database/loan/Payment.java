@@ -37,5 +37,9 @@ public class Payment {
         return payedSuccesfully;
     }
 
+    public void setPayedSuccesfully(boolean payedSuccesfully) {
+        this.payedSuccesfully = payedSuccesfully;
+    }
+
     public void print(){}
 }

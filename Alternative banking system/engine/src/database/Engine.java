@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Engine implements EngineInterface {
    private List<Customer> customers;
@@ -45,7 +46,9 @@ public class Engine implements EngineInterface {
       return time;
    }
 
-   public void resetTime() { time = 1;}
+   public void resetTime() {
+      time = 1;
+   }
 
    public Boolean loadFile(String filePath) throws FileNotFoundException, JAXBException, Exception {
       String[] list = filePath.split("\\.");
@@ -196,20 +199,20 @@ public class Engine implements EngineInterface {
       List<CustomerInfoDTO> customersInfo = new ArrayList<>();
       LoanInfoDTO newLoan;
       for (Customer customer : customers) {
-         customersInfo.add(new CustomerInfoDTO(customer.getName(),customer.getBalance()));
+         customersInfo.add(new CustomerInfoDTO(customer.getName(), customer.getBalance()));
          for (AccountTransaction accountTransaction : customer.getTransactions()) {
-            customersInfo.get(customersInfo.size()-1).getTransactionDTOS().add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(),
-             accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(), accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
+            customersInfo.get(customersInfo.size() - 1).getTransactionDTOS().add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(),
+                    accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(), accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
 //           accountTransactionDTOList.add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(), accountTransaction.getTransactionAmount(),
 //                    accountTransaction.getIncomeOrExpense(), accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
          }
          for (Loans lenderLoan : customer.getLenderList()) {
             newLoan = customerDTOClassArrange(lenderLoan);
-           customersInfo.get(customersInfo.size()-1).getLenderList().add(newLoan);
+            customersInfo.get(customersInfo.size() - 1).getLenderList().add(newLoan);
          }
          for (Loans borrowerLoan : customer.getBorrowerList()) {
             newLoan = customerDTOClassArrange(borrowerLoan);
-            customersInfo.get(customersInfo.size()-1).getBorrowerList().add(newLoan);
+            customersInfo.get(customersInfo.size() - 1).getBorrowerList().add(newLoan);
          }
 //         accountTransactionDTOList.clear();
 //         lenderList.clear();
@@ -219,9 +222,9 @@ public class Engine implements EngineInterface {
    }
 
    @Override
-   public Customer getCustomerByName(String name){
-      for(Customer customer: customers){
-         if(name.equalsIgnoreCase(customer.getName())){
+   public Customer getCustomerByName(String name) {
+      for (Customer customer : customers) {
+         if (name.equalsIgnoreCase(customer.getName())) {
             return customer;
          }
       }
@@ -238,26 +241,26 @@ public class Engine implements EngineInterface {
       return list;
    }
 
-   public LoanInfoDTO customerDTOClassArrange(Loans loan){
-      switch(loan.getStatus().getStatus()){
-         case "Pending":{
-            return new PendingLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
-                    loan.getTimePerPayment(), loan.getStatus().getStatus(),loan.getCollectedSoFar());
+   public LoanInfoDTO customerDTOClassArrange(Loans loan) {
+      switch (loan.getStatus().getStatus()) {
+         case "Pending": {
+            return new PendingLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
+                    loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getCollectedSoFar());
          }
-         case "Active":{ //TODO: add the expected next payment
-           return new ActiveLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
-                   loan.getTimePerPayment(), loan.getStatus().getStatus(),loan.getStatus().getNextPaymentTime(), 2.0/*need to add next payment*/);
+         case "Active": { //TODO: add the expected next payment
+            return new ActiveLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
+                    loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getStatus().getNextPaymentTime(), 2.0/*need to add next payment*/);
          }
-         case "Risk":{ //TODO: changes accordingly to the changes at the class
-           return new RiskLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
-                   loan.getTimePerPayment(), loan.getStatus().getStatus());
+         case "Risk": { //TODO: changes accordingly to the changes at the class
+            return new RiskLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
+                    loan.getTimePerPayment(), loan.getStatus().getStatus());
          }
          case "Finished": {
-            return new FinishedLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
+            return new FinishedLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
                     loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getStatus().getStartingActiveTime(), loan.getStatus().getFinishTime());
          }
          default: //probably only new loan
-            return new LoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(),loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
+            return new LoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
                     loan.getTimePerPayment(), loan.getStatus().getStatus());
       }
 
@@ -268,44 +271,43 @@ public class Engine implements EngineInterface {
 //      customer.changeBalance(moneyToAdd);
    }
 
-   public DisplayCustomerName namesForDisplay(){
+   public DisplayCustomerName namesForDisplay() {
       DisplayCustomerName names = new DisplayCustomerName();
-      for(Customer customer: customers)
-      {
-         names.getCustomerList().put(customer.getName(),customer.getBalance());
+      for (Customer customer : customers) {
+         names.getCustomerList().put(customer.getName(), customer.getBalance());
       }
       return names;
    }
 
-   public void drawMoneyFromAccount(int userChoice, double moneyToDraw) throws Exception{
-      if(customers.get(userChoice - 1).getBalance() - moneyToDraw < 0){
+   public void drawMoneyFromAccount(int userChoice, double moneyToDraw) throws Exception {
+      if (customers.get(userChoice - 1).getBalance() - moneyToDraw < 0) {
          throw new WithDrawMoneyException(customers.get(userChoice - 1).getBalance(), moneyToDraw);
       }
       customers.get(userChoice - 1).drawMoney(moneyToDraw);
    }
 
-   public Customer findCustomerDueToName(String name){
-      for(Customer customer: customers){
-         if(customer.getName().equalsIgnoreCase(name))
+   public Customer findCustomerDueToName(String name) {
+      for (Customer customer : customers) {
+         if (customer.getName().equalsIgnoreCase(name))
             return customer;
       }
       return null;
    }
 
-   public CategoriesListDTO getCategoriesList(){
+   public CategoriesListDTO getCategoriesList() {
       List<String> categories = new ArrayList<>();
-      for(Map.Entry<String,List<Loans>> entry : loansByCategories.entrySet()){
+      for (Map.Entry<String, List<Loans>> entry : loansByCategories.entrySet()) {
          categories.add(entry.getKey());
       }
       return new CategoriesListDTO(categories);
    }
 
-   public List<NewLoanDTO> getFilteredLoans(List<String> categories,int interest,int minTime,String userName) {
+   public List<NewLoanDTO> getFilteredLoans(List<String> categories, int interest, int minTime, String userName) {
       List<NewLoanDTO> validLoans = new ArrayList<>();
       for (Map.Entry<String, List<Loans>> entry : loansByCategories.entrySet()) {
          if (categories.contains(entry.getKey())) {
             for (Loans candidateLoan : entry.getValue()) {
-               if (candidateLoan.getStatus().getStatus().equals("New")  || candidateLoan.getStatus().getStatus().equals("Pending")) {
+               if (candidateLoan.getStatus().getStatus().equals("New") || candidateLoan.getStatus().getStatus().equals("Pending")) {
                   if (!candidateLoan.getBorrowerName().equals(userName)) {
                      if (interest == 0 || (candidateLoan.getInterestPerPayment() - interest >= 0)) {
                         if (minTime == 0 || (candidateLoan.getTimeLimitOfLoan() - minTime >= 0)) {
@@ -329,31 +331,29 @@ public class Engine implements EngineInterface {
       return validLoans;
    }
 
-   public void checkAmountOfInvestment(int userChoice, double moneyToInvest)throws Exception {
-      if(customers.get(userChoice - 1).getBalance() - moneyToInvest < 0){
+   public void checkAmountOfInvestment(int userChoice, double moneyToInvest) throws Exception {
+      if (customers.get(userChoice - 1).getBalance() - moneyToInvest < 0) {
          throw new WithDrawMoneyException(customers.get(userChoice - 1).getBalance(), moneyToInvest);
       }
    }
 
-   public void splitMoneyBetweenLoans(List<NewLoanDTO> desiredLoans, double moneyToInvest, String customerSelected) throws Exception{
+   public void splitMoneyBetweenLoans(List<NewLoanDTO> desiredLoans, double moneyToInvest, String customerSelected) throws Exception {
       double sumOfAllLoans = 0;
       List<Loans> LoansToInvest = new ArrayList<>();// save possible loans
-      for (NewLoanDTO loan : desiredLoans){
-        for(Loans findLoan: loans){
-           if(loan.getLoanID().equals(findLoan.getLOANID())){
-              LoansToInvest.add(findLoan);
-              sumOfAllLoans += findLoan.getLeftToBeCollected();
-           }
-        }
+      for (NewLoanDTO loan : desiredLoans) {
+         for (Loans findLoan : loans) {
+            if (loan.getLoanID().equals(findLoan.getLOANID())) {
+               LoansToInvest.add(findLoan);
+               sumOfAllLoans += findLoan.getLeftToBeCollected();
+            }
+         }
       }
 //      if(sumOfAllLoans < moneyToInvest){
 //         throw new LoansDoesNotReachSumOfInvestment(moneyToInvest,sumOfAllLoans);
 //      }
-      if(sumOfAllLoans <= moneyToInvest){
+      if (sumOfAllLoans <= moneyToInvest) {
          investInAllLoans(LoansToInvest, moneyToInvest, customerSelected);
-      }
-      else
-      {
+      } else {
          //recursive function
          splitEquallyBetweenLoans(LoansToInvest, moneyToInvest, getCustomerByName(customerSelected), 0);
       }
@@ -375,12 +375,12 @@ public class Engine implements EngineInterface {
          }
          return;
       } else {
-         for(Loans enterLoan : loansToInvest){
-            if(enterLoan.getLeftToBeCollected() == min){
-               addCustomerToLoan(enterLoan,customerSelected,min);
+         for (Loans enterLoan : loansToInvest) {
+            if (enterLoan.getLeftToBeCollected() == min) {
+               addCustomerToLoan(enterLoan, customerSelected, min);
             }
          }
-         loansToInvest.removeIf(x -> x.getLeftToBeCollected()+min == min);
+         loansToInvest.removeIf(x -> x.getLeftToBeCollected() + min == min);
          splitEquallyBetweenLoans(loansToInvest, moneyToInvest - (min - remainingLoansMin) * numOfLoans, customerSelected, min);
       }
    }
@@ -388,13 +388,12 @@ public class Engine implements EngineInterface {
    private double getLoansWithMinSumToPay(List<Loans> loansToInvest) {
       double min = 0;
       Boolean isFirst = true;
-      for(Loans loan : loansToInvest){
-         if(isFirst){
+      for (Loans loan : loansToInvest) {
+         if (isFirst) {
             min = loan.getLeftToBeCollected();
             isFirst = false;
-         }
-         else{
-            if(loan.getLeftToBeCollected() < min){
+         } else {
+            if (loan.getLeftToBeCollected() < min) {
                min = loan.getLeftToBeCollected();
             }
          }
@@ -402,21 +401,22 @@ public class Engine implements EngineInterface {
       return min;
    }
 
-   private void investInAllLoans(List<Loans> loansToInvest, double moneyToInvest, String customerSelected)throws Exception {
+   private void investInAllLoans(List<Loans> loansToInvest, double moneyToInvest, String customerSelected) throws Exception {
       Customer lender = getCustomerByName(customerSelected);
       double moneyInvested;
       double totalInvested = 0;
-      for(Loans investInLoan : loansToInvest){
+      for (Loans investInLoan : loansToInvest) {
          moneyInvested = investInLoan.getLeftToBeCollected();
          totalInvested += moneyInvested;
-         addCustomerToLoan(investInLoan,lender,moneyInvested);
+         addCustomerToLoan(investInLoan, lender, moneyInvested);
       }
-      if(totalInvested < moneyToInvest){
+      if (totalInvested < moneyToInvest) {
          throw new notAllAmountSuccessfullyInvested(moneyToInvest - totalInvested, totalInvested);
       }
       //throw new notAllAmountSuccessfullyInvested
    }
-   public void addCustomerToLoan(Loans loan,Customer investor, double moneyToInvest){
+
+   public void addCustomerToLoan(Loans loan, Customer investor, double moneyToInvest) {
       loan.getListOflenders().put(investor.getName(), moneyToInvest);
       investor.getLenderList().add(loan);
       loan.setCollectedSoFar(moneyToInvest);
@@ -425,8 +425,74 @@ public class Engine implements EngineInterface {
 
       //getCustomerByName(loan.getBorrowerName()).addMoney(moneyToInvest);
       loan.updateStatusBeforeActive();
-      if(loan.getStatus().getStatus().equals("Active")){
+      if (loan.getStatus().getStatus().equals("Active")) {
          getCustomerByName(loan.getBorrowerName()).addMoney(loan.getLoanSize());
+      }
+   }
+
+   public void moveTimeForward() {
+      List<Loans> listByTime = new ArrayList<>();
+
+      for (Loans itr : loans) {
+         if (itr.getStatus().getNextPaymentTime() == time) {
+            listByTime.add(itr);
+            double InitialComponent = itr.getLoanSizeNoInterest()/(itr.getTimeLimitOfLoan()/itr.getTimePerPayment());
+            double InterestComponent = InitialComponent*((double)itr.getInterestPerPayment()/100);
+            if(itr.getStatus().getStatus().equals("Risk"))
+               itr.getStatus().addPayment(new Payment(time, itr.getStatus().returnLastPayment().getInterestComponent()+InterestComponent,
+                       itr.getStatus().returnLastPayment().getSumOfPayment()+InterestComponent+InitialComponent,
+                       itr.getStatus().returnLastPayment().getInitialComponent()+InitialComponent, false));
+            else
+               itr.getStatus().addPayment(new Payment(time, InterestComponent,
+                       InterestComponent+InitialComponent,
+                       InitialComponent, false));
+
+         }
+      }
+      listByTime = listByTime.stream().sorted(Loans::compareTo).collect(Collectors.toList());
+      for(Loans itr : listByTime)
+      {
+         paymentMethod(itr);
+      }
+      System.out.println("bla");
+      time++;
+   }
+   public void paymentMethod(Loans loan)
+   {
+      double money = loan.getStatus().returnLastPayment().getSumOfPayment();
+      Customer customer = getCustomerByName(loan.getBorrowerName());
+      if(money > customer.getBalance()){
+         if(loan.getStatus().getStatus().equals("Active"))
+            loan.getStatus().setStatus("Risk");
+         //TODO: change to risk if active.
+      }
+      else {
+         customer.drawMoney(money);
+         for(Map.Entry<String,Double> entry : loan.getListOflenders().entrySet()){
+            //lehalek la malvim lefi ha ahuz ha yahasi
+            double ahuzYahasi = entry.getValue()/loan.getLoanSizeNoInterest();
+            getCustomerByName(entry.getKey()).addMoney(ahuzYahasi*money);
+         }
+         loan.getStatus().returnLastPayment().setPayedSuccesfully(true);
+         if(loan.getStatus().getStatus().equals("Risk")) {
+            loan.getStatus().setStatus("Active");
+         }
+      }
+      updatePaymentComponents(loan);
+   }
+
+   public void updatePaymentComponents(Loans loan){
+      loan.getStatus().setInitialLeftToPay(loan.getStatus().returnLastPayment().getInitialComponent());
+      loan.getStatus().setInterestLeftToPay(loan.getStatus().returnLastPayment().getInterestComponent());
+      loan.getStatus().setInterestPayed(loan.getStatus().returnLastPayment().getInterestComponent());
+      loan.getStatus().setInitialPayed(loan.getStatus().returnLastPayment().getInitialComponent());
+      if(loan.getStatus().getInitialLeftToPay() == 0) {
+         loan.changeToFinish();
+         return;
+      }
+      else
+      {
+         loan.getStatus().setNextPaymentTime(loan.getTimePerPayment());
       }
    }
 }

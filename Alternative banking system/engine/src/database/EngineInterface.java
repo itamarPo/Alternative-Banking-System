@@ -11,7 +11,7 @@ import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-public interface EngineInterface {
+public interface EngineInterface{
     Boolean loadFile(String filePath) throws FileNotFoundException, JAXBException , Exception;
     void checkCustomerInfo(AbsCustomers newCustomers) throws Exception;
     void organizeInformation(AbsDescriptor descriptor) throws Exception;

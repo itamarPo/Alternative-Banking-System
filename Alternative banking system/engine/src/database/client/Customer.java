@@ -22,9 +22,9 @@ public class Customer implements CustomerInterface, Serializable {
     public Customer(String clientName, double balance){
         name = clientName;
       //  ID = clientId;
-        lenderList = new ArrayList<Loans>();
-        borrowerList = new ArrayList<Loans>();
-        transactions = new ArrayList<AccountTransaction>();
+        lenderList = new ArrayList<>();
+        borrowerList = new ArrayList<>();
+        transactions = new ArrayList<>();
         this.balance = balance;
     }
 

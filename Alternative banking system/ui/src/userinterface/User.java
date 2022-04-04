@@ -70,6 +70,10 @@ public class User implements UserInterface {
                         activationOfInlay();
                         break;
                     }
+                    case 7:{
+                        moveTimeForward();
+                        break;
+                    }
                     default: {
                         System.out.println("Goodbye!");
                     }
@@ -167,7 +171,7 @@ public class User implements UserInterface {
 
     @Override
     public void moveTimeForward() {
-
+        data.moveTimeForward();
     }
 
 

@@ -1,9 +1,11 @@
 package database.loan;
 
-public interface LoansInterface {
+public interface LoansInterface extends Comparable<Loans>{
     void payment();
     void updateStatusBeforeActive();
     void changeToPending();
     void changeToActive();
- //TODO: add changeStatus!!!
+
+    int compareTo(Loans loan);
+    //TODO: add changeStatus!!!
 }

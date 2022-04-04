@@ -32,7 +32,22 @@ public class LoanStatus implements LoanStatusInterface {
         this.initialLeftToPay = initialLeftToPay;
     }
 
-    //getters
+    public void setInterestPayed(double interestPayed) {
+        this.interestPayed += interestPayed;
+    }
+
+    public void setInitialPayed(double initialPayed) {
+        this.initialPayed += initialPayed;
+    }
+
+    public void setInterestLeftToPay(double interestLeftToPay) {
+        this.interestLeftToPay -= interestLeftToPay;
+    }
+
+    public void setInitialLeftToPay(double initialLeftToPay) {
+        this.initialLeftToPay -= initialLeftToPay;
+    }
+
     public String getStatus() { return status;}
     public List<Payment> getPayments() {
         return payments;
@@ -74,5 +89,8 @@ public class LoanStatus implements LoanStatusInterface {
 
     public void setNextPaymentTime(int nextPaymentTime) {
         this.nextPaymentTime = nextPaymentTime;
+    }
+    public Payment returnLastPayment(){
+        return payments.get(payments.size()-1);
     }
 }

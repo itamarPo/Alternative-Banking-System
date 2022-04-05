@@ -1,10 +1,10 @@
 package objects.customers.loanInfo;
 
 public class RiskLoanInfoDTO extends LoanInfoDTO{
-    //some variables which im not sure what are supposed to be.
     private int numberOfPaymentNotPayed ;
     private double sumOfNotPayed;
-    public RiskLoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, double interestPerPayment, int timePerPayment, String status, int numberOfPaymentNotPayed, double sumOfNotPayed) {
+    public RiskLoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, double interestPerPayment,
+                           int timePerPayment, String status, int numberOfPaymentNotPayed, double sumOfNotPayed) {
         super(loanName, loanCategory, sizeNoInterest, interestPerPayment, timePerPayment, status);
         this.sumOfNotPayed = sumOfNotPayed;
         this.numberOfPaymentNotPayed = numberOfPaymentNotPayed;

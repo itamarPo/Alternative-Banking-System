@@ -11,7 +11,6 @@ import static java.lang.Math.abs;
 
 public class Customer implements CustomerInterface, Serializable {
     private String name;
-   // private final int ID;
     private double balance;
     private List<Loans> lenderList;
     private List<Loans> borrowerList;
@@ -21,7 +20,6 @@ public class Customer implements CustomerInterface, Serializable {
 
     public Customer(String clientName, double balance){
         name = clientName;
-      //  ID = clientId;
         lenderList = new ArrayList<>();
         borrowerList = new ArrayList<>();
         transactions = new ArrayList<>();

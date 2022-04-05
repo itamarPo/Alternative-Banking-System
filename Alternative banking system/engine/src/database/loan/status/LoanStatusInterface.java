@@ -4,6 +4,4 @@ import database.loan.Payment;
 
 public interface LoanStatusInterface {
     void addPayment(Payment payment);
-//    void setStartingTime();
-//    void setFinishingTime();
 }

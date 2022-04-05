@@ -74,9 +74,12 @@ public class User implements UserInterface {
                         moveTimeForward();
                         break;
                     }
-                    default: {
+                    case 8: {
                         System.out.println("Goodbye!");
+                        break;
                     }
+                    default:
+                        break;
                 }
                 if(userIntegerInput != 8){
                     printMenu();
@@ -99,19 +102,21 @@ public class User implements UserInterface {
                 catch (InputMismatchException exception) {
                     System.out.println("This is not a natural number, please enter a natural number between 1 to 8:");
                     validInput = false;
-                    System.out.println(scanner.nextLine());
+                    scanner.nextLine();
                 }
                 if ((userIntegerInput < 1 || userIntegerInput > 8) && validInput)
-                    System.out.println("Invalid number input! /r/n Please try again. Make sure that you enter a natural number between 1 to 8: ");
+                    System.out.println("Invalid number input! \r\n Please try again. Make sure that you enter a natural number between 1 to 8: ");
             }
             return userIntegerInput;
         }
 
-        //TODO: need to print previous time and current time
+
     @Override
     public void printMenu() {
         if(Engine.getTime()>1)
-            System.out.print("Previous Time: " + (Engine.getTime()-1) + " , ");
+            System.out.print("\r\nPrevious Time: " + (Engine.getTime()-1) + " , ");
+        else
+            System.out.println();
         System.out.println("Current Time: " + Engine.getTime() + "\r\nPlease select one fo the following options:" );
         System.out.println("1. Load file ");
         System.out.println("2. Show loans information and their status  ");
@@ -126,7 +131,7 @@ public class User implements UserInterface {
     @Override
     public void loadFile(){
         Boolean FileLoadedSuccessfully = false;
-        System.out.println("Please enter a file name that you wish to load:");
+        System.out.println("Please enter the file's directory that you wish to load:");
         try {
             FileLoadedSuccessfully = data.loadFile(scanner.nextLine());
         }
@@ -245,7 +250,7 @@ public class User implements UserInterface {
             System.out.println("\r\nPlease enter the loan numbers that you wish to invest: \r\n(The loan's details are above this statement. Please enter the numbers seperated by spaces or ENTER if you're not interested to invest in any of them.\r\nPlease note that entering the same number twice will make no difference.)");
             possibleLoans = filterLoansAccordingToUser(possibleLoans);
             data.splitMoneyBetweenLoans(possibleLoans, moneyToInvest, customerSelected);
-            System.out.println("Inlay has completed successfully!");
+            System.out.println("The inlay was completed successfully!");
         }
         catch(WithDrawMoneyException e){
             e.printInvestMessage();
@@ -295,7 +300,7 @@ public class User implements UserInterface {
     }
 
     public List<NewLoanDTO> getInlayDetails(String userName) throws Exception{
-        System.out.println("Please select the desired categories from the list: \r\n(Enter categories numbers seperated by spaces. This option isn't mandatory! if not interested just press ENTER.\r\nPlease note that entering the same number twice will make no difference)");
+        System.out.println("Please select the desired categories from the list: \r\n(Enter categories numbers seperated by spaces. This option isn't mandatory! if you're not interested just press ENTER.\r\nPlease note that entering the same number twice will make no difference)");
         CategoriesListDTO systemCategories = data.getCategoriesList();
         systemCategories.print();
         List<String> categoriesAfterFilter = new ArrayList<>();
@@ -328,7 +333,7 @@ public class User implements UserInterface {
                             categoriesAfterFilter.add(categoriesBeforeFilter.get(number - 1));
                         }
                     } catch (NumberFormatException e) {
-                        System.out.println("Invalid input! please make sure to enter categories numbers seperated by spaces or ENTER. \r\nPlease try again: ");
+                        System.out.println("Invalid input! please make sure you enter the categories numbers seperated by spaces or ENTER. \r\nPlease try again: ");
                         categoriesAfterFilter.clear();
                         validInput = false;
                         break;
@@ -389,10 +394,10 @@ public class User implements UserInterface {
             try {
                 userChoice = scanner.nextInt();
                 if (userChoice < 1 || userChoice > numOfCustomers) {
-                    System.out.println("Invalid input. Please enter a suitable number:");
+                    System.out.println("Invalid input. Please enter a natural number between: 1" + " to " + numOfCustomers );
                 }
             } catch (InputMismatchException exception) {
-                System.out.println("This isn't a number! please enter a suitable number:");
+                System.out.println("This isn't a number! Please enter a natural number between: 1" + " to " + numOfCustomers);
             }
             scanner.nextLine(); //Buffer
         } while (userChoice < 1 || userChoice > numOfCustomers);

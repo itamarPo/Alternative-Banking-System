@@ -42,9 +42,10 @@ public class CustomerInfoDTO {
         System.out.println("The loans that the costumer is lending to: ");
         for(LoanInfoDTO lenderLoan: lenderList)
             lenderLoan.print();
+        System.out.println("-------");
         System.out.println("The loans that the costumer is borrowing from: ");
         for(LoanInfoDTO borrowerLoan: borrowerList)
             borrowerLoan.print();
-        System.out.println();
+        System.out.println("----------------------------------------------");
     }
 }

@@ -70,9 +70,7 @@ public class LoanStatus implements LoanStatusInterface {
     public double getInterestLeftToPay() {
         return interestLeftToPay;
     }
-    public double getInitialLeftToPay() {
-        return initialLeftToPay;
-    }
+    public double getInitialLeftToPay() {return initialLeftToPay;}
     public void addPayment(Payment payment) {
         this.payments.add(payment) ;
     }
@@ -90,7 +88,5 @@ public class LoanStatus implements LoanStatusInterface {
     public void setNextPaymentTime(int nextPaymentTime) {
         this.nextPaymentTime += nextPaymentTime;
     }
-    public Payment returnLastPayment(){
-        return payments.get(payments.size()-1);
-    }
+    public Payment returnLastPayment(){return payments.get(payments.size()-1);}
 }

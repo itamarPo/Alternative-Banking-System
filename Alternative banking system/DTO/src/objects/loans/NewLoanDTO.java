@@ -40,7 +40,7 @@ public class NewLoanDTO {
         System.out.println("Loan ID: " + loanID);
         System.out.println("Owner: " + borrowerName);
         System.out.println("Category: " + loanCategory);
-        System.out.println("Loan size: " + sizeNoInterest);
+        System.out.println("Loan amount: " + sizeNoInterest);
         System.out.println("Time limit: " + timeLimitOfLoan);
         System.out.println("Interest per payment: " + interestPerPayment);
         System.out.println("Time per payment: " + timePerPayment );

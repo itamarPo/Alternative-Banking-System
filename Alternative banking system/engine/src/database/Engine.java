@@ -76,9 +76,7 @@ public class Engine implements EngineInterface {
 
    @Override
    public void checkCustomerInfo(AbsCustomers newCustomers) throws TwoClientsWithSameNameException {
-
       List<String> customerInfo = new ArrayList<>();
-//      Map <String, Double> customerInfo = new HashMap<String, Double>();
       for (AbsCustomer customer : newCustomers.getAbsCustomer()) {
          if (customerInfo.contains(customer.getName().toLowerCase())) {
             throw new TwoClientsWithSameNameException(customer.getName());
@@ -173,37 +171,21 @@ public class Engine implements EngineInterface {
 
       }
       return DTOloans;
-//
-//         //Either NEW or PENDING
-//         if(loan.getStatus() == null){
-//            if(loan.getCollectedSoFar() == 0) {  //NEW
-//               DTOloans.add(new NewLoanDTO(loan.getLOANID(),loan.getBorrowerName(), loan.getLoanCategory(),
-//                       loan.getLoanSizeNoInterest(),loan.getTimeLimitOfLoan(),loan.getInterestPerPayment(),
-//                       loan.getTimePerPayment(),"New"));
-//            } else { // PENDING
-//               DTOloans.add(new PendingLoanDTO(loan.getLOANID(),loan.getBorrowerName(), loan.getLoanCategory(),
-//                       loan.getLoanSizeNoInterest(),loan.getTimeLimitOfLoan(),loan.getInterestPerPayment(),
-//                       loan.getTimePerPayment(),"Pending", loan.getListOflenders(),
-//                       loan.getCollectedSoFar(),loan.getLoanSize()-loan.getCollectedSoFar()));
-//            }
-//         } else{
 
    }
 
    @Override
    public List<CustomerInfoDTO> getCustomerInfo() {
-//      List<AccountTransactionDTO> accountTransactionDTOList = new ArrayList<>();
-//      List<LoanInfoDTO> lenderList = new ArrayList<>();
-//      List<LoanInfoDTO> borrowerList = new ArrayList<>();
+
       List<CustomerInfoDTO> customersInfo = new ArrayList<>();
       LoanInfoDTO newLoan;
       for (Customer customer : customers) {
          customersInfo.add(new CustomerInfoDTO(customer.getName(), customer.getBalance()));
          for (AccountTransaction accountTransaction : customer.getTransactions()) {
             customersInfo.get(customersInfo.size() - 1).getTransactionDTOS().add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(),
-                    accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(), accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
-//           accountTransactionDTOList.add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(), accountTransaction.getTransactionAmount(),
-//                    accountTransaction.getIncomeOrExpense(), accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
+                    accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(),
+                    accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
+
          }
          for (Loans lenderLoan : customer.getLenderList()) {
             newLoan = customerDTOClassArrange(lenderLoan);
@@ -213,9 +195,6 @@ public class Engine implements EngineInterface {
             newLoan = customerDTOClassArrange(borrowerLoan);
             customersInfo.get(customersInfo.size() - 1).getBorrowerList().add(newLoan);
          }
-//         accountTransactionDTOList.clear();
-//         lenderList.clear();
-//         borrowerList.clear();
       }
       return customersInfo;
    }
@@ -425,7 +404,6 @@ public class Engine implements EngineInterface {
       if (totalInvested < moneyToInvest) {
          throw new notAllAmountSuccessfullyInvested(moneyToInvest - totalInvested, totalInvested);
       }
-      //throw new notAllAmountSuccessfullyInvested
    }
 
    public void addCustomerToLoan(Loans loan, Customer investor, double moneyToInvest) {
@@ -435,7 +413,6 @@ public class Engine implements EngineInterface {
       loan.setLeftToBeCollected(moneyToInvest);
       investor.drawMoney(moneyToInvest);
 
-      //getCustomerByName(loan.getBorrowerName()).addMoney(moneyToInvest);
       loan.updateStatusBeforeActive();
       if (loan.getStatus().getStatus().equals("Active")) {
          getCustomerByName(loan.getBorrowerName()).addMoney(loan.getLoanSize());

@@ -2,7 +2,9 @@ package database.loan;
 
 import database.Engine;
 
-public class Payment {
+import java.io.Serializable;
+
+public class Payment implements Serializable {
     private int timeOfPayment;
     private double interestComponent;
     private double sumOfPayment;

@@ -4,10 +4,11 @@ import com.sun.xml.internal.bind.v2.TODO;
 import database.Engine;
 import database.loan.Payment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoanStatus implements LoanStatusInterface {
+public class LoanStatus implements LoanStatusInterface, Serializable {
 
 
     private String status;

@@ -16,6 +16,7 @@ import objects.loans.*;
 import javax.swing.text.StyledEditorKit;
 import javax.xml.bind.JAXBException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 public class User implements UserInterface {
@@ -38,6 +39,7 @@ public class User implements UserInterface {
     public void menu()  {
         int userIntegerInput;
         System.out.println("Welcome!");
+        String bonusFilePath;
         printMenu();
         do {
             userIntegerInput = getValidInput();
@@ -47,7 +49,8 @@ public class User implements UserInterface {
             else {
                 switch (userIntegerInput) {
                     case 1: {
-                        loadFile();
+                        //loadFile();
+                        loadFileOption();
                         break;
                     }
                     case 2: {
@@ -78,6 +81,9 @@ public class User implements UserInterface {
                         System.out.println("Goodbye!");
                         break;
                     }
+                    case 9: {
+                        bonusFilePath = bonusPart();
+                    }
                     default:
                         break;
                 }
@@ -92,7 +98,7 @@ public class User implements UserInterface {
 
         public int getValidInput() {
             int userIntegerInput = 0;
-            Boolean validInput = false;
+            boolean validInput = false;
             while (!validInput) {
                 try {
                     userIntegerInput = scanner.nextInt();
@@ -126,6 +132,7 @@ public class User implements UserInterface {
         System.out.println("6. Activation of inlay ");
         System.out.println("7. Advance To next time period and provide payment");
         System.out.println("8. Exit program");
+        System.out.println("9. Save current state (bonus).");
     }
 
     @Override
@@ -137,20 +144,28 @@ public class User implements UserInterface {
         }
         //JAXB error
         catch (JAXBException e) {
+            System.out.println("Failed to load file, reason: ");
             System.out.println("JAXB related error");
         } catch (FileNotFoundException e) {
+            System.out.println("Failed to load file, reason: ");
             System.out.println("The file's path was incorrect. please make sure that the path is correct.");
         } catch (TwoClientsWithSameNameException e) {
+            System.out.println("Failed to load file, reason: ");
             e.printMessage();
         } catch (NotXmlExcpetion e) {
+            System.out.println("Failed to load file, reason: ");
             e.printMessage();
         } catch (OwnerLoanNotExistException e) {
+            System.out.println("Failed to load file, reason: ");
             e.printMessage();
         } catch (LoanCategoryNotExistException e){
+            System.out.println("Failed to load file, reason: ");
             e.printMessage();
         } catch (TimeOfPaymentNotDivideEqualyException e){
+            System.out.println("Failed to load file, reason: ");
             e.printMessage();
         } catch (Exception e) {
+            System.out.println("Failed to load file, reason: ");
             e.printStackTrace();
         }
         if(FileLoadedSuccessfully){
@@ -166,7 +181,7 @@ public class User implements UserInterface {
         List<NewLoanDTO> loans = data.getLoansInfo();
         for(NewLoanDTO loan : loans){
             loan.print();
-            System.out.println("");
+            System.out.println();
         }
     }
 
@@ -267,7 +282,7 @@ public class User implements UserInterface {
     }
 
     public List<NewLoanDTO> filterLoansAccordingToUser(List<NewLoanDTO> possibleLoans) throws Exception{
-        Boolean validInput = false;
+        boolean validInput = false;
         List<NewLoanDTO> LoansSelected = new ArrayList<>();
         while (!validInput) {
             String input = scanner.nextLine();
@@ -305,15 +320,15 @@ public class User implements UserInterface {
         systemCategories.print();
         List<String> categoriesAfterFilter = new ArrayList<>();
         categoriesAfterFilter = getFilteredCategories(categoriesAfterFilter,systemCategories.getCategoriesList());
-        System.out.println("Please select the minimum interest you're willing to accept: \r\n(This option isn't mandatory! If you aren't interested in this option please press ENTER)");
-        double interest = getPositiveDouble();
-        System.out.println("Please select the minimum time of loan you're willing to accept: \r\n(This option isn't mandatory! If you aren't interested in this option please press ENTER)");
+        System.out.println("Please select the minimum interest you're willing to accept. Make sure you enter an Integer number between 1 to 99: \r\n(This option isn't mandatory! If you aren't interested in this option please press ENTER)");
+        int interest = getPositiveIntToInterest();
+        System.out.println("Please select the minimum time of loan you're willing to accept. Make sure you enter an Integer number: \r\n(This option isn't mandatory! If you aren't interested in this option please press ENTER)");
         int minTime = getPositiveInt();
         return data.getFilteredLoans(categoriesAfterFilter, interest,minTime,userName);
     }
 
     public List<String> getFilteredCategories(List<String> categoriesAfterFilter, List<String> categoriesBeforeFilter) {
-        Boolean validInput = false;
+        boolean validInput = false;
         while (!validInput) {
             String input = scanner.nextLine();
             if (input.equals("")) {
@@ -345,7 +360,7 @@ public class User implements UserInterface {
     }
 
     public int getPositiveInt(){
-        Boolean validInput = false;
+        boolean validInput = false;
         int number = 0;
         while (!validInput) {
             String input = scanner.nextLine();
@@ -366,9 +381,9 @@ public class User implements UserInterface {
         }
         return number;
     }
-    public double getPositiveDouble(){
-        Boolean validInput = false;
-        double number = 0;
+    public int getPositiveIntToInterest(){
+        boolean validInput = false;
+        int number = 0;
         while (!validInput) {
             String input = scanner.nextLine();
             if (input.equals("")) {
@@ -376,12 +391,12 @@ public class User implements UserInterface {
             } else {
                 validInput = true;
                 try {
-                    number = Double.parseDouble(input);
+                    number = Integer.parseInt(input);//Double.parseDouble(input);
                     if(number < 0 || number > 100) {
                         throw new NumberFormatException();
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input! Please make sure you enter a valid number. \r\nPlease try again:");
+                    System.out.println("Invalid input! Please make sure you enter a Integer between 1 to 99. \r\nPlease try again:");
                     validInput = false;
                 }
             }
@@ -411,16 +426,50 @@ public class User implements UserInterface {
                 scanner.nextLine(); //buffer
                 if (moneyToDraw <= 0)
                     System.out.println("Invalid input. Please enter a positive number!");
-                else{
-
-                }
-
             } catch (InputMismatchException exception) {
                 System.out.println("Incorrect Input. Please make sure that you enter a positive number.");
                 scanner.nextLine();
             }
         } while (moneyToDraw <= 0);
         return moneyToDraw;
+    }
+
+    public String bonusPart (){
+        System.out.println("Please enter the full path's directory (including the file's name), that you wish to save into.");
+        String filePath = scanner.nextLine();
+        scanner.nextLine(); //buffer
+        try {
+            data.saveState(filePath);
+            return filePath;
+        }
+        catch (IOException e){
+            System.out.println("IOException error");
+            return null;
+        }
+    }
+
+    public void loadFileOption(){
+        System.out.println("Please choose between the next options: \r\n1. Load new File: \r\n2. Load previous saved Files: ");
+        int userInput;
+        do {
+            userInput = getPositiveInt();
+        }while(userInput>2);
+        if(userInput == 1)
+            loadFile();
+        else
+            loadBonus();
+    }
+
+    public void loadBonus() {
+        System.out.println("Please enter the file's directory that you wish to load: ");
+        String filePath = scanner.nextLine();
+        try {
+            data = data.loadLastFile(filePath);
+            FileLoaded = true;
+        }
+        catch (Exception e) {
+            System.out.println("The file was unsuccessfully loaded!");
+        }
     }
 
 }

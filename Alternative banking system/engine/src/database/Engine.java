@@ -24,13 +24,11 @@ import objects.loans.PendingLoanDTO;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Engine implements EngineInterface {
+public class Engine implements EngineInterface , Serializable {
    private List<Customer> customers;
    private List<Loans> loans;
    private Map<String, List<Loans>> loansByCategories; //saves all the loans which has the same category
@@ -63,6 +61,52 @@ public class Engine implements EngineInterface {
       return true;
    }
 
+   public void saveState(String filePath) throws IOException{
+      filePath += ".xtxt";
+      File file = new File(filePath);
+      //dir.mkdir();
+      //fileName = fileName+".xtxt";
+      //File file = new File(dir, fileName);
+      file.createNewFile();
+      ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+     out.writeObject(this);
+     out.flush();
+   }
+
+   public Engine loadLastFile(String filePath) throws FileNotFoundException, Exception{
+      filePath += ".xtxt";
+      File lastFile = new File(filePath);
+      if(!lastFile.exists())
+         throw new FileNotFoundException();
+      ObjectInputStream in = new ObjectInputStream(new FileInputStream(lastFile.getAbsolutePath()));
+
+      Engine loadedInfo = (Engine)in.readObject();
+      return loadedInfo;
+   }
+
+   /*
+   public static File getLastModified(String directoryFilePath)
+   {
+      File directory = new File(directoryFilePath);
+      File[] files = directory.listFiles(File::isFile);
+      long lastModifiedTime = Long.MIN_VALUE;
+      File chosenFile = null;
+
+      if (files != null)
+      {
+         for (File file : files)
+         {
+            if (file.lastModified() > lastModifiedTime)
+            {
+               chosenFile = file;
+               lastModifiedTime = file.lastModified();
+            }
+         }
+      }
+
+      return chosenFile;
+   }
+*/
    @Override
    public void organizeInformation(AbsDescriptor descriptor) throws Exception {
       AbsCustomers newCustomers = descriptor.getAbsCustomers();
@@ -233,7 +277,7 @@ public class Engine implements EngineInterface {
                     loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getStatus().getNextPaymentTime(), sumNextPayment);
          }
          case "Risk": {
-            int numberOfPaymentNotPayed = loan.getStatus().getPayments().stream().filter(T->!T.isPayedSuccesfully()).mapToInt(S->{return 1;}).sum();
+            int numberOfPaymentNotPayed = loan.getStatus().getPayments().stream().filter(T->!T.isPayedSuccesfully()).mapToInt(S-> 1).sum();
             double sumOfNotPayed = loan.getStatus().returnLastPayment().getSumOfPayment();
             return new RiskLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
                     loan.getTimePerPayment(), loan.getStatus().getStatus(),  numberOfPaymentNotPayed , sumOfNotPayed);
@@ -339,9 +383,7 @@ public class Engine implements EngineInterface {
             }
          }
       }
-//      if(sumOfAllLoans < moneyToInvest){
-//         throw new LoansDoesNotReachSumOfInvestment(moneyToInvest,sumOfAllLoans);
-//      }
+
       if (sumOfAllLoans <= moneyToInvest) {
          investInAllLoans(LoansToInvest, moneyToInvest, customerSelected);
       } else {
@@ -378,7 +420,7 @@ public class Engine implements EngineInterface {
 
    private double getLoansWithMinSumToPay(List<Loans> loansToInvest) {
       double min = 0;
-      Boolean isFirst = true;
+      boolean isFirst = true;
       for (Loans loan : loansToInvest) {
          if (isFirst) {
             min = loan.getLeftToBeCollected();
@@ -465,7 +507,6 @@ public class Engine implements EngineInterface {
       else {
          customer.drawMoney(money);
          for(Map.Entry<String,Double> entry : loan.getListOflenders().entrySet()){
-            //lehalek la malvim lefi ha ahuz ha yahasi
             double ahuzYahasi = entry.getValue()/loan.getLoanSizeNoInterest();
             getCustomerByName(entry.getKey()).addMoney(ahuzYahasi*money);
          }

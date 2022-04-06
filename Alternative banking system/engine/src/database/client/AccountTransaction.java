@@ -1,6 +1,8 @@
 package database.client;
 
-public class AccountTransaction {
+import java.io.Serializable;
+
+public class AccountTransaction implements Serializable {
     private int timeOfTransaction;
     private double transactionAmount;
     private char incomeOrExpense;

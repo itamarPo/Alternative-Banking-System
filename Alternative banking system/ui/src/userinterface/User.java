@@ -39,7 +39,6 @@ public class User implements UserInterface {
     public void menu()  {
         int userIntegerInput;
         System.out.println("Welcome!");
-        String bonusFilePath;
         printMenu();
         do {
             userIntegerInput = getValidInput();
@@ -82,7 +81,7 @@ public class User implements UserInterface {
                         break;
                     }
                     case 9: {
-                        bonusFilePath = bonusPart();
+                        bonusPart();
                     }
                     default:
                         break;
@@ -434,18 +433,16 @@ public class User implements UserInterface {
         return moneyToDraw;
     }
 
-    public String bonusPart (){
+    public void bonusPart (){
         System.out.println("Please enter the full path's directory (including the file's name), that you wish to save into.");
         String filePath = scanner.nextLine();
         //scanner.nextLine(); //buffer
         try {
             data.saveState(filePath, data);
             System.out.println("A file was Successfully saved.");
-            return filePath;
         }
         catch (IOException e){
             System.out.println("IOException error");
-            return null;
         }
     }
 

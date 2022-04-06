@@ -207,7 +207,7 @@ public class User implements UserInterface {
         int numOfCustomers = customersList.getCustomerList().size();
         int userChoice = validUserCustomerChoice(numOfCustomers);
         double moneyToAdd = -1;
-        System.out.println("Please enter the amount you wish to add. make sure that you enter a suitable number:");
+        System.out.println("Please enter the amount you wish to add. make sure that you enter a positive number:");
         moneyToAdd = validTransactionChoice();
         data.addMoneyToAccount(userChoice,moneyToAdd);
         System.out.println("The money was successfully added. ");
@@ -220,7 +220,7 @@ public class User implements UserInterface {
         int numOfCustomers = customersList.getCustomerList().size();
         int userChoice = validUserCustomerChoice(numOfCustomers);
         double moneyToDraw = -1;
-        System.out.println("Please enter the amount you wish to draw. make sure that you enter a suitable number:");
+        System.out.println("Please enter the amount you wish to draw. make sure that you enter a positive number and not more than the customer has: ");
         moneyToDraw = validTransactionChoice();
         try {
             data.drawMoneyFromAccount(userChoice,moneyToDraw);
@@ -395,7 +395,7 @@ public class User implements UserInterface {
                         throw new NumberFormatException();
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Invalid input! Please make sure you enter a Integer between 1 to 99. \r\nPlease try again:");
+                    System.out.println("Invalid input! Please make sure you enter an Integer between 1 to 99. \r\nPlease try again:");
                     validInput = false;
                 }
             }
@@ -434,7 +434,8 @@ public class User implements UserInterface {
     }
 
     public void bonusPart (){
-        System.out.println("Please enter the full path's directory (including the file's name), that you wish to save into.");
+        System.out.println("Please enter the full path's directory (including the file's name), that you wish to save into. \r\nNote: no need to save the file's type. " +
+                "we automatically convert it to the desired type.");
         String filePath = scanner.nextLine();
         //scanner.nextLine(); //buffer
         try {
@@ -461,6 +462,7 @@ public class User implements UserInterface {
     public void loadBonus() {
         System.out.println("Please enter the file's path that you wish to load, EXCLUDING its type!!!! (we automatically convert it to the desired type): ");
         String filePath = scanner.nextLine();
+        System.out.println();
         try {
             data = data.loadLastFile(filePath);
             System.out.println("A file was successfully loaded.");

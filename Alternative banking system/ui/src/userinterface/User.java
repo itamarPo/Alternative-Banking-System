@@ -43,7 +43,7 @@ public class User implements UserInterface {
         printMenu();
         do {
             userIntegerInput = getValidInput();
-            if(!FileLoaded && userIntegerInput > 1 && userIntegerInput < 8) {
+            if(!FileLoaded && userIntegerInput > 1 && userIntegerInput < 8 || !FileLoaded && userIntegerInput > 8) {
                 System.out.println("A file was not loaded! please load a file before choosing any other option.");
             }
             else {
@@ -106,12 +106,12 @@ public class User implements UserInterface {
                     validInput = true;
                 }
                 catch (InputMismatchException exception) {
-                    System.out.println("This is not a natural number, please enter a natural number between 1 to 8:");
+                    System.out.println("This is not a natural number, please enter a natural number between 1 to 9:");
                     validInput = false;
                     scanner.nextLine();
                 }
-                if ((userIntegerInput < 1 || userIntegerInput > 8) && validInput)
-                    System.out.println("Invalid number input! \r\n Please try again. Make sure that you enter a natural number between 1 to 8: ");
+                if ((userIntegerInput < 1 || userIntegerInput > 9) && validInput)
+                    System.out.println("Invalid number input! \r\n Please try again. Make sure that you enter a natural number between 1 to 9: ");
             }
             return userIntegerInput;
         }
@@ -138,7 +138,7 @@ public class User implements UserInterface {
     @Override
     public void loadFile(){
         Boolean FileLoadedSuccessfully = false;
-        System.out.println("Please enter the file's directory that you wish to load:");
+        System.out.println("Please enter the file's path that you wish to load. \r\nMake sure the file's type is xml :");
         try {
             FileLoadedSuccessfully = data.loadFile(scanner.nextLine());
         }
@@ -437,9 +437,10 @@ public class User implements UserInterface {
     public String bonusPart (){
         System.out.println("Please enter the full path's directory (including the file's name), that you wish to save into.");
         String filePath = scanner.nextLine();
-        scanner.nextLine(); //buffer
+        //scanner.nextLine(); //buffer
         try {
-            data.saveState(filePath);
+            data.saveState(filePath, data);
+            System.out.println("A file was Successfully saved.");
             return filePath;
         }
         catch (IOException e){
@@ -449,7 +450,7 @@ public class User implements UserInterface {
     }
 
     public void loadFileOption(){
-        System.out.println("Please choose between the next options: \r\n1. Load new File: \r\n2. Load previous saved Files: ");
+        System.out.println("Please choose between the next options: \r\n1. Load new File: \r\n2. Load previously saved Files: ");
         int userInput;
         do {
             userInput = getPositiveInt();
@@ -461,10 +462,11 @@ public class User implements UserInterface {
     }
 
     public void loadBonus() {
-        System.out.println("Please enter the file's directory that you wish to load: ");
+        System.out.println("Please enter the file's path that you wish to load, EXCLUDING its type!!!! (we automatically convert it to the desired type): ");
         String filePath = scanner.nextLine();
         try {
             data = data.loadLastFile(filePath);
+            System.out.println("A file was successfully loaded.");
             FileLoaded = true;
         }
         catch (Exception e) {

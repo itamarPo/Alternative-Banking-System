@@ -7,7 +7,6 @@ import database.loan.Loans;
 import database.fileresource.generated.*;
 import database.loan.Payment;
 import exceptions.accountexception.notAllAmountSuccessfullyInvested;
-import exceptions.accountexception.NameException;
 import exceptions.accountexception.WithDrawMoneyException;
 import exceptions.filesexepctions.*;
 import objects.DisplayCustomerName;
@@ -32,20 +31,24 @@ public class Engine implements EngineInterface , Serializable {
    private List<Customer> customers;
    private List<Loans> loans;
    private Map<String, List<Loans>> loansByCategories; //saves all the loans which has the same category
-   private static int time = 0;
+   private static int time = 1;
+   private int timeToSave; // A field which we use in the bonus, to save the current time.
 
    public Engine() {
       customers = new ArrayList<>();
       loans = new ArrayList<>();
       loansByCategories = new LinkedHashMap<>();
+      timeToSave = 1;
    }
 
    public static int getTime() {
       return time;
    }
 
+
    public void resetTime() {
-      time = 1;
+      timeToSave = 1;
+      time = timeToSave;
    }
 
    public Boolean loadFile(String filePath) throws FileNotFoundException, JAXBException, Exception {
@@ -61,7 +64,7 @@ public class Engine implements EngineInterface , Serializable {
       return true;
    }
 
-   public void saveState(String filePath) throws IOException{
+   public void saveState(String filePath, Engine data) throws IOException{
       filePath += ".xtxt";
       File file = new File(filePath);
       //dir.mkdir();
@@ -69,7 +72,7 @@ public class Engine implements EngineInterface , Serializable {
       //File file = new File(dir, fileName);
       file.createNewFile();
       ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-     out.writeObject(this);
+     out.writeObject(data);
      out.flush();
    }
 
@@ -81,6 +84,7 @@ public class Engine implements EngineInterface , Serializable {
       ObjectInputStream in = new ObjectInputStream(new FileInputStream(lastFile.getAbsolutePath()));
 
       Engine loadedInfo = (Engine)in.readObject();
+      loadedInfo.time = loadedInfo.timeToSave;
       return loadedInfo;
    }
 
@@ -494,7 +498,8 @@ public class Engine implements EngineInterface , Serializable {
          if(!itr.getStatus().getStatus().equals("Finished"))
             paymentMethod(itr);
       }
-      time++;
+      timeToSave++;
+      time = timeToSave;
    }
    public void paymentMethod(Loans loan)
    {

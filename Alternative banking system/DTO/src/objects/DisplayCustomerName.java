@@ -27,7 +27,7 @@ public class DisplayCustomerName {
         int i=1;
         System.out.println("Customers names and balance: ");
         for (Map.Entry<String,Double> entry : customerMap.entrySet()){
-            System.out.println(i + ". " + entry.getKey() +": " + entry.getValue());
+            System.out.println(i + ". " + entry.getKey() +": " + String.format("%.2f", entry.getValue()));
             i++;
         }
     }

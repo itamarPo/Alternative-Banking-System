@@ -24,7 +24,7 @@ public class PendingLoanDTO extends  NewLoanDTO{
         super.print();
         System.out.println("Lenders: ");
         System.out.println(listOfLenders);
-        System.out.println("Sum collected so far: " + collectedSoFar);
-        System.out.println("Sum left to be collected: " + sumLeftToBeCollected);
+        System.out.println("Sum collected so far: " + String.format("%.2f", collectedSoFar));
+        System.out.println("Sum left to be collected: " + String.format("%.2f", sumLeftToBeCollected));
     }
 }

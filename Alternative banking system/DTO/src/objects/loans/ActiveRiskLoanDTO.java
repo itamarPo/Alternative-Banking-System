@@ -33,16 +33,16 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
     @Override
     public void print(){
         super.print();
-        System.out.println("Total payment including interest: " + loanSize);
-        System.out.println("Activation time: " + startingActiveTime);
-        System.out.println("Next payment date: " + nextPaymentTime);
+        System.out.println("Total payment including interest: " + String.format("%.2f", loanSize));
+        System.out.println("Activation time: " + String.format("%.2f", startingActiveTime));
+        System.out.println("Next payment date: " + String.format("%.2f", nextPaymentTime));
         System.out.println("Payments: ");
         for (PaymentsDTO payment : Payments) {
             payment.print();
         }
-        System.out.println("Initial sum payed so far: " + allInitialPayedSoFar);
-        System.out.println("Interest sum payed so far: " + allInterestPayedSoFar);
-        System.out.println("Initial sum yet to be payed: " + allInitialLeftToPay);
-        System.out.println("Interest sum yet to be payed: " + allInterestLeftToPay);
+        System.out.println("Initial sum payed so far: " + String.format("%.2f", allInitialPayedSoFar));
+        System.out.println("Interest sum payed so far: " + String.format("%.2f", allInterestPayedSoFar));
+        System.out.println("Initial sum yet to be payed: " + String.format("%.2f", allInitialLeftToPay));
+        System.out.println("Interest sum yet to be payed: " + String.format("%.2f", allInterestLeftToPay));
     }
 }

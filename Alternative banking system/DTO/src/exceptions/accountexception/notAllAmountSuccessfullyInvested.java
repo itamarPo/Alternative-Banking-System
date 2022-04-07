@@ -9,7 +9,7 @@ public class notAllAmountSuccessfullyInvested extends Exception{
         this.actuallyInvested = sumOfLoans;
     }
     public void print(){
-        System.out.println("A total sum of " + actuallyInvested +" was successfully invested. The other " + returnToAccount + " has been returned to your account.");
+        System.out.println("A total sum of " + String.format("%.2f", actuallyInvested) +" was successfully invested. The other " + String.format("%.2f", returnToAccount) + " has been returned to your account.");
     }
 
 }

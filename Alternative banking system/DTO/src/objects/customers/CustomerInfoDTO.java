@@ -35,7 +35,7 @@ public class CustomerInfoDTO {
 
     public void print(){
         System.out.println("\r\nCustomer's name: " + name);
-        System.out.println("Current balance: " + balance);
+        System.out.println("Current balance: " + String.format("%.2f", balance));
         System.out.println("Customer's transactions: ");
         for(AccountTransactionDTO transaction: transactionDTOS)
             transaction.print();

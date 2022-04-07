@@ -314,7 +314,7 @@ public class User implements UserInterface {
     }
 
     public List<NewLoanDTO> getInlayDetails(String userName) throws Exception{
-        System.out.println("Please select the desired categories from the list: \r\n(Enter categories numbers seperated by spaces. This option isn't mandatory! if you're not interested just press ENTER.\r\nPlease note that entering the same number twice will make no difference)");
+        System.out.println("Please select the desired categories from the list: \r\n(Enter categories numbers seperated by spaces. This option isn't mandatory! if you're not interested just press ENTER (no categories to filter).\r\nPlease note that entering the same number twice will make no difference)");
         CategoriesListDTO systemCategories = data.getCategoriesList();
         systemCategories.print();
         List<String> categoriesAfterFilter = new ArrayList<>();
@@ -435,7 +435,8 @@ public class User implements UserInterface {
 
     public void bonusPart (){
         System.out.println("Please enter the full path's directory (including the file's name), that you wish to save into. \r\nNote: no need to save the file's type. " +
-                "we automatically convert it to the desired type.");
+                "we automatically convert it to the desired type. \r\nfor example:\r\n C:\\Users\\itamarpo\\IdeaProjects\\Alternative-Banking-System\\Alternative banking system\\engine\\src\\database\\fileresource\\itamarTest\\FILE\r\nWould be converted to: \r\n" +
+                "C:\\Users\\itamarpo\\IdeaProjects\\Alternative-Banking-System\\Alternative banking system\\engine\\src\\database\\fileresource\\itamarTest\\FILE.xtxt \r\n Enter your path below: ");
         String filePath = scanner.nextLine();
         //scanner.nextLine(); //buffer
         try {
@@ -460,7 +461,10 @@ public class User implements UserInterface {
     }
 
     public void loadBonus() {
-        System.out.println("Please enter the file's path that you wish to load, EXCLUDING its type!!!! (we automatically convert it to the desired type): ");
+        System.out.println("Please enter the file's path that you wish to load, EXCLUDING its type!!!! (we automatically convert it to the desired type): \r\n" +
+                "for example:\r\nC:\\Users\\itamarpo\\IdeaProjects\\Alternative-Banking-System\\Alternative banking system\\engine\\src\\database\\fileresource\\itamarTest\\FILE \r\nWould be converted to: \r\n" +
+                "C:\\Users\\itamarpo\\IdeaProjects\\Alternative-Banking-System\\Alternative banking system\\engine\\src\\database\\fileresource\\itamarTest\\FILE.xtxt \r\n" +
+                "Enter below your path: " );
         String filePath = scanner.nextLine();
         System.out.println();
         try {
@@ -469,7 +473,7 @@ public class User implements UserInterface {
             FileLoaded = true;
         }
         catch (Exception e) {
-            System.out.println("The file was unsuccessfully loaded!");
+            System.out.println("The file was unsuccessfully loaded! \r\n Please make sure that the file belongs to a previously saved state.");
         }
     }
 

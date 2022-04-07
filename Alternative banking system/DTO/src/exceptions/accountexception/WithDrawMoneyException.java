@@ -10,9 +10,9 @@ public class WithDrawMoneyException extends Exception{
     }
 
     public void printMessage(){
-        System.out.println("This customer cannot draw " + transaction + " from his account because he only has: " + balance +". Transaction failed.");
+        System.out.println("This customer cannot draw " + String.format("%.2f", transaction) + " from his account because he only has: " + String.format("%.2f", balance) +". Transaction failed.");
     }
     public void printInvestMessage(){
-        System.out.println("This customer cannot invest an amount of " + transaction + " because he only has: " + balance +". Transaction denied.");
+        System.out.println("This customer cannot invest an amount of " + String.format("%.2f", balance) + " because he only has: " + String.format("%.2f", balance) +". Transaction denied.");
     }
 }

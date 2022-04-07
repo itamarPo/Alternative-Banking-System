@@ -17,9 +17,9 @@ public class PaymentsDTO {
 
     public void print(){
         System.out.println("Time of payment: " + timeOfPayment);
-        System.out.println("Interest component: " + interestComponent);
-        System.out.println("Initial component: " + initialComponent);
-        System.out.println("Total sum of payment: " + sumOfPayment);
+        System.out.println("Interest component: " + String.format("%.2f", interestComponent));
+        System.out.println("Initial component: " + String.format("%.2f", initialComponent));
+        System.out.println("Total sum of payment: " + String.format("%.2f", sumOfPayment));
         if(payedSuccesfully)
             System.out.println("Payment status: payed");
         else

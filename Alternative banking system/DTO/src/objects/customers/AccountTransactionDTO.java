@@ -16,8 +16,8 @@ public class AccountTransactionDTO {
     }
     public void print(){
         System.out.println("Time of transaction: " + timeOfTransaction);
-        System.out.println("The transaction: " + incomeOrExpense + " " + transactionAmount);
-        System.out.println("Balance before the transaction: " + balanceBefore);
-        System.out.println("Balance after the transaction: " + balanceAfter);
+        System.out.println("The transaction: " + incomeOrExpense + " " + String.format("%.2f", transactionAmount));
+        System.out.println("Balance before the transaction: " + String.format("%.2f", balanceBefore));
+        System.out.println("Balance after the transaction: " + String.format("%.2f", balanceAfter));
     }
 }

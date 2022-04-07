@@ -501,6 +501,7 @@ public class Engine implements EngineInterface , Serializable {
       timeToSave++;
       time = timeToSave;
    }
+
    public void paymentMethod(Loans loan)
    {
       double money = loan.getStatus().returnLastPayment().getSumOfPayment();

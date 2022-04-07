@@ -34,7 +34,10 @@ public class Customer implements CustomerInterface, Serializable {
 
     @Override
     public void drawMoney(double amount){
-        balance -= amount;
+        if(balance-amount < 0)
+            balance = 0;
+        else
+            balance -= amount;
         addTransaction((-1*amount));
     }
     @Override

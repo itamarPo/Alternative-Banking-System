@@ -37,10 +37,8 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
         System.out.println("Activation time: " + startingActiveTime);
         System.out.println("Next payment date: " + nextPaymentTime);
         System.out.println("Payments: ");
-        if(getPayments() != null) {
-            for (PaymentsDTO payment : Payments) {
-                payment.print();
-            }
+        for (PaymentsDTO payment : Payments) {
+            payment.print();
         }
         System.out.println("Initial sum payed so far: " + allInitialPayedSoFar);
         System.out.println("Interest sum payed so far: " + allInterestPayedSoFar);

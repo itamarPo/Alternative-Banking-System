@@ -22,6 +22,7 @@ public class FinishedLoanDTO extends PendingLoanDTO{
         super.print();
         System.out.println("Activation time: " + startingTime);
         System.out.println("Finishing time: " + finishingTime);
+        System.out.println("Payments: ");
         for(PaymentsDTO payment : payments){
             payment.print();
         }

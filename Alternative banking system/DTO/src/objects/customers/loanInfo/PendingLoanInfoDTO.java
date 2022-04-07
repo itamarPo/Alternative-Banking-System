@@ -11,6 +11,6 @@ public class PendingLoanInfoDTO extends LoanInfoDTO{
     @Override
     public void print() {
         super.print();
-        System.out.println("The loan requires " + (super.getSizeNoInterest() - collectedSoFar) + " more funds to become active.");
+        System.out.println("The loan requires " + String.format("%.2f",(super.getSizeNoInterest() - collectedSoFar)) + " more funds to become active.");
     }
 }

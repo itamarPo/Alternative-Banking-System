@@ -4,7 +4,7 @@
     <root id="root">
       <element id="archive" name="Alternative-Banking-System.jar">
         <element id="directory" name="META-INF">
-          <element id="file-copy" path="$PROJECT_DIR$/Alternative banking system/ui/src/META-INF/MANIFEST.MF" />
+          <element id="file-copy" path="$PROJECT_DIR$/Alternative banking system/DTO/src/META-INF/MANIFEST.MF" />
         </element>
         <element id="module-output" name="engine" />
         <element id="module-output" name="DTO" />

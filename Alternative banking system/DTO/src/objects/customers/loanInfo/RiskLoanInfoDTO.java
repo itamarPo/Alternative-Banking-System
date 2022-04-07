@@ -14,6 +14,6 @@ public class RiskLoanInfoDTO extends LoanInfoDTO{
     public void print() {
         super.print();
         System.out.println("The number of payments yet To be payed: " + numberOfPaymentNotPayed);
-        System.out.println("Their total amount: " + sumOfNotPayed);
+        System.out.println("Their total amount: " + String.format("%.2f", sumOfNotPayed));
     }
 }

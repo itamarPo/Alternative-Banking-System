@@ -450,10 +450,12 @@ public class User implements UserInterface {
 
     public void loadFileOption(){
         System.out.println("Please choose between the next options: \r\n1. Load new File: \r\n2. Load previously saved Files: ");
-        int userInput;
-        do {
+        int userInput = getPositiveInt();;
+
+        while(userInput>2){
+            System.out.println("Invalid Input, Please Choose 1 or 2.");
             userInput = getPositiveInt();
-        }while(userInput>2);
+        }
         if(userInput == 1)
             loadFile();
         else

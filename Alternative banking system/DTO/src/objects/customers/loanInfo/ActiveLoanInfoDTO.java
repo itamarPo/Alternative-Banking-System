@@ -16,6 +16,6 @@ public class ActiveLoanInfoDTO extends LoanInfoDTO{
     public void print() {
         super.print();
         System.out.println("The next time of payment is: " + nextTimePayment + " of time value");
-        System.out.println("The expected payment is: " + expectedPayment);
+        System.out.println("The expected payment is: " + String.format("%.2f", expectedPayment));
     }
 }

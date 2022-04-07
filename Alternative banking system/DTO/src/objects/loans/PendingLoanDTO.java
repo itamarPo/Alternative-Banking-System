@@ -4,10 +4,10 @@ import java.util.Map;
 
 public class PendingLoanDTO extends  NewLoanDTO{
     private Map<String, Double>  listOfLenders;
-    private Double collectedSoFar;
-    private Double sumLeftToBeCollected;
+    private double collectedSoFar;
+    private double sumLeftToBeCollected;
 
-    public Double getSumLeftToBeCollected() {
+    public double getSumLeftToBeCollected() {
         return sumLeftToBeCollected;
     }
 

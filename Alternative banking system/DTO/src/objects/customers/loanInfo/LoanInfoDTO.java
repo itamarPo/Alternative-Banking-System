@@ -30,10 +30,10 @@ public class LoanInfoDTO implements LoanInfoDTOInterface{
 
     public void print(){
         System.out.println("\r\nLoan name: " + loanName);
-        System.out.println("Loan size without interest: " + sizeNoInterest);
-        System.out.println("Loan size with interest: " + loanSize);
+        System.out.println("Loan amount without interest: " + String.format("%.2f",sizeNoInterest));
+        System.out.println("Loan amount with interest: " + String.format("%.2f",loanSize));
         System.out.println("Category: " + loanCategory);
-        System.out.println("Interest per payment: " + interestPerPayment);
+        System.out.println("Interest per payment: " + String.format("%.2f",interestPerPayment));
         System.out.println("Time per payment: " + timePerPayment );
         System.out.println("Status: " + status);
     }

@@ -18,7 +18,7 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
         super(loanID, borrowerName, loanCategory, sizeNoInterest, timeLimitOfLoan, interestPerPayment, timePerPayment, status, listOfLenders, collectedSoFar, sumLeftToBeCollected);
         this.startingActiveTime = startingActiveTime;
         this.nextPaymentTime = nextPaymentTime;
-        this.Payments = Payments;
+        this.Payments = payments;
         this.allInterestPayedSoFar = allInterestPayedSoFar;
         this.allInitialPayedSoFar = allInitialPayedSoFar;
         this.allInterestLeftToPay = allInterestLeftToPay;

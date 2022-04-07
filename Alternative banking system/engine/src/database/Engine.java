@@ -183,10 +183,7 @@ public class Engine implements EngineInterface , Serializable {
    @Override
    public List<NewLoanDTO> getLoansInfo() {
       List<NewLoanDTO> DTOloans = new ArrayList<>();
-      for (Loans loan : loans) {
-         List<PaymentsDTO> paymentList = null;
-         if (loan.getStatus().getPayments() != null)
-            paymentList = copyPaymentList(loan);
+      for (Loans loan : loans){
          switch (loan.getStatus().getStatus()) {
             case "New": {
                DTOloans.add(new NewLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
@@ -204,7 +201,7 @@ public class Engine implements EngineInterface , Serializable {
             case "Finished": {
                DTOloans.add(new FinishedLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(),
                        loan.getInterestPerPayment(), loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
-                       loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(), paymentList, loan.getStatus().getFinishTime()));
+                       loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(), copyPaymentList(loan), loan.getStatus().getFinishTime()));
                break;
             }
             default: //ACTIVE OR RISK{
@@ -212,7 +209,7 @@ public class Engine implements EngineInterface , Serializable {
                       loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
                        loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
                        loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(),
-                       loan.getStatus().getNextPaymentTime(), paymentList, loan.getStatus().getInterestPayed(),
+                       loan.getStatus().getNextPaymentTime(), copyPaymentList(loan), loan.getStatus().getInterestPayed(),
                        loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay()));
                break;
          }
@@ -408,7 +405,7 @@ public class Engine implements EngineInterface , Serializable {
       double min = getLoansWithMinSumToPay(loansToInvest);
       if ((min - remainingLoansMin) * numOfLoans > moneyToInvest) {
          for (Loans enterLoan : loansToInvest) {
-            addCustomerToLoan(enterLoan, customerSelected, moneyToInvest / numOfLoans + remainingLoansMin);
+            addCustomerToLoan(enterLoan, customerSelected,  moneyToInvest / numOfLoans + remainingLoansMin);
          }
          return;
       } else {

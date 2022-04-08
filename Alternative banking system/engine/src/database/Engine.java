@@ -67,9 +67,6 @@ public class Engine implements EngineInterface , Serializable {
    public void saveState(String filePath, Engine data) throws IOException{
       filePath += ".xtxt";
       File file = new File(filePath);
-      //dir.mkdir();
-      //fileName = fileName+".xtxt";
-      //File file = new File(dir, fileName);
       file.createNewFile();
       ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
      out.writeObject(data);
@@ -274,7 +271,6 @@ public class Engine implements EngineInterface , Serializable {
 
    public void addMoneyToAccount(int userChoice, double moneyToAdd) {
       customers.get(userChoice - 1).addMoney(moneyToAdd);
-//      customer.changeBalance(moneyToAdd);
    }
 
    public DisplayCustomerName namesForDisplay() {
@@ -300,13 +296,6 @@ public class Engine implements EngineInterface , Serializable {
       resetTime();
    }
 
-   public Customer findCustomerDueToName(String name) {
-      for (Customer customer : customers) {
-         if (customer.getName().equalsIgnoreCase(name))
-            return customer;
-      }
-      return null;
-   }
 
    public CategoriesListDTO getCategoriesList() {
       List<String> categories = new ArrayList<>();

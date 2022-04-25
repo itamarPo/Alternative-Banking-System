@@ -307,28 +307,27 @@ public class Engine implements EngineInterface , Serializable {
 
    public List<NewLoanDTO> getFilteredLoans(List<String> categories, double interest, int minTime, String userName) {
       List<NewLoanDTO> validLoans = new ArrayList<>();
-      for (Map.Entry<String, List<Loans>> entry : loansByCategories.entrySet()) {
-         if (categories.contains(entry.getKey())) {
-            for (Loans candidateLoan : entry.getValue()) {
-               if (candidateLoan.getStatus().getStatus().equals("New") || candidateLoan.getStatus().getStatus().equals("Pending")) {
-                  if (!candidateLoan.getBorrowerName().equals(userName)) {
-                     if (interest == 0 || (candidateLoan.getInterestPerPayment() - interest >= 0)) {
-                        if (minTime == 0 || (candidateLoan.getTimeLimitOfLoan() - minTime >= 0)) {
-                           if (candidateLoan.getStatus().getStatus().equals("New")) {
-                              validLoans.add(new NewLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(), candidateLoan.getLoanCategory(),
-                                      candidateLoan.getLoanSizeNoInterest(), candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
-                                      candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus()));
-                           } else {
-                              validLoans.add(new PendingLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(), candidateLoan.getLoanCategory(),
-                                      candidateLoan.getLoanSizeNoInterest(), candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
-                                      candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus(), candidateLoan.getListOflenders(), candidateLoan.getCollectedSoFar(),
-                                      candidateLoan.getLoanSize() - candidateLoan.getCollectedSoFar()));
-                           }
-                        }
-                     }
-                  }
-               }
-            }
+      List<Loans> filteredLoans = new ArrayList<>(loans);
+      filteredLoans = filteredLoans.stream()
+              .filter(l-> l.getStatus().getStatus().equals("New") || l.getStatus().getStatus().equals("Pending"))
+              .filter(l-> categories.contains(l.getLoanCategory()))
+              .filter(l-> interest <= l.getInterestPerPayment())
+              .filter(l-> minTime <= l.getTimeLimitOfLoan())
+              .filter(l-> !l.getBorrowerName().equals(userName)).collect(Collectors.toList());
+      for(Loans candidateLoan: filteredLoans){
+         if(candidateLoan.getStatus().getStatus().equals("New")){
+            validLoans.add(new NewLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(),
+                           candidateLoan.getLoanCategory(), candidateLoan.getLoanSizeNoInterest(),
+                           candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
+                           candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus()));
+         }
+         else{
+            validLoans.add(new PendingLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(),
+                           candidateLoan.getLoanCategory(), candidateLoan.getLoanSizeNoInterest(),
+                           candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
+                           candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus(),
+                           candidateLoan.getListOflenders(), candidateLoan.getCollectedSoFar(),
+                    candidateLoan.getLoanSize() - candidateLoan.getCollectedSoFar()));
          }
       }
       return validLoans;
@@ -365,14 +364,19 @@ public class Engine implements EngineInterface , Serializable {
       if (numOfLoans == 0) {
          return;
       }
-      // not sure if this one is needed...
-      if (moneyToInvest == 0) {
-         return;
-      }
       double min = getLoansWithMinSumToPay(loansToInvest);
       if ((min - remainingLoansMin) * numOfLoans > moneyToInvest) {
+         int rest = (int)(moneyToInvest) % numOfLoans;
+         int i = 0;
+         int afterRestAdd = (int)(moneyToInvest / numOfLoans + remainingLoansMin + 1);
          for (Loans enterLoan : loansToInvest) {
-            addCustomerToLoan(enterLoan, customerSelected,  moneyToInvest / numOfLoans + remainingLoansMin);
+            if(i < rest){
+               addCustomerToLoan(enterLoan, customerSelected,  (double)afterRestAdd);
+               i++;
+            }
+            else{
+               addCustomerToLoan(enterLoan, customerSelected,  (double)(afterRestAdd - 1));
+            }
          }
          return;
       } else {

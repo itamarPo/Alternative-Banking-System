@@ -2,6 +2,7 @@ package userinterface.MainController;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,7 +37,6 @@ public class MainController {
 
     //controllers
     private StartAdminController adminController;
-    private ObservableList<String> cbNames = FXCollections.observableArrayList("Admin");
 
     //constructor
     public MainController(){
@@ -47,7 +47,8 @@ public class MainController {
     @FXML
     private void initialize()  {
         YazLABEL.setText(YAZSTATEMENT + '0');
-        UserCB.setItems(cbNames);
+        UserCB.getItems().add("Admin");
+        UserCB.setValue("Admin");
     }
 
     //Getters!
@@ -63,7 +64,7 @@ public class MainController {
 
 
     //controllers creation
-    public void setAllControllers() throws Exception{
+    public void setMinorControllers() throws Exception{
         setStartAdminController(); //Admin start scene controller
 
     }
@@ -86,20 +87,22 @@ public class MainController {
         if (selectedFile == null) {
             return;
         }
-        //TODO: add file check from the engine
+
 
         String absolutePath = selectedFile.getAbsolutePath();
 
         try {
             engine.loadFile(absolutePath);
-        } catch (Exception e) {
-
+            FileLABEL.setText(FILESTATMENT + absolutePath);
+            YazLABEL.setText(YAZSTATEMENT + Engine.getTime());
+            UserCB.getItems().addAll(engine.getCustomerNames());
+            adminController.enableAfterFileLoader();
+        } catch (Exception e)  {
+            //TODO: add file check from the engine
         }
-        FileLABEL.setText(FILESTATMENT + absolutePath);
-        YazLABEL.setText(YAZSTATEMENT + Engine.getTime());
-        adminController.enableAfterFileLoader();
-
-        System.out.println(engine.getCustomerNames());
 
     }
+
+
+
 }

@@ -2,6 +2,7 @@ package userinterface;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -15,16 +16,15 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader();
         URL mainFXML = getClass().getResource("/userinterface/MainController/TopBar.fxml");
         loader.setLocation(mainFXML);
-        BorderPane root = loader.load();
-
+        Parent root = loader.load();
         MainController controller = loader.getController();
 
         controller.setPrimaryStage(primaryStage);
-        controller.setBorderPane(root);
-        controller.setStartAdminController();
+        controller.setMinorControllers();
+
 
         primaryStage.setTitle("Alternative Banking System");
-        Scene scene = new Scene(root, 600, 600);
+        Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

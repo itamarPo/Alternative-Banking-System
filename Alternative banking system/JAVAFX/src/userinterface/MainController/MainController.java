@@ -4,8 +4,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -16,48 +18,64 @@ import java.io.File;
 import java.net.URL;
 public class MainController {
 
-    //controls
-    @FXML private ComboBox<String> CustomersCB;
-    @FXML private Label FileLABEL;
-    @FXML private BorderPane MainBP;
-    @FXML private Label YazLABEL;
-    private Stage primaryStage;
-    private BorderPane BP;
-    private Engine engine;
-
-
+    //constants
     private final String YAZSTATEMENT = "Current Yaz: " ;
     private final String FILESTATMENT = "File: " ;
+
+    //JavaFX components
+    @FXML private ComboBox<String> UserCB;
+    @FXML private Label FileLABEL;
+    @FXML private BorderPane MainBP;
+    @FXML private ScrollPane MainSP;
+    @FXML private Label YazLABEL;
+    private Stage primaryStage;
+
+
+    //Regular Fields
+    private Engine engine;
+
     //controllers
     private StartAdminController adminController;
     private ObservableList<String> cbNames = FXCollections.observableArrayList("Admin");
 
+    //constructor
     public MainController(){
         engine = new Engine();
     }
 
+    //initialize after constructor
     @FXML
     private void initialize()  {
         YazLABEL.setText(YAZSTATEMENT + '0');
-        CustomersCB.setItems(cbNames);
+        UserCB.setItems(cbNames);
     }
 
-    public void setBorderPane(BorderPane borderPane) {
-        this.BP = borderPane;
+    //Getters!
+    public BorderPane getMainBP() {
+        return MainBP;
     }
 
+
+    //Setters!
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-    public  void setStartAdminController() throws  Exception{
 
+
+    //controllers creation
+    public void setAllControllers() throws Exception{
+        setStartAdminController(); //Admin start scene controller
+
+    }
+
+    public  void setStartAdminController() throws Exception{
         FXMLLoader loader = new FXMLLoader();
         URL mainFXML = getClass().getResource("/userinterface/admin/AdminEntry.fxml");
         loader.setLocation(mainFXML);
-        AnchorPane AP = loader.load();
+        Parent AP = loader.load();
         adminController = loader.getController();
-        adminController.setMainController(AP, this);
-        BP.setCenter(AP);
+        adminController.setMainController(this);
+        MainBP.setCenter(adminController.getAdminAnchorPane());
     }
 
     public void openFileChooser(){
@@ -82,8 +100,6 @@ public class MainController {
         adminController.enableAfterFileLoader();
 
         System.out.println(engine.getCustomerNames());
-
-
 
     }
 }

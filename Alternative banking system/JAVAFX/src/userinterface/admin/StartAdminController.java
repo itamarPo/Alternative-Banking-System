@@ -8,25 +8,34 @@ import userinterface.MainController.MainController;
 
 public class StartAdminController {
 
-    //controls
+    // JavaFX components
     @FXML private Button CustomersInformationBUTTON;
     @FXML private Button IncreaseYazBUTTON;
     @FXML private Button LoadFileBUTTON;
-    @FXML private Button LoansBUTOON;
-    @FXML private AnchorPane AdminAnchorPane;
-    private MainController mainController;
-    private AnchorPane AP;
+    @FXML private Button LoansBUTTON;
+    @FXML private AnchorPane AdminAP;
 
+    private MainController mainController;
+
+
+    //Getters!
+    public AnchorPane getAdminAnchorPane() {return AdminAP;}
+
+    //constructor
+    public StartAdminController() {
+
+    }
+
+    //initialize after constructor
     @FXML
     private void initialize()  {
         IncreaseYazBUTTON.setDisable(true);
-        LoansBUTOON.setDisable(true);
+        LoansBUTTON.setDisable(true);
         CustomersInformationBUTTON.setDisable(true);
     }
 
-    public void setMainController(AnchorPane AP, MainController mainController) {
+    public void setMainController(MainController mainController) {
         this.mainController = mainController;
-        this.AP = AP;
     }
 
     @FXML
@@ -36,7 +45,7 @@ public class StartAdminController {
 
     public void enableAfterFileLoader(){
         IncreaseYazBUTTON.setDisable(false);
-        LoansBUTOON.setDisable(false);
+        LoansBUTTON.setDisable(false);
         CustomersInformationBUTTON.setDisable(false);
     }
 

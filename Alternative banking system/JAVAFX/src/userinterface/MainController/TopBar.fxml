@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 
 
-<ScrollPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.MainController.MainController">
+<ScrollPane fx:id="MainSP" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.MainController.MainController">
    <content>
       <BorderPane fx:id="MainBP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <top>

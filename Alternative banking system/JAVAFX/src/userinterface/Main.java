@@ -20,11 +20,11 @@ public class Main extends Application {
         MainController controller = loader.getController();
 
         controller.setPrimaryStage(primaryStage);
-        //controller.setMinorControllers
-        controller.setStartAdminController();
+        controller.setMinorControllers();
+
 
         primaryStage.setTitle("Alternative Banking System");
-        Scene scene = new Scene(root, 600, 600);
+        Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

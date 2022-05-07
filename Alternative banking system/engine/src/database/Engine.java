@@ -504,6 +504,10 @@ public class Engine implements EngineInterface , Serializable {
       loan.getStatus().setInitialPayed(loan.getStatus().returnLastPayment().getInitialComponent());
    }
 
+   public ArrayList getCustomerNames(){
+      return (ArrayList) customers.stream().map(user ->user.getName()).collect(Collectors.toList());
+   }
+
 
 }
 

@@ -52,10 +52,10 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public Boolean loadFile(String filePath) throws FileNotFoundException, JAXBException, Exception {
-      String[] list = filePath.split("\\.");
-      if (!list[list.length - 1].equals("xml")) {
-         throw new NotXmlExcpetion();
-      }
+//      String[] list = filePath.split("\\.");
+////      if (!list[list.length - 1].equals("xml")) {
+////         throw new NotXmlExcpetion();
+////      }
       InputStream XMLFile = new FileInputStream(filePath);
       JAXBContext jc = JAXBContext.newInstance("database.fileresource.generated");
       Unmarshaller u = jc.createUnmarshaller();

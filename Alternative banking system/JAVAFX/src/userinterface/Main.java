@@ -16,6 +16,7 @@ public class Main extends Application {
         URL mainFXML = getClass().getResource("/userinterface/MainController/TopBar.fxml");
         loader.setLocation(mainFXML);
         BorderPane root = loader.load();
+
         MainController controller = loader.getController();
 
         controller.setPrimaryStage(primaryStage);

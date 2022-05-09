@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="table" prefHeight="164.0" prefWidth="683.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.table.TableViewController">
+   <columns>
+      <TableColumn fx:id="name" prefWidth="75.0" text="Name" />
+      <TableColumn fx:id="balance" prefWidth="72.0" text="Balance" />
+      <TableColumn prefWidth="254.0" text="Total Lending">
+         <columns>
+            <TableColumn fx:id="newLender" prefWidth="37.0" text="New" />
+            <TableColumn fx:id="pendingLender" prefWidth="62.0" text="Pending" />
+            <TableColumn fx:id="activeLender" prefWidth="52.0" text="Active" />
+            <TableColumn fx:id="riskLender" prefWidth="46.0" text="Risk" />
+            <TableColumn fx:id="finishedLender" prefWidth="60.0" text="Finished" />
+         </columns>
+      </TableColumn>
+      <TableColumn prefWidth="275.0" text="Total Borrowing">
+         <columns>
+            <TableColumn fx:id="newBorrower" prefWidth="54.0" text="New" />
+            <TableColumn fx:id="pendingBorrower" prefWidth="59.0" text="Pending" />
+            <TableColumn fx:id="activeBorrower" prefWidth="47.0" text="Active" />
+            <TableColumn fx:id="riskBorrower" prefWidth="50.0" text="Risk" />
+            <TableColumn fx:id="finishedBorrower" prefWidth="65.0" text="Finished" />
+         </columns>
+      </TableColumn>
+   </columns>
+</TableView>

@@ -1,4 +1,3 @@
-
 package database;
 
 import database.client.AccountTransaction;
@@ -69,8 +68,8 @@ public class Engine implements EngineInterface , Serializable {
       File file = new File(filePath);
       file.createNewFile();
       ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-     out.writeObject(data);
-     out.flush();
+      out.writeObject(data);
+      out.flush();
    }
 
    public Engine loadLastFile(String filePath) throws FileNotFoundException, Exception{
@@ -181,7 +180,7 @@ public class Engine implements EngineInterface , Serializable {
             }
             default: //ACTIVE OR RISK{
                DTOloans.add(new ActiveRiskLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
-                      loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
+                       loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
                        loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
                        loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(),
                        loan.getStatus().getNextPaymentTime(), copyPaymentList(loan), loan.getStatus().getInterestPayed(),
@@ -317,16 +316,16 @@ public class Engine implements EngineInterface , Serializable {
       for(Loans candidateLoan: filteredLoans){
          if(candidateLoan.getStatus().getStatus().equals("New")){
             validLoans.add(new NewLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(),
-                           candidateLoan.getLoanCategory(), candidateLoan.getLoanSizeNoInterest(),
-                           candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
-                           candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus()));
+                    candidateLoan.getLoanCategory(), candidateLoan.getLoanSizeNoInterest(),
+                    candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
+                    candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus()));
          }
          else{
             validLoans.add(new PendingLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(),
-                           candidateLoan.getLoanCategory(), candidateLoan.getLoanSizeNoInterest(),
-                           candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
-                           candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus(),
-                           candidateLoan.getListOflenders(), candidateLoan.getCollectedSoFar(),
+                    candidateLoan.getLoanCategory(), candidateLoan.getLoanSizeNoInterest(),
+                    candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
+                    candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus(),
+                    candidateLoan.getListOflenders(), candidateLoan.getCollectedSoFar(),
                     candidateLoan.getLoanSize() - candidateLoan.getCollectedSoFar()));
          }
       }
@@ -453,10 +452,10 @@ public class Engine implements EngineInterface , Serializable {
                }
             }
             else if (itr.getStatus().getStatus().equals("Active")) {
-                  itr.getStatus().addPayment(new Payment(time, InterestComponent,
-                          InterestComponent + InitialComponent,
-                          InitialComponent, false));
-               }
+               itr.getStatus().addPayment(new Payment(time, InterestComponent,
+                       InterestComponent + InitialComponent,
+                       InitialComponent, false));
+            }
 
          }
       }
@@ -508,12 +507,27 @@ public class Engine implements EngineInterface , Serializable {
       return (ArrayList) customers.stream().map(user ->user.getName()).collect(Collectors.toList());
    }
 
+   public Loans getLoanByName(String loanName){
+      for (Loans loan : loans) {
+         if (loan.getLOANID().equalsIgnoreCase(loanName)) {
+            return loan;
+         }
+      }
+      return null;
+   }
+   public void closeLoan(String customerName, String loanName, double amount)throws Exception{
+      Customer customer = getCustomerByName(customerName);
+      Loans loan = getLoanByName(loanName);
+
+      if(amount>customer.getBalance())
+         throw new WithDrawMoneyException(customer.getBalance(), amount);
+      if(amount+loan.getCollectedSoFar()<loan.getLoanSize())
+         throw new Exception(); //TODO: add the relevant exception.
+
+      while(!loan.getStatus().getStatus().equals("Finished"))
+      {
+         paymentMethod(loan);
+      }
+   }
 
 }
-
-
-
-
-
-
-

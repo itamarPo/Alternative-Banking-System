@@ -34,10 +34,10 @@ public class TopAdminController {
 
     //Regular Fields
     private MainController mainController;
+    private Engine engine;
 
 
-    //Getters!
-    public AnchorPane getAdminAnchorPane() {return AdminAP;}
+
 
     //constructor
     public TopAdminController() {
@@ -47,25 +47,49 @@ public class TopAdminController {
     //initialize after constructor
     @FXML
     private void initialize()  {
-        IncreaseYazBUTTON.setDisable(true);
-        LoansBUTTON.setDisable(true);
-        CustomersInformationBUTTON.setDisable(true);
+        if (CenterAdminController != null){
+            CenterAdminController.setAdminTopController(this);
+        }
+        YazLABEL.setText(YAZSTATEMENT + '0');
+        UserCB.getItems().add("Admin");
+        UserCB.setValue("Admin");
     }
 
-    public void setMainController(MainController mainController) {
+    //getters
+    public Label getFileLABEL() {return FileLABEL;}
+    public ComboBox<String> getUserCB() {return UserCB;}
+    public Label getYazLABEL() {return YazLABEL;}
+    public MainController getMainController() {return mainController;}
+    public Engine getEngine() {return engine;}
+
+    //setters
+    public void setMainControllerAndEngine(MainController mainController, Engine engine) {
         this.mainController = mainController;
+        this.engine = engine;
     }
 
-    @FXML
-    void LoadFileAction(ActionEvent event) {
-        mainController.openFileChooser();
+    //Regular Methods
+    public void setTopBar(TopCustomerController topCustomerController, String newChoice){
+        this.FileLABEL.setText(topCustomerController.getFileLABEL().getText());
+        this.UserCB.setValue(newChoice);
+        this.YazLABEL.setText(topCustomerController.getYazLABEL().getText());
     }
 
-    public void enableAfterFileLoader(){
-        IncreaseYazBUTTON.setDisable(false);
-        LoansBUTTON.setDisable(false);
-        CustomersInformationBUTTON.setDisable(false);
+    void LoadFileAction(String AbsolutePath) {
+        try {
+            engine.loadFile(AbsolutePath);
+            FileLABEL.setText(FILESTATMENT + AbsolutePath);
+            YazLABEL.setText(YAZSTATEMENT + Engine.getTime());
+            UserCB.getItems().addAll(engine.getCustomerNames());
+            CenterAdminController.enableAfterFileLoader();
+            mainController.getTopCustomerController().setTopBarAfterFileLoaded(this);
+        } catch (Exception e)  {
+            //TODO: add file check from the engine
+        }
     }
+
+
+
 
 
 }

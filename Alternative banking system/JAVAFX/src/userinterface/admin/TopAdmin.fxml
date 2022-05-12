@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-
-<ScrollPane fx:id="MainSP" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.MainController.MainController">
+<ScrollPane fx:id="MainSP" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.admin.TopAdminController">
    <content>
       <BorderPane fx:id="MainBP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <top>
@@ -23,6 +22,9 @@
                </padding>
             </HBox>
          </top>
+         <center>
+            <fx:include fx:id="CenterAdmin" source="CenterAdmin.fxml" />
+         </center>
       </BorderPane>
    </content>
 </ScrollPane>

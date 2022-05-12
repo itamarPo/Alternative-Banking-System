@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+
+<ScrollPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <TableView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="245.0" prefWidth="1248.0">
+        <columns>
+          <TableColumn prefWidth="60.0" text="Loan ID" />
+            <TableColumn prefWidth="68.0" text="Category" />
+            <TableColumn prefWidth="65.0" text="Owner" />
+            <TableColumn prefWidth="50.0" text="Amount" />
+            <TableColumn prefWidth="62.0" text="Duration" />
+            <TableColumn prefWidth="48.0" text="Interest" />
+            <TableColumn prefWidth="143.0" text="Time Between Payment" />
+            <TableColumn prefWidth="54.0" text="Status" />
+            <TableColumn prefWidth="143.0" text="Lenders">
+               <columns>
+                  <TableColumn prefWidth="74.0" text="Name" />
+                  <TableColumn prefWidth="76.0" text="Amount lent" />
+               </columns>
+            </TableColumn>
+            <TableColumn prefWidth="60.0" text="Collected" />
+            <TableColumn prefWidth="102.0" text="Amount to active" />
+            <TableColumn prefWidth="95.0" text="Activation Time" />
+            <TableColumn prefWidth="117.0" text="Next Payment Time" />
+            <TableColumn prefWidth="85.0" text="Starting Time" />
+            <TableColumn prefWidth="88.0" text="Finishing Time" />
+        </columns>
+      </TableView>
+   </content>
+</ScrollPane>

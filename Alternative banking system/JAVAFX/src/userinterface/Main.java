@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import userinterface.MainController.MainController;
+import userinterface.admin.TopAdminController;
+import userinterface.customer.TopCustomerController;
 
 import java.net.URL;
 
@@ -31,8 +33,7 @@ public class Main extends Application {
         MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);
         mainController.setSubControllers();
         primaryStage.setTitle("Alternative Banking System");
-        Scene scene = new Scene(root, 600, 400);
-        primaryStage.setScene(scene);
+        primaryStage.setScene(AdminScene);
         primaryStage.show();
     }
 

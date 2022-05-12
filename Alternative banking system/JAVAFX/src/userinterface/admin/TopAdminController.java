@@ -1,20 +1,38 @@
 package userinterface.admin;
 
+import database.Engine;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import userinterface.MainController.MainController;
+import userinterface.customer.TopCustomerController;
 
-public class StartAdminController {
+import java.io.File;
 
-    // JavaFX components
-    @FXML private Button CustomersInformationBUTTON;
-    @FXML private Button IncreaseYazBUTTON;
-    @FXML private Button LoadFileBUTTON;
-    @FXML private Button LoansBUTTON;
-    @FXML private AnchorPane AdminAP;
+public class TopAdminController {
 
+    //constants
+    private final String YAZSTATEMENT = "Current Yaz: " ;
+    private final String FILESTATMENT = "File: " ;
+
+    //SubComponents
+    @FXML private AnchorPane CenterAdmin;
+    @FXML private CenterAdminController CenterAdminController;
+
+    //JavaFX components
+    @FXML private ComboBox<String> UserCB;
+    @FXML private ScrollPane MainSP;
+    @FXML private BorderPane MainBP;
+    @FXML private Label FileLABEL;
+    @FXML private Label YazLABEL;
+
+    //Regular Fields
     private MainController mainController;
 
 
@@ -22,7 +40,7 @@ public class StartAdminController {
     public AnchorPane getAdminAnchorPane() {return AdminAP;}
 
     //constructor
-    public StartAdminController() {
+    public TopAdminController() {
 
     }
 
@@ -48,5 +66,6 @@ public class StartAdminController {
         LoansBUTTON.setDisable(false);
         CustomersInformationBUTTON.setDisable(false);
     }
+
 
 }

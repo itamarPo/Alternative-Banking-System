@@ -1,20 +1,18 @@
 package userinterface.MainController;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import userinterface.admin.StartAdminController;
+import userinterface.admin.TopAdminController;
 import database.Engine;
+import userinterface.customer.TopCustomerController;
+
 import java.io.File;
 import java.net.URL;
 public class MainController {
@@ -35,11 +33,13 @@ public class MainController {
     //Regular Fields
     private Engine engine;
 
-    //controllers
-    private StartAdminController adminController;
-
     //constructor
-    public MainController(){
+    public MainController(Stage primaryStage, TopAdminController topAdminController, Scene adminScene, TopCustomerController topCustomerController, Scene customerScene) {
+        this.primaryStage = primaryStage;
+        this.topAdminController = topAdminController;
+        this.AdminScene = adminScene;
+        this.topCustomerController = topCustomerController;
+        this.CustomerScene = customerScene;
         engine = new Engine();
     }
 
@@ -69,15 +69,7 @@ public class MainController {
 
     }
 
-    public  void setStartAdminController() throws Exception{
-        FXMLLoader loader = new FXMLLoader();
-        URL mainFXML = getClass().getResource("/userinterface/admin/AdminEntry.fxml");
-        loader.setLocation(mainFXML);
-        Parent AP = loader.load();
-        adminController = loader.getController();
-        adminController.setMainController(this);
-        MainBP.setCenter(adminController.getAdminAnchorPane());
-    }
+
 
     public void openFileChooser(){
         FileChooser fileChooser = new FileChooser();

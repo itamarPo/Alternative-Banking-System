@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import userinterface.MainController.MainController;
 
@@ -13,16 +12,24 @@ import java.net.URL;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        URL mainFXML = getClass().getResource("/userinterface/MainController/TopBar.fxml");
-        loader.setLocation(mainFXML);
-        Parent root = loader.load();
-        MainController controller = loader.getController();
+        //Admin
+        FXMLLoader loaderAdmin = new FXMLLoader();
+        URL adminFXML = getClass().getResource("/userinterface/admin/TopAdmin.fxml");
+        loaderAdmin.setLocation(adminFXML);
+        Parent root1 = loaderAdmin.load();
+        TopAdminController topAdminController = loaderAdmin.getController();
+        Scene AdminScene = new Scene(root1, 600, 400);
 
-        controller.setPrimaryStage(primaryStage);
-        controller.setMinorControllers();
+        //Customer
+        FXMLLoader loaderCustomer = new FXMLLoader();
+        URL customerFXML = getClass().getResource("/userinterface/customer/TopCustomer.fxml");
+        loaderCustomer.setLocation(customerFXML);
+        Parent root2 = loaderAdmin.load();
+        TopCustomerController topCustomerController = loaderCustomer.getController();
+        Scene CustomerScene = new Scene(root2, 600, 400);
 
-
+        MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);
+        mainController.setSubControllers();
         primaryStage.setTitle("Alternative Banking System");
         Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);

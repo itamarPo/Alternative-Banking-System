@@ -1,6 +1,7 @@
 package userinterface.admin;
 
 import database.Engine;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -19,20 +20,27 @@ public class CenterAdminController {
     //Regular Fields
     private TopAdminController topAdminController;
 
+
+    //Constructor
+    public CenterAdminController() {
+
+    }
+
     //initialize after constructor
     @FXML
     private void initialize()  {
-
+        IncreaseYazBUTTON.setDisable(true);
     }
 
 
 
-    //Regular methods
+    //****Regular Methods****//
     public void setAdminTopController(TopAdminController topAdminController) {
-        topAdminController = topAdminController;
+        this.topAdminController = topAdminController;
     }
 
-    public void openFileChooser(){
+    @FXML
+    void openFileChooser(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select xml file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files", "*.xml"));

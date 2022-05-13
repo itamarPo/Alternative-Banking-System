@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<ScrollPane fx:id="MainSP" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.admin.TopAdminController">
+<ScrollPane fx:id="MainSP" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.admin.TopAdminController">
    <content>
       <BorderPane fx:id="MainBP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <top>
             <HBox alignment="BOTTOM_LEFT" prefHeight="60.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <ComboBox fx:id="UserCB" prefHeight="38.0" prefWidth="150.0" />
+                  <ComboBox fx:id="UserCB" onAction="#SetCBOnAction" prefHeight="38.0" prefWidth="150.0" />
                   <Label fx:id="FileLABEL" prefHeight="23.0" prefWidth="328.0" text="File:" />
                   <Label fx:id="YazLABEL" prefHeight="17.0" prefWidth="77.0" text="Current Yaz:" />
                </children>

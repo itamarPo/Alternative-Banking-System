@@ -26,12 +26,15 @@ public class Main extends Application {
         FXMLLoader loaderCustomer = new FXMLLoader();
         URL customerFXML = getClass().getResource("/userinterface/customer/TopCustomer.fxml");
         loaderCustomer.setLocation(customerFXML);
-        Parent root2 = loaderAdmin.load();
+        Parent root2 = loaderCustomer.load();
         TopCustomerController topCustomerController = loaderCustomer.getController();
         Scene CustomerScene = new Scene(root2, 600, 400);
 
+        //Main Controller
         MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);
         mainController.setSubControllers();
+
+        //Start program
         primaryStage.setTitle("Alternative Banking System");
         primaryStage.setScene(AdminScene);
         primaryStage.show();

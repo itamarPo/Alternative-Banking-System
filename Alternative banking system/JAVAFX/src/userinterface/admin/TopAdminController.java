@@ -20,6 +20,7 @@ public class TopAdminController {
     //constants
     private final String YAZSTATEMENT = "Current Yaz: " ;
     private final String FILESTATMENT = "File: " ;
+    private final String ADMIN = "Admin";
 
     //SubComponents
     @FXML private AnchorPane CenterAdmin;
@@ -35,8 +36,6 @@ public class TopAdminController {
     //Regular Fields
     private MainController mainController;
     private Engine engine;
-
-
 
 
     //constructor
@@ -68,7 +67,7 @@ public class TopAdminController {
         this.engine = engine;
     }
 
-    //Regular Methods
+    //****Regular Methods****//
     public void setTopBar(TopCustomerController topCustomerController, String newChoice){
         this.FileLABEL.setText(topCustomerController.getFileLABEL().getText());
         this.UserCB.setValue(newChoice);
@@ -85,6 +84,14 @@ public class TopAdminController {
             mainController.getTopCustomerController().setTopBarAfterFileLoaded(this);
         } catch (Exception e)  {
             //TODO: add file check from the engine
+        }
+    }
+
+    @FXML
+    public void SetCBOnAction(ActionEvent actionEvent) {
+        String UserPick = UserCB.getValue();
+        if(!UserPick.equals(ADMIN)){
+            mainController.changeScene(UserPick);
         }
     }
 

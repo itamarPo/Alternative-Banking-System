@@ -15,7 +15,7 @@ public class TopCustomerController {
 
     //constants
     private final String YAZSTATEMENT = "Current Yaz: " ;
-    private final String FILESTATMENT = "File: " ;
+    private final String FILESTATEMENT = "File: " ;
     private final String ADMIN = "Admin";
 
     //SubComponents
@@ -50,7 +50,7 @@ public class TopCustomerController {
         this.engine = engine;
     }
 
-    //Regular methods
+    //****Regular Methods****//
     public void setTopBarAfterFileLoaded(TopAdminController topAdminController){
         this.FileLABEL.setText(topAdminController.getFileLABEL().getText());
         this.UserCB.setItems(topAdminController.getUserCB().getItems());

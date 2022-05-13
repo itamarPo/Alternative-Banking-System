@@ -50,7 +50,7 @@ public class MainController {
     public Stage getPrimaryStage() {return primaryStage;}
     public TopCustomerController getTopCustomerController() {return topCustomerController;}
 
-    //Regular methods
+    //****Regular Methods****//
     public void changeScene(String newChoice){
         if(newChoice.equals("Admin")){
             topAdminController.setTopBar(topCustomerController,newChoice);
@@ -61,7 +61,6 @@ public class MainController {
             primaryStage.setScene(CustomerScene);
         }
     }
-
 
     public void setSubControllers() {
         topAdminController.setMainControllerAndEngine(this, engine);

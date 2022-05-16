@@ -4,13 +4,31 @@ import database.Engine;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import userinterface.table.loantable.*;
 
 
 import java.io.File;
 
 public class CenterAdminController {
+
+    //Sub components
+    @FXML private ScrollPane newLoan;
+    @FXML private NewLoanTableController newLoanController;
+
+    @FXML private ScrollPane pendingLoan;
+    @FXML private PendingLoanTableController pendingLoanController;
+
+    @FXML private ScrollPane activeLoan;
+    @FXML private ActiveLoanTableController activeLoanController;
+
+    @FXML private ScrollPane riskLoan;
+    @FXML private RiskLoanTableController riskLoanController;
+
+    @FXML private ScrollPane finishedLoan;
+    @FXML private FinishedLoanTableController finishLoanController;
 
     //JavaFX components
     @FXML private Button IncreaseYazBUTTON;

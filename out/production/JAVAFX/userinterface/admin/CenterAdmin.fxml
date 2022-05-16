@@ -24,7 +24,7 @@
         <tabs>
           <Tab text="New">
                <content>
-                  <fx:include fx:id="newLoan"  source="../table/loantable/newLoanTable.fxml" />
+                  <fx:include fx:id="newLoan" maxWidth="1.7976931348623157E308" source="../table/loantable/newLoanTable.fxml" />
                </content>
           </Tab>
           <Tab text="Pending">

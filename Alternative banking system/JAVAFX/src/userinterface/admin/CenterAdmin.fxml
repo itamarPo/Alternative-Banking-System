@@ -1,11 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="AdminAP" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.admin.CenterAdminController">
+<AnchorPane fx:id="AdminAP" maxHeight="2500.0" maxWidth="2500.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.admin.CenterAdminController">
    <children>
-      <Button fx:id="IncreaseYazBUTTON" layoutX="54.0" layoutY="27.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="111.0" text="Increase Yaz" />
-      <Button fx:id="LoadFileBUTTON" layoutX="454.0" layoutY="27.0" mnemonicParsing="false" onAction="#openFileChooser" prefHeight="34.0" prefWidth="111.0" text="Load File" />
+      <HBox layoutX="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="IncreaseYazBUTTON" minWidth="50.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="111.0" text="Increase Yaz" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+            <Button fx:id="LoadFileBUTTON" minWidth="50.0" mnemonicParsing="false" onAction="#openFileChooser" prefHeight="34.0" prefWidth="111.0" text="Load File" />
+         </children>
+         <padding>
+            <Insets left="30.0" right="30.0" />
+         </padding>
+      </HBox>
+      <TabPane layoutY="65.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <tabs>
+          <Tab text="New">
+               <content>
+                  <fx:include fx:id="newLoan" maxWidth="1.7976931348623157E308" source="../table/loantable/newLoanTable.fxml" />
+               </content>
+          </Tab>
+          <Tab text="Pending">
+               <content>
+                  <fx:include fx:id="pendingLoan" source="../table/loantable/pendingLoanTable.fxml" />
+               </content></Tab>
+            <Tab text="Active">
+               <content>
+                  <fx:include fx:id="activeLoan" source="../table/loantable/activeLoanTable.fxml" />
+               </content></Tab>
+            <Tab text="Risk">
+               <content>
+                  <fx:include fx:id="riskLoan" source="../table/loantable/activeLoanTable.fxml" />
+               </content></Tab>
+            <Tab text="Finished">
+               <content>
+                  <fx:include fx:id="finishedLoan" source="../table/loantable/finishedTable.fxml" />
+               </content></Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>

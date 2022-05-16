@@ -21,4 +21,7 @@ public class FinishedLoanTableController {
     @FXML private TableColumn<?, ?> startingTime;
     @FXML private TableColumn<?, ?> finishingTime;
 
+    public TableView<?> getFinishedTable() {
+        return finishedTable;
+    }
 }

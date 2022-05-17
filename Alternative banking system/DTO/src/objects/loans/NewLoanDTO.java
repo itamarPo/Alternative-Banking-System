@@ -25,6 +25,26 @@ public class NewLoanDTO {
 
     private String status;
 
+    public String getBorrowerName() {
+        return borrowerName;
+    }
+
+    public String getLoanCategory() {
+        return loanCategory;
+    }
+
+    public int getTimeLimitOfLoan() {
+        return timeLimitOfLoan;
+    }
+
+    public double getInterestPerPayment() {
+        return interestPerPayment;
+    }
+
+    public int getTimePerPayment() {
+        return timePerPayment;
+    }
+
     public NewLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, double interestPerPayment, int timePerPayment, String status) {
         this.loanID = loanID;
         this.borrowerName = borrowerName;

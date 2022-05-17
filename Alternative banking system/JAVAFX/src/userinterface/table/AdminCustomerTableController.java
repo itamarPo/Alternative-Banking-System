@@ -9,7 +9,7 @@ import javafx.scene.control.TableView;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class TableViewController implements Initializable {
+public class AdminCustomerTableController implements Initializable {
     @FXML private TableView<Customer> table;
     @FXML private TableColumn<Customer, String> name;
     @FXML private TableColumn<Customer, Double> balance;

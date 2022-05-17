@@ -20,7 +20,7 @@ public class Main extends Application {
         loaderAdmin.setLocation(adminFXML);
         Parent root1 = loaderAdmin.load();
         TopAdminController topAdminController = loaderAdmin.getController();
-        Scene AdminScene = new Scene(root1, 600, 475);
+        Scene AdminScene = new Scene(root1, 750, 550);
 
         //Customer
         FXMLLoader loaderCustomer = new FXMLLoader();
@@ -28,7 +28,7 @@ public class Main extends Application {
         loaderCustomer.setLocation(customerFXML);
         Parent root2 = loaderCustomer.load();
         TopCustomerController topCustomerController = loaderCustomer.getController();
-        Scene CustomerScene = new Scene(root2, 600, 475);
+        Scene CustomerScene = new Scene(root2, 750, 550);
 
         //Main Controller
         MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);

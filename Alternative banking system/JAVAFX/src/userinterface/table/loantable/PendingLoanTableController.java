@@ -2,10 +2,12 @@ package userinterface.table.loantable;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 
 public class PendingLoanTableController {
 
     //JavaFX components
+    @FXML private TableView tableView;
     @FXML private TableColumn<?, ?> loanID;
     @FXML private TableColumn<?, ?> category;
     @FXML private TableColumn<?, ?> owner;

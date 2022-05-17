@@ -1,7 +1,9 @@
 package userinterface.customer;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
+import userinterface.customer.information.InformationTabController;
 
 public class CenterCustomerController {
 

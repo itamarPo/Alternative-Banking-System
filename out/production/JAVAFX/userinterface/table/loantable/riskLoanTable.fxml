@@ -4,25 +4,26 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="500.0" maxWidth="1.7976931348623157E308" minHeight="0.0" minViewportHeight="160.0" minViewportWidth="400.0" minWidth="0.0" prefHeight="160.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.table.loantable.RiskLoanTableController">
+
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.table.loantable.RiskLoanTableController">
    <content>
-      <TableView maxHeight="300.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="600.0">
+      <TableView fx:id="tableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="600.0">
         <columns>
-          <TableColumn fx:id="loanID" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Loan ID" />
-            <TableColumn fx:id="category" maxWidth="1.7976931348623157E308" prefWidth="79.0" text="Category" />
-            <TableColumn fx:id="owner" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Owner" />
-            <TableColumn fx:id="amount" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="60.0" text="Amount" />
-            <TableColumn fx:id="duration" maxWidth="1.7976931348623157E308" minWidth="59.0" prefWidth="75.0" text="Duration" />
-            <TableColumn fx:id="interest" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="40.0" text="Interest&#10;" />
-            <TableColumn fx:id="timePerPayment" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="45.0" text="Time&#10;Between&#10;Payments&#10;" />
-            <TableColumn fx:id="listOfLenders" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="60.0" text="Lenders" />
-            <TableColumn fx:id="startingActiveTime" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="60.0" text="Acivated&#10;YAZ" />
-            <TableColumn fx:id="nextPaymentTime" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="60.0" text="Next &#10;Payment&#10;YAZ" />
-            <TableColumn fx:id="payments" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="60.0" text="Payment&#10;" />
-            <TableColumn fx:id="allInitialPayedSoFar" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="60.0" text="Initial&#10;Payed&#10;" />
-            <TableColumn fx:id="allInterestPayedSoFar" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="60.0" text="Interest&#10;Payed&#10;" />
-            <TableColumn fx:id="allInitialLeftToPay" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="60.0" text="Initial&#10;To be&#10;Payed&#10;" />
-            <TableColumn fx:id="allInterestLeftToPay" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="60.0" text="Interest&#10;To be&#10;Payed&#10;" />
+          <TableColumn fx:id="loanID" prefWidth="75.0" text="Loan ID" />
+          <TableColumn fx:id="category" prefWidth="75.0" text="Category" />
+            <TableColumn fx:id="owner" prefWidth="75.0" text="Owner" />
+            <TableColumn fx:id="amount" prefWidth="75.0" text="Amount" />
+            <TableColumn fx:id="duration" prefWidth="75.0" text="Duration" />
+            <TableColumn fx:id="interest" prefWidth="75.0" text="Interest" />
+            <TableColumn fx:id="timePerPayment" prefWidth="75.0" text="Time&#10;Between&#10;Payments" />
+            <TableColumn fx:id="listOfLenders" prefWidth="75.0" text="Lenders" />
+            <TableColumn fx:id="startingActiveTime" prefWidth="75.0" text="Activated&#10;YAZ" />
+            <TableColumn fx:id="nextPaymentTime" prefWidth="75.0" text="Next &#10;Payment&#10;YAZ" />
+            <TableColumn fx:id="payments" prefWidth="75.0" text="Payments" />
+            <TableColumn fx:id="allInitialPayedSoFar" prefWidth="75.0" text="Initial&#10;Payed" />
+            <TableColumn fx:id="allInterestPayedSoFar" prefWidth="75.0" text="Interest&#10;Payed" />
+            <TableColumn fx:id="allInitialLeftToPay" prefWidth="75.0" text="Initial&#10;To be&#10;Payed" />
+            <TableColumn fx:id="allInterestLeftToPay" prefWidth="75.0" text="Interest&#10;To be&#10;Payed&#10;" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

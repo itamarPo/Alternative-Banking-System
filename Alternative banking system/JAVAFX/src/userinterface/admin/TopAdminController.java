@@ -82,6 +82,7 @@ public class TopAdminController {
         } catch (Exception e)  {
             //TODO: add file check from the engine
         }
+        CenterAdminController.getNewLoanController().setValues(engine.getLoansInfo());
     }
 
     @FXML

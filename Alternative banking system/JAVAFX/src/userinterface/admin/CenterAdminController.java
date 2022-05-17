@@ -19,17 +19,21 @@ public class CenterAdminController {
     @FXML private ScrollPane newLoan;
     @FXML private NewLoanTableController newLoanController;
 
-    @FXML private ScrollPane pendingLoan;
+   // @FXML private ScrollPane pendingLoan;
     @FXML private PendingLoanTableController pendingLoanController;
 
-    @FXML private ScrollPane activeLoan;
+   // @FXML private ScrollPane activeLoan;
     @FXML private ActiveLoanTableController activeLoanController;
 
-    @FXML private ScrollPane riskLoan;
+   // @FXML private ScrollPane riskLoan;
     @FXML private RiskLoanTableController riskLoanController;
 
     @FXML private ScrollPane finishedLoan;
     @FXML private FinishedLoanTableController finishLoanController;
+
+    public NewLoanTableController getNewLoanController() {
+        return newLoanController;
+    }
 
     //JavaFX components
     @FXML private Button IncreaseYazBUTTON;

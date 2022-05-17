@@ -5,12 +5,16 @@ import javafx.scene.control.Tab;
 
 public class CenterCustomerController {
 
-    //FXML for each Tab!
+    //Sub components
+    @FXML ScrollPane informationTab;
+    @FXML InformationTabController informationTabController;
+
+    //JavaFX components
+    @FXML Tab information;
+    @FXML Tab inlay;
+    @FXML Tab payment;
 
 
-    @FXML Tab informationTab;
-    @FXML Tab inlayTab;
-    @FXML Tab paymentTab;
 
     //Regular fields
     private TopCustomerController topCustomerController;

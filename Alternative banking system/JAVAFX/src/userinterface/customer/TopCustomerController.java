@@ -7,10 +7,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import objects.customers.CustomerInfoDTO;
+import objects.customers.loanInfo.LoanInfoDTO;
+import objects.loans.NewLoanDTO;
 import userinterface.MainController.MainController;
 import userinterface.admin.TopAdminController;
 import userinterface.customer.information.InformationTabController;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TopCustomerController {
@@ -79,6 +84,8 @@ public class TopCustomerController {
     public void setTopBar(TopAdminController topAdminController, String newChoice){
         this.FileLABEL.setText(topAdminController.getFileLABEL().getText());
         this.UserCB.setValue(newChoice);
+        if(!newChoice.equals(ADMIN))
+            changeInfoFollowedComboBox(newChoice);
         this.YazLABEL.setText(topAdminController.getYazLABEL().getText());
     }
 
@@ -89,19 +96,24 @@ public class TopCustomerController {
             mainController.changeScene(ADMIN);
         }
         else {
-            informationTabController.setUserName(UserPick);
-            //CustomerInfoDTO customer = engine.getCustomerInfo().stream().collect().filter(l->(UserPick.equals(CustomerInfoDTO::getName())))
-            informationTabController.getTransactionInfoController().setTableValues(getCustomer(UserPick));
-            informationTabController.getNewLoanerTableController().setValues(getCustomer(UserPick).getLenderList().);
+            changeInfoFollowedComboBox(UserPick);
         }
     }
 
-    //WAS HAVING TROUBLE WITH STREAM. FIX IT ITAY, line 93
-    public CustomerInfoDTO getCustomer(String UserPick){
-        for(CustomerInfoDTO customer: engine.getCustomerInfo()){
-            if(customer.getName().equals(UserPick))
-                return customer;
-        }
-        return null;
+    public void changeInfoFollowedComboBox(String UserPick){
+        informationTabController.setUserName(UserPick);
+        //CustomerInfoDTO customer = ;
+        informationTabController.getTransactionInfoController().setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null));
+        informationTabController.getNewLoanerTableController().setValues(engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).collect(Collectors.toList()));
     }
+
+    //WAS HAVING TROUBLE WITH STREAM. FIX IT ITAY, line 93
+//    public CustomerInfoDTO getCustomer(String UserPick){
+//        for(CustomerInfoDTO customer: engine.getCustomerInfo()){
+//            if(customer.getName().equals(UserPick))
+//                return customer;
+//        }
+//        return null;
+//    }
+
 }

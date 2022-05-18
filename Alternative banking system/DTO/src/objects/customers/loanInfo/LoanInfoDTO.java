@@ -10,6 +10,26 @@ public class LoanInfoDTO implements LoanInfoDTOInterface{
     private int timePerPayment;
     private String status;
 
+    public double getLoanSize() {
+        return loanSize;
+    }
+
+    public String getLoanName() {
+        return loanName;
+    }
+
+    public String getLoanCategory() {
+        return loanCategory;
+    }
+
+    public double getInterestPerPayment() {
+        return interestPerPayment;
+    }
+
+    public int getTimePerPayment() {
+        return timePerPayment;
+    }
+
     public LoanInfoDTO(String loanName, String loanCategory, double sizeNoInterest, double interestPerPayment, int timePerPayment, String status) {
         this.loanSize = sizeNoInterest + sizeNoInterest*interestPerPayment/100;
         this.loanName = loanName;
@@ -37,4 +57,6 @@ public class LoanInfoDTO implements LoanInfoDTOInterface{
         System.out.println("Time per payment: " + timePerPayment );
         System.out.println("Status: " + status);
     }
+
+
 }

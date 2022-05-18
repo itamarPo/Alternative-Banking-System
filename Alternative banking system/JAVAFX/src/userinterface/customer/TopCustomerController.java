@@ -107,13 +107,5 @@ public class TopCustomerController {
         informationTabController.getNewLoanerTableController().setValues(engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).collect(Collectors.toList()));
     }
 
-    //WAS HAVING TROUBLE WITH STREAM. FIX IT ITAY, line 93
-//    public CustomerInfoDTO getCustomer(String UserPick){
-//        for(CustomerInfoDTO customer: engine.getCustomerInfo()){
-//            if(customer.getName().equals(UserPick))
-//                return customer;
-//        }
-//        return null;
-//    }
 
 }

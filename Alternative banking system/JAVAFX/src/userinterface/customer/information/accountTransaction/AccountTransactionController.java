@@ -16,7 +16,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import objects.customers.AccountTransactionDTO;
+import objects.customers.CustomerInfoDTO;
 import userinterface.admin.TopAdminController;
+import userinterface.customer.information.InformationTabController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,26 +45,43 @@ public class AccountTransactionController {
 
 
 
+    public InformationTabController getInformationTabController() {
+        return informationTabController;
+    }
+
+    //Regular Fields
+    private InformationTabController informationTabController;
 
     @FXML
-    private void initialize()  {
+    private void initialize() throws Exception{
         FXMLLoader loaderPopUp = new FXMLLoader();
         URL popUpFXML = getClass().getResource("/userinterface/customer/information/accountTransaction/transactionPopUp.fxml");
         loaderPopUp.setLocation(popUpFXML);
         Parent root1 = loaderPopUp.load();
         popUpController = loaderPopUp.getController();
         MESSAGE = popUpController.getMessageButton().getText();
+        popUpController.setAccountTransactionController(this);
+        popUpController.setPopUpScene();
+
+        timeOfTransaction.setCellValueFactory(new PropertyValueFactory<AccountTransactionDTO, Integer>("timeOfTransaction"));
+        balanceBefore.setCellValueFactory(new PropertyValueFactory<AccountTransactionDTO, Double>("balanceBefore"));
+        balanceAfter.setCellValueFactory(new PropertyValueFactory<AccountTransactionDTO, Double>("balanceAfter"));
+        transactionAmount.setCellValueFactory(new PropertyValueFactory<>("incomeOrExpense" + "transactionAmount"));
     }
 
+    //Getters
+
+    //Setters
+    public void setInformationTabController(InformationTabController informationTabController) {
+        this.informationTabController = informationTabController;
+    }
 
     //Regular methods
     @FXML
     void chargeButtonOnAction(ActionEvent event) {
-        Stage popUpStage = new Stage();
-        Scene popUpScene = new Scene(popUpController.getTransactionPopUpAP(),350, 160);
-        popUpController.setMessageButton(MESSAGE + "charge");
-        popUpStage.setScene(popUpScene);
-        popUpStage.show();
+        popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "charge:", popUpExist );
+        if(!popUpExist)
+            popUpExist = true;
     }
 
     @FXML

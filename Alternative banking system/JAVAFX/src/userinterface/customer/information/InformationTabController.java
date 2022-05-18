@@ -7,6 +7,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import userinterface.customer.TopCustomerController;
 import userinterface.customer.information.accountTransaction.AccountTransactionController;
 import userinterface.table.loantable.*;
 
@@ -37,9 +38,10 @@ public class InformationTabController {
     @FXML private FinishedLoanTableController finishedLenderTableController;
 
     @FXML private AnchorPane transactionInfo;
-    @FXML private AccountTransactionController transactionController;
+    @FXML private AccountTransactionController transactionInfoController;
 
     //JavaFX components
+    @FXML private AnchorPane informationAP;
     @FXML private ScrollPane informationSP;
     @FXML private BorderPane informationBP;
     @FXML private TabPane loanerTB;

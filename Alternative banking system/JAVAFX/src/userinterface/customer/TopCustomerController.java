@@ -49,11 +49,18 @@ public class TopCustomerController {
 
     }
 
+    @FXML
+    private void initialize() {
+        informationTabController.setTopCustomerController(this);
+    }
+
+
 
     //getters
     public Label getFileLABEL() {return FileLABEL;}
     public ComboBox<String> getUserCB() {return UserCB;}
     public Label getYazLABEL() {return YazLABEL;}
+    public MainController getMainController() {return mainController;}
 
     //setters
     public void setMainControllerAndEngine(MainController mainController, Engine engine) {

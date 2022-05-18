@@ -3,13 +3,12 @@ package userinterface.customer;
 import database.Engine;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import userinterface.MainController.MainController;
 import userinterface.admin.TopAdminController;
+import userinterface.customer.information.InformationTabController;
 
 public class TopCustomerController {
 
@@ -19,8 +18,10 @@ public class TopCustomerController {
     private final String ADMIN = "Admin";
 
     //SubComponents
-    @FXML private AnchorPane CenterCustomer;
-    @FXML private CenterCustomerController CenterCustomerController;
+    @FXML private AnchorPane informationTab;
+    @FXML private InformationTabController informationTabController;
+
+
 
     //JavaFX
     @FXML private ComboBox<String> UserCB;
@@ -28,6 +29,11 @@ public class TopCustomerController {
     @FXML private BorderPane MainBP;
     @FXML private Label FileLABEL;
     @FXML private Label YazLABEL;
+    @FXML private TabPane customerOptionsTB;
+
+    @FXML private Tab information;
+    @FXML private Tab inlay;
+    @FXML private Tab payments;
 
     //Regular Fields
     private MainController mainController;

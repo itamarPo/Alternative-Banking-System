@@ -4,10 +4,9 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-
-<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.table.loantable.NewLoanTableController">
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.table.loantable.NewLoanTableController">
    <content>
-      <TableView fx:id="tableView" prefHeight="160.0" prefWidth="600.0">
+      <TableView fx:id="tableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="600.0">
         <columns>
           <TableColumn fx:id="loanID" minWidth="-1.0" prefWidth="75.0" text="Loan ID" />
           <TableColumn fx:id="category" minWidth="-1.0" prefWidth="75.0" text="Category" />

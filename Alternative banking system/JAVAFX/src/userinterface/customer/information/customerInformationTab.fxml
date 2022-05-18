@@ -4,11 +4,10 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="665.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.information.InformationTabController">
    <children>
-      <fx:include fx:id="transcationInfo" source="accountTransactions.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <TabPane fx:id="loanerTP" prefHeight="200.0" prefWidth="417.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="248.0" AnchorPane.topAnchor="0.0">
+      <fx:include fx:id="transactionInfo" source="accountTransaction/accountTransactions.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <TabPane fx:id="loanerTP" prefHeight="200.0" prefWidth="411.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="254.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab fx:id="newLoanerTab" text="New">
                <content>
@@ -37,7 +36,7 @@
             </Tab>
         </tabs>
       </TabPane>
-      <TabPane fx:id="lenderTP" layoutY="200.0" prefHeight="200.0" prefWidth="417.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="248.0">
+      <TabPane fx:id="lenderTP" layoutY="200.0" prefHeight="200.0" prefWidth="411.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="254.0">
         <tabs>
           <Tab fx:id="newLenderTab" text="New">
                <content>

@@ -7,6 +7,26 @@ public class AccountTransactionDTO {
     private double balanceBefore;
     private double balanceAfter;
 
+    public char getIncomeOrExpense() {
+        return incomeOrExpense;
+    }
+
+    public int getTimeOfTransaction() {
+        return timeOfTransaction;
+    }
+
+    public double getTransactionAmount() {
+        return transactionAmount;
+    }
+
+    public double getBalanceBefore() {
+        return balanceBefore;
+    }
+
+    public double getBalanceAfter() {
+        return balanceAfter;
+    }
+
     public AccountTransactionDTO(int timeOfTransaction, double transactionAmount, char incomeOrExpense, double balanceBefore, double balanceAfter) {
         this.timeOfTransaction = timeOfTransaction;
         this.transactionAmount = transactionAmount;

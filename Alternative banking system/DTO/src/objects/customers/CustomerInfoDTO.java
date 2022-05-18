@@ -25,6 +25,10 @@ public class CustomerInfoDTO {
         return borrowerList;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public CustomerInfoDTO(String name, double balance) {
         this.transactionDTOS = new ArrayList<>();
         this.lenderList = new ArrayList<>();

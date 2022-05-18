@@ -1,5 +1,6 @@
 package userinterface.customer.information;
 
+import database.Engine;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -54,5 +55,39 @@ public class InformationTabController {
     @FXML private Tab riskLenderTab;
     @FXML private Tab finishedLenderTab;
 
+    //Regular Fields
+    private TopCustomerController topCustomerController;
+    private Engine engine;
+    private String userName;
+
+    public AccountTransactionController getTransactionInfoController() {
+        return transactionInfoController;
+    }
+
+    public NewLoanTableController getNewLoanerTableController() {
+        return newLoanerTableController;
+    }
+
+    @FXML
+    private void initialize() {
+        transactionInfoController.setInformationTabController(this);
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public TopCustomerController getTopCustomerController() {
+        return topCustomerController;
+    }
+
+    //Setters
+    public void setTopCustomerController(TopCustomerController topCustomerController) {
+        this.topCustomerController = topCustomerController;
+    }
+
+    public void setEngine(Engine engine){
+        this.engine = engine;
+    }
 
 }

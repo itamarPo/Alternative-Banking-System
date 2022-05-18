@@ -6,9 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import objects.customers.CustomerInfoDTO;
 import userinterface.MainController.MainController;
 import userinterface.admin.TopAdminController;
 import userinterface.customer.information.InformationTabController;
+
+import java.util.stream.Stream;
 
 public class TopCustomerController {
 
@@ -39,6 +42,8 @@ public class TopCustomerController {
     private MainController mainController;
     private Engine engine;
 
+
+
     //constructor
     public TopCustomerController(){
 
@@ -54,6 +59,7 @@ public class TopCustomerController {
     public void setMainControllerAndEngine(MainController mainController, Engine engine) {
         this.mainController = mainController;
         this.engine = engine;
+        informationTabController.setEngine(this.engine);
     }
 
     //****Regular Methods****//
@@ -75,5 +81,20 @@ public class TopCustomerController {
         if(UserPick.equals(ADMIN)){
             mainController.changeScene(ADMIN);
         }
+        else {
+            informationTabController.setUserName(UserPick);
+            //CustomerInfoDTO customer = engine.getCustomerInfo().stream().collect().filter(l->(UserPick.equals(CustomerInfoDTO::getName())))
+            informationTabController.getTransactionInfoController().setTableValues(getCustomer(UserPick));
+            informationTabController.getNewLoanerTableController().setValues(getCustomer(UserPick).getLenderList().);
+        }
+    }
+
+    //WAS HAVING TROUBLE WITH STREAM. FIX IT ITAY, line 93
+    public CustomerInfoDTO getCustomer(String UserPick){
+        for(CustomerInfoDTO customer: engine.getCustomerInfo()){
+            if(customer.getName().equals(UserPick))
+                return customer;
+        }
+        return null;
     }
 }

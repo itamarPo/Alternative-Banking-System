@@ -66,6 +66,10 @@ public class InformationTabController {
         return transactionInfoController;
     }
 
+    public NewLoanTableController getNewLenderTableController() {
+        return newLenderTableController;
+    }
+
     public NewLoanTableController getNewLoanerTableController() {
         return newLoanerTableController;
     }

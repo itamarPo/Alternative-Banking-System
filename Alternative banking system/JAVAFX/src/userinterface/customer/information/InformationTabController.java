@@ -26,8 +26,6 @@ public class InformationTabController {
     @FXML private ScrollPane finishedLoaderTable;
     @FXML private FinishedLoanTableController finishedLoaderTableController;
 
-    @FXML private ScrollPane newLenderTable;
-    @FXML private NewLoanTableController newLenderTableController;
     @FXML private ScrollPane pendingLenderTable;
     @FXML private PendingLoanTableController pendingLenderTableController;
     @FXML private ScrollPane activeLenderTable;
@@ -66,9 +64,6 @@ public class InformationTabController {
         return transactionInfoController;
     }
 
-    public NewLoanTableController getNewLenderTableController() {
-        return newLenderTableController;
-    }
 
     public NewLoanTableController getNewLoanerTableController() {
         return newLoanerTableController;

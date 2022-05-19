@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="informationAP" prefHeight="400.0" prefWidth="665.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.information.InformationTabController">
+<AnchorPane fx:id="informationAP" prefHeight="400.0" prefWidth="665.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.information.InformationTabController">
    <children>
       <fx:include fx:id="transactionInfo" source="accountTransaction/accountTransactions.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <TabPane fx:id="loanerTP" prefHeight="200.0" prefWidth="411.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="254.0" AnchorPane.topAnchor="0.0">
@@ -38,11 +38,6 @@
       </TabPane>
       <TabPane fx:id="lenderTP" layoutY="200.0" prefHeight="200.0" prefWidth="411.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="254.0">
         <tabs>
-          <Tab fx:id="newLenderTab" text="New">
-               <content>
-                  <fx:include fx:id="newLenderTable" source="../../table/loantable/newLoanTable.fxml" />
-               </content>
-          </Tab>
           <Tab fx:id="pendingLenderTab" text="Pending">
                <content>
                   <fx:include fx:id="pendingLenderTable" source="../../table/loantable/pendingLoanTable.fxml" />

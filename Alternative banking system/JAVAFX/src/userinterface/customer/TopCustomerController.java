@@ -12,6 +12,7 @@ import objects.loans.NewLoanDTO;
 import userinterface.MainController.MainController;
 import userinterface.admin.TopAdminController;
 import userinterface.customer.information.InformationTabController;
+import userinterface.customer.payments.PaymentsTabController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,12 @@ public class TopCustomerController {
     //SubComponents
     @FXML private AnchorPane informationTab;
     @FXML private InformationTabController informationTabController;
+
+    @FXML private AnchorPane paymentsTab;
+    @FXML private PaymentsTabController paymentsTabController;
+
+
+
 
 
 
@@ -57,6 +64,7 @@ public class TopCustomerController {
     @FXML
     private void initialize() {
         informationTabController.setTopCustomerController(this);
+        paymentsTabController.setTopCustomerController(this);
     }
 
 

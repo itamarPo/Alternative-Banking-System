@@ -64,7 +64,7 @@ public class TopAdminController {
         this.engine = engine;
     }
 
-    //****Regular Methods****//
+    //Regular Methods
     public void setTopBar(TopCustomerController topCustomerController, String newChoice){
         this.FileLABEL.setText(topCustomerController.getFileLABEL().getText());
         this.UserCB.setValue(newChoice);

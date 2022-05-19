@@ -19,21 +19,17 @@ public class CenterAdminController {
     @FXML private ScrollPane newLoan;
     @FXML private NewLoanTableController newLoanController;
 
-   // @FXML private ScrollPane pendingLoan;
+    @FXML private ScrollPane pendingLoan;
     @FXML private PendingLoanTableController pendingLoanController;
 
-   // @FXML private ScrollPane activeLoan;
+    @FXML private ScrollPane activeLoan;
     @FXML private ActiveLoanTableController activeLoanController;
 
-   // @FXML private ScrollPane riskLoan;
+    @FXML private ScrollPane riskLoan;
     @FXML private RiskLoanTableController riskLoanController;
 
     @FXML private ScrollPane finishedLoan;
     @FXML private FinishedLoanTableController finishLoanController;
-
-    public NewLoanTableController getNewLoanController() {
-        return newLoanController;
-    }
 
     //JavaFX components
     @FXML private Button IncreaseYazBUTTON;
@@ -56,16 +52,24 @@ public class CenterAdminController {
     }
 
 
+    //Getters
+    public NewLoanTableController getNewLoanController() {
+        return newLoanController;
+    }
 
-    //****Regular Methods****//
+    public FinishedLoanTableController getFinishLoanController() {
+
+        return finishLoanController;
+    }
+
+
+    //Setters
     public void setAdminTopController(TopAdminController topAdminController) {
         this.topAdminController = topAdminController;
     }
 
-    public FinishedLoanTableController getFinishLoanController() {
-        return finishLoanController;
-    }
 
+    //Regular Methods
     @FXML
     void openFileChooser(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -77,10 +81,10 @@ public class CenterAdminController {
         }
         String absolutePath = selectedFile.getAbsolutePath();
         topAdminController.LoadFileAction(absolutePath);
-
     }
 
     public void enableAfterFileLoader(){
         IncreaseYazBUTTON.setDisable(false);
     }
+
 }

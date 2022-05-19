@@ -3,6 +3,7 @@ package userinterface.customer.information;
 import database.Engine;
 import database.client.AccountTransaction;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -56,6 +57,10 @@ public class InformationTabController {
     @FXML private Tab riskLenderTab;
     @FXML private Tab finishedLenderTab;
 
+
+
+    @FXML private Label balanceLabel;
+
     //Regular Fields
     private TopCustomerController topCustomerController;
     private Engine engine;
@@ -68,6 +73,10 @@ public class InformationTabController {
 
     public NewLoanTableController getNewLoanerTableController() {
         return newLoanerTableController;
+    }
+
+    public Label getBalanceLabel() {
+        return balanceLabel;
     }
 
     @FXML

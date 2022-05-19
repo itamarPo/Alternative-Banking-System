@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -26,6 +27,7 @@ public class TransactionPopUpController {
     private Engine engine;
 
     private String userName;
+    boolean chargeOrWithdraw;
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -33,6 +35,7 @@ public class TransactionPopUpController {
 
     public TransactionPopUpController() {
         popUpStage = new Stage();
+        //popUpStage = (Stage)confirmButton.getScene().getWindow();
     }
 
 
@@ -55,13 +58,14 @@ public class TransactionPopUpController {
     }
 
     //Regular Methods
-    public void setPopUp(Stage primaryStage, String message, boolean popUpExist){
+    public void setPopUp(Stage primaryStage, String message, boolean popUpExist, boolean chargeOrWithdraw){
         if(!popUpExist) {
            // popUpStage.initModality(Modality.WINDOW_MODAL);
             popUpStage.initOwner(primaryStage);
         }
         messageButton.setText(message);
         popUpStage.show();
+        this.chargeOrWithdraw = chargeOrWithdraw;
     }
 
     public void setPopUpScene(){
@@ -84,7 +88,13 @@ public class TransactionPopUpController {
         try {
            userSum =  Double.parseDouble(userInput);
            customer = engine.getCustomerByName(userName);
-           customer.addMoney(userSum);
+           if(chargeOrWithdraw)
+                customer.addMoney(userSum);
+           else
+               customer.drawMoney(userSum);
+           accountTransactionController.getInformationTabController().getBalanceLabel().setText("Balance: " + customer.getBalance());
+           errorMessage.setText(null);
+           popUpStage.close();
         }
         catch (Exception e){
             errorMessage.setText("Incorrect Input. Please Enter a valid Number");

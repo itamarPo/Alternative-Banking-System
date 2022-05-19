@@ -93,7 +93,7 @@ public class AccountTransactionController {
     //Regular methods
     @FXML
     void chargeButtonOnAction(ActionEvent event) {
-        popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "charge:", popUpExist );
+        popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "charge:", popUpExist, true);
         if(!popUpExist) {
             popUpExist = true;
             popUpController.setEngine(this.engine);
@@ -102,7 +102,7 @@ public class AccountTransactionController {
 
     @FXML
     void withdrawButtonOnAction(ActionEvent event) {
-        popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "withdraw:", popUpExist );
+        popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "withdraw:", popUpExist, false);
         if(!popUpExist) {
             popUpExist = true;
             popUpController.setEngine(this.engine);

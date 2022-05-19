@@ -32,11 +32,14 @@
               <tabs>
                 <Tab fx:id="information" text="Information">
                      <content>
-                        <fx:include fx:id="informationTab" source="information/customerInformationTab.fxml" />
+                        <fx:include fx:id="informationTab" source="information/InformationTab.fxml" />
                      </content>
                 </Tab>
                 <Tab fx:id="inlay" text="Inlay" />
-                  <Tab fx:id="payments" text="Payments" />
+                  <Tab fx:id="payments" text="Payments">
+                     <content>
+                        <fx:include fx:id="paymentsTab" source="payments/PaymentsTab.fxml" />
+                     </content></Tab>
               </tabs>
                <BorderPane.margin>
                   <Insets top="-50.0" />

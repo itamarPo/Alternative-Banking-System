@@ -1,5 +1,7 @@
 package userinterface.customer.information.accountTransaction;
 
+import database.Engine;
+import database.client.Customer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -21,6 +23,13 @@ public class TransactionPopUpController {
     private Stage popUpStage;
 
     private Scene popUpScene;
+    private Engine engine;
+
+    private String userName;
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public TransactionPopUpController() {
         popUpStage = new Stage();
@@ -41,11 +50,14 @@ public class TransactionPopUpController {
         messageButton.setText(Message);
     }
 
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
 
     //Regular Methods
     public void setPopUp(Stage primaryStage, String message, boolean popUpExist){
         if(!popUpExist) {
-            popUpStage.initModality(Modality.WINDOW_MODAL);
+           // popUpStage.initModality(Modality.WINDOW_MODAL);
             popUpStage.initOwner(primaryStage);
         }
         messageButton.setText(message);
@@ -66,6 +78,16 @@ public class TransactionPopUpController {
 
     @FXML
     void confirmButtonSetOnAction(ActionEvent event) {
-
+        String userInput = textField.getText();
+        Double userSum;
+        Customer customer;
+        try {
+           userSum =  Double.parseDouble(userInput);
+           customer = engine.getCustomerByName(userName);
+           customer.addMoney(userSum);
+        }
+        catch (Exception e){
+            errorMessage.setText("Incorrect Input. Please Enter a valid Number");
+        }
     }
 }

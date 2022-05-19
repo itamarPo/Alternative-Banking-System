@@ -1,5 +1,6 @@
 package userinterface.customer.information.accountTransaction;
 
+import database.Engine;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -51,6 +52,14 @@ public class AccountTransactionController {
 
     //Regular Fields
     private InformationTabController informationTabController;
+    private Engine engine;
+
+    private String userName;
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+        popUpController.setUserName(this.userName);
+    }
 
     @FXML
     private void initialize() throws Exception{
@@ -71,6 +80,11 @@ public class AccountTransactionController {
 
     //Getters
 
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+        popUpController.setEngine(this.engine);
+    }
+
     //Setters
     public void setInformationTabController(InformationTabController informationTabController) {
         this.informationTabController = informationTabController;
@@ -80,15 +94,19 @@ public class AccountTransactionController {
     @FXML
     void chargeButtonOnAction(ActionEvent event) {
         popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "charge:", popUpExist );
-        if(!popUpExist)
+        if(!popUpExist) {
             popUpExist = true;
+            popUpController.setEngine(this.engine);
+        }
     }
 
     @FXML
     void withdrawButtonOnAction(ActionEvent event) {
         popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "withdraw:", popUpExist );
-        if(!popUpExist)
+        if(!popUpExist) {
             popUpExist = true;
+            popUpController.setEngine(this.engine);
+        }
     }
 
     public void setTableValues(CustomerInfoDTO customer){

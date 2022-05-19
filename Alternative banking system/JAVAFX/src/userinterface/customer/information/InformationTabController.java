@@ -1,6 +1,7 @@
 package userinterface.customer.information;
 
 import database.Engine;
+import database.client.AccountTransaction;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -81,6 +82,7 @@ public class InformationTabController {
 
     public void setUserName(String userName) {
         this.userName = userName;
+        transactionInfoController.setUserName(this.userName);
     }
 
     public TopCustomerController getTopCustomerController() {
@@ -94,6 +96,7 @@ public class InformationTabController {
 
     public void setEngine(Engine engine){
         this.engine = engine;
+        transactionInfoController.setEngine(this.engine);
     }
 
 }

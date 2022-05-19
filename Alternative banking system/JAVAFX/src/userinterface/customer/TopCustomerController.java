@@ -113,6 +113,8 @@ public class TopCustomerController {
         //CustomerInfoDTO customer = ;
         informationTabController.getTransactionInfoController().setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null));
         informationTabController.getNewLoanerTableController().setValues(engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).collect(Collectors.toList()));
+        informationTabController.getBalanceLabel().setText(informationTabController.getBalanceLabel().getText()+
+                engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null).getBalance());
     }
 
 

@@ -13,6 +13,10 @@ public class CustomerInfoDTO {
   private String name;
   private double balance;
 
+    public double getBalance() {
+        return balance;
+    }
+
     public List<AccountTransactionDTO> getTransactionDTOS() {
         return transactionDTOS;
     }

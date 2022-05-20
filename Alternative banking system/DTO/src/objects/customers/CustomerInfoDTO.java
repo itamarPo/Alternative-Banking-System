@@ -38,6 +38,15 @@ public class CustomerInfoDTO {
     public String getName() {
         return name;
     }
+    public Integer getNewBorrower() {return newBorrower;}
+    public Integer getPendingBorrower() {return pendingBorrower;}
+    public Integer getActiveBorrower() {return activeBorrower;}
+    public Integer getRiskBorrower() {return riskBorrower;}
+    public Integer getFinishedBorrower() {return finishedBorrower;}
+    public Integer getPendingLender() {return pendingLender;}
+    public Integer getActiveLender() {return activeLender;}
+    public Integer getRiskLender() {return riskLender;}
+    public Integer getFinishedLender() {return finishedLender;}
 
     public void setLoansAmounts(){
         newBorrower = borrowerList.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()).size();

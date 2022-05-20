@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<ScrollPane fx:id="MainSP" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.TopCustomerController">
+<ScrollPane fx:id="MainSP" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.TopCustomerController">
    <content>
       <BorderPane fx:id="MainBP" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0">
          <top>
@@ -35,7 +35,10 @@
                         <fx:include fx:id="informationTab" source="information/InformationTab.fxml" />
                      </content>
                 </Tab>
-                <Tab fx:id="inlay" text="Inlay" />
+                <Tab fx:id="inlay" text="Inlay">
+                     <content>
+                        <fx:include fx:id="inlayTab" source="inlay/inlayTAB.fxml" />
+                     </content></Tab>
                   <Tab fx:id="payments" text="Payments">
                      <content>
                         <fx:include fx:id="paymentsTab" source="payments/PaymentsTab.fxml" />

@@ -12,6 +12,7 @@ import objects.loans.NewLoanDTO;
 import userinterface.MainController.MainController;
 import userinterface.admin.TopAdminController;
 import userinterface.customer.information.InformationTabController;
+import userinterface.customer.inlay.InlayTabController;
 import userinterface.customer.payments.PaymentsTabController;
 
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ public class TopCustomerController {
 
     @FXML private AnchorPane paymentsTab;
     @FXML private PaymentsTabController paymentsTabController;
-
+    @FXML private ScrollPane inlayTab;
+    @FXML private InlayTabController inlayTabController;
 
 
 

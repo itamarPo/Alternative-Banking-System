@@ -64,7 +64,7 @@ public class MainController {
             topCustomerController.setTopBar(topAdminController,newChoice);
             primaryStage.setScene(CustomerScene);
         }
-        primaryStage.setMaximized(true);
+
 //        primaryStage.setWidth(x);
 //        primaryStage.setHeight(y);
 

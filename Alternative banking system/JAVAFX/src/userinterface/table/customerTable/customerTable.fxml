@@ -4,22 +4,21 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.table.AdminCustomerTableController">
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.table.customerTable.CustomerTableController">
    <content>
       <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="600.0">
          <columns>
             <TableColumn fx:id="name" minWidth="-1.0" prefWidth="75.0" text="Name" />
             <TableColumn fx:id="balance" minWidth="-1.0" prefWidth="72.0" text="Balance" />
-            <TableColumn minWidth="-1.0" prefWidth="254.0" text="Total Lending">
+            <TableColumn fx:id="totalLending" minWidth="-1.0" prefWidth="254.0" text="Total Lending">
                <columns>
-                  <TableColumn fx:id="newLender" minWidth="-1.0" prefWidth="37.0" text="New" />
                   <TableColumn fx:id="pendingLender" minWidth="-1.0" prefWidth="62.0" text="Pending" />
                   <TableColumn fx:id="activeLender" minWidth="-1.0" prefWidth="52.0" text="Active" />
                   <TableColumn fx:id="riskLender" minWidth="-1.0" prefWidth="46.0" text="Risk" />
                   <TableColumn fx:id="finishedLender" minWidth="-1.0" prefWidth="60.0" text="Finished" />
                </columns>
             </TableColumn>
-            <TableColumn minWidth="-1.0" prefWidth="275.0" text="Total Borrowing">
+            <TableColumn fx:id="totalBorrowing" minWidth="-1.0" prefWidth="275.0" text="Total Borrowing">
                <columns>
                   <TableColumn fx:id="newBorrower" minWidth="-1.0" prefWidth="54.0" text="New" />
                   <TableColumn fx:id="pendingBorrower" minWidth="-1.0" prefWidth="59.0" text="Pending" />

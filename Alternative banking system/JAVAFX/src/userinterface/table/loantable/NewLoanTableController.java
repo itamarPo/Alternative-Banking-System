@@ -28,7 +28,7 @@ public class NewLoanTableController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+//        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         loanID.setCellValueFactory(new PropertyValueFactory<NewLoanDTO, String>("loanID"));
         category.setCellValueFactory(new PropertyValueFactory<NewLoanDTO, String>("loanCategory"));
         owner.setCellValueFactory(new PropertyValueFactory<NewLoanDTO, String>("borrowerName"));

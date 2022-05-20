@@ -74,6 +74,7 @@ public class TopCustomerController {
     public ComboBox<String> getUserCB() {return UserCB;}
     public Label getYazLABEL() {return YazLABEL;}
     public MainController getMainController() {return mainController;}
+    public ScrollPane getMainSP() {return MainSP;}
 
     //setters
     public void setMainControllerAndEngine(MainController mainController, Engine engine) {

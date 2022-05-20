@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
 <AnchorPane fx:id="informationAP" prefHeight="380.0" prefWidth="665.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.information.InformationTabController">
    <children>
@@ -61,6 +62,10 @@
             </Tab>
         </tabs>
       </TabPane>
-      <Label fx:id="balanceLabel" layoutX="14.0" prefHeight="23.0" prefWidth="107.0" text="Balance:" AnchorPane.bottomAnchor="377.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
+      <HBox layoutX="14.0" layoutY="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="96.0" AnchorPane.bottomAnchor="377.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="564.0" AnchorPane.topAnchor="6.0">
+         <children>
+            <Label fx:id="balanceLabel" prefHeight="17.0" prefWidth="81.0" text="Balance:" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

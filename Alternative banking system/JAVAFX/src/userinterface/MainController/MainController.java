@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import userinterface.admin.TopAdminController;
 import database.Engine;
 import userinterface.customer.TopCustomerController;
+import userinterface.table.AdminCustomerTableController;
 
 import java.io.File;
 import java.net.URL;
@@ -52,6 +53,8 @@ public class MainController {
 
     //****Regular Methods****//
     public void changeScene(String newChoice){
+        double x = primaryStage.getWidth();
+        double y = primaryStage.getHeight();
         if(newChoice.equals("Admin")){
             topAdminController.setTopBar(topCustomerController,newChoice);
             primaryStage.setScene(AdminScene);
@@ -60,6 +63,10 @@ public class MainController {
             topCustomerController.setTopBar(topAdminController,newChoice);
             primaryStage.setScene(CustomerScene);
         }
+        primaryStage.setWidth(x);
+        primaryStage.setHeight(y);
+
+
     }
 
     public void setSubControllers() {

@@ -9,4 +9,9 @@ public class TwoClientsWithSameNameException extends Exception implements Excepc
     public void printMessage(){
         System.out.println("File is invalid! There are two clients with the name: "+ name);
     }
+
+    @Override
+    public String toString() {
+        return "File is invalid! There are two clients with the name: "+ name;
+    }
 }

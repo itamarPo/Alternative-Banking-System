@@ -39,6 +39,7 @@ public class Main extends Application {
         primaryStage.setTitle("Alternative Banking System");
         primaryStage.setScene(AdminScene);
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {

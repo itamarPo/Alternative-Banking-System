@@ -62,9 +62,9 @@
             </Tab>
         </tabs>
       </TabPane>
-      <HBox layoutX="14.0" layoutY="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="96.0" AnchorPane.bottomAnchor="377.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="564.0" AnchorPane.topAnchor="6.0">
+      <HBox layoutX="14.0" layoutY="6.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="149.0" AnchorPane.bottomAnchor="377.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="511.0" AnchorPane.topAnchor="6.0">
          <children>
-            <Label fx:id="balanceLabel" prefHeight="17.0" prefWidth="81.0" text="Balance:" HBox.hgrow="ALWAYS" />
+            <Label fx:id="balanceLabel" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="108.0" text="Balance:" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </children>

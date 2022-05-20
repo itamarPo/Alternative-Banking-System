@@ -13,4 +13,9 @@ public class OwnerLoanNotExistException extends Exception implements ExcepctionI
     public void printMessage() {
         System.out.println("The owner: " + ownerName + "of loan: " + '"' + loanId + '"'  + "does not exist.");
     }
+
+    @Override
+    public String toString() {
+        return ("The owner: " + ownerName + "of loan: " + '"' + loanId + '"'  + "does not exist.");
+    }
 }

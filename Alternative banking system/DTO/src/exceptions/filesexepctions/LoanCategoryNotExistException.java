@@ -13,4 +13,9 @@ public class LoanCategoryNotExistException extends Exception implements Excepcti
     public void printMessage() {
         System.out.println("For loan " + '"' + id  + '"' +" the category: '" + category + "' does not exist.");
     }
+
+    @Override
+    public String toString() {
+        return "For loan " + '"' + id  + '"' +" the category: '" + category + "' does not exist.";
+    }
 }

@@ -1,16 +1,25 @@
 package userinterface.admin;
 
 import database.Engine;
+import exceptions.filesexepctions.LoanCategoryNotExistException;
+import exceptions.filesexepctions.OwnerLoanNotExistException;
+import exceptions.filesexepctions.TimeOfPaymentNotDivideEqualyException;
+import exceptions.filesexepctions.TwoClientsWithSameNameException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 import userinterface.MainController.MainController;
 import userinterface.customer.TopCustomerController;
 
+import javax.xml.bind.JAXBException;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class TopAdminController {
 
@@ -80,22 +89,32 @@ public class TopAdminController {
             UserCB.getItems().addAll(engine.getCustomerNames());
             CenterAdminController.enableAfterFileLoader();
             mainController.getTopCustomerController().setTopBarAfterFileLoaded(this);
-        } catch (Exception e)  {
-            //TODO: add file check from the engine
-        }
-        CenterAdminController.getNewLoanController().setValues(engine.getLoansInfo());
-    }
+            CenterAdminController.getNewLoanController().setValues(engine.getLoansInfo());
+        } catch (LoanCategoryNotExistException e) {
+            Notifications categoryNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.TOP_LEFT);
+            categoryNotExist.show();
+        } catch (OwnerLoanNotExistException e) {
+            Notifications ownerNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.TOP_LEFT);
+            ownerNotExist.show();
+        } catch (TimeOfPaymentNotDivideEqualyException e) {
+            Notifications TimeNotDivideEqually = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.TOP_LEFT);
+            TimeNotDivideEqually.show();
+        } catch (TwoClientsWithSameNameException e) {
+            Notifications categoryNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.TOP_LEFT);
+            categoryNotExist.show();
+        } catch (JAXBException e) {
 
-    @FXML
+        } catch (FileNotFoundException e) {
+
+        } catch (Exception e) {
+
+        }
+    }
+        @FXML
     public void SetCBOnAction(ActionEvent actionEvent) {
         String UserPick = UserCB.getValue();
         if(!UserPick.equals(ADMIN)){
             mainController.changeScene(UserPick);
         }
     }
-
-
-
-
-
 }

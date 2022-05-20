@@ -10,6 +10,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.controlsfx.control.Notifications;
 import userinterface.admin.TopAdminController;
 import database.Engine;
 import userinterface.customer.TopCustomerController;
@@ -53,8 +54,8 @@ public class MainController {
 
     //****Regular Methods****//
     public void changeScene(String newChoice){
-        double x = primaryStage.getWidth();
-        double y = primaryStage.getHeight();
+//        double x = primaryStage.getWidth();
+//        double y = primaryStage.getHeight();
         if(newChoice.equals("Admin")){
             topAdminController.setTopBar(topCustomerController,newChoice);
             primaryStage.setScene(AdminScene);
@@ -63,8 +64,9 @@ public class MainController {
             topCustomerController.setTopBar(topAdminController,newChoice);
             primaryStage.setScene(CustomerScene);
         }
-        primaryStage.setWidth(x);
-        primaryStage.setHeight(y);
+        primaryStage.setMaximized(true);
+//        primaryStage.setWidth(x);
+//        primaryStage.setHeight(y);
 
 
     }
@@ -74,36 +76,5 @@ public class MainController {
         topCustomerController.setMainControllerAndEngine(this, engine);
         topCustomerController.setTopBar(topAdminController,"Admin");
     }
-
-
-
-
-
-
-//    public void openFileChooser(){
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Select xml file");
-//        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files", "*.xml"));
-//        File selectedFile = fileChooser.showOpenDialog(primaryStage);
-//        if (selectedFile == null) {
-//            return;
-//        }
-//
-//
-//        String absolutePath = selectedFile.getAbsolutePath();
-//
-//        try {
-//            engine.loadFile(absolutePath);
-//            FileLABEL.setText(FILESTATMENT + absolutePath);
-//            YazLABEL.setText(YAZSTATEMENT + Engine.getTime());
-//            UserCB.getItems().addAll(engine.getCustomerNames());
-//            adminController.enableAfterFileLoader();
-//        } catch (Exception e)  {
-//            //TODO: add file check from the engine
-//        }
-//
-//    }
-
-
 
 }

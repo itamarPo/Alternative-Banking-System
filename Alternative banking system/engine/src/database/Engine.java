@@ -214,7 +214,9 @@ public class Engine implements EngineInterface , Serializable {
             newLoan = customerDTOClassArrange(borrowerLoan);
             customersInfo.get(customersInfo.size() - 1).getBorrowerList().add(newLoan);
          }
+         customersInfo.get(customersInfo.size() - 1).setLoansAmounts();
       }
+
       return customersInfo;
    }
 

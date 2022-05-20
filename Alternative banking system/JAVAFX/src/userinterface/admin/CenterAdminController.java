@@ -1,13 +1,12 @@
 package userinterface.admin;
 
-import database.Engine;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import userinterface.table.customerTable.CustomerTableController;
 import userinterface.table.loantable.*;
 
 
@@ -30,6 +29,9 @@ public class CenterAdminController {
 
     @FXML private ScrollPane finishedLoan;
     @FXML private FinishedLoanTableController finishLoanController;
+
+    @FXML private ScrollPane customerTable;
+    @FXML private CustomerTableController customerTableController;
 
     //JavaFX components
     @FXML private Button IncreaseYazBUTTON;
@@ -56,12 +58,10 @@ public class CenterAdminController {
     public NewLoanTableController getNewLoanController() {
         return newLoanController;
     }
-
-    public FinishedLoanTableController getFinishLoanController() {
-
-        return finishLoanController;
+    public FinishedLoanTableController getFinishLoanController() {return finishLoanController;}
+    public CustomerTableController getCustomerTableController() {
+        return customerTableController;
     }
-
 
     //Setters
     public void setAdminTopController(TopAdminController topAdminController) {

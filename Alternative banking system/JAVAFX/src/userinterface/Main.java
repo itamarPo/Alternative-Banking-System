@@ -13,6 +13,8 @@ import userinterface.customer.TopCustomerController;
 import java.net.URL;
 
 public class Main extends Application {
+    private final double WIDTH = 1000;
+    private final double HEIGHT = 550;
     @Override
     public void start(Stage primaryStage) throws Exception {
         //Admin
@@ -21,7 +23,7 @@ public class Main extends Application {
         loaderAdmin.setLocation(adminFXML);
         Parent root1 = loaderAdmin.load();
         TopAdminController topAdminController = loaderAdmin.getController();
-        Scene AdminScene = new Scene(root1, 750, 550);
+        Scene AdminScene = new Scene(root1, WIDTH, HEIGHT);
 
         //Customer
         FXMLLoader loaderCustomer = new FXMLLoader();
@@ -29,7 +31,7 @@ public class Main extends Application {
         loaderCustomer.setLocation(customerFXML);
         Parent root2 = loaderCustomer.load();
         TopCustomerController topCustomerController = loaderCustomer.getController();
-        Scene CustomerScene = new Scene(root2, 750, 550);
+        Scene CustomerScene = new Scene(root2, WIDTH, HEIGHT);
 
         //Main Controller
         MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);

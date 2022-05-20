@@ -1,23 +1,12 @@
 package userinterface.MainController;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.controlsfx.control.Notifications;
 import userinterface.admin.TopAdminController;
 import database.Engine;
 import userinterface.customer.TopCustomerController;
-import userinterface.table.AdminCustomerTableController;
 
-import java.io.File;
-import java.net.URL;
 public class MainController {
 
     //Main Stage

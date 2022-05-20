@@ -43,8 +43,8 @@ public class MainController {
 
     //****Regular Methods****//
     public void changeScene(String newChoice){
-//        double x = primaryStage.getWidth();
-//        double y = primaryStage.getHeight();
+        double width = primaryStage.getWidth();
+        double height = primaryStage.getHeight();
         if(newChoice.equals("Admin")){
             topAdminController.setTopBar(topCustomerController,newChoice);
             primaryStage.setScene(AdminScene);
@@ -54,8 +54,8 @@ public class MainController {
             primaryStage.setScene(CustomerScene);
         }
 
-//        primaryStage.setWidth(x);
-//        primaryStage.setHeight(y);
+        primaryStage.setWidth(width);
+        primaryStage.setHeight(height);
 
 
     }

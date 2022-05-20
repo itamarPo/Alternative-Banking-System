@@ -57,6 +57,7 @@ public class TopAdminController {
     public Label getYazLABEL() {return YazLABEL;}
     public MainController getMainController() {return mainController;}
     public Engine getEngine() {return engine;}
+    public ScrollPane getMainSP() {return MainSP;}
 
     //setters
     public void setMainControllerAndEngine(MainController mainController, Engine engine) {

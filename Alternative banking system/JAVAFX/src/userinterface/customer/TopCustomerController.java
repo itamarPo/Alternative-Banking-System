@@ -123,6 +123,7 @@ public class TopCustomerController {
                 engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null).getBalance());
         //Inlay tab changes
         inlayTabController.addCategoriesToCCB();
+        inlayTabController.resetFields();
 
 
 

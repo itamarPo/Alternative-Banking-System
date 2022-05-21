@@ -317,9 +317,10 @@ public class Engine implements EngineInterface , Serializable {
               .filter(l-> minInterest <= l.getInterestPerPayment())
               .filter(l-> minTime <= l.getTimeLimitOfLoan())
               .filter(l-> !l.getBorrowerName().equals(userName))
-              .filter(l-> getCustomerByName(l.getBorrowerName()).getBorrowerList().stream()
-                      .filter(x -> !(x.getStatus().getStatus().equals("Finished"))).count() <= maxOpenLoans)
+              .filter(l-> (getCustomerByName(l.getBorrowerName()).getBorrowerList().stream()
+              .filter(x -> !(x.getStatus().getStatus().equals("Finished"))).count() <= maxOpenLoans))
               .collect(Collectors.toList());
+
       for(Loans candidateLoan: filteredLoans){
          if(candidateLoan.getStatus().getStatus().equals("New")){
             validLoans.add(new NewLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(),
@@ -540,6 +541,10 @@ public class Engine implements EngineInterface , Serializable {
       {
          paymentMethod(loan);
       }
+   }
+
+   public int getNumOfLoans(){
+      return loans.size();
    }
 
 }

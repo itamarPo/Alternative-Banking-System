@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import objects.loans.NewLoanDTO;
 import org.controlsfx.control.CheckComboBox;
 import userinterface.customer.TopCustomerController;
 import userinterface.table.loantable.NewLoanTableController;
@@ -23,10 +24,10 @@ public class InlayTabController {
     //Constatns
     private final int INVALID = -1;
     //Sub components
-    @FXML private ScrollPane newLoanTable;
-    @FXML private NewLoanTableController newLoanTableController;
-    @FXML private ScrollPane pendingLoanTable;
-    @FXML private PendingLoanTableController pendingLoanTableController;
+    @FXML private ScrollPane newLoanTB;
+    @FXML private NewLoanTableController newLoanTBController;
+    @FXML private ScrollPane pendingLoanTB;
+    @FXML private PendingLoanTableController pendingLoanTBController;
 
     //JavaFX components
     @FXML private ScrollPane inlaySP;
@@ -125,10 +126,15 @@ public class InlayTabController {
         int minYAZ = getMinYAZ();
         int maxOpenLoans = getMaxOpenLoans();
         int maxOwnership = getMaxOwnership();
-        if(amountToInvest != INVALID && minInterest != INVALID && minYAZ != INVALID && maxOpenLoans != INVALID && maxOwnership != INVALID){
-            enableAllErrors();
-            //activate inlay!
+        if(amountToInvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxOwnership == INVALID) {
+            return;
         }
+        enableAllErrors();
+        List<NewLoanDTO> filteredLoans = engine.getFilteredLoans(categoriesList,minInterest,minYAZ,topCustomerController.getUserCB().getValue(), maxOpenLoans);
+        newLoanTBController.setValues(filteredLoans.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
+        //TODO: same for pending!!!!!!
+        //activate inlay!
+
 
     }
 
@@ -162,6 +168,9 @@ public class InlayTabController {
 
     public List<String> getFilteredCategories(){
         ObservableList<String> selectedCategories = categoriesCCB.getCheckModel().getCheckedItems();
+        if(selectedCategories.size() == 0){
+            return engine.getCategoriesList().getCategoriesList();
+        }
         return selectedCategories.stream().collect(Collectors.toList());
     }
 
@@ -212,7 +221,7 @@ public class InlayTabController {
 
     public int getMaxOpenLoans(){
         if(!maxOpenLoansCB.isSelected()){
-            return 0;
+            return engine.getNumOfLoans();
         }
         else{
             String maxOpenLoansInput = maxOpenLoansTF.getText();

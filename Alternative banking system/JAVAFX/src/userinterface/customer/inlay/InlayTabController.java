@@ -132,7 +132,10 @@ public class InlayTabController {
         enableAllErrors();
         List<NewLoanDTO> filteredLoans = engine.getFilteredLoans(categoriesList,minInterest,minYAZ,topCustomerController.getUserCB().getValue(), maxOpenLoans);
         newLoanTBController.setValues(filteredLoans.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
-        //TODO: same for pending!!!!!!
+        //TODO: present data to pending table as well
+        //TODO: get selected loans from user, need to add check boxes to the tables.
+        //TODO: after getting selected loans, call the inlay method in engine (splitMoneyBetweenLoans).
+//        engine.splitMoneyBetweenLoans(selectedLoans, topCustomerController.getUserCB().getValue(), maxOwnership);
         //activate inlay!
 
 

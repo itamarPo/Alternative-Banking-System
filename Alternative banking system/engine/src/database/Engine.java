@@ -317,7 +317,8 @@ public class Engine implements EngineInterface , Serializable {
               .filter(l-> minInterest <= l.getInterestPerPayment())
               .filter(l-> minTime <= l.getTimeLimitOfLoan())
               .filter(l-> !l.getBorrowerName().equals(userName))
-              .filter(l-> getCustomerByName(l.getBorrowerName()).getBorrowerList().size() <= maxOpenLoans)
+              .filter(l-> getCustomerByName(l.getBorrowerName()).getBorrowerList().stream()
+                      .filter(x -> !(x.getStatus().getStatus().equals("Finished"))).count() <= maxOpenLoans)
               .collect(Collectors.toList());
       for(Loans candidateLoan: filteredLoans){
          if(candidateLoan.getStatus().getStatus().equals("New")){
@@ -349,6 +350,9 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public void splitMoneyBetweenLoans(List<String> desiredLoansID, int moneyToInvest, String customerSelected, int maxOwnershipPercentage) throws Exception {
+      if(maxOwnershipPercentage == 0){
+         maxOwnershipPercentage = 100;
+      }
       Map<Loans, Integer> maxAmountPerLoan = new LinkedHashMap(); // save possible loans and amount
       for (String ID : desiredLoansID) {
          for (Loans findLoan : loans) {

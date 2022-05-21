@@ -26,6 +26,8 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.lang.Math.min;
+
 public class Engine implements EngineInterface , Serializable {
    private List<Customer> customers;
    private List<Loans> loans;
@@ -306,15 +308,17 @@ public class Engine implements EngineInterface , Serializable {
       return new CategoriesListDTO(categories);
    }
 
-   public List<NewLoanDTO> getFilteredLoans(List<String> categories, double interest, int minTime, String userName) {
+   public List<NewLoanDTO> getFilteredLoans(List<String> categories, double minInterest, int minTime, String userName, int maxOpenLoans) {
       List<NewLoanDTO> validLoans = new ArrayList<>();
       List<Loans> filteredLoans = new ArrayList<>(loans);
       filteredLoans = filteredLoans.stream()
               .filter(l-> l.getStatus().getStatus().equals("New") || l.getStatus().getStatus().equals("Pending"))
               .filter(l-> categories.contains(l.getLoanCategory()))
-              .filter(l-> interest <= l.getInterestPerPayment())
+              .filter(l-> minInterest <= l.getInterestPerPayment())
               .filter(l-> minTime <= l.getTimeLimitOfLoan())
-              .filter(l-> !l.getBorrowerName().equals(userName)).collect(Collectors.toList());
+              .filter(l-> !l.getBorrowerName().equals(userName))
+              .filter(l-> getCustomerByName(l.getBorrowerName()).getBorrowerList().size() <= maxOpenLoans)
+              .collect(Collectors.toList());
       for(Loans candidateLoan: filteredLoans){
          if(candidateLoan.getStatus().getStatus().equals("New")){
             validLoans.add(new NewLoanDTO(candidateLoan.getLOANID(), candidateLoan.getBorrowerName(),
@@ -334,73 +338,75 @@ public class Engine implements EngineInterface , Serializable {
       return validLoans;
    }
 
-   public void checkAmountOfInvestment(int userChoice, double moneyToInvest) throws Exception {
-      if (customers.get(userChoice - 1).getBalance() - moneyToInvest < 0) {
-         throw new WithDrawMoneyException(customers.get(userChoice - 1).getBalance(), moneyToInvest);
+   public void checkAmountOfInvestment(String customerName , double moneyToInvest) throws Exception {
+      if(moneyToInvest < 1){
+         throw new NumberFormatException();
+      }
+      Customer customer = getCustomerByName(customerName);
+      if (getCustomerByName(customerName).getBalance() - moneyToInvest < 0) {
+         throw new WithDrawMoneyException(customer.getBalance(), moneyToInvest);
       }
    }
 
-   public void splitMoneyBetweenLoans(List<NewLoanDTO> desiredLoans, double moneyToInvest, String customerSelected) throws Exception {
-      double sumOfAllLoans = 0;
-      List<Loans> LoansToInvest = new ArrayList<>();// save possible loans
-      for (NewLoanDTO loan : desiredLoans) {
+   public void splitMoneyBetweenLoans(List<String> desiredLoansID, int moneyToInvest, String customerSelected, int maxOwnershipPercentage) throws Exception {
+      Map<Loans, Integer> maxAmountPerLoan = new LinkedHashMap(); // save possible loans and amount
+      for (String ID : desiredLoansID) {
          for (Loans findLoan : loans) {
-            if (loan.getLoanID().equals(findLoan.getLOANID())) {
-               LoansToInvest.add(findLoan);
-               sumOfAllLoans += findLoan.getLeftToBeCollected();
+            if (ID.equals(findLoan.getLOANID())) {
+               int possibleInvestment = (int)(findLoan.getLoanSize() * (maxOwnershipPercentage/100));
+               possibleInvestment = min(possibleInvestment,(int)findLoan.getLeftToBeCollected());
+               maxAmountPerLoan.put(findLoan, possibleInvestment);
             }
          }
       }
-
-      if (sumOfAllLoans <= moneyToInvest) {
-         investInAllLoans(LoansToInvest, moneyToInvest, customerSelected);
-      } else {
-         //recursive function
-         splitEquallyBetweenLoans(LoansToInvest, moneyToInvest, getCustomerByName(customerSelected), 0);
-      }
+      //recursive function
+      splitEquallyBetweenLoans(maxAmountPerLoan,moneyToInvest,getCustomerByName(customerSelected),0);
    }
 
-   private void splitEquallyBetweenLoans(List<Loans> loansToInvest, double moneyToInvest, Customer customerSelected, double remainingLoansMin) {
-      int numOfLoans = loansToInvest.size();
+   private void splitEquallyBetweenLoans(Map<Loans,Integer> maxAmountPerLoan, double moneyToInvest, Customer customerSelected, double remainingLoansMin) {
+      int numOfLoans = maxAmountPerLoan.size();
       if (numOfLoans == 0) {
          return;
       }
-      double min = getLoansWithMinSumToPay(loansToInvest);
+      int min = getLoansWithMinSumToPay(maxAmountPerLoan);
       if ((min - remainingLoansMin) * numOfLoans > moneyToInvest) {
          int rest = (int)(moneyToInvest) % numOfLoans;
          int i = 0;
          int afterRestAdd = (int)(moneyToInvest / numOfLoans + remainingLoansMin + 1);
-         for (Loans enterLoan : loansToInvest) {
+         for (Map.Entry<Loans,Integer> entry : maxAmountPerLoan.entrySet()) {
             if(i < rest){
-               addCustomerToLoan(enterLoan, customerSelected,  (double)afterRestAdd);
+               addCustomerToLoan(entry.getKey(), customerSelected,  (double)afterRestAdd);
                i++;
             }
             else{
-               addCustomerToLoan(enterLoan, customerSelected,  (double)(afterRestAdd - 1));
+               addCustomerToLoan(entry.getKey(), customerSelected,  (double)(afterRestAdd - 1));
             }
          }
          return;
-      } else {
-         for (Loans enterLoan : loansToInvest) {
-            if (enterLoan.getLeftToBeCollected() == min) {
-               addCustomerToLoan(enterLoan, customerSelected, min);
+      }
+      else {
+         for (Map.Entry<Loans,Integer> entry : maxAmountPerLoan.entrySet()) {
+            if (entry.getValue() == min) {
+               addCustomerToLoan(entry.getKey(),customerSelected, min);
+               maxAmountPerLoan.remove(entry);
+               break;
             }
          }
-         loansToInvest.removeIf(x -> x.getLeftToBeCollected() + min == min);
-         splitEquallyBetweenLoans(loansToInvest, moneyToInvest - (min - remainingLoansMin) * numOfLoans, customerSelected, min);
+//         loansToInvest.removeIf(x -> x.getLeftToBeCollected() + min == min);
+         splitEquallyBetweenLoans(maxAmountPerLoan, moneyToInvest - (min - remainingLoansMin) * numOfLoans, customerSelected, min);
       }
    }
 
-   private double getLoansWithMinSumToPay(List<Loans> loansToInvest) {
-      double min = 0;
+   private int getLoansWithMinSumToPay(Map<Loans,Integer> maxAmountPerLoan) {
+      int min = 0;
       boolean isFirst = true;
-      for (Loans loan : loansToInvest) {
+      for (Map.Entry<Loans,Integer> entry : maxAmountPerLoan.entrySet()) {
          if (isFirst) {
-            min = loan.getLeftToBeCollected();
+            min = entry.getValue();
             isFirst = false;
          } else {
-            if (loan.getLeftToBeCollected() < min) {
-               min = loan.getLeftToBeCollected();
+            if (entry.getValue() < min) {
+               min = entry.getValue();
             }
          }
       }

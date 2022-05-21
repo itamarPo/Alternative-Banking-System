@@ -67,6 +67,7 @@ public class TopCustomerController {
     private void initialize() {
         informationTabController.setTopCustomerController(this);
         paymentsTabController.setTopCustomerController(this);
+        inlayTabController.setTopCustomerController(this);
     }
 
 
@@ -83,6 +84,7 @@ public class TopCustomerController {
         this.mainController = mainController;
         this.engine = engine;
         informationTabController.setEngine(this.engine);
+        inlayTabController.setEngine(this.engine);
     }
 
     //****Regular Methods****//
@@ -112,12 +114,18 @@ public class TopCustomerController {
     }
 
     public void changeInfoFollowedComboBox(String UserPick){
+
+        //Information tab changes
         informationTabController.setUserName(UserPick);
-        //CustomerInfoDTO customer = ;
         informationTabController.getTransactionInfoController().setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null));
         informationTabController.getNewLoanerTableController().setValues(engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).collect(Collectors.toList()));
         informationTabController.getBalanceLabel().setText("Balance: "+
                 engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null).getBalance());
+        //Inlay tab changes
+        inlayTabController.addCategoriesToCCB();
+
+
+
     }
 
 

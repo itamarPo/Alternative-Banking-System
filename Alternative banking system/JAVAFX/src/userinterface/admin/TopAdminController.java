@@ -91,6 +91,8 @@ public class TopAdminController {
             mainController.getTopCustomerController().setTopBarAfterFileLoaded(this);
             CenterAdminController.getNewLoanController().setValues(engine.getLoansInfo());
             CenterAdminController.getCustomerTableController().setValues(engine.getCustomerInfo());
+            Notifications categoryNotExist = Notifications.create().text("File loaded successfully!").hideAfter(Duration.seconds(5)).position(Pos.TOP_LEFT);
+            categoryNotExist.show();
 
         } catch (LoanCategoryNotExistException e) {
             Notifications categoryNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.TOP_LEFT);

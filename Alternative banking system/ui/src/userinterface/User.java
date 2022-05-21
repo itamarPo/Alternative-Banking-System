@@ -263,7 +263,7 @@ public class User implements UserInterface {
             }
             System.out.println("\r\nPlease enter the loan numbers that you wish to invest: \r\n(The loan's details are above this statement. Please enter the numbers seperated by spaces or ENTER if you're not interested to invest in any of them.\r\nPlease note that entering the same number twice will make no difference.)");
             possibleLoans = filterLoansAccordingToUser(possibleLoans);
-            data.splitMoneyBetweenLoans(possibleLoans, moneyToInvest, customerSelected);
+//            data.splitMoneyBetweenLoans(possibleLoans, (int)moneyToInvest, customerSelected, 50);
             System.out.println("The inlay was completed successfully!");
         }
         catch(WithDrawMoneyException e){
@@ -323,7 +323,7 @@ public class User implements UserInterface {
         int interest = getPositiveIntToInterest();
         System.out.println("Please select the minimum time of loan you're willing to accept. Make sure you enter an Integer number: \r\n(This option isn't mandatory! If you aren't interested in this option please press ENTER)");
         int minTime = getPositiveInt();
-        return data.getFilteredLoans(categoriesAfterFilter, interest,minTime,userName);
+        return data.getFilteredLoans(categoriesAfterFilter, interest,minTime,userName, 2);
     }
 
     public List<String> getFilteredCategories(List<String> categoriesAfterFilter, List<String> categoriesBeforeFilter) {

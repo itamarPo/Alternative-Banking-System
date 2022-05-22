@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import objects.loans.NewLoanDTO;
@@ -131,14 +132,17 @@ public class InlayTabController {
         }
         enableAllErrors();
         List<NewLoanDTO> filteredLoans = engine.getFilteredLoans(categoriesList,minInterest,minYAZ,topCustomerController.getUserCB().getValue(), maxOpenLoans);
+        TableColumn<NewLoanDTO, CheckBox> checkBoxCol = new TableColumn<>();
+        checkBoxCol.setCellValueFactory(new PropertyValueFactory<>("IsSelected"));
+        newLoanTBController.getTableView().getColumns().add(0, checkBoxCol);
         newLoanTBController.setValues(filteredLoans.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
         //TODO: present data to pending table as well
         //TODO: get selected loans from user, need to add check boxes to the tables.
         //TODO: after getting selected loans, call the inlay method in engine (splitMoneyBetweenLoans).
-//        engine.splitMoneyBetweenLoans(selectedLoans, topCustomerController.getUserCB().getValue(), maxOwnership);
+//        engine.splitMoneyBetweenLoans(selectedLoans,amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
         //activate inlay!
 
-
+        //List<NewLoanDTO> = table.getItems().stream().filter()
     }
 
     private void enableAllErrors() {

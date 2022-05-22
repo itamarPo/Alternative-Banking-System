@@ -1,5 +1,7 @@
 package objects.loans;
 
+import javafx.scene.control.CheckBox;
+
 public class NewLoanDTO {
     private String loanID;
 
@@ -18,6 +20,7 @@ public class NewLoanDTO {
     private int timeLimitOfLoan;
     private double interestPerPayment;
     private int timePerPayment;
+    private CheckBox IsSelected;
 
     public String getStatus() {
         return status;
@@ -45,6 +48,10 @@ public class NewLoanDTO {
         return timePerPayment;
     }
 
+    public CheckBox getIsSelected() {
+        return IsSelected;
+    }
+
     public NewLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, double interestPerPayment, int timePerPayment, String status) {
         this.loanID = loanID;
         this.borrowerName = borrowerName;
@@ -54,6 +61,7 @@ public class NewLoanDTO {
         this.interestPerPayment = interestPerPayment;
         this.timePerPayment = timePerPayment;
         this.status = status;
+        this.IsSelected = new CheckBox();
     }
 
     public void print(){

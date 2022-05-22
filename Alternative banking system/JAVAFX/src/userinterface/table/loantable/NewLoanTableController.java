@@ -38,6 +38,14 @@ public class NewLoanTableController implements Initializable {
         timePerPayment.setCellValueFactory(new PropertyValueFactory<NewLoanDTO, Integer>("timePerPayment"));
     }
 
+    //Getters
+
+
+    public TableView<NewLoanDTO> getTableView() {
+        return tableView;
+    }
+
+    //Regular Methods
     public void setValues(List<NewLoanDTO> newLoansList){
        ObservableList<NewLoanDTO> newLoanDTOObservableList = FXCollections.observableArrayList(newLoansList);
        tableView.getItems().setAll(newLoanDTOObservableList);

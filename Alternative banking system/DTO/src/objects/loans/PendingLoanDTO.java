@@ -1,5 +1,6 @@
 package objects.loans;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 
 import java.util.Map;
@@ -8,6 +9,7 @@ public class PendingLoanDTO extends  NewLoanDTO{
     private Map<String, Double>  listOfLenders;
     private double collectedSoFar;
     private double sumLeftToBeCollected;
+    private Button lendersButton;
 
     public double getSumLeftToBeCollected() {
         return sumLeftToBeCollected;
@@ -20,6 +22,7 @@ public class PendingLoanDTO extends  NewLoanDTO{
         this.listOfLenders = listOfLenders;
         this.collectedSoFar = collectedSoFar;
         this.sumLeftToBeCollected = sumLeftToBeCollected;
+        this.lendersButton = new Button();
     }
     @Override
     public void print(){

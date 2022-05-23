@@ -1,5 +1,6 @@
 package objects.loans;
 
+import javafx.scene.control.Button;
 import objects.loans.payments.PaymentsDTO;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,7 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
     private double allInitialPayedSoFar;
     private double allInterestLeftToPay;
     private double allInitialLeftToPay;
+    private Button paymentsButton;
 
     public ActiveRiskLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, double interestPerPayment, int timePerPayment, String status, Map<String, Double> listOfLenders, Double collectedSoFar, Double sumLeftToBeCollected, int startingActiveTime, int nextPaymentTime, List<PaymentsDTO> payments, double allInterestPayedSoFar, double allInitialPayedSoFar, double allInterestLeftToPay, double allInitialLeftToPay) {
         super(loanID, borrowerName, loanCategory, sizeNoInterest, timeLimitOfLoan, interestPerPayment, timePerPayment, status, listOfLenders, collectedSoFar, sumLeftToBeCollected);
@@ -57,6 +59,7 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
         this.allInterestLeftToPay = allInterestLeftToPay;
         this.allInitialLeftToPay = allInitialLeftToPay;
         this.loanSize = sizeNoInterest + sizeNoInterest*(interestPerPayment)/100;
+        this.paymentsButton = new Button();
     }
 
     public List<PaymentsDTO> getPayments() {

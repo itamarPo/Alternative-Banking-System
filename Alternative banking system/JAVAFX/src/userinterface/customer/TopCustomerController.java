@@ -8,6 +8,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import objects.customers.CustomerInfoDTO;
 import objects.customers.loanInfo.LoanInfoDTO;
+import objects.loans.ActiveRiskLoanDTO;
+import objects.loans.FinishedLoanDTO;
 import objects.loans.NewLoanDTO;
 import objects.loans.PendingLoanDTO;
 import userinterface.MainController.MainController;
@@ -132,6 +134,48 @@ public class TopCustomerController {
         updateInformationTab(UserPick);
         inlayTabController.addCategoriesToCCB();
         inlayTabController.resetFields();
+    }
+
+    public void updateInformationTab (String UserPick){
+        informationTabController.setUserName(UserPick);
+        informationTabController.getTransactionInfoController().setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null));
+        informationTabController.getBalanceLabel().setText("Balance: "+
+                engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null).getBalance());
+
+        List<NewLoanDTO> temp = engine.getLoansInfo().stream().filter(l->l.getBorrowerName().equals(UserPick)).collect(Collectors.toList());
+        List<PendingLoanDTO> pending = new ArrayList<>();
+
+        List<ActiveRiskLoanDTO> active = new ArrayList<>();
+        List<ActiveRiskLoanDTO> risk = new ArrayList<>();
+        List<FinishedLoanDTO> finished = new ArrayList<>();
+        //Loaner Tables
+        informationTabController.getNewLoanerTableController().setValues(temp.stream().filter(p->p.getStatus().equals("New")).collect(Collectors.toList()));
+        temp.stream().filter(x -> x.getStatus().equals("Pending")).forEach(y -> pending.add((PendingLoanDTO) y));
+        informationTabController.getPendingLoanerTableController().setValues(pending);
+        temp.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> active.add((ActiveRiskLoanDTO)  y));
+        informationTabController.getActiveLoanerTableController().setValues(active);
+        temp.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> risk.add((ActiveRiskLoanDTO) y));
+        informationTabController.getRiskLoanerTableController().setValues(risk);
+        temp.stream().filter(x -> x.getStatus().equals("Finished")).forEach(y -> pending.add((FinishedLoanDTO) y));
+        informationTabController.getFinishedLoanerTableController().setValues(finished);
+        //Lender Tables
+
+
+        List<NewLoanDTO> temp2 = engine.getLoansInfo().stream().filter(x -> !x.getStatus().equals("New")).collect(Collectors.toList());
+        final List<PendingLoanDTO> temp3 = new ArrayList<>();
+        temp2.forEach(x -> temp3.add( (PendingLoanDTO) x));
+        List<PendingLoanDTO> pendingLenders = temp3.stream().filter(p->p.getListOfLenders().containsKey(UserPick)).collect(Collectors.toList());
+        List<ActiveRiskLoanDTO> activeLenders = new ArrayList<>();
+        List<ActiveRiskLoanDTO> riskLenders = new ArrayList<>();
+        List<FinishedLoanDTO>finishedLenders = new ArrayList<>();
+
+        informationTabController.getPendingLenderTableController().setValues(pendingLenders.stream().filter(p -> p.getStatus().equals("Pending")).collect(Collectors.toList()));
+        pendingLenders.stream().filter(p->p.getStatus().equals("Active")).forEach(x -> activeLenders.add((ActiveRiskLoanDTO) x));
+        informationTabController.getActiveLenderTableController().setValues(activeLenders.stream().filter(p -> p.getStatus().equals("Active")).collect(Collectors.toList()));
+        pendingLenders.stream().filter(p->p.getStatus().equals("Risk")).forEach(x -> riskLenders.add((ActiveRiskLoanDTO) x));
+        informationTabController.getRiskLenderTableController().setValues(riskLenders.stream().filter(p -> p.getStatus().equals("Risk")).collect(Collectors.toList()));
+        pendingLenders.stream().filter(p->p.getStatus().equals("Finished")).forEach(x -> finishedLenders.add((FinishedLoanDTO) x));
+        informationTabController.getFinishedLenderTableController().setValues(finishedLenders.stream().filter(p -> p.getStatus().equals("Finished")).collect(Collectors.toList()));
     }
 
 

@@ -93,6 +93,8 @@ public class TransactionPopUpController {
            else
                customer.drawMoney(userSum);
            accountTransactionController.getInformationTabController().getBalanceLabel().setText("Balance: " + customer.getBalance());
+           accountTransactionController.setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(userName)).findFirst().orElse(null));
+           //TODO: error messages from incorrect withdraw amount
            errorMessage.setText(null);
            popUpStage.close();
         }

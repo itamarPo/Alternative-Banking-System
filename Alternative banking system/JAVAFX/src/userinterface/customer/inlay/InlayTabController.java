@@ -6,12 +6,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.util.Duration;
 import objects.loans.NewLoanDTO;
+import objects.loans.PendingLoanDTO;
 import org.controlsfx.control.CheckComboBox;
+import org.controlsfx.control.Notifications;
 import userinterface.customer.TopCustomerController;
 import userinterface.table.loantable.NewLoanTableController;
 import userinterface.table.loantable.PendingLoanTableController;
@@ -57,22 +61,18 @@ public class InlayTabController {
     @FXML private Label maxOwnershipLoanErrorLabel;
 
     @FXML private CheckBox maxOwnershipLoanCB;
-
-
-
-
-
-
-
-
-
-
-
     @FXML private Button confirmScrambleButton;
     @FXML private Button confirmSelectionButton;
     @FXML private TabPane inlayResultTP;
     @FXML private Tab inlayResultNewTab;
     @FXML private Tab inlayResultPendingTab;
+    //Regular Fields
+    private int amountToInvest;
+    private int maxOwnership;
+
+
+
+
 
     //Properties
 
@@ -101,6 +101,16 @@ public class InlayTabController {
 
         );
 
+        //Adding checkbox column to the new table
+        TableColumn<NewLoanDTO, CheckBox> checkBoxCol = new TableColumn<>();
+        checkBoxCol.setCellValueFactory(new PropertyValueFactory<>("IsSelected"));
+        checkBoxCol.setText("Select loans");
+        newLoanTBController.getTableView().getColumns().add(0, checkBoxCol);
+
+        //Adding checkbox column to the pending table
+
+
+
     }
 
 
@@ -118,31 +128,32 @@ public class InlayTabController {
     }
     public void setEngine(Engine engine) {this.engine = engine;}
 
+
     //Regular methods
     @FXML
-    public void confirmScrambleOnAction(ActionEvent actionEvent){
-        int amountToInvest = getAmountToInvest();
+    public void confirmFilterOnAction(ActionEvent actionEvent){
+        int amountToinvest = getAmountToInvest();
         List<String> categoriesList = getFilteredCategories(); // this list might be empty! if so there is no filter for categories!
         int minInterest = getMinInterest();
         int minYAZ = getMinYAZ();
         int maxOpenLoans = getMaxOpenLoans();
-        int maxOwnership = getMaxOwnership();
+        int maxownership = getMaxOwnership();
         if(amountToInvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxOwnership == INVALID) {
+            newLoanTBController.getTableView().getItems().clear();
+            //pendingLoanTBController.getTableView().getItems().clear();
             return;
         }
         enableAllErrors();
-        List<NewLoanDTO> filteredLoans = engine.getFilteredLoans(categoriesList,minInterest,minYAZ,topCustomerController.getUserCB().getValue(), maxOpenLoans);
-        TableColumn<NewLoanDTO, CheckBox> checkBoxCol = new TableColumn<>();
-        checkBoxCol.setCellValueFactory(new PropertyValueFactory<>("IsSelected"));
-        newLoanTBController.getTableView().getColumns().add(0, checkBoxCol);
-        newLoanTBController.setValues(filteredLoans.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
+        List<NewLoanDTO> filteredNewLoans = engine.getFilteredLoans(categoriesList,minInterest,minYAZ,topCustomerController.getUserCB().getValue(), maxOpenLoans);
+        newLoanTBController.setValues(filteredNewLoans.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
+        this.amountToInvest = amountToinvest;
+        this.maxOwnership = maxownership;
+//        pendingLoanTBController.setValues(filteredNewLoans.stream().filter(x -> x.getStatus().equals("Pending")).collect(Collectors.toList()));
         //TODO: present data to pending table as well
-        //TODO: get selected loans from user, need to add check boxes to the tables.
-        //TODO: after getting selected loans, call the inlay method in engine (splitMoneyBetweenLoans).
-//        engine.splitMoneyBetweenLoans(selectedLoans,amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
-        //activate inlay!
 
-        //List<NewLoanDTO> = table.getItems().stream().filter()
+        //TODO: after getting selected loans, call the inlay method in engine (splitMoneyBetweenLoans).
+//
+
     }
 
     private void enableAllErrors() {
@@ -153,6 +164,7 @@ public class InlayTabController {
         maxOpenLoanErrorLabel.setText("");
     }
 
+    //getting filter info from user
     public int getAmountToInvest(){
         try {
             String amountInput = amountTF.getText();
@@ -172,7 +184,6 @@ public class InlayTabController {
         }
         return INVALID;
     }
-
     public List<String> getFilteredCategories(){
         ObservableList<String> selectedCategories = categoriesCCB.getCheckModel().getCheckedItems();
         if(selectedCategories.size() == 0){
@@ -180,7 +191,6 @@ public class InlayTabController {
         }
         return selectedCategories.stream().collect(Collectors.toList());
     }
-
     public int getMinInterest() {
         if (!minInterestCB.isSelected()) {
             return 0;
@@ -202,7 +212,6 @@ public class InlayTabController {
         }
         return INVALID;
     }
-
     public int getMinYAZ(){
         if (!minYazCB.isSelected()) {
             return 0;
@@ -224,8 +233,6 @@ public class InlayTabController {
         }
         return INVALID;
     }
-
-
     public int getMaxOpenLoans(){
         if(!maxOpenLoansCB.isSelected()){
             return engine.getNumOfLoans();
@@ -245,7 +252,6 @@ public class InlayTabController {
         }
         return INVALID;
     }
-
     public int getMaxOwnership(){
         if(!maxOwnershipLoanCB.isSelected()){
             return 100;
@@ -281,5 +287,22 @@ public class InlayTabController {
         minYazCB.setSelected(false);
         maxOpenLoansCB.setSelected(false);
         maxOwnershipLoanCB.setSelected(false);
+        newLoanTBController.getTableView().getItems().clear();
+        //pendingLoanTBController.getTableView().getItems().clear();
+    }
+
+    @FXML
+    public void confirmInlayOnAction(ActionEvent actionEvent){
+        List<NewLoanDTO> newLoansPicked = newLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected().isSelected()).collect(Collectors.toList());
+//        List<NewLoanDTO> pendingLoansPicked = pendingLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected().isSelected()).collect(Collectors.toList());
+//        newLoanPicked.addAll(pendingLoansPicked);
+        if(newLoansPicked.size() == 0){
+            Notifications ownerNotExist = Notifications.create().title("Error").text("You must select a loan for the inlay!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+            ownerNotExist.show();
+            return;
+        }
+        engine.splitMoneyBetweenLoans(newLoansPicked.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()), amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
+        resetFields();
+        //Update data in Information tab!
     }
 }

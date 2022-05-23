@@ -71,8 +71,24 @@ public class InformationTabController {
     }
 
 
+
     public NewLoanTableController getNewLoanerTableController() {
         return newLoanerTableController;
+    }
+    public PendingLoanTableController getPendingLoanerTableController() {
+        return pendingLoanerTableController;
+    }
+
+    public ActiveLoanTableController getActiveLoanerTableController() {
+        return activeLoanerTableController;
+    }
+
+    public RiskLoanTableController getRiskLoanerTableController() {
+        return riskLoanerTableController;
+    }
+
+    public FinishedLoanTableController getFinishedLoaderTableController() {
+        return finishedLoaderTableController;
     }
 
     public Label getBalanceLabel() {

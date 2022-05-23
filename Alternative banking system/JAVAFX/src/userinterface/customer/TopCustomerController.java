@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import objects.customers.CustomerInfoDTO;
 import objects.customers.loanInfo.LoanInfoDTO;
 import objects.loans.NewLoanDTO;
+import objects.loans.PendingLoanDTO;
 import userinterface.MainController.MainController;
 import userinterface.admin.TopAdminController;
 import userinterface.customer.information.InformationTabController;
@@ -130,6 +131,7 @@ public class TopCustomerController {
         //Inlay tab changes
         inlayTabController.addCategoriesToCCB();
         inlayTabController.resetFields();
+
 
 
 

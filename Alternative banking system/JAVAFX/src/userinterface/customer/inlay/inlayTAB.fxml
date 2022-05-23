@@ -74,7 +74,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="confrimScrambleButton" mnemonicParsing="false" onAction="#confirmScrambleOnAction" prefHeight="25.0" prefWidth="97.0" text="Confirm" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                  <Button fx:id="confrimScrambleButton" mnemonicParsing="false" onAction="#confirmFilterOnAction" prefHeight="25.0" prefWidth="97.0" text="Confirm" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                </children>
             </GridPane>
             <GridPane fx:id="scrambleResultGP" layoutX="37.0" layoutY="261.0" prefHeight="396.0" prefWidth="895.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="260.0">
@@ -100,7 +100,7 @@
                       </Tab>
                     </tabs>
                   </TabPane>
-                  <Button fx:id="confirmSelectionButton" maxWidth="-Infinity" mnemonicParsing="false" text="Confirm Selection" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="confirmSelectionButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#confirmInlayOnAction" text="Confirm Selection" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>

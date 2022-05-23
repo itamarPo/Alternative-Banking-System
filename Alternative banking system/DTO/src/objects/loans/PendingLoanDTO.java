@@ -1,5 +1,7 @@
 package objects.loans;
 
+import javafx.scene.control.CheckBox;
+
 import java.util.Map;
 
 public class PendingLoanDTO extends  NewLoanDTO{

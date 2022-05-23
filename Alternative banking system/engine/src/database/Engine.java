@@ -350,7 +350,7 @@ public class Engine implements EngineInterface , Serializable {
       }
    }
 
-   public void splitMoneyBetweenLoans(List<String> desiredLoansID, int moneyToInvest, String customerSelected, int maxOwnershipPercentage) throws Exception {
+   public void splitMoneyBetweenLoans(List<String> desiredLoansID, int moneyToInvest, String customerSelected, int maxOwnershipPercentage) {
       if(maxOwnershipPercentage == 0){
          maxOwnershipPercentage = 100;
       }

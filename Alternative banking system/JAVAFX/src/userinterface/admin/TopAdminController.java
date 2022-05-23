@@ -121,4 +121,8 @@ public class TopAdminController {
             mainController.changeScene(UserPick);
         }
     }
+
+    public void LoadingNewFile(){
+
+    }
 }

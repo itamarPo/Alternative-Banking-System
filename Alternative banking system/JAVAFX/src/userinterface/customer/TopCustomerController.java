@@ -110,6 +110,7 @@ public class TopCustomerController {
         String UserPick = UserCB.getValue();
         if(UserPick.equals(ADMIN)){
             mainController.changeScene(ADMIN);
+            mainController.getTopAdminController().updateAdminTable();
         }
         else {
             changeInfoFollowedComboBox(UserPick);

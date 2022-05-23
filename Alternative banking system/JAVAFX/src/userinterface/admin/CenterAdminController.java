@@ -28,7 +28,7 @@ public class CenterAdminController {
     @FXML private RiskLoanTableController riskLoanController;
 
     @FXML private ScrollPane finishedLoan;
-    @FXML private FinishedLoanTableController finishLoanController;
+    @FXML private FinishedLoanTableController finishedLoanController;
 
     @FXML private ScrollPane customerTable;
     @FXML private CustomerTableController customerTableController;

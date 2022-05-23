@@ -58,10 +58,16 @@ public class CenterAdminController {
     public NewLoanTableController getNewLoanController() {
         return newLoanController;
     }
-    public FinishedLoanTableController getFinishLoanController() {return finishLoanController;}
+    public FinishedLoanTableController getFinishLoanController() {return finishedLoanController;}
     public CustomerTableController getCustomerTableController() {
         return customerTableController;
     }
+    public PendingLoanTableController getPendingLoanController() {return pendingLoanController;}
+
+    public ActiveLoanTableController getActiveLoanController() {return activeLoanController;}
+
+    public RiskLoanTableController getRiskLoanController() {return riskLoanController;}
+
 
     //Setters
     public void setAdminTopController(TopAdminController topAdminController) {

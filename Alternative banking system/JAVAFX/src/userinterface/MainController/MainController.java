@@ -41,6 +41,8 @@ public class MainController {
     public Stage getPrimaryStage() {return primaryStage;}
     public TopCustomerController getTopCustomerController() {return topCustomerController;}
 
+    public TopAdminController getTopAdminController() {return topAdminController;}
+
     //****Regular Methods****//
     public void changeScene(String newChoice){
 //        double width = primaryStage.getWidth();

@@ -136,6 +136,18 @@ public class TopCustomerController {
         inlayTabController.resetFields();
     }
 
+    public InformationTabController getInformationTabController() {
+        return informationTabController;
+    }
+
+    public PaymentsTabController getPaymentsTabController() {
+        return paymentsTabController;
+    }
+
+    public InlayTabController getInlayTabController() {
+        return inlayTabController;
+    }
+
     public void updateInformationTab (String UserPick){
         informationTabController.setUserName(UserPick);
         informationTabController.getTransactionInfoController().setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null));
@@ -156,7 +168,7 @@ public class TopCustomerController {
         informationTabController.getActiveLoanerTableController().setValues(active);
         temp.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> risk.add((ActiveRiskLoanDTO) y));
         informationTabController.getRiskLoanerTableController().setValues(risk);
-        temp.stream().filter(x -> x.getStatus().equals("Finished")).forEach(y -> pending.add((FinishedLoanDTO) y));
+        temp.stream().filter(x -> x.getStatus().equals("Finished")).forEach(y -> finished.add((FinishedLoanDTO) y));
         informationTabController.getFinishedLoanerTableController().setValues(finished);
         //Lender Tables
 

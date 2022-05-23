@@ -9,6 +9,39 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
     private int nextPaymentTime;
     private List<PaymentsDTO> Payments;
     private double loanSize;
+
+    public int getStartingActiveTime() {
+        return startingActiveTime;
+    }
+
+    public int getNextPaymentTime() {
+        return nextPaymentTime;
+    }
+
+    public double getLoanSize() {
+        return loanSize;
+    }
+
+    public double getAllInterestPayedSoFar() {
+        return allInterestPayedSoFar;
+    }
+
+    public double getAllInitialPayedSoFar() {
+        return allInitialPayedSoFar;
+    }
+
+    public double getAllInterestLeftToPay() {
+        return allInterestLeftToPay;
+    }
+
+    public double getAllInitialLeftToPay() {
+        return allInitialLeftToPay;
+    }
+
+    public Button getPaymentsButton() {
+        return paymentsButton;
+    }
+
     private double allInterestPayedSoFar;
     private double allInitialPayedSoFar;
     private double allInterestLeftToPay;

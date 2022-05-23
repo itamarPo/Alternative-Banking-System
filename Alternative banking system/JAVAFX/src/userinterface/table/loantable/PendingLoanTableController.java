@@ -3,6 +3,7 @@ package userinterface.table.loantable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -25,7 +26,7 @@ public class PendingLoanTableController {
     @FXML private TableColumn<PendingLoanDTO, Integer> duration;
     @FXML private TableColumn<PendingLoanDTO, Integer> interest;
     @FXML private TableColumn<PendingLoanDTO, Integer> timePerPayment;
-    @FXML private TableColumn<PendingLoanDTO, Map<String, Double>> listOfLenders;
+    @FXML private TableColumn<PendingLoanDTO, Button> listOfLenders;
     @FXML private TableColumn<PendingLoanDTO, Double> collectedSoFar;
     @FXML private TableColumn<PendingLoanDTO, Double> sumLeftToBeCollected;
 
@@ -43,7 +44,7 @@ public class PendingLoanTableController {
         amount.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Double>("sizeNoInterest"));
         interest.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Integer>("interestPerPayment"));
         timePerPayment.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Integer>("timePerPayment"));
-        listOfLenders.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Map<String, Double>>("listOfLenders"));
+        listOfLenders.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Button>("lendersButton"));
         collectedSoFar.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Double>("collectedSoFar"));
         sumLeftToBeCollected.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Double>("sumLeftToBeCollected"));
     }

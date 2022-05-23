@@ -2,10 +2,15 @@ package objects.customers;
 
 public class AccountTransactionDTO {
     private int timeOfTransaction;
-    private double transactionAmount;
+    private Double transactionAmount;
     private char incomeOrExpense;
     private double balanceBefore;
     private double balanceAfter;
+    private String realAmount;
+
+    public String getRealAmount() {
+        return incomeOrExpense+transactionAmount.toString();
+    }
 
     public char getIncomeOrExpense() {
         return incomeOrExpense;

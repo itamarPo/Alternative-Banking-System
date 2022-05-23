@@ -116,25 +116,22 @@ public class TopCustomerController {
 
     public void changeInfoFollowedComboBox(String UserPick){
 
-        //Information tab changes
-        informationTabController.setUserName(UserPick);
-        informationTabController.getTransactionInfoController().setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null));
-        informationTabController.getNewLoanerTableController().setValues(engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).filter(p->p.getStatus().equals("New")).collect(Collectors.toList()));
-        informationTabController.getBalanceLabel().setText("Balance: "+
-                engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null).getBalance());
-
-
-        List<NewLoanDTO> temp = engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).filter(p->p.getStatus().equals("Pending")).collect(Collectors.toList());
-        List<PendingLoanDTO> pending = new ArrayList<>();
-        temp.forEach(x -> pending.add((PendingLoanDTO) x));
-        informationTabController.getPendingLoanerTableController().setValues(pending);
+//        //Information tab changes
+//        informationTabController.setUserName(UserPick);
+//        informationTabController.getTransactionInfoController().setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null));
+//        informationTabController.getNewLoanerTableController().setValues(engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).filter(p->p.getStatus().equals("New")).collect(Collectors.toList()));
+//        informationTabController.getBalanceLabel().setText("Balance: "+
+//                engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null).getBalance());
+//
+//
+//        List<NewLoanDTO> temp = engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).filter(p->p.getStatus().equals("Pending")).collect(Collectors.toList());
+//        List<PendingLoanDTO> pending = new ArrayList<>();
+//        temp.forEach(x -> pending.add((PendingLoanDTO) x));
+       // informationTabController.getPendingLoanerTableController().setValues(pending);
         //Inlay tab changes
+        updateInformationTab(UserPick);
         inlayTabController.addCategoriesToCCB();
         inlayTabController.resetFields();
-
-
-
-
     }
 
 

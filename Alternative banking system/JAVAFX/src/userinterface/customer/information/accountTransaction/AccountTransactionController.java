@@ -42,7 +42,7 @@ public class AccountTransactionController {
     @FXML private TableColumn<AccountTransactionDTO, Double> balanceAfter;
     @FXML private TableColumn<AccountTransactionDTO, Double> balanceBefore;
     @FXML private TableColumn<AccountTransactionDTO, Integer> timeOfTransaction;
-    @FXML private TableColumn<AccountTransactionDTO, Double> transactionAmount;
+    @FXML private TableColumn<AccountTransactionDTO, String> transactionAmount;
 
 
 
@@ -75,7 +75,7 @@ public class AccountTransactionController {
         timeOfTransaction.setCellValueFactory(new PropertyValueFactory<AccountTransactionDTO, Integer>("timeOfTransaction"));
         balanceBefore.setCellValueFactory(new PropertyValueFactory<AccountTransactionDTO, Double>("balanceBefore"));
         balanceAfter.setCellValueFactory(new PropertyValueFactory<AccountTransactionDTO, Double>("balanceAfter"));
-        transactionAmount.setCellValueFactory(new PropertyValueFactory<>("incomeOrExpense" + "transactionAmount"));
+        transactionAmount.setCellValueFactory(new PropertyValueFactory<AccountTransactionDTO, String>("realAmount"));
     }
 
     //Getters

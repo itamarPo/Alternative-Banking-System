@@ -25,8 +25,8 @@ public class InformationTabController {
     @FXML private ActiveLoanTableController activeLoanerTableController;
     @FXML private ScrollPane riskLoanerTable;
     @FXML private RiskLoanTableController riskLoanerTableController;
-    @FXML private ScrollPane finishedLoaderTable;
-    @FXML private FinishedLoanTableController finishedLoaderTableController;
+    @FXML private ScrollPane finishedLoanerTable;
+    @FXML private FinishedLoanTableController finishedLoanerTableController;
 
     @FXML private ScrollPane pendingLenderTable;
     @FXML private PendingLoanTableController pendingLenderTableController;
@@ -87,8 +87,24 @@ public class InformationTabController {
         return riskLoanerTableController;
     }
 
-    public FinishedLoanTableController getFinishedLoaderTableController() {
-        return finishedLoaderTableController;
+    public PendingLoanTableController getPendingLenderTableController() {
+        return pendingLenderTableController;
+    }
+
+    public ActiveLoanTableController getActiveLenderTableController() {
+        return activeLenderTableController;
+    }
+
+    public RiskLoanTableController getRiskLenderTableController() {
+        return riskLenderTableController;
+    }
+
+    public FinishedLoanTableController getFinishedLenderTableController() {
+        return finishedLenderTableController;
+    }
+
+    public FinishedLoanTableController getFinishedLoanerTableController() {
+        return finishedLoanerTableController;
     }
 
     public Label getBalanceLabel() {

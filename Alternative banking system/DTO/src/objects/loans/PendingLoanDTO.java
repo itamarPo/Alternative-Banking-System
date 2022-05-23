@@ -29,4 +29,16 @@ public class PendingLoanDTO extends  NewLoanDTO{
         System.out.println("Sum collected so far: " + String.format("%.2f", collectedSoFar));
         System.out.println("Sum left to be collected: " + String.format("%.2f", sumLeftToBeCollected));
     }
+
+    public Map<String, Double> getListOfLenders() {
+        return listOfLenders;
+    }
+
+    public double getCollectedSoFar() {
+        return collectedSoFar;
+    }
+
+    public Button getLendersButton() {
+        return lendersButton;
+    }
 }

@@ -24,6 +24,9 @@ import userinterface.customer.TopCustomerController;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class TopAdminController {
 
@@ -93,8 +96,7 @@ public class TopAdminController {
             UserCB.getItems().addAll(engine.getCustomerNames());
             CenterAdminController.enableAfterFileLoader();
             mainController.getTopCustomerController().setTopBarAfterFileLoaded(this);
-            CenterAdminController.getNewLoanController().setValues(engine.getLoansInfo());
-            CenterAdminController.getCustomerTableController().setValues(engine.getCustomerInfo());
+            updateAdminTable();
             Notifications categoryNotExist = Notifications.create().text("File loaded successfully!").hideAfter(Duration.seconds(5)).position(Pos.TOP_LEFT);
             categoryNotExist.show();
 
@@ -126,7 +128,31 @@ public class TopAdminController {
         }
     }
 
-    public void LoadingNewFile(){
-
+    public void updateAdminTable(){
+        //updates customer info table
+        CenterAdminController.getCustomerTableController().setValues(engine.getCustomerInfo());
+        //updates loans info tables
+        List<NewLoanDTO> temp = engine.getLoansInfo();
+        List<PendingLoanDTO> pending = new ArrayList<>();
+        List<ActiveRiskLoanDTO> active = new ArrayList<>();
+        List<ActiveRiskLoanDTO> risk = new ArrayList<>();
+        List<FinishedLoanDTO> finished = new ArrayList<>();
+        //New
+        CenterAdminController.getNewLoanController().setValues(temp.stream().filter(p->p.getStatus().equals("New")).collect(Collectors.toList()));
+        //pending
+        temp.stream().filter(x -> x.getStatus().equals("Pending")).forEach(y -> pending.add((PendingLoanDTO) y));
+        CenterAdminController.getPendingLoanController().setValues(pending);
+        //active
+        temp.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> active.add((ActiveRiskLoanDTO)  y));
+        CenterAdminController.getActiveLoanController().setValues(active);
+        //risk
+        temp.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> risk.add((ActiveRiskLoanDTO) y));
+        CenterAdminController.getRiskLoanController().setValues(risk);
+        //finished
+        temp.stream().filter(x -> x.getStatus().equals("Finished")).forEach(y -> finished.add((FinishedLoanDTO) y));
+        CenterAdminController.getFinishLoanController().setValues(finished);
     }
+
+
+
 }

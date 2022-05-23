@@ -17,6 +17,7 @@ import objects.loans.PendingLoanDTO;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.Notifications;
 import userinterface.customer.TopCustomerController;
+import userinterface.customer.information.InformationTabController;
 import userinterface.table.loantable.NewLoanTableController;
 import userinterface.table.loantable.PendingLoanTableController;
 
@@ -67,14 +68,15 @@ public class InlayTabController {
     @FXML private Tab inlayResultNewTab;
     @FXML private Tab inlayResultPendingTab;
     //Regular Fields
+
     private int amountToInvest;
     private int maxOwnership;
 
 
+    //Regular fields
+    private TopCustomerController topCustomerController;
+    private Engine engine;
 
-
-
-    //Properties
 
     //Initialize after constructor
     @FXML
@@ -112,12 +114,6 @@ public class InlayTabController {
 
 
     }
-
-
-    //Regular fields
-    private TopCustomerController topCustomerController;
-    private Engine engine;
-
 
     //Getters
     public CheckComboBox getCategoriesCCB() {return categoriesCCB;}
@@ -303,6 +299,7 @@ public class InlayTabController {
         }
         engine.splitMoneyBetweenLoans(newLoansPicked.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()), amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
         resetFields();
-        //Update data in Information tab!
+
+        topCustomerController.updateInformationTab(topCustomerController.getUserCB().getValue());
     }
 }

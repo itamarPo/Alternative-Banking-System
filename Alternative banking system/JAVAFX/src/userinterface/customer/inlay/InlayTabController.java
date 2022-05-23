@@ -288,7 +288,7 @@ public class InlayTabController {
     }
 
     @FXML
-    public void confirmInlayOnAction(ActionEvent actionEvent){
+    public void confirmInlayOnAction(ActionEvent actionEvent)throws Exception{
         List<NewLoanDTO> newLoansPicked = newLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected().isSelected()).collect(Collectors.toList());
 //        List<NewLoanDTO> pendingLoansPicked = pendingLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected().isSelected()).collect(Collectors.toList());
 //        newLoanPicked.addAll(pendingLoansPicked);

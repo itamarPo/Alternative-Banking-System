@@ -118,9 +118,15 @@ public class TopCustomerController {
         //Information tab changes
         informationTabController.setUserName(UserPick);
         informationTabController.getTransactionInfoController().setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null));
-        informationTabController.getNewLoanerTableController().setValues(engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).collect(Collectors.toList()));
+        informationTabController.getNewLoanerTableController().setValues(engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).filter(p->p.getStatus().equals("New")).collect(Collectors.toList()));
         informationTabController.getBalanceLabel().setText("Balance: "+
                 engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null).getBalance());
+
+
+        List<NewLoanDTO> temp = engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).filter(p->p.getStatus().equals("Pending")).collect(Collectors.toList());
+        List<PendingLoanDTO> pending = new ArrayList<>();
+        temp.forEach(x -> pending.add((PendingLoanDTO) x));
+        informationTabController.getPendingLoanerTableController().setValues(pending);
         //Inlay tab changes
         inlayTabController.addCategoriesToCCB();
         inlayTabController.resetFields();

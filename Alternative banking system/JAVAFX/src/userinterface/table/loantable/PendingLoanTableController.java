@@ -76,10 +76,10 @@ public class PendingLoanTableController {
         ObservableList<PendingLoanDTO> pendingLoanDTOObservableList = FXCollections.observableArrayList(pendingLoansList);
         tableView.getItems().setAll(pendingLoanDTOObservableList);
         for(int i=0; i<tableView.getItems().size(); i++){
-            tableView.getItems().get(i).getLendersButton().setText("Show Lenders");
-           Button button = tableView.getItems().get(i).getLendersButton();
+            tableView.getItems().get(i).getLendersButton().setText("Show");
+           Button lendersButton = tableView.getItems().get(i).getLendersButton();
             int finalI = i;
-            button.setOnAction(new EventHandler<ActionEvent>(){
+            lendersButton.setOnAction(new EventHandler<ActionEvent>(){
                 @Override
                 public void handle(ActionEvent actionEvent){
                     if(!lenderStageExist){

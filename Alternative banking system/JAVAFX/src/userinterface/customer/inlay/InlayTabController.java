@@ -135,7 +135,7 @@ public class InlayTabController {
         int minYAZ = getMinYAZ();
         int maxOpenLoans = getMaxOpenLoans();
         int maxownership = getMaxOwnership();
-        if(amountToInvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxOwnership == INVALID) {
+        if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
             newLoanTBController.getTableView().getItems().clear();
             pendingLoanTBController.getTableView().getItems().clear();
             return;

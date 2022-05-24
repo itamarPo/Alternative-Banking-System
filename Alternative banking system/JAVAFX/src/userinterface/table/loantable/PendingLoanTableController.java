@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PendingLoanTableController {
 
@@ -55,15 +56,6 @@ public class PendingLoanTableController {
         listOfLenders.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Button>("lendersButton"));
         collectedSoFar.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Double>("collectedSoFar"));
         sumLeftToBeCollected.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Double>("sumLeftToBeCollected"));
-    }
-
-    //Getters
-    public TableView<PendingLoanDTO> getTableView() {return tableView;}
-
-    //Setters
-    public void setValues(List<PendingLoanDTO> pendingLoansList){
-        ObservableList<PendingLoanDTO> pendingLoanDTOObservableList = FXCollections.observableArrayList(pendingLoansList);
-        tableView.getItems().setAll(pendingLoanDTOObservableList);
         FXMLLoader loaderlenders = new FXMLLoader();
         URL lendersFXML = getClass().getResource("/userinterface/table/lendersTable.fxml");
         loaderlenders.setLocation(lendersFXML);
@@ -73,13 +65,20 @@ public class PendingLoanTableController {
             throw new RuntimeException(e);
         }
         lendersTableController = loaderlenders.getController();
-        //Plan: iterate through every row, get the lendersButton cell, set name to it, create a new popup for it,
-        //pour the required fxml into it.
+    }
+
+    //Getters
+    public TableView<PendingLoanDTO> getTableView() {return tableView;}
+
+    //Setters
+    public void setValues(List<PendingLoanDTO> pendingLoansList){
+        ObservableList<PendingLoanDTO> pendingLoanDTOObservableList = FXCollections.observableArrayList(pendingLoansList);
+        tableView.getItems().setAll(pendingLoanDTOObservableList);
         for(int i=0; i<tableView.getItems().size(); i++){
             tableView.getItems().get(i).getLendersButton().setText("Show Lenders");
            Button button = tableView.getItems().get(i).getLendersButton();
             int finalI = i;
-            tableView.getItems().get(i).getLendersButton().setOnAction(new EventHandler<ActionEvent>(){
+            button.setOnAction(new EventHandler<ActionEvent>(){
                 @Override
                 public void handle(ActionEvent actionEvent){
                     if(!lenderStageExist){

@@ -64,31 +64,32 @@ public class PendingLoanTableController {
     public void setValues(List<PendingLoanDTO> pendingLoansList){
         ObservableList<PendingLoanDTO> pendingLoanDTOObservableList = FXCollections.observableArrayList(pendingLoansList);
         tableView.getItems().setAll(pendingLoanDTOObservableList);
-//        FXMLLoader loaderlenders = new FXMLLoader();
-//        URL lendersFXML = getClass().getResource("/userinterface/table/lendersTable.fxml");
-//        loaderlenders.setLocation(lendersFXML);
-//        try {
-//            Parent root1 = loaderlenders.load();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        lendersTableController = loaderlenders.getController();
-//        //Plan: iterate through every row, get the lendersButton cell, set name to it, create a new popup for it,
-//        //pour the required fxml into it.
-//        for(int i=0; i<tableView.getItems().size(); i++){
-//            tableView.getItems().get(i).getLendersButton().setText("Show Lenders");
-//           Button button = tableView.getItems().get(i).getLendersButton();
-//            int finalI = i;
-//            tableView.getItems().get(i).getLendersButton().setOnAction(new EventHandler<ActionEvent>(){
-//                @Override
-//                public void handle(ActionEvent actionEvent){
-//                    if(!lenderStageExist){
-//                        lenderStageExist = true;
-//                        lendersTableController.setPopUpScene();
-//                    }
-//                    lendersTableController.setValues(pendingLoansList.get(finalI).getListOfLenders());
-//                }
-//            });
-//        }
+        FXMLLoader loaderlenders = new FXMLLoader();
+        URL lendersFXML = getClass().getResource("/userinterface/table/lendersTable.fxml");
+        loaderlenders.setLocation(lendersFXML);
+        try {
+            Parent root1 = loaderlenders.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        lendersTableController = loaderlenders.getController();
+        //Plan: iterate through every row, get the lendersButton cell, set name to it, create a new popup for it,
+        //pour the required fxml into it.
+        for(int i=0; i<tableView.getItems().size(); i++){
+            tableView.getItems().get(i).getLendersButton().setText("Show Lenders");
+           Button button = tableView.getItems().get(i).getLendersButton();
+            int finalI = i;
+            tableView.getItems().get(i).getLendersButton().setOnAction(new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent actionEvent){
+                    if(!lenderStageExist){
+                        lenderStageExist = true;
+                        lendersTableController.setPopUpScene();
+                    }
+                    lendersTableController.setValues(pendingLoansList.get(finalI).getListOfLenders());
+                    lendersTableController.getPopUpLenderStage().show();
+                }
+            });
+        }
     }
 }

@@ -13,6 +13,10 @@ public class PaymentsDTO {
         this.sumOfPayment = sumOfPayment;
         this.initialComponent = initialComponent;
         this.payedSuccesfully = payedSuccesfully;
+        if(this.payedSuccesfully)
+            payedSuccessfully = "Payed";
+        else
+            payedSuccessfully = "Not Payed";
     }
 
     public void print(){
@@ -20,10 +24,10 @@ public class PaymentsDTO {
         System.out.println("Interest component: " + String.format("%.2f", interestComponent));
         System.out.println("Initial component: " + String.format("%.2f", initialComponent));
         System.out.println("Total sum of payment: " + String.format("%.2f", sumOfPayment));
-        if(payedSuccesfully)
-            System.out.println("Payment status: payed");
-        else
-            System.out.println("Payment status: not payed");
+//        if(payedSuccesfully)
+//            System.out.println("Payment status: payed");
+//        else
+//            System.out.println("Payment status: not payed");
 
     }
 }

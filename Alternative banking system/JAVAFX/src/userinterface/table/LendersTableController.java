@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.MapValueFactory;
@@ -18,7 +19,7 @@ import java.util.Map;
 
 public class LendersTableController {
 
-    private PendingLoanTableController pendingLoanTableController;
+    @FXML private ScrollPane lendersTableSP;
     @FXML
     private TableView<LenderMap> lendersTable;
 
@@ -30,11 +31,11 @@ public class LendersTableController {
 
     private Stage popUpLenderStage;
 
+    private Scene popUpLenderScene;
+
     public Stage getPopUpLenderStage() {
         return popUpLenderStage;
     }
-
-    private Scene popUpLenderScene;
 
     public void initialize(){
         loanerName.setCellValueFactory(new PropertyValueFactory<LenderMap, String>("Name"));
@@ -60,7 +61,7 @@ public class LendersTableController {
     }
 
     public void setPopUpScene(){
-        popUpLenderScene = new Scene(lendersTable, 222, 292);
+        popUpLenderScene = new Scene(lendersTableSP, 222, 292);
         popUpLenderStage.setScene(popUpLenderScene);
     }
 }

@@ -28,4 +28,20 @@ public class FinishedLoanDTO extends PendingLoanDTO{
         }
 
     }
+
+    public int getStartingTime() {
+        return startingTime;
+    }
+
+    public List<PaymentsDTO> getPayments() {
+        return payments;
+    }
+
+    public int getFinishingTime() {
+        return finishingTime;
+    }
+
+    public Button getPaymentsButton() {
+        return paymentsButton;
+    }
 }

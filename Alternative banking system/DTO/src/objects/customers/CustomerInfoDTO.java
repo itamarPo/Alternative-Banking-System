@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CustomerInfoDTO {
-  private  List<AccountTransactionDTO> transactionDTOS;
-  private  List<LoanInfoDTO> lenderList;
-  private  List<LoanInfoDTO> borrowerList;
+  private List<AccountTransactionDTO> transactionDTOS;
+  private List<LoanInfoDTO> lenderList;
+  private List<LoanInfoDTO> borrowerList;
+  private List<PaymentNotificationDTO> notificationDTOS;
   private String name;
   private double balance;
   private Integer newBorrower;

@@ -351,16 +351,14 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public void splitMoneyBetweenLoans(List<String> desiredLoansID, int moneyToInvest, String customerSelected, int maxOwnershipPercentage) {
-      if(maxOwnershipPercentage == 0){
-         maxOwnershipPercentage = 100;
-      }
+      double percentage = maxOwnershipPercentage/100.0;
       Map<Loans, Integer> maxAmountPerLoan = new LinkedHashMap(); // save possible loans and amount
       for (String ID : desiredLoansID) {
          for (Loans findLoan : loans) {
             if (ID.equals(findLoan.getLOANID())) {
-               int possibleInvestment = (int)(findLoan.getLoanSize() * (maxOwnershipPercentage/100));
+               double possibleInvestment = findLoan.getLoanSizeNoInterest() * percentage;
                possibleInvestment = min(possibleInvestment,(int)findLoan.getLeftToBeCollected());
-               maxAmountPerLoan.put(findLoan, possibleInvestment);
+               maxAmountPerLoan.put(findLoan, (int)possibleInvestment);
             }
          }
       }
@@ -393,10 +391,12 @@ public class Engine implements EngineInterface , Serializable {
          for (Map.Entry<Loans,Integer> entry : maxAmountPerLoan.entrySet()) {
             if (entry.getValue() == min) {
                addCustomerToLoan(entry.getKey(),customerSelected, min);
-               maxAmountPerLoan.remove(entry);
-               break;
+
+//               maxAmountPerLoan.remove(entry);
+
             }
          }
+         maxAmountPerLoan.values().removeIf(value-> value == min);
 //         loansToInvest.removeIf(x -> x.getLeftToBeCollected() + min == min);
          splitEquallyBetweenLoans(maxAmountPerLoan, moneyToInvest - (min - remainingLoansMin) * numOfLoans, customerSelected, min);
       }
@@ -545,6 +545,13 @@ public class Engine implements EngineInterface , Serializable {
 
    public int getNumOfLoans(){
       return loans.size();
+   }
+
+   public List<PaymentNotificationDTO> getNotifications(String userName){
+      List<PaymentNotificationDTO> notifications = new ArrayList<>();
+      getCustomerByName(userName).getNotifications()
+              .forEach(n-> notifications.add(new PaymentNotificationDTO(n.getLoanID(),n.getPaymentYaz(), n.getSumOfPayment())));
+      return notifications;
    }
 
 }

@@ -10,39 +10,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="paymentsTabAP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.payments.PaymentsTabController">
+<AnchorPane fx:id="paymentsTabAP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.payments.PaymentsTabController">
    <children>
       <TabPane fx:id="closeOrPaymentTabPane" prefHeight="400.0" prefWidth="414.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="0.0">
         <tabs>
-          <Tab fx:id="closeLoanTab" text="Close loan">
-               <content>
-                  <AnchorPane fx:id="closeLoanAP">
-                     <children>
-                        <TabPane fx:id="closeLoanTabPane" layoutY="-1.0" prefHeight="289.0" prefWidth="414.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="81.33333333333337" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <tabs>
-                            <Tab fx:id="closeLoanActiveTab" text="Active">
-                                 <content>
-                                    <fx:include fx:id="closeLoanActiveTable" source="../../table/loantable/activeLoanTable.fxml" />
-                                 </content></Tab>
-                            <Tab fx:id="closeLoanRiskTab" text="Risk">
-                                 <content>
-                                    <fx:include fx:id="closeLoanRiskTable" source="../../table/loantable/riskLoanTable.fxml" />
-                                 </content></Tab>
-                          </tabs>
-                        </TabPane>
-                        <HBox fx:id="closeButtonAndErrorHB" layoutX="9.0" layoutY="303.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="53.0" prefWidth="414.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <children>
-                              <Button fx:id="closeLoanButton" mnemonicParsing="false" prefHeight="53.0" prefWidth="210.0" text="Close selected loan" />
-                              <Label fx:id="closeLoanError" prefHeight="54.0" prefWidth="191.0" />
-                           </children>
-                           <padding>
-                              <Insets left="15.0" />
-                           </padding>
-                        </HBox>
-                     </children>
-                  </AnchorPane>
-               </content>
-          </Tab>
             <Tab fx:id="makePaymentTab" text="Make payment">
               <content>
                 <AnchorPane fx:id="makePaymentAP" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -72,6 +43,35 @@
                   </AnchorPane>
               </content>
             </Tab>
+          <Tab fx:id="closeLoanTab" text="Close loan">
+               <content>
+                  <AnchorPane fx:id="closeLoanAP">
+                     <children>
+                        <TabPane fx:id="closeLoanTabPane" layoutY="-1.0" prefHeight="289.0" prefWidth="414.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="81.33333333333337" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <tabs>
+                            <Tab fx:id="closeLoanActiveTab" text="Active">
+                                 <content>
+                                    <fx:include fx:id="closeLoanActiveTable" source="../../table/loantable/activeLoanTable.fxml" />
+                                 </content></Tab>
+                            <Tab fx:id="closeLoanRiskTab" text="Risk">
+                                 <content>
+                                    <fx:include fx:id="closeLoanRiskTable" source="../../table/loantable/riskLoanTable.fxml" />
+                                 </content></Tab>
+                          </tabs>
+                        </TabPane>
+                        <HBox fx:id="closeButtonAndErrorHB" layoutX="9.0" layoutY="303.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="53.0" prefWidth="414.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Button fx:id="closeLoanButton" mnemonicParsing="false" prefHeight="53.0" prefWidth="210.0" text="Close selected loan" />
+                              <Label fx:id="closeLoanError" prefHeight="54.0" prefWidth="191.0" />
+                           </children>
+                           <padding>
+                              <Insets left="15.0" />
+                           </padding>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
         </tabs>
       </TabPane>
       <AnchorPane fx:id="notificationsAP" layoutX="417.0" layoutY="1.0" prefHeight="400.0" prefWidth="187.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

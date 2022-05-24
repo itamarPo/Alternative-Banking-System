@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import objects.loans.LenderMap;
 import objects.loans.PendingLoanDTO;
 import userinterface.table.LendersTableController;
 
@@ -85,7 +86,12 @@ public class PendingLoanTableController {
                         lenderStageExist = true;
                         lendersTableController.setPopUpScene();
                     }
-                    lendersTableController.setValues(pendingLoansList.get(finalI).getListOfLenders());
+                    List<LenderMap> lenders = new ArrayList<>();
+                    Map<String, Double> lendersMap = pendingLoansList.get(finalI).getListOfLenders();
+                    for (Map.Entry<String,Double> entry : lendersMap.entrySet()){
+                        lenders.add(new LenderMap(entry.getKey(), entry.getValue()));
+                }
+                    lendersTableController.setValues(lenders);
                     lendersTableController.getPopUpLenderStage().show();
                 }
             });

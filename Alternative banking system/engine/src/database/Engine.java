@@ -547,4 +547,11 @@ public class Engine implements EngineInterface , Serializable {
       return loans.size();
    }
 
+   public List<PaymentNotificationDTO> getNotifications(String userName){
+      List<PaymentNotificationDTO> notifications = new ArrayList<>();
+      getCustomerByName(userName).getNotifications()
+              .forEach(n-> notifications.add(new PaymentNotificationDTO(n.getLoanID(),n.getPaymentYaz(), n.getSumOfPayment())));
+      return notifications;
+   }
+
 }

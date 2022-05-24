@@ -15,6 +15,7 @@ public class Customer implements CustomerInterface, Serializable {
     private List<Loans> lenderList;
     private List<Loans> borrowerList;
     private List<AccountTransaction> transactions;
+    private List<PaymentNotification> notifications;
 
 
 
@@ -24,6 +25,7 @@ public class Customer implements CustomerInterface, Serializable {
         borrowerList = new ArrayList<>();
         transactions = new ArrayList<>();
         this.balance = balance;
+        notifications = new ArrayList<>();
     }
 
     @Override
@@ -50,6 +52,8 @@ public class Customer implements CustomerInterface, Serializable {
         return borrowerList;
     }
 
+    public List<PaymentNotification> getNotifications() {return notifications;}
+
     @Override
     public void addLoanToClient(Loans loan, boolean lenderOrBorrower) {
         if(lenderOrBorrower) // lender
@@ -73,5 +77,9 @@ public class Customer implements CustomerInterface, Serializable {
         else
             incomeOrExpense = '+';
         transactions.add(new AccountTransaction(Engine.getTime(), abs(transaction), incomeOrExpense, balance - transaction, balance));
+    }
+
+    public void addNotification(String loanID, int notificationYaz, int sumOfPayment){
+        notifications.add(0, new PaymentNotification(loanID,notificationYaz,sumOfPayment));
     }
 }

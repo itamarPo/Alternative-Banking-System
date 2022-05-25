@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.LenderMap;
 import objects.loans.PendingLoanDTO;
+import objects.loans.payments.PaymentsDTO;
 import userinterface.admin.CenterAdminController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
@@ -155,8 +156,8 @@ public class ActiveLoanTableController implements Initializable {
                         paymentTableController.getPopUpPaymentStage().initModality(Modality.WINDOW_MODAL);
                         paymentTableController.getPopUpPaymentStage().initOwner(primaryStage);
                     }
-
-                    paymentTableController.setValues(tableView.getItems().get(finalI).getPayments());
+                    List<PaymentsDTO> pay = tableView.getItems().get(finalI).getPayments();
+                    paymentTableController.setValues(pay);
                     paymentTableController.getPopUpPaymentStage().show();
                 }
             });

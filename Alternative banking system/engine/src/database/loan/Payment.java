@@ -13,7 +13,7 @@ public class Payment implements Serializable {
 
 
     public Payment(int timeOfPayment, double interestComponent, double sumOfPayment, double initialComponent, boolean payedSuccesfully) {
-        this.timeOfPayment = Engine.getTime();
+        this.timeOfPayment = timeOfPayment;
         this.interestComponent = interestComponent;
         this.sumOfPayment = sumOfPayment;
         this.initialComponent = initialComponent;

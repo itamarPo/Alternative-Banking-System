@@ -1,13 +1,21 @@
 package userinterface.customer.payments;
 
 import database.Engine;
+import database.client.PaymentNotification;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import objects.loans.ActiveRiskLoanDTO;
+import objects.loans.payments.PaymentNotificationDTO;
 import userinterface.customer.TopCustomerController;
 import userinterface.table.loantable.ActiveLoanTableController;
 import userinterface.table.loantable.RiskLoanTableController;
+
+import java.util.List;
 
 public class PaymentsTabController {
 
@@ -48,10 +56,10 @@ public class PaymentsTabController {
     @FXML private HBox makePaymentButtonAndErrorHB;
     @FXML private AnchorPane notificationsAP;
     @FXML private Label notificationsTitle;
-    @FXML private TableView notificationsTableView;
-    @FXML private TableColumn loanIDNotification;
-    @FXML private TableColumn YAZNotification;
-    @FXML private TableColumn SumNotification;
+    @FXML private TableView<PaymentNotificationDTO> notificationsTableView;
+    @FXML private TableColumn<PaymentNotificationDTO, String> loanIDNotification;
+    @FXML private TableColumn<PaymentNotificationDTO, Integer> YAZNotification;
+    @FXML private TableColumn<PaymentNotificationDTO, Double> SumNotification;
 
 
     //Regular Fields
@@ -59,7 +67,9 @@ public class PaymentsTabController {
     private Engine engine;
     @FXML
     private void initialize() {
-
+        loanIDNotification.setCellValueFactory(new PropertyValueFactory<>("loanID"));
+        YAZNotification.setCellValueFactory(new PropertyValueFactory<>("paymentYaz"));
+        SumNotification.setCellValueFactory(new PropertyValueFactory<>("sumOfPayment"));
     }
     public void setControllersAndStages(){
         closeLoanActiveTableController.setPaymentsTabController(this);
@@ -80,6 +90,11 @@ public class PaymentsTabController {
     //Setters
     public void setTopCustomerController(TopCustomerController topCustomerController) {
         this.topCustomerController = topCustomerController;
+    }
+
+    public void setValues(List<PaymentNotificationDTO> paymentNotifications){
+        ObservableList<PaymentNotificationDTO> PaymentNotificationDTOObservableList = FXCollections.observableList(paymentNotifications);
+        notificationsTableView.getItems().setAll(PaymentNotificationDTOObservableList);
     }
 
     public void setEngine(Engine engine) {

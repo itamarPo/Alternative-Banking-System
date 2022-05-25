@@ -76,7 +76,7 @@ public class Customer implements CustomerInterface, Serializable {
             incomeOrExpense = '-';
         else
             incomeOrExpense = '+';
-        transactions.add(new AccountTransaction(Engine.getTime(), abs(transaction), incomeOrExpense, balance - transaction, balance));
+        transactions.add(0, new AccountTransaction(Engine.getTime(), abs(transaction), incomeOrExpense, balance - transaction, balance));
     }
 
     public void addNotification(String loanID, int notificationYaz, int sumOfPayment){

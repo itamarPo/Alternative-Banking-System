@@ -1,5 +1,6 @@
 package userinterface.admin;
 
+import database.Engine;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -40,6 +41,7 @@ public class CenterAdminController {
 
     //Regular Fields
     private TopAdminController topAdminController;
+    private Engine engine;
 
 
     //Constructor
@@ -57,6 +59,8 @@ public class CenterAdminController {
         riskLoanController.setCenterAdminController(this);
         finishedLoanController.setCenterAdminController(this);
     }
+
+
     public void setControllersAndStages(){
         pendingLoanController.setPrimaryStage(topAdminController.getMainController().getPrimaryStage());
         activeLoanController.setPrimaryStage(topAdminController.getMainController().getPrimaryStage());
@@ -104,6 +108,14 @@ public class CenterAdminController {
         }
         String absolutePath = selectedFile.getAbsolutePath();
         topAdminController.LoadFileAction(absolutePath);
+    }
+
+    @FXML
+    void increaseYazOnAction(ActionEvent event){
+        engine.moveTImeForward2();
+        Integer time = Engine.getTime() ;
+        topAdminController.getYazLABEL().setText(time.toString());
+        topAdminController.updateAdminTable();
     }
 
     public void enableAfterFileLoader(){

@@ -134,6 +134,7 @@ public class TopCustomerController {
        // informationTabController.getPendingLoanerTableController().setValues(pending);
         //Inlay tab changes
         updateInformationTab(UserPick);
+        updatePayments(UserPick);
         inlayTabController.addCategoriesToCCB();
         inlayTabController.resetFields();
     }
@@ -190,6 +191,9 @@ public class TopCustomerController {
         informationTabController.getRiskLenderTableController().setValues(riskLenders.stream().filter(p -> p.getStatus().equals("Risk")).collect(Collectors.toList()));
         pendingLenders.stream().filter(p->p.getStatus().equals("Finished")).forEach(x -> finishedLenders.add((FinishedLoanDTO) x));
         informationTabController.getFinishedLenderTableController().setValues(finishedLenders.stream().filter(p -> p.getStatus().equals("Finished")).collect(Collectors.toList()));
+    }
+    public void updatePayments(String userPick){
+        paymentsTabController.setValues(engine.getNotifications(userPick));
     }
 
 

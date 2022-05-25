@@ -87,6 +87,10 @@ public class CenterAdminController {
         this.topAdminController = topAdminController;
     }
 
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
+
 
     //Regular Methods
     @FXML

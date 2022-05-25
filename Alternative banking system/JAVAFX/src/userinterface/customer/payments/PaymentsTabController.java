@@ -92,9 +92,13 @@ public class PaymentsTabController {
         this.topCustomerController = topCustomerController;
     }
 
-    public void setValues(List<PaymentNotificationDTO> paymentNotifications){
+    public void setValues(List<PaymentNotificationDTO> paymentNotifications, List<ActiveRiskLoanDTO> activeRiskLoanDTOS, List<ActiveRiskLoanDTO> riskLoanDTOS){
         ObservableList<PaymentNotificationDTO> PaymentNotificationDTOObservableList = FXCollections.observableList(paymentNotifications);
         notificationsTableView.getItems().setAll(PaymentNotificationDTOObservableList);
+        closeLoanActiveTableController.setValues(activeRiskLoanDTOS);
+        makePaymentActiveTableController.setValues(activeRiskLoanDTOS);
+        closeLoanRiskTableController.setValues(riskLoanDTOS);
+        makePaymentRiskTableController.setValues(riskLoanDTOS);
     }
 
     public void setEngine(Engine engine) {

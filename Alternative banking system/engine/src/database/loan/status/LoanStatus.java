@@ -53,6 +53,10 @@ public class LoanStatus implements LoanStatusInterface, Serializable {
     public List<Payment> getPayments() {
         return payments;
     }
+
+    public List<Payment> getSupposedPayments() {
+        return supposedPayments;
+    }
     public int getStartingActiveTime() {
         return startingActiveTime;
     }

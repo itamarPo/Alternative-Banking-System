@@ -78,6 +78,23 @@ public class FinishedLoanTableController {
         paymentTableController = loaderPayment.getController();
     }
 
+    //Setters
+    public void setPaymentsTabController(PaymentsTabController paymentsTabController) {
+        this.paymentsTabController = paymentsTabController;
+    }
+
+    public void setInformationTabController(InformationTabController informationTabController) {
+        this.informationTabController = informationTabController;
+    }
+
+    public void setCenterAdminController(CenterAdminController centerAdminController) {
+        this.centerAdminController = centerAdminController;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
     public void setValues(List<FinishedLoanDTO> finishedList){
         ObservableList<FinishedLoanDTO> FinishedLoanDTOObservableList = FXCollections.observableList(finishedList);
         finishedTable.getItems().setAll(FinishedLoanDTOObservableList);
@@ -91,6 +108,8 @@ public class FinishedLoanTableController {
                     if(!lenderStageExist){
                         lenderStageExist = true;
                         lendersTableController.setPopUpScene();
+                        lendersTableController.getPopUpLenderStage().initModality(Modality.WINDOW_MODAL);
+                        lendersTableController.getPopUpLenderStage().initOwner(primaryStage);
                     }
                     List<LenderMap> lenders = new ArrayList<>();
                     Map<String, Double> lendersMap = finishedList.get(finalI).getListOfLenders();
@@ -110,8 +129,9 @@ public class FinishedLoanTableController {
                     if(!paymentStageExist){
                         paymentStageExist = true;
                         paymentTableController.setPopUpScene();
+                        paymentTableController.getPopUpPaymentStage().initModality(Modality.WINDOW_MODAL);
+                        paymentTableController.getPopUpPaymentStage().initOwner(primaryStage);
                     }
-
                     paymentTableController.setValues(finishedTable.getItems().get(finalI).getPayments());
                     paymentTableController.getPopUpPaymentStage().show();
                 }

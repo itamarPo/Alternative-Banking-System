@@ -87,6 +87,23 @@ public class ActiveLoanTableController implements Initializable {
         paymentTableController = loaderPayment.getController();
     }
 
+    //Setters
+    public void setPaymentsTabController(PaymentsTabController paymentsTabController) {
+        this.paymentsTabController = paymentsTabController;
+    }
+
+    public void setInformationTabController(InformationTabController informationTabController) {
+        this.informationTabController = informationTabController;
+    }
+
+    public void setCenterAdminController(CenterAdminController centerAdminController) {
+        this.centerAdminController = centerAdminController;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
     public void setValues(List<ActiveRiskLoanDTO> activeList) {
         ObservableList<ActiveRiskLoanDTO> activeRiskLoanDTOObservableList = FXCollections.observableList(activeList);
         tableView.getItems().setAll(activeRiskLoanDTOObservableList);

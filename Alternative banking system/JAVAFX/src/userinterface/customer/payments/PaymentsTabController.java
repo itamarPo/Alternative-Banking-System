@@ -1,5 +1,6 @@
 package userinterface.customer.payments;
 
+import database.Engine;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -52,6 +53,7 @@ public class PaymentsTabController {
     @FXML private TableColumn YAZNotification;
     @FXML private TableColumn SumNotification;
 
+
     //Regular Fields
     private TopCustomerController topCustomerController;
 
@@ -59,5 +61,9 @@ public class PaymentsTabController {
     //Setters
     public void setTopCustomerController(TopCustomerController topCustomerController) {
         this.topCustomerController = topCustomerController;
+    }
+
+    public void setEngine(Engine engine) {
+        this.engine = engine;
     }
 }

@@ -4,10 +4,10 @@ public class PaymentNotificationDTO {
     //Class Fields
     private String loanID;
     private int paymentYaz;
-    private int sumOfPayment;
+    private double sumOfPayment;
 
     //Constructor
-    public PaymentNotificationDTO(String loanID, int paymentYaz, int sumOfPayment) {
+    public PaymentNotificationDTO(String loanID, int paymentYaz, double sumOfPayment) {
         this.loanID = loanID;
         this.paymentYaz = paymentYaz;
         this.sumOfPayment = sumOfPayment;
@@ -16,5 +16,5 @@ public class PaymentNotificationDTO {
     //Getters
     public String getLoanID() {return loanID;}
     public int getPaymentYaz() {return paymentYaz;}
-    public int getSumOfPayment() {return sumOfPayment;}
+    public double getSumOfPayment() {return sumOfPayment;}
 }

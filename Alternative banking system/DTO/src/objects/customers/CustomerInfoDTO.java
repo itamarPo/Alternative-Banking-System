@@ -2,6 +2,7 @@ package objects.customers;
 
 
 import objects.customers.loanInfo.LoanInfoDTO;
+import objects.loans.payments.PaymentNotificationDTO;
 
 import java.util.ArrayList;
 import java.util.List;

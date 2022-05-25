@@ -15,6 +15,7 @@ import objects.customers.loanInfo.*;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.FinishedLoanDTO;
 import objects.loans.NewLoanDTO;
+import objects.loans.payments.PaymentNotificationDTO;
 import objects.loans.payments.PaymentsDTO;
 import objects.loans.PendingLoanDTO;
 

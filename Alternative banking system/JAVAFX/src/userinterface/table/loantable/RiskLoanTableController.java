@@ -11,8 +11,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.LenderMap;
+import userinterface.admin.CenterAdminController;
+import userinterface.customer.information.InformationTabController;
+import userinterface.customer.payments.PaymentsTabController;
 import userinterface.table.LendersTableController;
 import userinterface.table.PaymentTableController;
 
@@ -60,6 +65,12 @@ public class RiskLoanTableController {
     private TableColumn<ActiveRiskLoanDTO, Double> allInitialLeftToPay;
     @FXML
     private TableColumn<ActiveRiskLoanDTO, Double> allInterestLeftToPay;
+
+    //Regular Fields
+    private PaymentsTabController paymentsTabController;
+    private InformationTabController informationTabController;
+    private CenterAdminController centerAdminController;
+    private Stage primaryStage;
 
 
     public void initialize() {
@@ -129,6 +140,8 @@ public class RiskLoanTableController {
                     if(!lenderStageExist){
                         lenderStageExist = true;
                         lendersTableController.setPopUpScene();
+                        lendersTableController.getPopUpLenderStage().initModality(Modality.WINDOW_MODAL);
+                        lendersTableController.getPopUpLenderStage().initOwner(primaryStage);
                     }
                     List<LenderMap> lenders = new ArrayList<>();
                     Map<String, Double> lendersMap = riskList.get(finalI).getListOfLenders();
@@ -148,9 +161,12 @@ public class RiskLoanTableController {
                     if(!paymentStageExist){
                         paymentStageExist = true;
                         paymentTableController.setPopUpScene();
+                        paymentTableController.getPopUpPaymentStage().initModality(Modality.WINDOW_MODAL);
+                        paymentTableController.getPopUpPaymentStage().initOwner(primaryStage);
                     }
 
                     paymentTableController.setValues(tableView.getItems().get(finalI).getPayments());
+
                     paymentTableController.getPopUpPaymentStage().show();
                 }
             });

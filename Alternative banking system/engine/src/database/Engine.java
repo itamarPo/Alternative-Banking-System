@@ -434,12 +434,15 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public void addCustomerToLoan(Loans loan, Customer investor, double moneyToInvest) {
-      loan.getListOflenders().put(investor.getName(), moneyToInvest);
-      investor.getLenderList().add(loan);
+      if(loan.getListOflenders().containsKey(investor.getName())){
+         loan.getListOflenders().put(investor.getName(),loan.getListOflenders().get(investor.getName()) + moneyToInvest);
+      } else {
+         loan.getListOflenders().put(investor.getName(), moneyToInvest);
+         investor.getLenderList().add(loan);
+      }
       loan.setCollectedSoFar(moneyToInvest);
       loan.setLeftToBeCollected(moneyToInvest);
       investor.drawMoney(moneyToInvest);
-
       loan.updateStatusBeforeActive();
       if (loan.getStatus().getStatus().equals("Active")) {
          getCustomerByName(loan.getBorrowerName()).addMoney(loan.getLoanSize());
@@ -553,6 +556,24 @@ public class Engine implements EngineInterface , Serializable {
       getCustomerByName(userName).getNotifications()
               .forEach(n-> notifications.add(new PaymentNotificationDTO(n.getLoanID(),n.getPaymentYaz(), n.getSumOfPayment())));
       return notifications;
+   }
+
+   public void moveTImeForward2(){
+
+//      for(Loans loan : loans){
+//         if(loan.getStatus().getNextPaymentTime() == time){
+//            if(loan.getStatus().returnLastPayment().isPayedSuccesfully()){
+//               ///move to risk
+//            }
+//         }
+//      }
+      time++;
+      for(Loans loan : loans) {
+         if(loan.getStatus().getNextPaymentTime() == time){
+            loan.getStatus().getPayments().add(0, loan.getStatus().getCurrentPayment());
+            getCustomerByName(loan.getBorrowerName()).addNotification(loan.getLOANID(),time,loan.getStatus().getPayments().get(0).getSumOfPayment());
+      }
+      }
    }
 
 }

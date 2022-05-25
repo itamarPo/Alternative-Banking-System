@@ -102,7 +102,6 @@ public class InlayTabController {
             maxOwnershipLoanTF.setDisable(newEnable);
             maxOwnershipLoanTF.setText("");
             maxOwnershipLoanErrorLabel.setText("");}
-
         );
 
         //Adding checkbox column to the new table
@@ -114,6 +113,13 @@ public class InlayTabController {
         TableColumn<PendingLoanDTO, CheckBox> checkBoxColumn = new TableColumn<>();
         checkBoxColumn.setCellValueFactory(new PropertyValueFactory<>("IsSelected"));
         pendingLoanTBController.getTableView().getColumns().add(0,checkBoxColumn);
+
+    }
+
+    public void setControllersAndStages(){
+        newLoanTBController.setInlayTabController(this);
+        pendingLoanTBController.setInlayTabController(this);
+        pendingLoanTBController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
     }
 
     //Getters

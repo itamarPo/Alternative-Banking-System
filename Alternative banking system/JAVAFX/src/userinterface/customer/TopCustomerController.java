@@ -40,9 +40,6 @@ public class TopCustomerController {
     @FXML private InlayTabController inlayTabController;
 
 
-
-
-
     //JavaFX
     @FXML private ComboBox<String> UserCB;
     @FXML private ScrollPane MainSP;
@@ -88,6 +85,10 @@ public class TopCustomerController {
         this.engine = engine;
         informationTabController.setEngine(this.engine);
         inlayTabController.setEngine(this.engine);
+        paymentsTabController.setEngine(this.engine);
+        informationTabController.setControllersAndStages();
+        inlayTabController.setControllersAndStages();
+        paymentsTabController.setControllersAndStages();
     }
 
     //****Regular Methods****//

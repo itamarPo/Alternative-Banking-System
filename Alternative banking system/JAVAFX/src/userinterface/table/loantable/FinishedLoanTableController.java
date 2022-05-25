@@ -11,9 +11,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.FinishedLoanDTO;
 import objects.loans.LenderMap;
+import userinterface.admin.CenterAdminController;
+import userinterface.customer.information.InformationTabController;
+import userinterface.customer.payments.PaymentsTabController;
 import userinterface.table.LendersTableController;
 import userinterface.table.PaymentTableController;
 
@@ -24,6 +29,10 @@ import java.util.List;
 import java.util.Map;
 
 public class FinishedLoanTableController {
+
+    //Sub Components
+    private LendersTableController lendersTableController;
+    private PaymentTableController paymentTableController;
 
 
     //JavaFX components
@@ -41,10 +50,14 @@ public class FinishedLoanTableController {
     @FXML private TableColumn<FinishedLoanDTO, Integer> startingTime;
     @FXML private TableColumn<FinishedLoanDTO, Integer> finishingTime;
 
+    //Regular Fields
     private boolean lenderStageExist = false;
     private boolean paymentStageExist = false;
-    private LendersTableController lendersTableController;
-    private PaymentTableController paymentTableController;
+    private PaymentsTabController paymentsTabController;
+    private InformationTabController informationTabController;
+    private CenterAdminController centerAdminController;
+    private Stage primaryStage;
+
     public void initialize(){
         loanID.setCellValueFactory(new PropertyValueFactory<FinishedLoanDTO, String>("loanID"));
         category.setCellValueFactory(new PropertyValueFactory<FinishedLoanDTO, String>("loanCategory"));

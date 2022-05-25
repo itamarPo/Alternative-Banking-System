@@ -8,7 +8,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import objects.loans.NewLoanDTO;
+import userinterface.admin.CenterAdminController;
+import userinterface.customer.information.InformationTabController;
+import userinterface.customer.inlay.InlayTabController;
+import userinterface.customer.payments.PaymentsTabController;
 
 import java.net.URL;
 import java.util.List;
@@ -25,6 +30,12 @@ public class NewLoanTableController implements Initializable {
     @FXML private TableColumn<NewLoanDTO, Double> amount;
     @FXML private TableColumn<NewLoanDTO, Integer> interest;
     @FXML private TableColumn<NewLoanDTO, Integer> timePerPayment;
+
+    //Regular Fields
+    private InlayTabController inlayTabController;
+    private InformationTabController informationTabController;
+    private CenterAdminController centerAdminController;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

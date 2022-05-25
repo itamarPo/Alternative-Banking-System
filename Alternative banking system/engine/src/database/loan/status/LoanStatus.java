@@ -12,7 +12,9 @@ public class LoanStatus implements LoanStatusInterface, Serializable {
 
 
     private String status;
-    private List<Payment> payments;
+    private List<Payment> actualPayments;
+    private List<Payment> supposedPayments;
+
     private int startingActiveTime;
     private int finishTime;
     private int nextPaymentTime;
@@ -23,7 +25,8 @@ public class LoanStatus implements LoanStatusInterface, Serializable {
 
     public LoanStatus(String status, int startingActiveTime, int finishTime, int nextPaymentTime, double interestPayed, double initialPayed, double interestLeftToPay, double initialLeftToPay) {
         this.status = status;
-        this.payments = new ArrayList<>();
+        this.actualPayments = new ArrayList<>();
+        this.supposedPayments = new ArrayList<>();
         this.startingActiveTime = startingActiveTime;
         this.finishTime = finishTime;
         this.nextPaymentTime = nextPaymentTime;
@@ -51,7 +54,7 @@ public class LoanStatus implements LoanStatusInterface, Serializable {
 
     public String getStatus() { return status;}
     public List<Payment> getPayments() {
-        return payments;
+        return actualPayments;
     }
 
     public List<Payment> getSupposedPayments() {
@@ -77,7 +80,7 @@ public class LoanStatus implements LoanStatusInterface, Serializable {
     }
     public double getInitialLeftToPay() {return initialLeftToPay;}
     public void addPayment(Payment payment) {
-        this.payments.add(payment) ;
+        this.actualPayments.add(payment) ;
     }
     //setters
     public void setStatus(String status) {
@@ -93,5 +96,8 @@ public class LoanStatus implements LoanStatusInterface, Serializable {
     public void setNextPaymentTime(int nextPaymentTime) {
         this.nextPaymentTime += nextPaymentTime;
     }
-    public Payment returnLastPayment(){return payments.get(payments.size()-1);}
+    public Payment returnLastPayment(){return actualPayments.get(actualPayments.size()-1);}
+    public Payment getCurrentPayment(){
+        return supposedPayments.stream().filter(p->p.getTimeOfPayment()==Engine.getTime()).findFirst().orElse(null);
+    }
 }

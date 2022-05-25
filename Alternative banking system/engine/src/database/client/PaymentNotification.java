@@ -6,7 +6,7 @@ public class PaymentNotification {
     private int paymentYaz;
     private double sumOfPayment;
 
-    public PaymentNotification(String loanID, int paymentYaz, int sumOfPayment) {
+    public PaymentNotification(String loanID, int paymentYaz, double sumOfPayment) {
         this.loanID = loanID;
         this.paymentYaz = paymentYaz;
         this.sumOfPayment = sumOfPayment;

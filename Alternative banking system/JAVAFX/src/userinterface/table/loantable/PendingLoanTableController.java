@@ -11,8 +11,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import objects.loans.LenderMap;
 import objects.loans.PendingLoanDTO;
+import userinterface.admin.CenterAdminController;
+import userinterface.customer.information.InformationTabController;
+import userinterface.customer.inlay.InlayTabController;
+import userinterface.customer.payments.PaymentsTabController;
 import userinterface.table.LendersTableController;
 
 import java.io.IOException;
@@ -23,6 +29,7 @@ import java.util.Map;
 
 public class PendingLoanTableController {
 
+    //Sub Components
     private LendersTableController lendersTableController;
 
     private boolean lenderStageExist = false;
@@ -38,7 +45,13 @@ public class PendingLoanTableController {
     @FXML private TableColumn<PendingLoanDTO, Button> listOfLenders;
     @FXML private TableColumn<PendingLoanDTO, Double> collectedSoFar;
     @FXML private TableColumn<PendingLoanDTO, Double> sumLeftToBeCollected;
-    //private List<Button> buttonList = new ArrayList<>();
+
+    //Regular Fields
+    private InlayTabController inlayTabController;
+    private InformationTabController informationTabController;
+    private CenterAdminController centerAdminController;
+    private Stage primaryStage;
+
 
     //Constructor
     public PendingLoanTableController() {

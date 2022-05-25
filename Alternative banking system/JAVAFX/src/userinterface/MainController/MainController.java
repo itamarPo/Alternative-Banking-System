@@ -29,12 +29,8 @@ public class MainController {
         this.topCustomerController = topCustomerController;
         this.CustomerScene = customerScene;
         engine = new Engine();
-    }
-
-    //initialize after constructor
-    @FXML
-    private void initialize()  {
-
+        this.topAdminController.setMainControllerAndEngine(this,engine);
+        this.topCustomerController.setMainControllerAndEngine(this,engine);
     }
 
     //getters

@@ -193,7 +193,15 @@ public class TopCustomerController {
         informationTabController.getFinishedLenderTableController().setValues(finishedLenders.stream().filter(p -> p.getStatus().equals("Finished")).collect(Collectors.toList()));
     }
     public void updatePayments(String userPick){
-        paymentsTabController.setValues(engine.getNotifications(userPick));
+        List<NewLoanDTO> temp = engine.getLoansInfo().stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
+        List<ActiveRiskLoanDTO> active = new ArrayList<>();
+        List<ActiveRiskLoanDTO> risk = new ArrayList<>();
+
+        //Loaner Tables
+        temp.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> active.add((ActiveRiskLoanDTO)  y));
+        temp.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> risk.add((ActiveRiskLoanDTO) y));
+
+        paymentsTabController.setValues(engine.getNotifications(userPick),active,risk);
     }
 
 

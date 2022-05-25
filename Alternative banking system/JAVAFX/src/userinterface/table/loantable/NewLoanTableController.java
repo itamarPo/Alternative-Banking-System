@@ -37,6 +37,21 @@ public class NewLoanTableController implements Initializable {
         timePerPayment.setCellValueFactory(new PropertyValueFactory<NewLoanDTO, Integer>("timePerPayment"));
     }
 
+
+    //Setters
+    public void setInlayTabController(InlayTabController inlayTabController) {
+        this.inlayTabController = inlayTabController;
+    }
+
+    public void setInformationTabController(InformationTabController informationTabController) {
+        this.informationTabController = informationTabController;
+    }
+
+    public void setCenterAdminController(CenterAdminController centerAdminController) {
+        this.centerAdminController = centerAdminController;
+    }
+
+
     //Getters
     public TableView<NewLoanDTO> getTableView() {
         return tableView;

@@ -2,11 +2,13 @@ package userinterface.customer.information.accountTransaction;
 
 import database.Engine;
 import database.client.Customer;
+import exceptions.accountexception.WithDrawMoneyException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 public class TransactionPopUpController {
 
     //JavaFX components
+    @FXML private ScrollPane transactionPopUpSP;
     @FXML private Button confirmButton;
     @FXML private Label errorMessage;
     @FXML private AnchorPane transactionPopUpAP;
@@ -80,19 +83,33 @@ public class TransactionPopUpController {
         return accountTransactionController;
     }
 
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage.setText(errorMessage);
+    }
+
+    public void setTextField(String textField) {
+        this.textField.setText(textField);
+    }
+
     @FXML
     void confirmButtonSetOnAction(ActionEvent event) {
         String userInput = textField.getText();
         Double userSum;
-        Customer customer;
+        //Customer customer;
         try {
            userSum =  Double.parseDouble(userInput);
-           customer = engine.getCustomerByName(userName);
            if(chargeOrWithdraw)
-                customer.addMoney(userSum);
-           else
-               customer.drawMoney(userSum);
-           accountTransactionController.getInformationTabController().getBalanceLabel().setText("Balance: " + customer.getBalance());
+               engine.addMoneyToAccount(engine.getCustomerByName(userName), userSum);
+           else {
+               try {
+                   engine.drawMoneyFromAccount(engine.getCustomerByName(userName), userSum);
+               }
+               catch (WithDrawMoneyException e){
+                   errorMessage.setText(e.toString());
+                   return;
+               }
+           }
+           accountTransactionController.getInformationTabController().getBalanceLabel().setText("Balance: " + engine.getCustomerByName(userName).getBalance());
            accountTransactionController.setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(userName)).findFirst().orElse(null));
            //TODO: error messages from incorrect withdraw amount
            errorMessage.setText(null);

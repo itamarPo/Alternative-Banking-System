@@ -21,8 +21,8 @@ public interface EngineInterface{
     List<NewLoanDTO> getLoansInfo();
     List<CustomerInfoDTO> getCustomerInfo();
     Customer getCustomerByName(String name) throws Exception;
-    void addMoneyToAccount(int userChoice, double moneyToAdd);
+    void addMoneyToAccount(Customer userChoice, double moneyToAdd);
     DisplayCustomerName namesForDisplay();
-    void drawMoneyFromAccount(int userChoice, double moneyToDraw) throws Exception;
+    void drawMoneyFromAccount(Customer userChoice, double moneyToDraw) throws Exception;
     void resetEngine();
 }

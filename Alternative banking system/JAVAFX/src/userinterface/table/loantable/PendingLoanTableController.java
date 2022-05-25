@@ -72,6 +72,23 @@ public class PendingLoanTableController {
     public TableView<PendingLoanDTO> getTableView() {return tableView;}
 
     //Setters
+
+    public void setInlayTabController(InlayTabController inlayTabController) {
+        this.inlayTabController = inlayTabController;
+    }
+
+    public void setInformationTabController(InformationTabController informationTabController) {
+        this.informationTabController = informationTabController;
+    }
+
+    public void setCenterAdminController(CenterAdminController centerAdminController) {
+        this.centerAdminController = centerAdminController;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
     public void setValues(List<PendingLoanDTO> pendingLoansList){
         ObservableList<PendingLoanDTO> pendingLoanDTOObservableList = FXCollections.observableArrayList(pendingLoansList);
         tableView.getItems().setAll(pendingLoanDTOObservableList);
@@ -85,6 +102,8 @@ public class PendingLoanTableController {
                     if(!lenderStageExist){
                         lenderStageExist = true;
                         lendersTableController.setPopUpScene();
+                        lendersTableController.getPopUpLenderStage().initModality(Modality.WINDOW_MODAL);
+                        lendersTableController.getPopUpLenderStage().initOwner(primaryStage);
                     }
                     List<LenderMap> lenders = new ArrayList<>();
                     Map<String, Double> lendersMap = pendingLoansList.get(finalI).getListOfLenders();

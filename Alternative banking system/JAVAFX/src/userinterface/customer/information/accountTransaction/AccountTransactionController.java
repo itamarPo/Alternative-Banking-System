@@ -93,6 +93,8 @@ public class AccountTransactionController {
     //Regular methods
     @FXML
     void chargeButtonOnAction(ActionEvent event) {
+        popUpController.setErrorMessage("");
+        popUpController.setTextField("");
         popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "charge:", popUpExist, true);
         if(!popUpExist) {
             popUpExist = true;
@@ -102,6 +104,8 @@ public class AccountTransactionController {
 
     @FXML
     void withdrawButtonOnAction(ActionEvent event) {
+        popUpController.setErrorMessage("");
+        popUpController.setTextField("");
         popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "withdraw:", popUpExist, false);
         if(!popUpExist) {
             popUpExist = true;

@@ -209,7 +209,7 @@ public class User implements UserInterface {
         double moneyToAdd = -1;
         System.out.println("Please enter the amount you wish to add. make sure that you enter a positive number:");
         moneyToAdd = validTransactionChoice();
-        data.addMoneyToAccount(userChoice,moneyToAdd);
+        //data.addMoneyToAccount(userChoice,moneyToAdd);
         System.out.println("The money was successfully added. ");
     }
     @Override
@@ -222,15 +222,15 @@ public class User implements UserInterface {
         double moneyToDraw = -1;
         System.out.println("Please enter the amount you wish to draw. make sure that you enter a positive number and not more than the customer has: ");
         moneyToDraw = validTransactionChoice();
-        try {
-            data.drawMoneyFromAccount(userChoice,moneyToDraw);
+      //  try {
+           // data.drawMoneyFromAccount(userChoice,moneyToDraw);
             System.out.println("The money was successfully withdrawn. ");
-        }
-        catch (WithDrawMoneyException e){
-            e.printMessage();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+      //  }
+       // catch (WithDrawMoneyException e){
+          //  e.printMessage();
+       // } catch (Exception e) {
+        //    e.printStackTrace();
+       // }
     }
 
     @Override
@@ -245,7 +245,7 @@ public class User implements UserInterface {
             System.out.println("Please enter a positive number for the customer to invest: (This option is mandatory!)");
             double moneyToInvest = validTransactionChoice();
             String customerSelected = null;
-            data.checkAmountOfInvestment(userChoice, moneyToInvest);
+           // data.checkAmountOfInvestment(userChoice, moneyToInvest);
             int i = 1,j = 0;
             for (Map.Entry<String,Double> entry : customerNames.getCustomerList().entrySet()){
                 if(j == userChoice - 1){

@@ -273,8 +273,8 @@ public class Engine implements EngineInterface , Serializable {
 
    }
 
-   public void addMoneyToAccount(int userChoice, double moneyToAdd) {
-      customers.get(userChoice - 1).addMoney(moneyToAdd);
+   public void addMoneyToAccount(Customer userChoice, double moneyToAdd) {
+      userChoice.addMoney(moneyToAdd);
    }
 
    public DisplayCustomerName namesForDisplay() {
@@ -285,11 +285,11 @@ public class Engine implements EngineInterface , Serializable {
       return names;
    }
 
-   public void drawMoneyFromAccount(int userChoice, double moneyToDraw) throws Exception {
-      if (customers.get(userChoice - 1).getBalance() - moneyToDraw < 0) {
-         throw new WithDrawMoneyException(customers.get(userChoice - 1).getBalance(), moneyToDraw);
+   public void drawMoneyFromAccount(Customer userChoice, double moneyToDraw) throws Exception {
+      if (userChoice .getBalance() - moneyToDraw < 0) {
+         throw new WithDrawMoneyException(userChoice.getBalance(), moneyToDraw);
       }
-      customers.get(userChoice - 1).drawMoney(moneyToDraw);
+      userChoice.drawMoney(moneyToDraw);
    }
 
    @Override

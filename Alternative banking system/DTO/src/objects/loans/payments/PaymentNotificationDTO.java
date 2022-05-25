@@ -1,4 +1,4 @@
-package objects.customers;
+package objects.loans.payments;
 
 public class PaymentNotificationDTO {
     //Class Fields

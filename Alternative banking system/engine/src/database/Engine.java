@@ -569,10 +569,15 @@ public class Engine implements EngineInterface , Serializable {
 //      }
       time++;
       for(Loans loan : loans) {
-         if(loan.getStatus().getNextPaymentTime() == time){
-            loan.getStatus().getPayments().add(0, loan.getStatus().getCurrentPayment());
-            getCustomerByName(loan.getBorrowerName()).addNotification(loan.getLOANID(),time,loan.getStatus().getPayments().get(0).getSumOfPayment());
-      }
+         if(loan.getStatus().getStatus().equals("Active")) {
+            if (loan.getStatus().getNextPaymentTime() == time) {
+//            loan.getStatus().getPayments().add(0, loan.getStatus().getCurrentPayment());
+               if (Engine.getTime() == 2) {
+                  getCustomerByName(loan.getBorrowerName()).addNotification(loan.getLOANID(), time, loan.getLoanSize() / (loan.getTimeLimitOfLoan()/loan.getTimePerPayment()) );
+               } else
+                  getCustomerByName(loan.getBorrowerName()).addNotification(loan.getLOANID(), time, loan.getStatus().getPayments().get(0).getSumOfPayment());
+            }
+         }
       }
    }
 

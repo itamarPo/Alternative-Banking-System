@@ -80,6 +80,7 @@ public class TopAdminController {
     public void setMainControllerAndEngine(MainController mainController, Engine engine) {
         this.mainController = mainController;
         this.engine = engine;
+        this.CenterAdminController.setEngine(engine);
         this.CenterAdminController.setControllersAndStages();
     }
 

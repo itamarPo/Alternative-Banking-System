@@ -67,6 +67,7 @@ public class TopAdminController {
         UserCB.setValue("Admin");
     }
 
+
     //getters
     public Label getFileLABEL() {return FileLABEL;}
     public ComboBox<String> getUserCB() {return UserCB;}
@@ -79,6 +80,7 @@ public class TopAdminController {
     public void setMainControllerAndEngine(MainController mainController, Engine engine) {
         this.mainController = mainController;
         this.engine = engine;
+        this.CenterAdminController.setControllersAndStages();
     }
 
     //Regular Methods

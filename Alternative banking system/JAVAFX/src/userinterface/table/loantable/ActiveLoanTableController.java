@@ -12,9 +12,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.LenderMap;
 import objects.loans.PendingLoanDTO;
+import userinterface.admin.CenterAdminController;
+import userinterface.customer.information.InformationTabController;
+import userinterface.customer.inlay.InlayTabController;
+import userinterface.customer.payments.PaymentsTabController;
 import userinterface.table.LendersTableController;
 import userinterface.table.PaymentTableController;
 
@@ -48,6 +54,13 @@ public class ActiveLoanTableController implements Initializable {
     @FXML private TableColumn<ActiveRiskLoanDTO, Double> allInterestPayedSoFar;
     @FXML private TableColumn<ActiveRiskLoanDTO, Double> allInitialLeftToPay;
     @FXML private TableColumn<ActiveRiskLoanDTO, Double> allInterestLeftToPay;
+
+    //Regular Fields
+    private PaymentsTabController paymentsTabController;
+    private InformationTabController informationTabController;
+    private CenterAdminController centerAdminController;
+    private Stage primaryStage;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -117,6 +130,8 @@ public class ActiveLoanTableController implements Initializable {
                     if(!lenderStageExist){
                         lenderStageExist = true;
                         lendersTableController.setPopUpScene();
+                        lendersTableController.getPopUpLenderStage().initModality(Modality.WINDOW_MODAL);
+                        lendersTableController.getPopUpLenderStage().initOwner(primaryStage);
                     }
                     List<LenderMap> lenders = new ArrayList<>();
                     Map<String, Double> lendersMap = activeList.get(finalI).getListOfLenders();
@@ -124,6 +139,7 @@ public class ActiveLoanTableController implements Initializable {
                         lenders.add(new LenderMap(entry.getKey(), entry.getValue()));
                     }
                     lendersTableController.setValues(lenders);
+
                     lendersTableController.getPopUpLenderStage().show();
                 }
             });
@@ -136,6 +152,8 @@ public class ActiveLoanTableController implements Initializable {
                     if(!paymentStageExist){
                         paymentStageExist = true;
                         paymentTableController.setPopUpScene();
+                        paymentTableController.getPopUpPaymentStage().initModality(Modality.WINDOW_MODAL);
+                        paymentTableController.getPopUpPaymentStage().initOwner(primaryStage);
                     }
 
                     paymentTableController.setValues(tableView.getItems().get(finalI).getPayments());

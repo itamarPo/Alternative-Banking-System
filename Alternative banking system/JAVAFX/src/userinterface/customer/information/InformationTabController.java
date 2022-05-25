@@ -114,8 +114,28 @@ public class InformationTabController {
     @FXML
     private void initialize() {
         transactionInfoController.setInformationTabController(this);
+
     }
 
+    public void setControllersAndStages(){
+        newLoanerTableController.setInformationTabController(this);
+        pendingLoanerTableController.setInformationTabController(this);
+        pendingLoanerTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+        pendingLenderTableController.setInformationTabController(this);
+        pendingLenderTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+        activeLoanerTableController.setInformationTabController(this);
+        activeLoanerTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+        activeLenderTableController.setInformationTabController(this);
+        activeLenderTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+        riskLoanerTableController.setInformationTabController(this);
+        riskLoanerTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+        riskLenderTableController.setInformationTabController(this);
+        riskLenderTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+        finishedLoanerTableController.setInformationTabController(this);
+        finishedLoanerTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+        finishedLenderTableController.setInformationTabController(this);
+        finishedLenderTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+    }
     public void setUserName(String userName) {
         this.userName = userName;
         transactionInfoController.setUserName(this.userName);

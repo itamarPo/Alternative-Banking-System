@@ -26,6 +26,7 @@ public class TransactionPopUpController {
     @FXML private TextField textField;
     private Stage popUpStage;
 
+
     private Scene popUpScene;
     private Engine engine;
 
@@ -63,7 +64,7 @@ public class TransactionPopUpController {
     //Regular Methods
     public void setPopUp(Stage primaryStage, String message, boolean popUpExist, boolean chargeOrWithdraw){
         if(!popUpExist) {
-           // popUpStage.initModality(Modality.WINDOW_MODAL);
+            popUpStage.initModality(Modality.WINDOW_MODAL);
             popUpStage.initOwner(primaryStage);
         }
         messageButton.setText(message);
@@ -72,7 +73,7 @@ public class TransactionPopUpController {
     }
 
     public void setPopUpScene(){
-        popUpScene = new Scene(transactionPopUpAP,350,160);
+        popUpScene = new Scene(transactionPopUpSP,451,159);
         popUpStage.setScene(popUpScene);
     }
     public void setAccountTransactionController(AccountTransactionController accountTransactionController) {

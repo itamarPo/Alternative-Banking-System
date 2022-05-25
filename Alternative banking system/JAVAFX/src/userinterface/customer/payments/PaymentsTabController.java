@@ -56,7 +56,26 @@ public class PaymentsTabController {
 
     //Regular Fields
     private TopCustomerController topCustomerController;
+    private Engine engine;
+    @FXML
+    private void initialize() {
 
+    }
+    public void setControllersAndStages(){
+        closeLoanActiveTableController.setPaymentsTabController(this);
+        closeLoanActiveTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+        closeLoanRiskTableController.setPaymentsTabController(this);
+        closeLoanRiskTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+        makePaymentActiveTableController.setPaymentsTabController(this);
+        makePaymentActiveTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+        makePaymentRiskTableController.setPaymentsTabController(this);
+        makePaymentRiskTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+    }
+
+    //Getters
+    public TopCustomerController getTopCustomerController() {
+        return topCustomerController;
+    }
 
     //Setters
     public void setTopCustomerController(TopCustomerController topCustomerController) {

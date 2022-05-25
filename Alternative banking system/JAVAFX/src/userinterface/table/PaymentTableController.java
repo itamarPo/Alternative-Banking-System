@@ -8,6 +8,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import objects.loans.payments.PaymentsDTO;
 
@@ -58,7 +59,7 @@ public class PaymentTableController {
     }
 
     public void setPopUpScene(){
-        popUpPaymentScene = new Scene(paymentSP, 222, 292);
+        popUpPaymentScene = new Scene(paymentSP, 400, 292);
         popUpPaymentStage.setScene(popUpPaymentScene);
     }
 

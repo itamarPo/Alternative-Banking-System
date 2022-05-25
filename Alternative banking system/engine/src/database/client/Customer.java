@@ -79,7 +79,7 @@ public class Customer implements CustomerInterface, Serializable {
         transactions.add(0, new AccountTransaction(Engine.getTime(), abs(transaction), incomeOrExpense, balance - transaction, balance));
     }
 
-    public void addNotification(String loanID, int notificationYaz, int sumOfPayment){
+    public void addNotification(String loanID, int notificationYaz, double sumOfPayment){
         notifications.add(0, new PaymentNotification(loanID,notificationYaz,sumOfPayment));
     }
 }

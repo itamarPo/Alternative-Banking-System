@@ -51,7 +51,20 @@ public class CenterAdminController {
     @FXML
     private void initialize()  {
         IncreaseYazBUTTON.setDisable(true);
+        newLoanController.setCenterAdminController(this);
+        pendingLoanController.setCenterAdminController(this);
+        activeLoanController.setCenterAdminController(this);
+        riskLoanController.setCenterAdminController(this);
+        finishedLoanController.setCenterAdminController(this);
     }
+    public void setControllersAndStages(){
+        pendingLoanController.setPrimaryStage(topAdminController.getMainController().getPrimaryStage());
+        activeLoanController.setPrimaryStage(topAdminController.getMainController().getPrimaryStage());
+        riskLoanController.setPrimaryStage(topAdminController.getMainController().getPrimaryStage());
+        finishedLoanController.setPrimaryStage(topAdminController.getMainController().getPrimaryStage());
+    }
+
+
 
 
     //Getters

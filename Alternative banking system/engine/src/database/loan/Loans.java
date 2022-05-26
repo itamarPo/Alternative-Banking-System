@@ -131,16 +131,9 @@ public class Loans implements Serializable, LoansInterface {
     }
 
     @Override
-    public void changeToActive() {
+    public void returnToActive() {
         status.setStatus("Active");
-        status.setStartingActiveTime(Engine.getTime());
-        status.setNextPaymentTime(Engine.getTime()  + timePerPayment);
-        double InitialComponent = loanSizeNoInterest/(timeLimitOfLoan/timePerPayment);
-        double InterestComponent = InitialComponent * (double)(InterestPerPayment/100);
-        for (int i = 1 ; i <= timeLimitOfLoan / timePerPayment ; i++){
-            status.getSupposedPayments().add(new Payment((Engine.getTime() + timePerPayment*i ), InterestComponent,
-                    InterestComponent+InitialComponent ,InitialComponent, false ));
-        }
+        status.setNextPaymentTime(status.getFuturePaymentYaz() - status.getNextPaymentTime());
     }
 
     public void ActivateLoan(){
@@ -184,4 +177,6 @@ public class Loans implements Serializable, LoansInterface {
     public double expectedPaymentAmount(){
         return status.getSupposedToBePayedSoFar() - (status.getInterestPayed() + status.getInitialPayed());
     }
+
+
 }

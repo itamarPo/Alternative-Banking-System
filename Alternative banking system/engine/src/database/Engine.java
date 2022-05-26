@@ -620,5 +620,16 @@ public class Engine implements EngineInterface , Serializable {
 
 
    }
-
+   public void addToPayment(Loans loan, Customer borrower, double moneyToPay, boolean successfullyPayed){
+      borrower.drawMoney(moneyToPay);
+      for (Map.Entry<String, Double> entry : loan.getListOflenders().entrySet()) {
+         double ahuzYahasi = entry.getValue() / loan.getLoanSizeNoInterest();
+         getCustomerByName(entry.getKey()).addMoney(ahuzYahasi * loan.expectedPaymentAmount());
+      }
+      double sumOfPayment = moneyToPay;
+      double InitialComponent = sumOfPayment * (100/ (100+loan.getInterestPerPayment()));
+      double InterestComponent = sumOfPayment - InitialComponent;
+      loan.getStatus().addPayment(new Payment(time,InterestComponent,sumOfPayment,InitialComponent,successfullyPayed));
+      updatePaymentComponents(loan, InitialComponent, InterestComponent);
+   }
 }

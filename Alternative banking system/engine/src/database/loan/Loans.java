@@ -144,7 +144,7 @@ public class Loans implements Serializable, LoansInterface {
         double InterestComponent = InitialComponent * (double)(InterestPerPayment/100);
         for (int i = 1 ; i <= timeLimitOfLoan / timePerPayment ; i++){
             status.getSupposedPayments().add(new Payment((Engine.getTime() + timePerPayment*i ), InterestComponent,
-                    InterestComponent+InitialComponent ,InitialComponent, false ));
+                    InterestComponent+InitialComponent ,InitialComponent, "Not Payed" ));
         }
     }
 
@@ -155,7 +155,7 @@ public class Loans implements Serializable, LoansInterface {
         double sumOfPayment = expectedPaymentAmount();
         double InitialComponent = sumOfPayment * (100/ (100+InterestPerPayment));
         double InterestComponent = sumOfPayment - InitialComponent;
-        status.addPayment(new Payment(Engine.getTime(),InterestComponent, sumOfPayment, InitialComponent, false ));
+        status.addPayment(new Payment(Engine.getTime(),InterestComponent, sumOfPayment, InitialComponent, "Not Payed" ));
     }
 
     @Override

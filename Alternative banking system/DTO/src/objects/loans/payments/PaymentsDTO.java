@@ -1,5 +1,7 @@
 package objects.loans.payments;
 
+import java.text.DecimalFormat;
+
 public class PaymentsDTO {
     private int timeOfPayment;
     private double interestComponent;
@@ -34,9 +36,9 @@ public class PaymentsDTO {
 
     public PaymentsDTO(int timeOfPayment, double interestComponent, double sumOfPayment, double initialComponent, boolean payedSuccesfully) {
         this.timeOfPayment = timeOfPayment;
-        this.interestComponent = interestComponent;
+        this.interestComponent = Double.parseDouble(df.format(interestComponent));
         this.sumOfPayment = sumOfPayment;
-        this.initialComponent = initialComponent;
+        this.initialComponent = Double.parseDouble(df.format(initialComponent));;
         this.payedSuccesfully = payedSuccesfully;
         if(this.payedSuccesfully)
             payedSuccessfully = "Payed";

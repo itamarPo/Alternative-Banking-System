@@ -239,7 +239,7 @@ public class Engine implements EngineInterface , Serializable {
       List<PaymentsDTO> list = new ArrayList<>();
       for (Payment payment : loan.getStatus().getPayments()) {
          list.add(new PaymentsDTO(payment.getTimeOfPayment(), payment.getInterestComponent(),
-                 payment.getSumOfPayment(), payment.getInitialComponent(), payment.isPayedSuccesfully()));
+                 payment.getSumOfPayment(), payment.getInitialComponent(), payment.getPayedStatus()));
       }
       return list;
    }
@@ -606,21 +606,21 @@ public class Engine implements EngineInterface , Serializable {
          throw new NotEnoughMoneyInAccount(loanOwner);
       }
       if(moneyToPay >= loan.expectedPaymentAmount()){
-         addToPayment(loan,borrower,loan.expectedPaymentAmount(),true);
-         if(loan.getTimeLimitOfLoan()+loan.getStatus().getStartingActiveTime() < Engine.getTime()){
-            //to finish
+         addToPayment(loan,borrower,loan.expectedPaymentAmount(),"Payed"); //check
+         if(loan.getTimeLimitOfLoan()+loan.getStatus().getStartingActiveTime() <= Engine.getTime()){
+            loan.changeToFinish();
          }
          else{
             loan.returnToActive();
          }
       } else{
-         addToPayment(loan, borrower, moneyToPay,false);
+         addToPayment(loan, borrower, moneyToPay,"Partially Payed");
       }
 
 
 
    }
-   public void addToPayment(Loans loan, Customer borrower, double moneyToPay, boolean successfullyPayed){
+   public void addToPayment(Loans loan, Customer borrower, double moneyToPay, String PayedStatus){
       borrower.drawMoney(moneyToPay);
       for (Map.Entry<String, Double> entry : loan.getListOflenders().entrySet()) {
          double ahuzYahasi = entry.getValue() / loan.getLoanSizeNoInterest();
@@ -629,7 +629,7 @@ public class Engine implements EngineInterface , Serializable {
       double sumOfPayment = moneyToPay;
       double InitialComponent = sumOfPayment * (100/ (100+loan.getInterestPerPayment()));
       double InterestComponent = sumOfPayment - InitialComponent;
-      loan.getStatus().addPayment(new Payment(time,InterestComponent,sumOfPayment,InitialComponent,successfullyPayed));
+      loan.getStatus().addPayment(new Payment(time,InterestComponent,sumOfPayment,InitialComponent,PayedStatus));
       updatePaymentComponents(loan, InitialComponent, InterestComponent);
    }
 }

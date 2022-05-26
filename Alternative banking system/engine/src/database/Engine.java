@@ -634,4 +634,20 @@ public class Engine implements EngineInterface , Serializable {
       loan.getStatus().addPayment(new Payment(time,InterestComponent,sumOfPayment,InitialComponent,PayedStatus));
       updatePaymentComponents(loan, InitialComponent, InterestComponent);
    }
+   public List<ActiveRiskLoanDTO> getLoansForSaleInfo(){
+      List<ActiveRiskLoanDTO> loansForSale = new ArrayList<>();
+      for (Loans loan : loansOnSale){
+         loansForSale.add(new ActiveRiskLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
+                 loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
+                 loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
+                 loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(),
+                 loan.getStatus().getNextPaymentTime(), copyPaymentList(loan), loan.getStatus().getInterestPayed(),
+                 loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay(), loan.isOnSale()));
+      }
+      return loansForSale;
+   }
+
+   public void setLoansForSale(List<String> listForSale){
+      listForSale.stream().peek(p -> getLoanByName(p).setOnSale(true)).forEach(p ->loansOnSale.add(getLoanByName(p)));
+   }
 }

@@ -21,6 +21,7 @@ import objects.loans.payments.PaymentsDTO;
 import userinterface.admin.CenterAdminController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
+import userinterface.customer.loanforsell.LoanSellTabController;
 import userinterface.customer.payments.PaymentsTabController;
 import userinterface.table.LendersTableController;
 import userinterface.table.PaymentTableController;
@@ -60,6 +61,8 @@ public class ActiveLoanTableController implements Initializable {
     private PaymentsTabController paymentsTabController;
     private InformationTabController informationTabController;
     private CenterAdminController centerAdminController;
+
+    private LoanSellTabController loanSellTabController;
     private Stage primaryStage;
 
 

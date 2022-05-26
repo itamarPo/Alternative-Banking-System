@@ -16,6 +16,7 @@ import userinterface.MainController.MainController;
 import userinterface.admin.TopAdminController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
+import userinterface.customer.loanforsell.LoanSellTabController;
 import userinterface.customer.payments.PaymentsTabController;
 
 import java.util.ArrayList;
@@ -36,8 +37,13 @@ public class TopCustomerController {
 
     @FXML private AnchorPane paymentsTab;
     @FXML private PaymentsTabController paymentsTabController;
+
     @FXML private ScrollPane inlayTab;
     @FXML private InlayTabController inlayTabController;
+
+    @FXML private ScrollPane loanSellTab;
+    @FXML private LoanSellTabController loanSellTabController;
+
 
 
     //JavaFX
@@ -68,6 +74,7 @@ public class TopCustomerController {
         informationTabController.setTopCustomerController(this);
         paymentsTabController.setTopCustomerController(this);
         inlayTabController.setTopCustomerController(this);
+        loanSellTabController.setTopCustomerController(this);
     }
 
 
@@ -86,9 +93,11 @@ public class TopCustomerController {
         informationTabController.setEngine(this.engine);
         inlayTabController.setEngine(this.engine);
         paymentsTabController.setEngine(this.engine);
+        loanSellTabController.setEngine(this.engine);
         informationTabController.setControllersAndStages();
         inlayTabController.setControllersAndStages();
         paymentsTabController.setControllersAndStages();
+        loanSellTabController.setControllersAndStages();
     }
 
     //****Regular Methods****//
@@ -135,8 +144,8 @@ public class TopCustomerController {
         //Inlay tab changes
         updateInformationTab(UserPick);
         updatePayments(UserPick);
-        inlayTabController.addCategoriesToCCB();
-        inlayTabController.resetFields();
+        updateInlayTab();
+        updateLoanSellTab(UserPick);
     }
 
     public InformationTabController getInformationTabController() {
@@ -208,6 +217,19 @@ public class TopCustomerController {
         makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
         paymentsTabController.setValues(engine.getNotifications(userPick),makePaymentActive,makePaymentRisk,closeLoanActive,closeLoanRisk);
     }
+    public void updateInlayTab(){
+        inlayTabController.addCategoriesToCCB();
+        inlayTabController.resetFields();
+    }
 
+    public void updateLoanSellTab(String userPick){
+        List<NewLoanDTO> loans = engine.getLoansInfo().stream().filter(p -> p.getStatus().equals("Active"))
+                .filter(p -> p.getBorrowerName().equals(userPick)).collect(Collectors.toList());
+        List<ActiveRiskLoanDTO> loansForSale = new ArrayList<>();
+        loans.forEach(p -> loansForSale.add((ActiveRiskLoanDTO)p ));
+        List<String> loanID = loansForSale.stream().filter(p -> !p.isOnSale()).map(NewLoanDTO::getLoanID).collect(Collectors.toList());
+        List<ActiveRiskLoanDTO> loansOnSale = engine.getLoansForSaleInfo().stream().filter(p -> !p.getBorrowerName().equals(userPick)).collect(Collectors.toList());
 
+        loanSellTabController.setValues(loanID,loansOnSale);
+    }
 }

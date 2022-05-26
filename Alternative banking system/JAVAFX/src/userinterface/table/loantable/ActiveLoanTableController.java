@@ -124,6 +124,10 @@ public class ActiveLoanTableController implements Initializable {
         this.primaryStage = primaryStage;
     }
 
+    public void setLoanSellTabController(LoanSellTabController loanSellTabController) {
+        this.loanSellTabController = loanSellTabController;
+    }
+
     public void setValues(List<ActiveRiskLoanDTO> activeList) {
         ObservableList<ActiveRiskLoanDTO> activeRiskLoanDTOObservableList = FXCollections.observableList(activeList);
         tableView.getItems().setAll(activeRiskLoanDTOObservableList);

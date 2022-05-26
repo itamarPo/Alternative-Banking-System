@@ -33,6 +33,7 @@ import static java.lang.Math.min;
 public class Engine implements EngineInterface , Serializable {
    private List<Customer> customers;
    private List<Loans> loans;
+   private List<Loans> loansOnSale;
    private Map<String, List<Loans>> loansByCategories; //saves all the loans which has the same category
    private static int time = 1;
    private int timeToSave; // A field which we use in the bonus, to save the current time.
@@ -42,6 +43,7 @@ public class Engine implements EngineInterface , Serializable {
       loans = new ArrayList<>();
       loansByCategories = new LinkedHashMap<>();
       timeToSave = 1;
+      loansOnSale = new ArrayList<>();
    }
 
    public static int getTime() {
@@ -188,7 +190,7 @@ public class Engine implements EngineInterface , Serializable {
                        loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
                        loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(),
                        loan.getStatus().getNextPaymentTime(), copyPaymentList(loan), loan.getStatus().getInterestPayed(),
-                       loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay()));
+                       loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay(), loan.isOnSale()));
                break;
          }
 
@@ -298,6 +300,7 @@ public class Engine implements EngineInterface , Serializable {
       customers.clear();
       loans.clear();
       loansByCategories.clear();
+      loansOnSale.clear();
       resetTime();
    }
 

@@ -16,6 +16,8 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
     private double allInitialPayedSoFar;
     private double allInterestLeftToPay;
     private double allInitialLeftToPay;
+
+    private boolean onSale;
     private Button paymentsButton;
 
     public int getStartingActiveTime() {
@@ -50,9 +52,13 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
         return paymentsButton;
     }
 
+    public boolean isOnSale() {
+        return onSale;
+    }
 
 
-    public ActiveRiskLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, double interestPerPayment, int timePerPayment, String status, Map<String, Double> listOfLenders, Double collectedSoFar, Double sumLeftToBeCollected, int startingActiveTime, int nextPaymentTime, List<PaymentsDTO> payments, double allInterestPayedSoFar, double allInitialPayedSoFar, double allInterestLeftToPay, double allInitialLeftToPay) {
+
+    public ActiveRiskLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, double interestPerPayment, int timePerPayment, String status, Map<String, Double> listOfLenders, Double collectedSoFar, Double sumLeftToBeCollected, int startingActiveTime, int nextPaymentTime, List<PaymentsDTO> payments, double allInterestPayedSoFar, double allInitialPayedSoFar, double allInterestLeftToPay, double allInitialLeftToPay, boolean onSale) {
         super(loanID, borrowerName, loanCategory, sizeNoInterest, timeLimitOfLoan, interestPerPayment, timePerPayment, status, listOfLenders, collectedSoFar, sumLeftToBeCollected);
         DecimalFormat df = new DecimalFormat("#.##");
         this.startingActiveTime = startingActiveTime;
@@ -64,6 +70,7 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
         this.allInitialLeftToPay = Double.parseDouble(df.format(allInitialLeftToPay));
         this.loanSize = sizeNoInterest + sizeNoInterest*(interestPerPayment)/100;
         this.paymentsButton = new Button();
+        this.onSale = onSale;
     }
 
     public List<PaymentsDTO> getPayments() {

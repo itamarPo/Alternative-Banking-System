@@ -52,6 +52,7 @@ public class PaymentTableController {
     public void setValues(List<PaymentsDTO> paymentsDTOList){
         ObservableList<PaymentsDTO> paymentsDTOObservableList = FXCollections.observableArrayList(paymentsDTOList);
         tableView.getItems().setAll(paymentsDTOObservableList);
+        tableView.getColumns().get(2);
     }
 
     public PaymentTableController(){

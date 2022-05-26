@@ -12,7 +12,7 @@ public class Payment implements Serializable {
     private boolean payedSuccesfully;
 
 
-    public Payment(int timeOfPayment, double interestComponent, double sumOfPayment, double initialComponent, boolean payedSuccesfully) {
+    public Payment(int timeOfPayment, double interestComponent, double sumOfPayment, double initialComponent, String payedSuccesfully) {
         this.timeOfPayment = timeOfPayment;
         this.interestComponent = interestComponent;
         this.sumOfPayment = sumOfPayment;

@@ -4,6 +4,7 @@ import database.Engine;
 import database.client.PaymentNotification;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,6 +17,7 @@ import userinterface.table.loantable.ActiveLoanTableController;
 import userinterface.table.loantable.RiskLoanTableController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PaymentsTabController {
 
@@ -53,7 +55,8 @@ public class PaymentsTabController {
     @FXML private TabPane makePaymentTabPane;
     @FXML private Tab makePaymentActiveTab;
     @FXML private Tab makePaymentRiskTab;
-    @FXML private HBox makePaymentButtonAndErrorHB;
+    @FXML private TextField paymentAmountTextField;
+    @FXML private Label paymentAmountLabel;
     @FXML private AnchorPane notificationsAP;
     @FXML private Label notificationsTitle;
     @FXML private TableView<PaymentNotificationDTO> notificationsTableView;
@@ -70,6 +73,13 @@ public class PaymentsTabController {
         loanIDNotification.setCellValueFactory(new PropertyValueFactory<>("loanID"));
         YAZNotification.setCellValueFactory(new PropertyValueFactory<>("paymentYaz"));
         SumNotification.setCellValueFactory(new PropertyValueFactory<>("sumOfPayment"));
+         makePaymentTabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+             makePaymentActiveTableController.getTableView().getSelectionModel().clearSelection();
+             makePaymentRiskTableController.getTableView().getSelectionModel().clearSelection();
+             paymentAmountLabel.setVisible(!paymentAmountLabel.isVisible());
+             paymentAmountTextField.setVisible(!paymentAmountTextField.isVisible());
+
+        });
     }
     public void setControllersAndStages(){
         closeLoanActiveTableController.setPaymentsTabController(this);
@@ -92,16 +102,48 @@ public class PaymentsTabController {
         this.topCustomerController = topCustomerController;
     }
 
-    public void setValues(List<PaymentNotificationDTO> paymentNotifications, List<ActiveRiskLoanDTO> activeRiskLoanDTOS, List<ActiveRiskLoanDTO> riskLoanDTOS){
+    public void setValues(List<PaymentNotificationDTO> paymentNotifications, List<ActiveRiskLoanDTO> makePaymentActive, List<ActiveRiskLoanDTO> makePaymentRisk,List<ActiveRiskLoanDTO> closeLoanActive, List<ActiveRiskLoanDTO> closeLoanRisk){
         ObservableList<PaymentNotificationDTO> PaymentNotificationDTOObservableList = FXCollections.observableList(paymentNotifications);
         notificationsTableView.getItems().setAll(PaymentNotificationDTOObservableList);
-        closeLoanActiveTableController.setValues(activeRiskLoanDTOS);
-        makePaymentActiveTableController.setValues(activeRiskLoanDTOS);
-        closeLoanRiskTableController.setValues(riskLoanDTOS);
-        makePaymentRiskTableController.setValues(riskLoanDTOS);
+
+
+
+        ObservableList<ActiveRiskLoanDTO> closeLoansRisk = FXCollections.observableList(closeLoanRisk);
+        closeLoanRiskTableController.setValues(closeLoansRisk);
+
+        ObservableList<ActiveRiskLoanDTO> makePaymentsActive = FXCollections.observableList(makePaymentActive);
+        makePaymentActiveTableController.setValues(makePaymentsActive);
+
+        ObservableList<ActiveRiskLoanDTO> makePaymentsRisk = FXCollections.observableList(makePaymentRisk);
+        makePaymentRiskTableController.setValues(makePaymentsRisk);
+
+        ObservableList<ActiveRiskLoanDTO> closeLoansActive = FXCollections.observableList(closeLoanActive);
+        closeLoanActiveTableController.setValues(closeLoansActive);
     }
 
     public void setEngine(Engine engine) {
         this.engine = engine;
+    }
+
+    //Regular methods
+    @FXML
+    public void completePaymentOnAction(ActionEvent actionEvent) {
+        try {
+            ActiveRiskLoanDTO selectedItem = null;
+            if (makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+                selectedItem = makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem();
+                //make Active payment
+            }
+            if (makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+                selectedItem = makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem();
+
+                //make Risk Payment
+            }
+            if(selectedItem == null){
+                throw new Exception();//user didn't select
+            }
+        } catch(Exception e){
+            completePaymentError.setText("No loan has been selected!");
+        }
     }
 }

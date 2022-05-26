@@ -194,14 +194,19 @@ public class TopCustomerController {
     }
     public void updatePayments(String userPick){
         List<NewLoanDTO> temp = engine.getLoansInfo().stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
-        List<ActiveRiskLoanDTO> active = new ArrayList<>();
-        List<ActiveRiskLoanDTO> risk = new ArrayList<>();
-
+        List<ActiveRiskLoanDTO> closeLoanActive = new ArrayList<>();
+        List<ActiveRiskLoanDTO> closeLoanRisk = new ArrayList<>();
+        List<NewLoanDTO> temp2 = engine.getLoansInfo().stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
+        List<ActiveRiskLoanDTO> makePaymentActive = new ArrayList<>();
+        List<ActiveRiskLoanDTO> makePaymentRisk = new ArrayList<>();
         //Loaner Tables
-        temp.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> active.add((ActiveRiskLoanDTO)  y));
-        temp.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> risk.add((ActiveRiskLoanDTO) y));
-
-        paymentsTabController.setValues(engine.getNotifications(userPick),active,risk);
+        temp.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> closeLoanActive.add((ActiveRiskLoanDTO)  y));
+        temp.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> closeLoanRisk.add((ActiveRiskLoanDTO) y));
+        temp2.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> makePaymentActive.add((ActiveRiskLoanDTO)  y));
+        makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
+        temp2.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> makePaymentRisk.add((ActiveRiskLoanDTO)  y));
+        makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
+        paymentsTabController.setValues(engine.getNotifications(userPick),makePaymentActive,makePaymentRisk,closeLoanActive,closeLoanRisk);
     }
 
 

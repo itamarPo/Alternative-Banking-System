@@ -258,7 +258,7 @@ public class Engine implements EngineInterface , Serializable {
          }
          case "Risk": {
             int numberOfPaymentNotPayed = loan.getStatus().getPayments().stream().filter(T->!T.isPayedSuccesfully()).mapToInt(S-> 1).sum();
-            double sumOfNotPayed = loan.getStatus().returnLastPayment().getSumOfPayment();
+            double sumOfNotPayed = loan.getStatus().getSupposedToBePayedSoFar() - (loan.getStatus().getInterestPayed() + loan.getStatus().getInitialPayed());
             return new RiskLoanInfoDTO(loan.getLOANID(), loan.getLoanCategory(), loan.getLoanSizeNoInterest(), loan.getInterestPerPayment(),
                     loan.getTimePerPayment(), loan.getStatus().getStatus(),  numberOfPaymentNotPayed , sumOfNotPayed);
          }
@@ -559,23 +559,29 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public void moveTImeForward2(){
-
-//      for(Loans loan : loans){
-//         if(loan.getStatus().getNextPaymentTime() == time){
-//            if(loan.getStatus().returnLastPayment().isPayedSuccesfully()){
-//               ///move to risk
-//            }
-//         }
-//      }
+      //Moving needed loans from active to risk!!
+      for(Loans loan: loans){
+         if (loan.getStatus().getStatus().equals("Risk")) {
+            loan.changeToRisk();
+         }
+         if (loan.getStatus().getStatus().equals("Active")) {
+            if (loan.getStatus().getSupposedToBePayedSoFar() > loan.getStatus().getInitialPayed() + loan.getStatus().getInterestPayed()) {
+               loan.changeToRisk();
+            }
+         }
+      }
       time++;
       for(Loans loan : loans) {
-         if(loan.getStatus().getStatus().equals("Active")) {
-            if (loan.getStatus().getNextPaymentTime() == time) {
-//            loan.getStatus().getPayments().add(0, loan.getStatus().getCurrentPayment());
-               if (Engine.getTime() == 2) {
-                  getCustomerByName(loan.getBorrowerName()).addNotification(loan.getLOANID(), time, loan.getLoanSize() / (loan.getTimeLimitOfLoan()/loan.getTimePerPayment()) );
-               } else
-                  getCustomerByName(loan.getBorrowerName()).addNotification(loan.getLOANID(), time, loan.getStatus().getPayments().get(0).getSumOfPayment());
+         if(loan.getStatus().getStatus().equals("Active") || loan.getStatus().getStatus().equals("Risk")) {
+            Customer customer = getCustomerByName(loan.getBorrowerName());
+            double sumOfPayment = loan.getStatus().getSupposedToBePayedSoFar() - (loan.getStatus().getInterestPayed() + loan.getStatus().getInitialPayed());
+            if (loan.getStatus().getStatus().equals("Active")) {
+               if (loan.getStatus().getNextPaymentTime() == time) {
+                  customer.addNotification(loan.getLOANID(), time, loan.getStatus().getCurrentPayment().getSumOfPayment());
+               }
+            }
+            if (loan.getStatus().getStatus().equals("Risk")) {
+               customer.addNotification(loan.getLOANID(), time, sumOfPayment);
             }
          }
       }

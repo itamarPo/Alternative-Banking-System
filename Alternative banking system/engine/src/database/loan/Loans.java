@@ -156,10 +156,12 @@ public class Loans implements Serializable, LoansInterface {
 
     public void changeToRisk(){
         status.setStatus("Risk");
-        status.setNextPaymentTime(Engine.getTime() + 1);
-
-
-
+        status.setNextPaymentTime(1);
+        //Adding payment
+        double sumOfPayment = status.getSupposedToBePayedSoFar() - (status.getInterestPayed() + status.getInitialPayed());
+        double InitialComponent = sumOfPayment * (100/ (100+InterestPerPayment));
+        double InterestComponent = sumOfPayment - InitialComponent;
+        status.addPayment(new Payment(Engine.getTime(),InterestComponent, sumOfPayment, InitialComponent, false ));
     }
 
     @Override

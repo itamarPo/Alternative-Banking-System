@@ -158,7 +158,7 @@ public class Loans implements Serializable, LoansInterface {
         status.setStatus("Risk");
         status.setNextPaymentTime(1);
         //Adding payment
-        double sumOfPayment = status.getSupposedToBePayedSoFar() - (status.getInterestPayed() + status.getInitialPayed());
+        double sumOfPayment = expectedPaymentAmount();
         double InitialComponent = sumOfPayment * (100/ (100+InterestPerPayment));
         double InterestComponent = sumOfPayment - InitialComponent;
         status.addPayment(new Payment(Engine.getTime(),InterestComponent, sumOfPayment, InitialComponent, false ));
@@ -178,5 +178,9 @@ public class Loans implements Serializable, LoansInterface {
     public void changeToFinish(){
         status.setFinishTime(Engine.getTime());
         status.setStatus("Finished");
+    }
+
+    public double expectedPaymentAmount(){
+        return status.getSupposedToBePayedSoFar() - (status.getInterestPayed() + status.getInitialPayed());
     }
 }

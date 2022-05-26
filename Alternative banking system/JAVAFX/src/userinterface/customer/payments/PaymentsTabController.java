@@ -138,6 +138,9 @@ public class PaymentsTabController {
             if (makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
                 selectedItem = makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem();
                 engine.makeActivePayment(selectedItem.getLoanID(),selectedItem.getBorrowerName());
+                topCustomerController.updatePayments(selectedItem.getBorrowerName());
+                topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
+                return;
             }
             if (makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
                 selectedItem = makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem();
@@ -147,20 +150,19 @@ public class PaymentsTabController {
                     if(Amount <= 0){
                         throw new Exception();
                     }
-                    //engine.makeRiskPayment(selectedItem.getLoanID(), selectedItem.getBorrowerName(),Amount);
+                    engine.makeRiskPayment(selectedItem.getLoanID(), selectedItem.getBorrowerName(),Amount);
+                    topCustomerController.updatePayments(selectedItem.getBorrowerName());
+                    topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
                 } catch (NumberFormatException e) {
                     completePaymentError.setText("Invalid input!");
                 }catch (Exception e){
                     completePaymentError.setText("Please enter a positive number!");
                 }
-                topCustomerController.updatePayments(selectedItem.getBorrowerName());
-                topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
+                return;
             }
             if(selectedItem == null){
                 throw new Exception();//user didn't select
             }
-            topCustomerController.updatePayments(selectedItem.getBorrowerName());
-            topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
         } catch (NotEnoughMoneyInAccount e){
             Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
             notEnoughMoney.show();

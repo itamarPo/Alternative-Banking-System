@@ -112,4 +112,12 @@ public class LoanStatus implements LoanStatusInterface, Serializable {
         }
         return sum;
     }
+    public int getFuturePaymentYaz(){
+        for (Payment payment: supposedPayments){
+            if(payment.getTimeOfPayment() > Engine.getTime()){
+                return payment.getTimeOfPayment();
+            }
+        }
+        return 0;
+    }
 }

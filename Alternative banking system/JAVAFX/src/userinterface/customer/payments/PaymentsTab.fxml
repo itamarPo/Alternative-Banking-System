@@ -45,7 +45,7 @@
                            </rowConstraints>
                            <children>
                               <Button fx:id="completePaymentButton" mnemonicParsing="false" onAction="#completePaymentOnAction" prefHeight="48.0" prefWidth="215.0" text="Complete payment for selected loan" GridPane.rowIndex="1" />
-                              <Label fx:id="completePaymentError" prefHeight="54.0" prefWidth="191.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <Label fx:id="completePaymentError" prefHeight="54.0" prefWidth="191.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" />
                                  </GridPane.margin>
@@ -84,8 +84,8 @@
                         </TabPane>
                         <HBox fx:id="closeButtonAndErrorHB" layoutX="9.0" layoutY="303.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="53.0" prefWidth="414.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <children>
-                              <Button fx:id="closeLoanButton" mnemonicParsing="false" prefHeight="53.0" prefWidth="210.0" text="Close selected loan" />
-                              <Label fx:id="closeLoanError" prefHeight="54.0" prefWidth="191.0" />
+                              <Button fx:id="closeLoanButton" mnemonicParsing="false" onAction="#closeLoanOnAction" prefHeight="53.0" prefWidth="210.0" text="Close selected loan" />
+                              <Label fx:id="closeLoanError" prefHeight="54.0" prefWidth="191.0" textFill="RED" />
                            </children>
                            <padding>
                               <Insets left="15.0" />

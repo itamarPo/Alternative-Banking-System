@@ -2,16 +2,20 @@ package userinterface.customer.payments;
 
 import database.Engine;
 import database.client.PaymentNotification;
+import exceptions.accountexception.NotEnoughMoneyInAccount;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.payments.PaymentNotificationDTO;
+import org.controlsfx.control.Notifications;
 import userinterface.customer.TopCustomerController;
 import userinterface.table.loantable.ActiveLoanTableController;
 import userinterface.table.loantable.RiskLoanTableController;
@@ -77,6 +81,7 @@ public class PaymentsTabController {
              makePaymentActiveTableController.getTableView().getSelectionModel().clearSelection();
              makePaymentRiskTableController.getTableView().getSelectionModel().clearSelection();
              paymentAmountLabel.setVisible(!paymentAmountLabel.isVisible());
+             paymentAmountTextField.clear();
              paymentAmountTextField.setVisible(!paymentAmountTextField.isVisible());
 
         });
@@ -132,16 +137,33 @@ public class PaymentsTabController {
             ActiveRiskLoanDTO selectedItem = null;
             if (makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
                 selectedItem = makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem();
-                //make Active payment
+                engine.makeActivePayment(selectedItem.getLoanID(),selectedItem.getBorrowerName());
             }
             if (makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
                 selectedItem = makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem();
-
+                try {
+                    String amount = paymentAmountTextField.getText();
+                    Double Amount = Double.parseDouble(amount);
+                    if(Amount <= 0){
+                        throw new Exception();
+                    }
+                    //make Risk payment
+                } catch (NumberFormatException e) {
+                    completePaymentError.setText("Invalid input!");
+                }catch (Exception e){
+                    completePaymentError.setText("Please enter a positive number!");
+                }
+                return;
                 //make Risk Payment
             }
             if(selectedItem == null){
                 throw new Exception();//user didn't select
             }
+            topCustomerController.updatePayments(selectedItem.getBorrowerName());
+            topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
+        } catch (NotEnoughMoneyInAccount e){
+            Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
+            notEnoughMoney.show();
         } catch(Exception e){
             completePaymentError.setText("No loan has been selected!");
         }

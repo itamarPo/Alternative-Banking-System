@@ -114,7 +114,7 @@ public class CenterAdminController {
     void increaseYazOnAction(ActionEvent event){
         engine.moveTImeForward2();
         Integer time = Engine.getTime() ;
-        topAdminController.getYazLABEL().setText(time.toString());
+        topAdminController.getYazLABEL().setText( "Current Yaz: " + time.toString());
         topAdminController.updateAdminTable();
     }
 

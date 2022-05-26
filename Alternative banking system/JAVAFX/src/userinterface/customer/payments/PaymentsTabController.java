@@ -153,6 +153,8 @@ public class PaymentsTabController {
                 }catch (Exception e){
                     completePaymentError.setText("Please enter a positive number!");
                 }
+                topCustomerController.updatePayments(selectedItem.getBorrowerName());
+                topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
             }
             if(selectedItem == null){
                 throw new Exception();//user didn't select

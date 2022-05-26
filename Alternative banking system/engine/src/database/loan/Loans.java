@@ -4,6 +4,7 @@ import database.Engine;
 import database.loan.status.LoanStatus;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,13 +112,13 @@ public class Loans implements Serializable, LoansInterface {
                     changeToPending();
                 }
                 if(leftToBeCollected == 0){
-                    changeToActive();
+                    ActivateLoan();
                 }
                 break;
             }
             case "Pending":{
                 if(leftToBeCollected == 0){
-                    changeToActive();
+                    ActivateLoan();
                 }
                 break;
             }

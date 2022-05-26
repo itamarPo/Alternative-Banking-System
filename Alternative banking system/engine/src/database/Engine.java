@@ -533,7 +533,7 @@ public class Engine implements EngineInterface , Serializable {
       }
       return null;
    }
-   public void closeLoan(String customerName, String loanName, double amount)throws Exception{
+   public void closeLoan(String customerName, String loanName)throws Exception{
       Customer customer = getCustomerByName(customerName);
       Loans loan = getLoanByName(loanName);
 

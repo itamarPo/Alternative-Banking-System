@@ -5,6 +5,7 @@ import exceptions.filesexepctions.LoanCategoryNotExistException;
 import exceptions.filesexepctions.OwnerLoanNotExistException;
 import exceptions.filesexepctions.TimeOfPaymentNotDivideEqualyException;
 import exceptions.filesexepctions.TwoClientsWithSameNameException;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -91,7 +92,7 @@ public class TopAdminController {
         this.YazLABEL.setText(topCustomerController.getYazLABEL().getText());
     }
 
-    void LoadFileAction(String AbsolutePath) {
+   public void LoadFileAction(String AbsolutePath) {
         try {
             engine.loadFile(AbsolutePath);
             FileLABEL.setText(FILESTATMENT + AbsolutePath);
@@ -100,7 +101,7 @@ public class TopAdminController {
             CenterAdminController.enableAfterFileLoader();
             mainController.getTopCustomerController().setTopBarAfterFileLoaded(this);
             updateAdminTable();
-            Notifications categoryNotExist = Notifications.create().text("File loaded successfully!").hideAfter(Duration.seconds(5)).position(Pos.TOP_LEFT);
+            Notifications categoryNotExist = Notifications.create().text("File loaded successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
             categoryNotExist.show();
 
         } catch (LoanCategoryNotExistException e) {

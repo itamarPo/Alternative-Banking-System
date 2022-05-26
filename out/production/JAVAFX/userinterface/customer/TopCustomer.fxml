@@ -43,6 +43,11 @@
                      <content>
                         <fx:include fx:id="paymentsTab" source="payments/PaymentsTab.fxml" />
                      </content></Tab>
+                  <Tab fx:id="buySellLoans" text="Buy/Sell Loans">
+                     <content>
+                        <fx:include fx:id="loanSellTab" source="loanforsell/loanforsell.fxml" />
+                     </content>
+                  </Tab>
               </tabs>
                <BorderPane.margin>
                   <Insets top="-50.0" />

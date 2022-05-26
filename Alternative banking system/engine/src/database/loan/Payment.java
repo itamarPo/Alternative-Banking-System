@@ -9,7 +9,7 @@ public class Payment implements Serializable {
     private double interestComponent;
     private double sumOfPayment;
     private double initialComponent;
-    private boolean payedSuccesfully;
+    private String payedSuccesfully;
 
 
     public Payment(int timeOfPayment, double interestComponent, double sumOfPayment, double initialComponent, String payedSuccesfully) {
@@ -37,10 +37,12 @@ public class Payment implements Serializable {
     }
 
     public boolean isPayedSuccesfully() {
-        return payedSuccesfully;
+        return payedSuccesfully.equals("Payed");
     }
 
-    public void setPayedSuccesfully(boolean payedSuccesfully) {
+    public String getPayedStatus(){return payedSuccesfully;}
+
+    public void setPayedSuccesfully(String payedSuccesfully) {
         this.payedSuccesfully = payedSuccesfully;
     }
 

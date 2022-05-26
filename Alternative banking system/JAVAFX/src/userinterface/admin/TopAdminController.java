@@ -97,6 +97,10 @@ public class TopAdminController {
             engine.loadFile(AbsolutePath);
             FileLABEL.setText(FILESTATMENT + AbsolutePath);
             YazLABEL.setText(YAZSTATEMENT + Engine.getTime());
+//            UserCB.setItems((ObservableList<String>) engine.getCustomerNames());
+            UserCB.getItems().clear();
+            UserCB.getItems().add("Admin");
+            UserCB.setValue("Admin");
             UserCB.getItems().addAll(engine.getCustomerNames());
             CenterAdminController.enableAfterFileLoader();
             mainController.getTopCustomerController().setTopBarAfterFileLoaded(this);
@@ -105,16 +109,16 @@ public class TopAdminController {
             categoryNotExist.show();
 
         } catch (LoanCategoryNotExistException e) {
-            Notifications categoryNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.TOP_LEFT);
+            Notifications categoryNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
             categoryNotExist.show();
         } catch (OwnerLoanNotExistException e) {
-            Notifications ownerNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.TOP_LEFT);
+            Notifications ownerNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
             ownerNotExist.show();
         } catch (TimeOfPaymentNotDivideEqualyException e) {
-            Notifications TimeNotDivideEqually = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.TOP_LEFT);
+            Notifications TimeNotDivideEqually = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
             TimeNotDivideEqually.show();
         } catch (TwoClientsWithSameNameException e) {
-            Notifications categoryNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.TOP_LEFT);
+            Notifications categoryNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
             categoryNotExist.show();
         } catch (JAXBException e) {
 
@@ -126,9 +130,11 @@ public class TopAdminController {
     }
         @FXML
     public void SetCBOnAction(ActionEvent actionEvent) {
-        String UserPick = UserCB.getValue();
-        if(!UserPick.equals(ADMIN)){
-            mainController.changeScene(UserPick);
+        if(UserCB.getItems().size() != 0) {
+            String UserPick = UserCB.getValue();
+            if (!UserPick.equals(ADMIN)) {
+                mainController.changeScene(UserPick);
+            }
         }
     }
 

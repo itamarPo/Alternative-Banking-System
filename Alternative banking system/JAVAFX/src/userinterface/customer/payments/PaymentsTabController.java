@@ -3,6 +3,7 @@ package userinterface.customer.payments;
 import database.Engine;
 import database.client.PaymentNotification;
 import exceptions.accountexception.NotEnoughMoneyInAccount;
+import exceptions.accountexception.WithDrawMoneyException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -82,10 +83,22 @@ public class PaymentsTabController {
              makePaymentActiveTableController.getTableView().getSelectionModel().clearSelection();
              makePaymentRiskTableController.getTableView().getSelectionModel().clearSelection();
              paymentAmountLabel.setVisible(!paymentAmountLabel.isVisible());
+             if(paymentAmountLabel.isVisible()){
+                 completePaymentButton.setText("Confirm Payment");
+             }else{
+                 completePaymentButton.setText("Complete payment for selected loan");
+             }
              paymentAmountTextField.clear();
              paymentAmountTextField.setVisible(!paymentAmountTextField.isVisible());
+             completePaymentError.setText("");
 
         });
+         closeLoanTabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+             closeLoanActiveTableController.getTableView().getSelectionModel().clearSelection();
+             closeLoanRiskTableController.getTableView().getSelectionModel().clearSelection();
+             closeLoanError.setText("");
+         });
+
     }
     public void setControllersAndStages(){
         closeLoanActiveTableController.setPaymentsTabController(this);
@@ -172,67 +185,35 @@ public class PaymentsTabController {
         }
     }
 
-    public void setValues(List<PaymentNotificationDTO> paymentNotifications, List<ActiveRiskLoanDTO> makePaymentActive, List<ActiveRiskLoanDTO> makePaymentRisk,List<ActiveRiskLoanDTO> closeLoanActive, List<ActiveRiskLoanDTO> closeLoanRisk){
-        ObservableList<PaymentNotificationDTO> PaymentNotificationDTOObservableList = FXCollections.observableList(paymentNotifications);
-        notificationsTableView.getItems().setAll(PaymentNotificationDTOObservableList);
-
-
-
-        ObservableList<ActiveRiskLoanDTO> closeLoansRisk = FXCollections.observableList(closeLoanRisk);
-        closeLoanRiskTableController.setValues(closeLoansRisk);
-
-        ObservableList<ActiveRiskLoanDTO> makePaymentsActive = FXCollections.observableList(makePaymentActive);
-        makePaymentActiveTableController.setValues(makePaymentsActive);
-
-        ObservableList<ActiveRiskLoanDTO> makePaymentsRisk = FXCollections.observableList(makePaymentRisk);
-        makePaymentRiskTableController.setValues(makePaymentsRisk);
-
-        ObservableList<ActiveRiskLoanDTO> closeLoansActive = FXCollections.observableList(closeLoanActive);
-        closeLoanActiveTableController.setValues(closeLoansActive);
-    }
-
-    public void setEngine(Engine engine) {
-        this.engine = engine;
-    }
-
-    //Regular methods
     @FXML
-    public void completePaymentOnAction(ActionEvent actionEvent) {
-        try {
+    public void closeLoanOnAction(ActionEvent actionEvent) {
+        try{
             ActiveRiskLoanDTO selectedItem = null;
-            if (makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
-                selectedItem = makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem();
-                engine.makeActivePayment(selectedItem.getLoanID(),selectedItem.getBorrowerName());
-                topCustomerController.updatePayments(selectedItem.getBorrowerName());
-                topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
-                return;
+            if (closeLoanActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+                selectedItem = closeLoanActiveTableController.getTableView().getSelectionModel().getSelectedItem();
             }
-            if (makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
-                selectedItem = makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem();
-                try {
-                    String amount = paymentAmountTextField.getText();
-                    Double Amount = Double.parseDouble(amount);
-                    if(Amount <= 0){
-                        throw new Exception();
-                    }
-                    engine.makeRiskPayment(selectedItem.getLoanID(), selectedItem.getBorrowerName(),Amount);
-                    topCustomerController.updatePayments(selectedItem.getBorrowerName());
-                    topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
-                } catch (NumberFormatException e) {
-                    completePaymentError.setText("Invalid input!");
-                }catch (Exception e){
-                    completePaymentError.setText("Please enter a positive number!");
-                }
-                return;
+            if (closeLoanRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+                selectedItem = closeLoanRiskTableController.getTableView().getSelectionModel().getSelectedItem();
             }
             if(selectedItem == null){
                 throw new Exception();//user didn't select
             }
-        } catch (NotEnoughMoneyInAccount e){
+            engine.closeLoan(selectedItem.getBorrowerName(),selectedItem.getLoanID());
+            topCustomerController.updatePayments(selectedItem.getBorrowerName());
+            topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
+
+            Notifications completedLoan = Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(10)).position(Pos.CENTER);
+            completedLoan.show();
+
+
+        } catch (WithDrawMoneyException e) {
             Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
             notEnoughMoney.show();
-        } catch(Exception e){
-            completePaymentError.setText("No loan has been selected!");
+        } catch (Exception e) {
+            closeLoanError.setText("No loan has been selected!");
         }
     }
 }
+
+
+

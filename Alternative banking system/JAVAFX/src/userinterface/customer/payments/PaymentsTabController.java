@@ -147,14 +147,12 @@ public class PaymentsTabController {
                     if(Amount <= 0){
                         throw new Exception();
                     }
-                    //make Risk payment
+                    //engine.makeRiskPayment(selectedItem.getLoanID(), selectedItem.getBorrowerName(),Amount);
                 } catch (NumberFormatException e) {
                     completePaymentError.setText("Invalid input!");
                 }catch (Exception e){
                     completePaymentError.setText("Please enter a positive number!");
                 }
-                return;
-                //make Risk Payment
             }
             if(selectedItem == null){
                 throw new Exception();//user didn't select

@@ -608,7 +608,9 @@ public class Engine implements EngineInterface , Serializable {
       }
    }
 
-   public void makeRiskPayment() throws Exception{
+   public void makeRiskPayment(String loadId, String loanOwner, double moneyToPay) throws Exception{
+      Customer borrower = getCustomerByName(loanOwner);
+      Loans loan = getLoanByName(loadId);
 
 
    }

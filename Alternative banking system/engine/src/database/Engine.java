@@ -536,16 +536,12 @@ public class Engine implements EngineInterface , Serializable {
    public void closeLoan(String customerName, String loanName)throws Exception{
       Customer customer = getCustomerByName(customerName);
       Loans loan = getLoanByName(loanName);
-
+      double amount = loan.getLoanSize() - (loan.getStatus().getInterestPayed() + loan.getStatus().getInitialPayed());
       if(amount>customer.getBalance())
          throw new WithDrawMoneyException(customer.getBalance(), amount);
-      if(amount+loan.getCollectedSoFar()<loan.getLoanSize())
-         throw new Exception(); //TODO: add the relevant exception.
 
-      while(!loan.getStatus().getStatus().equals("Finished"))
-      {
-//         paymentMethod(loan);
-      }
+      addToPayment(loan,customer, amount,"Payed");
+      loan.changeToFinish();
    }
 
    public int getNumOfLoans(){
@@ -594,8 +590,11 @@ public class Engine implements EngineInterface , Serializable {
       if(borrower.getBalance() < loan.expectedPaymentAmount()){
          throw new NotEnoughMoneyInAccount(loanOwner);
       }else{
-         addToPayment(loan, borrower, loan.expectedPaymentAmount(), true);
-         loan.getStatus().setNextPaymentTime(loan.getTimePerPayment());
+         addToPayment(loan, borrower, loan.expectedPaymentAmount(), "Payed");
+         if(loan.getTimeLimitOfLoan()+loan.getStatus().getStartingActiveTime() <= Engine.getTime())
+            loan.changeToFinish();
+         else
+            loan.getStatus().setNextPaymentTime(loan.getTimePerPayment());
       }
    }
 
@@ -624,7 +623,7 @@ public class Engine implements EngineInterface , Serializable {
       borrower.drawMoney(moneyToPay);
       for (Map.Entry<String, Double> entry : loan.getListOflenders().entrySet()) {
          double ahuzYahasi = entry.getValue() / loan.getLoanSizeNoInterest();
-         getCustomerByName(entry.getKey()).addMoney(ahuzYahasi * loan.expectedPaymentAmount());
+         getCustomerByName(entry.getKey()).addMoney(ahuzYahasi * moneyToPay);
       }
       double sumOfPayment = moneyToPay;
       double InitialComponent = sumOfPayment * (100/ (100+loan.getInterestPerPayment()));

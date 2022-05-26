@@ -7,8 +7,7 @@ public class PaymentsDTO {
     private double interestComponent;
     private double sumOfPayment;
     private double initialComponent;
-    private boolean payedSuccesfully;
-    private String payedSuccessfully;
+    private String payedSuccesfully;
 
     public int getTimeOfPayment() {
         return timeOfPayment;
@@ -27,23 +26,23 @@ public class PaymentsDTO {
     }
 
     public boolean isPayedSuccesfully() {
-        return payedSuccesfully;
+        return payedSuccesfully.equals("Payed");
     }
 
     public String getPayedSuccessfully() {
-        return payedSuccessfully;
+        return payedSuccesfully;
     }
 
-    public PaymentsDTO(int timeOfPayment, double interestComponent, double sumOfPayment, double initialComponent, boolean payedSuccesfully) {
+    public PaymentsDTO(int timeOfPayment, Double interestComponent, double sumOfPayment, double initialComponent, String payedSuccesfully) {
+        DecimalFormat df = new DecimalFormat("#.##");
         this.timeOfPayment = timeOfPayment;
         this.interestComponent = Double.parseDouble(df.format(interestComponent));
         this.sumOfPayment = sumOfPayment;
         this.initialComponent = Double.parseDouble(df.format(initialComponent));;
         this.payedSuccesfully = payedSuccesfully;
-        if(this.payedSuccesfully)
-            payedSuccessfully = "Payed";
-        else
-            payedSuccessfully = "Not Payed";
+
+
+
     }
 
     public void print(){

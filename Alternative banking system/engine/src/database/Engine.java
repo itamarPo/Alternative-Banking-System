@@ -594,16 +594,7 @@ public class Engine implements EngineInterface , Serializable {
       if(borrower.getBalance() < loan.expectedPaymentAmount()){
          throw new NotEnoughMoneyInAccount(loanOwner);
       }else{
-         borrower.drawMoney(loan.expectedPaymentAmount());
-         for(Map.Entry<String,Double> entry : loan.getListOflenders().entrySet()){
-            double ahuzYahasi = entry.getValue()/loan.getLoanSizeNoInterest();
-            getCustomerByName(entry.getKey()).addMoney(ahuzYahasi*loan.expectedPaymentAmount());
-         }
-         double sumOfPayment = loan.expectedPaymentAmount();
-         double InitialComponent = sumOfPayment * (100/ (100+loan.getInterestPerPayment()));
-         double InterestComponent = sumOfPayment - InitialComponent;
-         loan.getStatus().addPayment(new Payment(time,InterestComponent,sumOfPayment,InitialComponent,true));
-         updatePaymentComponents(loan, InitialComponent, InterestComponent);
+         addToPayment(loan, borrower, loan.expectedPaymentAmount(), true);
          loan.getStatus().setNextPaymentTime(loan.getTimePerPayment());
       }
    }
@@ -611,6 +602,21 @@ public class Engine implements EngineInterface , Serializable {
    public void makeRiskPayment(String loadId, String loanOwner, double moneyToPay) throws Exception{
       Customer borrower = getCustomerByName(loanOwner);
       Loans loan = getLoanByName(loadId);
+      if(borrower.getBalance() < moneyToPay) {
+         throw new NotEnoughMoneyInAccount(loanOwner);
+      }
+      if(moneyToPay >= loan.expectedPaymentAmount()){
+         addToPayment(loan,borrower,loan.expectedPaymentAmount(),true);
+         if(loan.getTimeLimitOfLoan()+loan.getStatus().getStartingActiveTime() < Engine.getTime()){
+            //to finish
+         }
+         else{
+            loan.returnToActive();
+         }
+      } else{
+         addToPayment(loan, borrower, moneyToPay,false);
+      }
+
 
 
    }

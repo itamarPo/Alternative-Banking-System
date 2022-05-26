@@ -4,7 +4,7 @@ public interface LoansInterface extends Comparable<Loans>{
     void payment();
     void updateStatusBeforeActive();
     void changeToPending();
-    void changeToActive();
+    void returnToActive();
     int compareTo(Loans loan);
 
 }

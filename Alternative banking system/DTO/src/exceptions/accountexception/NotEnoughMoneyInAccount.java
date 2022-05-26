@@ -9,6 +9,6 @@ public class NotEnoughMoneyInAccount extends Exception{
 
     @Override
     public String toString() {
-        return "Not enough money in" + customerName + "'s account!";
+        return "Not enough money in " + customerName + "'s account!";
     }
 }

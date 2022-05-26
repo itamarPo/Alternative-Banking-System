@@ -100,6 +100,12 @@ public class ActiveLoanTableController implements Initializable {
         }
         paymentTableController = loaderPayment.getController();
     }
+    //Getters
+
+
+    public TableView<ActiveRiskLoanDTO> getTableView() {
+        return tableView;
+    }
 
     //Setters
     public void setPaymentsTabController(PaymentsTabController paymentsTabController) {

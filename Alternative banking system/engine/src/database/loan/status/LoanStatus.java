@@ -80,7 +80,7 @@ public class LoanStatus implements LoanStatusInterface, Serializable {
     }
     public double getInitialLeftToPay() {return initialLeftToPay;}
     public void addPayment(Payment payment) {
-        this.actualPayments.add(payment) ;
+        this.actualPayments.add(0, payment) ;
     }
     //setters
     public void setStatus(String status) {
@@ -99,5 +99,17 @@ public class LoanStatus implements LoanStatusInterface, Serializable {
     public Payment returnLastPayment(){return actualPayments.get(actualPayments.size()-1);}
     public Payment getCurrentPayment(){
         return supposedPayments.stream().filter(p->p.getTimeOfPayment()==Engine.getTime()).findFirst().orElse(null);
+    }
+    public double getSupposedToBePayedSoFar(){
+        double sum = 0;
+        for(Payment payment : supposedPayments){
+            if(payment.getTimeOfPayment() <= Engine.getTime()){
+                sum += payment.getSumOfPayment();
+            }
+            else{
+                return sum;
+            }
+        }
+        return sum;
     }
 }

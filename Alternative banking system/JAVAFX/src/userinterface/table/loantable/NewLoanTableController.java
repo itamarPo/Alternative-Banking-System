@@ -1,6 +1,5 @@
 package userinterface.table.loantable;
 
-import database.Engine;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,12 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import objects.loans.NewLoanDTO;
-import userinterface.admin.CenterAdminController;
+import userinterface.admin.centerAdmin.CenterAdminController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
-import userinterface.customer.payments.PaymentsTabController;
 
 import java.net.URL;
 import java.util.List;

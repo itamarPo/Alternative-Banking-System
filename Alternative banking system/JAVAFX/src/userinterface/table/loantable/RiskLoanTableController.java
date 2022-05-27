@@ -15,7 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.LenderMap;
-import userinterface.admin.CenterAdminController;
+import userinterface.admin.centerAdmin.CenterAdminController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.payments.PaymentsTabController;
 import userinterface.table.LendersTableController;

@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="AdminAP" maxHeight="2500.0" maxWidth="2500.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.admin.CenterAdminController">
+<AnchorPane fx:id="AdminAP" maxHeight="2500.0" maxWidth="2500.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.admin.centerAdmin.CenterAdminController">
    <children>
-      <fx:include fx:id="customerTable" layoutY="238.0" source="../table/customerTable/customerTable.fxml" AnchorPane.bottomAnchor="-0.6666666666666572" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <fx:include fx:id="customerTable" layoutY="238.0" source="../../table/customerTable/customerTable.fxml" AnchorPane.bottomAnchor="-0.6666666666666572" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <HBox layoutX="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Button fx:id="IncreaseYazBUTTON" minWidth="50.0" mnemonicParsing="false" onAction="#increaseYazOnAction" prefHeight="34.0" prefWidth="111.0" text="Increase Yaz" />
@@ -25,24 +25,24 @@
         <tabs>
           <Tab text="New">
                <content>
-                  <fx:include fx:id="newLoan" maxWidth="1.7976931348623157E308" source="../table/loantable/newLoanTable.fxml" />
+                  <fx:include fx:id="newLoan" maxWidth="1.7976931348623157E308" source="../../table/loantable/newLoanTable.fxml" />
                </content>
           </Tab>
           <Tab text="Pending">
                <content>
-                  <fx:include fx:id="pendingLoan" source="../table/loantable/pendingLoanTable.fxml" />
+                  <fx:include fx:id="pendingLoan" source="../../table/loantable/pendingLoanTable.fxml" />
                </content></Tab>
             <Tab text="Active">
                <content>
-                  <fx:include fx:id="activeLoan" source="../table/loantable/activeLoanTable.fxml" />
+                  <fx:include fx:id="activeLoan" source="../../table/loantable/activeLoanTable.fxml" />
                </content></Tab>
             <Tab text="Risk">
                <content>
-                  <fx:include fx:id="riskLoan" source="../table/loantable/riskLoanTable.fxml" />
+                  <fx:include fx:id="riskLoan" source="../../table/loantable/riskLoanTable.fxml" />
                </content></Tab>
             <Tab text="Finished">
                <content>
-                  <fx:include fx:id="finishedLoan" source="../table/loantable/finishedLoanTable.fxml" />
+                  <fx:include fx:id="finishedLoan" source="../../table/loantable/finishedLoanTable.fxml" />
                </content></Tab>
         </tabs>
       </TabPane>

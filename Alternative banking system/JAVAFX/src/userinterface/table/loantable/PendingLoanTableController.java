@@ -15,10 +15,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import objects.loans.LenderMap;
 import objects.loans.PendingLoanDTO;
-import userinterface.admin.CenterAdminController;
+import userinterface.admin.centerAdmin.CenterAdminController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
-import userinterface.customer.payments.PaymentsTabController;
 import userinterface.table.LendersTableController;
 
 import java.io.IOException;

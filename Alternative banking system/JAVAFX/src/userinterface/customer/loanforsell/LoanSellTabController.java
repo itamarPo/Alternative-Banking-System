@@ -91,7 +91,6 @@ public class LoanSellTabController {
         }
         engine.setLoansForSale(topCustomerController.getUserCB().getValue(), selectedLoans);
         sellErrorMessage.setVisible(false);
-
         topCustomerController.updateLoanSellTab(topCustomerController.getUserCB().getValue());
 
     }
@@ -102,6 +101,9 @@ public class LoanSellTabController {
         if (buyLoansTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
             selectedLoan = buyLoansTableController.getTableView().getSelectionModel().getSelectedItem();
             engine.sellLoan(selectedLoan, topCustomerController.getUserCB().getValue());
+            Notifications success = Notifications.create().text("Loan purchase has been completed successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+            success.show();
+            topCustomerController.updateLoanSellTab(topCustomerController.getUserCB().getValue());
         }else{
             throw new Exception();//user didn't select
         }

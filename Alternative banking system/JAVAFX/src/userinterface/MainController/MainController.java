@@ -51,11 +51,8 @@ public class MainController {
             topCustomerController.setTopBar(topAdminController,newChoice);
             primaryStage.setScene(CustomerScene);
         }
-
 //        primaryStage.setWidth(width);
 //        primaryStage.setHeight(height);
-
-
     }
 
     public void setSubControllers() {

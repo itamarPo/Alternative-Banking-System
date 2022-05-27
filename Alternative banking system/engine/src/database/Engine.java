@@ -170,7 +170,7 @@ public class Engine implements EngineInterface , Serializable {
                DTOloans.add(new PendingLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
                        loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
                        loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders()
-                       , loan.getCollectedSoFar(), loan.getLoanSize() - loan.getCollectedSoFar()));
+                       , loan.getCollectedSoFar(), loan.getLoanSizeNoInterest() - loan.getCollectedSoFar()));
                break;
             }
             case "Finished": {
@@ -682,10 +682,8 @@ public class Engine implements EngineInterface , Serializable {
       Buyer.drawMoney(loanToSell.getPrice());
       Loans loan = getLoanByName(loanToSell.getLoanID());
       loan.getListOflenders().put(Buyer.getName(),loan.getListOflenders().remove(Seller.getName()));
-
-
-
-
-
+      Seller.getLenderList().removeIf(p -> p.getLOANID().equals(loan.getLOANID()));
+      Seller.getLoansForSale().removeIf(p ->p.getLOANID().equals(loan.getLOANID()));
+      Buyer.getLenderList().add(loan);
    }
 }

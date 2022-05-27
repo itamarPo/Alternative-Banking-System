@@ -1,18 +1,16 @@
-package userinterface.admin;
+package userinterface.admin.topAdmin;
 
 import database.Engine;
 import exceptions.filesexepctions.LoanCategoryNotExistException;
 import exceptions.filesexepctions.OwnerLoanNotExistException;
 import exceptions.filesexepctions.TimeOfPaymentNotDivideEqualyException;
 import exceptions.filesexepctions.TwoClientsWithSameNameException;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.FinishedLoanDTO;
@@ -23,7 +21,6 @@ import userinterface.MainController.MainController;
 import userinterface.customer.TopCustomerController;
 
 import javax.xml.bind.JAXBException;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +35,7 @@ public class TopAdminController {
 
     //SubComponents
     @FXML private AnchorPane CenterAdmin;
-    @FXML private CenterAdminController CenterAdminController;
+    @FXML private userinterface.admin.centerAdmin.CenterAdminController CenterAdminController;
 
     //JavaFX components
     @FXML private ComboBox<String> UserCB;

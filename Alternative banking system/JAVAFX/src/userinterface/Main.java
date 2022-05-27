@@ -4,10 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import userinterface.MainController.MainController;
-import userinterface.admin.TopAdminController;
+import userinterface.admin.topAdmin.TopAdminController;
 import userinterface.customer.TopCustomerController;
 
 import java.net.URL;
@@ -19,7 +18,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         //Admin
         FXMLLoader loaderAdmin = new FXMLLoader();
-        URL adminFXML = getClass().getResource("/userinterface/admin/TopAdmin.fxml");
+        URL adminFXML = getClass().getResource("/userinterface/admin/topAdmin/TopAdmin.fxml");
         loaderAdmin.setLocation(adminFXML);
         Parent root1 = loaderAdmin.load();
         TopAdminController topAdminController = loaderAdmin.getController();

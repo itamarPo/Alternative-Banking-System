@@ -7,24 +7,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import objects.customers.AccountTransactionDTO;
 import objects.customers.CustomerInfoDTO;
-import userinterface.admin.TopAdminController;
 import userinterface.customer.information.InformationTabController;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 
 public class AccountTransactionController {
 

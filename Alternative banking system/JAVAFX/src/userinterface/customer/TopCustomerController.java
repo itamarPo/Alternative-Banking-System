@@ -10,7 +10,7 @@ import objects.customers.CustomerInfoDTO;
 import objects.customers.loanInfo.LoanInfoDTO;
 import objects.loans.*;
 import userinterface.MainController.MainController;
-import userinterface.admin.TopAdminController;
+import userinterface.admin.topAdmin.TopAdminController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
 import userinterface.customer.loanforsell.LoanSellTabController;
@@ -19,7 +19,6 @@ import userinterface.customer.payments.PaymentsTabController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class TopCustomerController {
 

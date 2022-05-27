@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -16,12 +15,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.LenderMap;
-import objects.loans.PendingLoanDTO;
 import objects.loans.payments.PaymentsDTO;
-import userinterface.admin.CenterAdminController;
+import userinterface.admin.centerAdmin.CenterAdminController;
 import userinterface.customer.information.InformationTabController;
-import userinterface.customer.inlay.InlayTabController;
-import userinterface.customer.loanforsell.LoanSellTabController;
 import userinterface.customer.payments.PaymentsTabController;
 import userinterface.table.LendersTableController;
 import userinterface.table.PaymentTableController;
@@ -31,7 +27,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 public class ActiveLoanTableController{
 

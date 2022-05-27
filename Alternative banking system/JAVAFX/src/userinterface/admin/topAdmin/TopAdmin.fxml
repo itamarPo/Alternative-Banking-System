@@ -13,7 +13,7 @@
          <top>
             <HBox alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="600.0" spacing="10.0" styleClass="background-only">
                <children>
-                  <ComboBox fx:id="UserCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#SetCBOnAction" prefHeight="38.0" prefWidth="150.0" />
+                  <ComboBox id="customers-combo-box" fx:id="UserCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#SetCBOnAction" prefHeight="38.0" prefWidth="150.0" />
                   <Label fx:id="FileLABEL" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="23.0" prefWidth="328.0" styleClass="top-labels" text="File:" HBox.hgrow="ALWAYS" />
                   <Label fx:id="YazLABEL" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="100.0" prefHeight="17.0" prefWidth="77.0" styleClass="top-labels" text="Current Yaz:" />
                </children>

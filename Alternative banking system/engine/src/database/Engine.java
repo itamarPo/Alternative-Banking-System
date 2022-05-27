@@ -33,7 +33,6 @@ import static java.lang.Math.min;
 public class Engine implements EngineInterface , Serializable {
    private List<Customer> customers;
    private List<Loans> loans;
-   private List<Loans> loansOnSale;
    private Map<String, List<Loans>> loansByCategories; //saves all the loans which has the same category
    private static int time = 1;
    private int timeToSave; // A field which we use in the bonus, to save the current time.
@@ -43,7 +42,6 @@ public class Engine implements EngineInterface , Serializable {
       loans = new ArrayList<>();
       loansByCategories = new LinkedHashMap<>();
       timeToSave = 1;
-      loansOnSale = new ArrayList<>();
    }
 
    public static int getTime() {
@@ -190,7 +188,7 @@ public class Engine implements EngineInterface , Serializable {
                        loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
                        loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(),
                        loan.getStatus().getNextPaymentTime(), copyPaymentList(loan), loan.getStatus().getInterestPayed(),
-                       loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay(), loan.isOnSale()));
+                       loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay()));
                break;
          }
 
@@ -219,6 +217,12 @@ public class Engine implements EngineInterface , Serializable {
          for (Loans borrowerLoan : customer.getBorrowerList()) {
             newLoan = customerDTOClassArrange(borrowerLoan);
             customersInfo.get(customersInfo.size() - 1).getBorrowerList().add(newLoan);
+         }
+         for (Loans loanForSale : customer.getLoansForSale()) {
+            newLoan = customerDTOClassArrange(loanForSale);
+            if(newLoan != null) {
+               customersInfo.get(customersInfo.size() - 1).getLoansForSale().add(newLoan);
+            }
          }
          customersInfo.get(customersInfo.size() - 1).setLoansAmounts();
       }
@@ -300,7 +304,6 @@ public class Engine implements EngineInterface , Serializable {
       customers.clear();
       loans.clear();
       loansByCategories.clear();
-      loansOnSale.clear();
       resetTime();
    }
 
@@ -634,20 +637,32 @@ public class Engine implements EngineInterface , Serializable {
       loan.getStatus().addPayment(new Payment(time,InterestComponent,sumOfPayment,InitialComponent,PayedStatus));
       updatePaymentComponents(loan, InitialComponent, InterestComponent);
    }
-   public List<ActiveRiskLoanDTO> getLoansForSaleInfo(){
-      List<ActiveRiskLoanDTO> loansForSale = new ArrayList<>();
-      for (Loans loan : loansOnSale){
-         loansForSale.add(new ActiveRiskLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
-                 loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
-                 loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
-                 loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(),
-                 loan.getStatus().getNextPaymentTime(), copyPaymentList(loan), loan.getStatus().getInterestPayed(),
-                 loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay(), loan.isOnSale()));
-      }
-      return loansForSale;
+
+   public void setLoansForSale(String userName, List<String> listForSale){
+      listForSale.forEach(p->getCustomerByName(userName).getLoansForSale().add(getLoanByName(p)));
    }
 
-   public void setLoansForSale(List<String> listForSale){
-      listForSale.stream().peek(p -> getLoanByName(p).setOnSale(true)).forEach(p ->loansOnSale.add(getLoanByName(p)));
+   public List<ActiveRiskLoanDTO> getLoansForSale(String UserName){
+      List<Loans> loansForSale = new ArrayList<>();
+      for(Customer customer: customers){
+         if(!customer.getName().equals(UserName))
+         loansForSale.addAll(customer.getLoansForSale());
+      }
+      List<ActiveRiskLoanDTO> DTOloansForSale = new ArrayList<>();
+      for(Loans loan : loansForSale){
+         if(!loan.getBorrowerName().equals(UserName)) {
+            DTOloansForSale.add(new ActiveRiskLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
+                    loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
+                    loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
+                    loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(),
+                    loan.getStatus().getNextPaymentTime(), copyPaymentList(loan), loan.getStatus().getInterestPayed(),
+                    loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay()));
+         }
+      }
+      return DTOloansForSale;
+   }
+
+   public void sellLoan(String loanID, String userName) {
+
    }
 }

@@ -58,5 +58,4 @@ public class LoanInfoDTO implements LoanInfoDTOInterface{
         System.out.println("Status: " + status);
     }
 
-
 }

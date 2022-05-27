@@ -37,7 +37,7 @@
                 </Tab>
                 <Tab fx:id="inlay" styleClass="customer-options-tab" text="Inlay">
                      <content>
-                        <fx:include fx:id="inlayTab" source="inlay/inlayTAB.fxml" />
+                        <fx:include fx:id="inlayTab" source="inlay/inlayTab.fxml" />
                      </content></Tab>
                   <Tab fx:id="payments" styleClass="customer-options-tab" text="Payments">
                      <content>

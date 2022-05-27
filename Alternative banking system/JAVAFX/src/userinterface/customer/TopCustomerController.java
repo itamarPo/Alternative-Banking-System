@@ -8,10 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import objects.customers.CustomerInfoDTO;
 import objects.customers.loanInfo.LoanInfoDTO;
-import objects.loans.ActiveRiskLoanDTO;
-import objects.loans.FinishedLoanDTO;
-import objects.loans.NewLoanDTO;
-import objects.loans.PendingLoanDTO;
+import objects.loans.*;
 import userinterface.MainController.MainController;
 import userinterface.admin.TopAdminController;
 import userinterface.customer.information.InformationTabController;
@@ -146,20 +143,6 @@ public class TopCustomerController {
     }
 
     public void changeInfoFollowedComboBox(String UserPick){
-
-//        //Information tab changes
-//        informationTabController.setUserName(UserPick);
-//        informationTabController.getTransactionInfoController().setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null));
-//        informationTabController.getNewLoanerTableController().setValues(engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).filter(p->p.getStatus().equals("New")).collect(Collectors.toList()));
-//        informationTabController.getBalanceLabel().setText("Balance: "+
-//                engine.getCustomerInfo().stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null).getBalance());
-//
-//
-//        List<NewLoanDTO> temp = engine.getLoansInfo().stream().filter(p->p.getBorrowerName().equals(UserPick)).filter(p->p.getStatus().equals("Pending")).collect(Collectors.toList());
-//        List<PendingLoanDTO> pending = new ArrayList<>();
-//        temp.forEach(x -> pending.add((PendingLoanDTO) x));
-       // informationTabController.getPendingLoanerTableController().setValues(pending);
-        //Inlay tab changes
         updateInformationTab(UserPick);
         updatePayments(UserPick);
         updateInlayTab();
@@ -249,9 +232,11 @@ public class TopCustomerController {
         }
         List<String> loanID = new ArrayList<>();
         List<String> loansForSale = customer.getLoansForSale().stream().map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
-        List<String> lenderLoans = customer.getLenderList().stream().map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
+        List<String> lenderLoans = customer.getLenderList().stream().filter(p -> p.getStatus().equals("Active")).map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
         lenderLoans.removeIf(p -> loansForSale.contains(p));
-        List<ActiveRiskLoanDTO> loansOnSale = engine.getLoansForSale(userPick);
+        List<LoansForSaleDTO> loansOnSale = engine.getLoansAvailableToBuy(userPick);
         loanSellTabController.setValues(lenderLoans,loansOnSale);
     }
+
+
 }

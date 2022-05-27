@@ -51,7 +51,7 @@ public class Loans implements Serializable, LoansInterface {
     }
 
     public double getLoanSize() {
-        return loanSize;
+        return loanSize + loanSize*(InterestPerPayment/100);
     }
 
     public int getTimeLimitOfLoan() {

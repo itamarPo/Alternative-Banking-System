@@ -101,15 +101,15 @@ public class LoanSellTabController {
         LoansForSaleDTO selectedLoan = null;
         if (buyLoansTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
             selectedLoan = buyLoansTableController.getTableView().getSelectionModel().getSelectedItem();
-            engine.sellLoan(selectedLoan.getLoanID(), topCustomerController.getUserCB().getValue());
+            engine.sellLoan(selectedLoan, topCustomerController.getUserCB().getValue());
         }else{
             throw new Exception();//user didn't select
         }
     } catch (NotEnoughMoneyInAccount e){
-        Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
+        Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(5)).position(Pos.CENTER);
         notEnoughMoney.show();
     } catch(Exception e){
-//        completePaymentError.setText("No loan has been selected!");
+        errorBuyMessage.setText("No loan has been selected!");
     }
         }
 }

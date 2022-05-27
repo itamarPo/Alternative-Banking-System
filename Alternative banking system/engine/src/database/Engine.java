@@ -666,17 +666,26 @@ public class Engine implements EngineInterface , Serializable {
       return loan.getStatus().getInitialLeftToPay() * ahuzYahasi;
    }
 
-   public String getLoanSeller(String name, Loans loan){
-
-      return "";
-   }
    public void updateLoansForSale(){
       for(Customer customer : customers){
          customer.getLoansForSale().removeIf(p -> !p.getStatus().getStatus().equals("Active"));
       }
    }
 
-   public void sellLoan(String loanID, String userName) {
+   public void sellLoan(LoansForSaleDTO loanToSell, String buyer) throws Exception{
+      Customer Buyer = getCustomerByName(buyer);
+      Customer Seller = getCustomerByName(loanToSell.getSeller());
+      if(loanToSell.getPrice() > Buyer.getBalance()){
+         throw new NotEnoughMoneyInAccount(buyer);
+      }
+      Seller.addMoney(loanToSell.getPrice());
+      Buyer.drawMoney(loanToSell.getPrice());
+      Loans loan = getLoanByName(loanToSell.getLoanID());
+      loan.getListOflenders().put(Buyer.getName(),loan.getListOflenders().remove(Seller.getName()));
+
+
+
+
 
    }
 }

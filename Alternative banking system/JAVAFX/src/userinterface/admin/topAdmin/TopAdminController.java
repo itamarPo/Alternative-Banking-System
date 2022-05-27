@@ -32,6 +32,7 @@ public class TopAdminController {
     private final String YAZSTATEMENT = "Current Yaz: " ;
     private final String FILESTATMENT = "File: " ;
     private final String ADMIN = "Admin";
+    private final String STYLE1 = "/userinterface/admin/topAdmin/TopAdmin1.css";
 
     //SubComponents
     @FXML private AnchorPane CenterAdmin;
@@ -63,6 +64,7 @@ public class TopAdminController {
         YazLABEL.setText(YAZSTATEMENT + '0');
         UserCB.getItems().add("Admin");
         UserCB.setValue("Admin");
+//        MainSP.getStylesheets().add(STYLE1);
     }
 
 

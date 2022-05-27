@@ -8,3 +8,9 @@
 #customers-combo-box{
     -fx-background-color: WHITE;
 }
+#customer-options-tabpane{
+    -fx-background-color: RED;
+}
+.customer-option-tab{
+    -fx-background-color: WHITE ;
+}

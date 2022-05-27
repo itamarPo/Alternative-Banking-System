@@ -14,8 +14,10 @@ public class Customer implements CustomerInterface, Serializable {
     private double balance;
     private List<Loans> lenderList;
     private List<Loans> borrowerList;
+    private List<Loans> loansForSale;
     private List<AccountTransaction> transactions;
     private List<PaymentNotification> notifications;
+
 
 
 
@@ -26,6 +28,7 @@ public class Customer implements CustomerInterface, Serializable {
         transactions = new ArrayList<>();
         this.balance = balance;
         notifications = new ArrayList<>();
+        loansForSale = new ArrayList<>();
     }
 
     @Override
@@ -53,6 +56,8 @@ public class Customer implements CustomerInterface, Serializable {
     }
 
     public List<PaymentNotification> getNotifications() {return notifications;}
+
+    public List<Loans> getLoansForSale() {return loansForSale;}
 
     @Override
     public void addLoanToClient(Loans loan, boolean lenderOrBorrower) {

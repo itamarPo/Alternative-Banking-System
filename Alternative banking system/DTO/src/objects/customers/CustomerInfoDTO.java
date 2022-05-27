@@ -12,7 +12,9 @@ public class CustomerInfoDTO {
   private List<AccountTransactionDTO> transactionDTOS;
   private List<LoanInfoDTO> lenderList;
   private List<LoanInfoDTO> borrowerList;
+  private List<LoanInfoDTO> loansForSale;
   private List<PaymentNotificationDTO> notificationDTOS;
+
   private String name;
   private double balance;
   private Integer newBorrower;
@@ -37,6 +39,8 @@ public class CustomerInfoDTO {
     public List<LoanInfoDTO> getBorrowerList() {
         return borrowerList;
     }
+    public List<LoanInfoDTO> getLoansForSale() {return loansForSale;}
+
     public String getName() {
         return name;
     }
@@ -66,6 +70,7 @@ public class CustomerInfoDTO {
         this.transactionDTOS = new ArrayList<>();
         this.lenderList = new ArrayList<>();
         this.borrowerList = new ArrayList<>();
+        this.loansForSale = new ArrayList<>();
         this.name = name;
         this.balance = balance;
     }

@@ -24,7 +24,7 @@ public class Loans implements Serializable, LoansInterface {
     private LoanStatus status;
     private double collectedSoFar;
     private double leftToBeCollected;
-    private boolean onSale;
+
 
 
     public Loans(String borrowerName, String LOANID, String loanCategory, int timeLimitOfLoan, int InterestPerPayment, int timePerPayment, double loanSizeNoInterest) {
@@ -41,7 +41,6 @@ public class Loans implements Serializable, LoansInterface {
         this.collectedSoFar = 0;
         this.leftToBeCollected = loanSizeNoInterest;
         this.status = new LoanStatus("New", 0,0,0,0,0,loanSizeNoInterest*((double)InterestPerPayment/100),loanSizeNoInterest);
-        this.onSale = false;
     }
 
     public double getLeftToBeCollected() {
@@ -91,19 +90,12 @@ public class Loans implements Serializable, LoansInterface {
         return collectedSoFar;
     }
 
-    public boolean isOnSale() {return onSale;}
-
     public void setCollectedSoFar(double collectedSoFar) {
         this.collectedSoFar += collectedSoFar;
     }
 
     public void setLeftToBeCollected(double leftToBeCollected) {
         this.leftToBeCollected -= leftToBeCollected;
-    }
-
-
-    public void setOnSale(boolean onSale) {
-        this.onSale = onSale;
     }
 
     @Override

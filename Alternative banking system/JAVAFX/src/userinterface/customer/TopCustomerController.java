@@ -75,6 +75,24 @@ public class TopCustomerController {
         paymentsTabController.setTopCustomerController(this);
         inlayTabController.setTopCustomerController(this);
         loanSellTabController.setTopCustomerController(this);
+        customerOptionsTB.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
+            String user = UserCB.getValue();
+            switch(newTab.getText()){
+                case "Information":{
+                    updateInformationTab(user);
+                    break;
+                } case "Inlay":{
+                    updateInlayTab();
+                    break;
+                } case "Payments":{
+                    updatePayments(user);
+                    break;
+                }
+                case "Buy/Sell Loans":{
+                    updateLoanSellTab(user);
+                }
+            }
+        });
     }
 
 
@@ -223,13 +241,17 @@ public class TopCustomerController {
     }
 
     public void updateLoanSellTab(String userPick){
-        List<NewLoanDTO> loans = engine.getLoansInfo().stream().filter(p -> p.getStatus().equals("Active"))
-                .filter(p -> p.getBorrowerName().equals(userPick)).collect(Collectors.toList());
-        List<ActiveRiskLoanDTO> loansForSale = new ArrayList<>();
-        loans.forEach(p -> loansForSale.add((ActiveRiskLoanDTO)p ));
-        List<String> loanID = loansForSale.stream().filter(p -> !p.isOnSale()).map(NewLoanDTO::getLoanID).collect(Collectors.toList());
-        List<ActiveRiskLoanDTO> loansOnSale = engine.getLoansForSaleInfo().stream().filter(p -> !p.getBorrowerName().equals(userPick)).collect(Collectors.toList());
-
-        loanSellTabController.setValues(loanID,loansOnSale);
+        List<CustomerInfoDTO> customers = engine.getCustomerInfo();
+        CustomerInfoDTO customer = null;
+        for(CustomerInfoDTO customerInfoDTO: customers){
+            if(customerInfoDTO.getName().equals(userPick))
+                customer=customerInfoDTO;
+        }
+        List<String> loanID = new ArrayList<>();
+        List<String> loansForSale = customer.getLoansForSale().stream().map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
+        List<String> lenderLoans = customer.getLenderList().stream().map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
+        lenderLoans.removeIf(p -> loansForSale.contains(p));
+        List<ActiveRiskLoanDTO> loansOnSale = engine.getLoansForSale(userPick);
+        loanSellTabController.setValues(lenderLoans,loansOnSale);
     }
 }

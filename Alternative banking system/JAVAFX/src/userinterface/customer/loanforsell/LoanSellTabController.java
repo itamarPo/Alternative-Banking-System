@@ -1,17 +1,21 @@
 package userinterface.customer.loanforsell;
 import database.Engine;
+import exceptions.accountexception.NotEnoughMoneyInAccount;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 import objects.loans.ActiveRiskLoanDTO;
 import org.controlsfx.control.CheckListView;
+import org.controlsfx.control.Notifications;
 import userinterface.customer.TopCustomerController;
 import userinterface.table.loantable.ActiveLoanTableController;
 
@@ -67,6 +71,7 @@ public class LoanSellTabController {
     }
 
     public void setValues(List<String> loanIDs, List<ActiveRiskLoanDTO> loansToSell){
+        sellLoanCLV.getCheckModel().clearChecks();
         sellLoanCLV.getItems().clear();
         sellLoanCLV.getItems().addAll(loanIDs);
         ObservableList<ActiveRiskLoanDTO> loansForSale = FXCollections.observableList(loansToSell);
@@ -81,13 +86,29 @@ public class LoanSellTabController {
             sellErrorMessage.setVisible(true);    //error
             return;
         }
-        engine.setLoansForSale(selectedLoans);
+        engine.setLoansForSale(topCustomerController.getUserCB().getValue(), selectedLoans);
         sellErrorMessage.setVisible(false);
+
         topCustomerController.updateLoanSellTab(topCustomerController.getUserCB().getValue());
+
     }
     @FXML
     public void confirmBuyButtonOnAction(ActionEvent actionEvent) {
-
+        try{
+        ActiveRiskLoanDTO selectedLoan = null;
+        if (buyLoansTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+            selectedLoan = buyLoansTableController.getTableView().getSelectionModel().getSelectedItem();
+            engine.sellLoan(selectedLoan.getLoanID(), topCustomerController.getUserCB().getValue());
+        }else{
+            throw new Exception();//user didn't select
+        }
+    } catch (NotEnoughMoneyInAccount e){
+        Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
+        notEnoughMoney.show();
+    } catch(Exception e){
+//        completePaymentError.setText("No loan has been selected!");
+    }
+        }
     }
 }
 

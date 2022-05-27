@@ -14,10 +14,12 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import objects.loans.ActiveRiskLoanDTO;
+import objects.loans.LoansForSaleDTO;
 import org.controlsfx.control.CheckListView;
 import org.controlsfx.control.Notifications;
 import userinterface.customer.TopCustomerController;
 import userinterface.table.loantable.ActiveLoanTableController;
+import userinterface.table.loantable.LoanBuyTableController;
 
 import java.beans.EventHandler;
 import java.util.List;
@@ -26,7 +28,7 @@ public class LoanSellTabController {
 
     //Sub components
     @FXML private ScrollPane buyLoansTable;
-    @FXML private ActiveLoanTableController buyLoansTableController;
+    @FXML private LoanBuyTableController buyLoansTableController;
 
     //JavaFX components
     @FXML private ScrollPane buySellLoanSP;
@@ -70,12 +72,13 @@ public class LoanSellTabController {
         this.topCustomerController = topCustomerController;
     }
 
-    public void setValues(List<String> loanIDs, List<ActiveRiskLoanDTO> loansToSell){
+    public void setValues(List<String> loanIDs, List<LoansForSaleDTO> loansToSell){
         sellLoanCLV.getCheckModel().clearChecks();
         sellLoanCLV.getItems().clear();
         sellLoanCLV.getItems().addAll(loanIDs);
-        ObservableList<ActiveRiskLoanDTO> loansForSale = FXCollections.observableList(loansToSell);
+        ObservableList<LoansForSaleDTO> loansForSale = FXCollections.observableList(loansToSell);
         buyLoansTableController.setValues(loansForSale);
+
     }
     
     //Regular methods
@@ -95,7 +98,7 @@ public class LoanSellTabController {
     @FXML
     public void confirmBuyButtonOnAction(ActionEvent actionEvent) {
         try{
-        ActiveRiskLoanDTO selectedLoan = null;
+        LoansForSaleDTO selectedLoan = null;
         if (buyLoansTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
             selectedLoan = buyLoansTableController.getTableView().getSelectionModel().getSelectedItem();
             engine.sellLoan(selectedLoan.getLoanID(), topCustomerController.getUserCB().getValue());
@@ -109,6 +112,6 @@ public class LoanSellTabController {
 //        completePaymentError.setText("No loan has been selected!");
     }
         }
-    }
 }
+
 

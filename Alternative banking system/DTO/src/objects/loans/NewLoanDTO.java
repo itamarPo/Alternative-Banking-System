@@ -52,6 +52,10 @@ public class NewLoanDTO {
         return IsSelected;
     }
 
+    public void setLoanCategory(String loanCategory) {
+        this.loanCategory = loanCategory;
+    }
+
     public NewLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, double interestPerPayment, int timePerPayment, String status) {
         this.loanID = loanID;
         this.borrowerName = borrowerName;

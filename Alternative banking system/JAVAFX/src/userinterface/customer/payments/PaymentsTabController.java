@@ -136,6 +136,8 @@ public class PaymentsTabController {
 
         ObservableList<ActiveRiskLoanDTO> closeLoansActive = FXCollections.observableList(closeLoanActive);
         closeLoanActiveTableController.setValues(closeLoansActive);
+        completePaymentError.setText("");
+
     }
 
     public void setEngine(Engine engine) {
@@ -152,6 +154,8 @@ public class PaymentsTabController {
                 engine.makeActivePayment(selectedItem.getLoanID(),selectedItem.getBorrowerName());
                 topCustomerController.updatePayments(selectedItem.getBorrowerName());
                 topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
+                Notifications success = Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+                success.show();
                 return;
             }
             if (makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
@@ -165,8 +169,8 @@ public class PaymentsTabController {
                     engine.makeRiskPayment(selectedItem.getLoanID(), selectedItem.getBorrowerName(),Amount);
                     topCustomerController.updatePayments(selectedItem.getBorrowerName());
                     topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
-                    completePaymentError.setText("Payment completed Successfully!");
-                    completePaymentError.setTextFill(Color.GREEN);
+                    Notifications success = Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+                    success.show();
                 } catch (NumberFormatException e) {
                     completePaymentError.setText("Invalid input!");
                 }catch (Exception e){

@@ -1,0 +1,12 @@
+.background-only{
+    -fx-background-color: RED;
+}
+.table-view{
+    -fx-background-color: RED;
+}
+.table-column{
+    -fx-background-color: GREEN;
+}
+.action-buttons{
+    -fx-background-color: RED;
+}

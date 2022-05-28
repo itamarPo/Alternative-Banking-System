@@ -99,6 +99,9 @@ public class TransactionPopUpController {
         //Customer customer;
         try {
            userSum =  Double.parseDouble(userInput);
+           if(userSum<=0){
+               throw new Exception();
+           }
            if(chargeOrWithdraw)
                engine.addMoneyToAccount(engine.getCustomerByName(userName), userSum);
            else {
@@ -110,9 +113,9 @@ public class TransactionPopUpController {
                    return;
                }
            }
+
            accountTransactionController.getInformationTabController().getBalanceLabel().setText("Balance: " + engine.getCustomerByName(userName).getBalance());
            accountTransactionController.setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(userName)).findFirst().orElse(null));
-           //TODO: error messages from incorrect withdraw amount
            errorMessage.setText(null);
            popUpStage.close();
         }

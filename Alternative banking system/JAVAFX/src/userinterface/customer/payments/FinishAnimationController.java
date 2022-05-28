@@ -15,11 +15,11 @@ public class FinishAnimationController {
         ScaleTransition scale = new ScaleTransition();
         scaleTransition.setNode(finishedImage);
         scaleTransition.setDuration(Duration.millis(2000));
-        scale.setCycleCount(TranslateTransition.INDEFINITE);
-        scale.setInterpolator(Interpolator.LINEAR);
-        scale.setByX(1.3);
-        scale.setByY(1.3);
-        scale.setAutoReverse(true);
-        scale.play();
+        scaleTransition.setCycleCount(TranslateTransition.INDEFINITE);
+        scaleTransition.setInterpolator(Interpolator.LINEAR);
+        scaleTransition.setByX(1.3);
+        scaleTransition.setByY(1.3);
+        scaleTransition.setAutoReverse(true);
+        scaleTransition.play();
     }
 }

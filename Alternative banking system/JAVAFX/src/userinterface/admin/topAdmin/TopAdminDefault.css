@@ -51,6 +51,12 @@
     /*-fx-background-radius: 15px;*/
     /*-fx-text-fill: WHITE;*/
 }
+.table-row-cell:selected{
+    -fx-background-color: steelblue;
+}
+.table-row-cell:selected .text {
+    -fx-fill: #f5f5f5 ;
+}
 .table-column{
     -fx-text-fill: #28316f;
     -fx-background-color: transparent;

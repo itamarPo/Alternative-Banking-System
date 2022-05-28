@@ -1,4 +1,4 @@
-/*top of scene*/
+/******top of scene*****/
 /*file, current yaz*/
 .top-labels{
     -fx-font: 16px "Serif";
@@ -12,6 +12,16 @@
 .top-combo-box{
     -fx-background-color: WHITE;
 }
+
+/*****center of scene*****/
+.table-view *.column-header  {
+    .root {
+
+    }
+}
+
+
+
 
 
 

@@ -30,3 +30,8 @@
 .center-loan.tab{
 
 }
+
+/***** tables *****/
+.table-view {
+    -fx-background-color: transparent;
+}

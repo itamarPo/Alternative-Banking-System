@@ -31,20 +31,20 @@
          <center>
             <TabPane id="customer-options-tabpane" fx:id="customerOptionsTB" nodeOrientation="LEFT_TO_RIGHT" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab fx:id="information" styleClass="customer-options-tab" text="Information">
+                <Tab fx:id="information" text="Information">
                      <content>
                         <fx:include fx:id="informationTab" source="information/InformationTab.fxml" />
                      </content>
                 </Tab>
-                <Tab fx:id="inlay" styleClass="customer-options-tab" text="Inlay">
+                <Tab fx:id="inlay" text="Inlay">
                      <content>
                         <fx:include fx:id="inlayTab" source="inlay/inlayTab.fxml" />
                      </content></Tab>
-                  <Tab fx:id="payments" styleClass="customer-options-tab" text="Payments">
+                  <Tab fx:id="payments" text="Payments">
                      <content>
                         <fx:include fx:id="paymentsTab" source="payments/PaymentsTab.fxml" />
                      </content></Tab>
-                  <Tab fx:id="buySellLoans" styleClass="customer-options-tab" text="Buy/Sell Loans">
+                  <Tab fx:id="buySellLoans" text="Buy/Sell Loans">
                      <content>
                         <fx:include fx:id="loanSellTab" source="loanforsell/loanforsell.fxml" />
                      </content>

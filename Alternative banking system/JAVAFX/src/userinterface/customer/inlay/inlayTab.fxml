@@ -34,16 +34,16 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <CheckBox fx:id="minInterestCB" mnemonicParsing="false" prefHeight="17.0" prefWidth="132.0" styleClass="filter-check-box" text="Minimum Interest" GridPane.rowIndex="2" />
+                  <CheckBox fx:id="minInterestCB" mnemonicParsing="false" prefHeight="17.0" prefWidth="132.0" styleClass="message-label" text="Minimum Interest" GridPane.rowIndex="2" />
                   <TextField fx:id="minInterestTF" disable="true" prefHeight="25.0" prefWidth="149.0" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Label prefHeight="17.0" prefWidth="156.0" text="Investment (mandatory!)" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
+                  <Label prefHeight="17.0" prefWidth="156.0" styleClass="message-label" text="Investment (mandatory!)" GridPane.halignment="LEFT" GridPane.valignment="CENTER" />
                   <TextField fx:id="amountTF" prefHeight="25.0" prefWidth="173.0" styleClass="text-field" GridPane.columnIndex="1" />
-                  <CheckComboBox fx:id="categoriesCCB" maxWidth="250.0" prefHeight="25.0" prefWidth="197.0" styleClass="check-combo-box" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Categories (default = all)" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <CheckBox fx:id="minYazCB" mnemonicParsing="false" styleClass="filter-check-box" text="Minimum YAZ" GridPane.rowIndex="3" />
+                  <CheckComboBox fx:id="categoriesCCB" maxWidth="250.0" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label  styleClass="message-label" text="Categories (default = all)" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                  <CheckBox fx:id="minYazCB" mnemonicParsing="false" styleClass="message-label" text="Minimum YAZ" GridPane.rowIndex="3" />
                   <TextField fx:id="minYazTF" disable="true" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <CheckBox fx:id="maxOpenLoansCB" mnemonicParsing="false" styleClass="filter-check-box" text="Maximum open Loans" GridPane.rowIndex="4" />
-                  <CheckBox fx:id="maxOwnershipLoanCB" layoutX="10.0" layoutY="136.0" mnemonicParsing="false" styleClass="filter-check-box" text="Maximum loan&#10;ownership" GridPane.rowIndex="5" />
+                  <CheckBox fx:id="maxOpenLoansCB" mnemonicParsing="false" styleClass="message-label" text="Maximum open Loans" GridPane.rowIndex="4" />
+                  <CheckBox fx:id="maxOwnershipLoanCB" layoutX="10.0" layoutY="136.0" mnemonicParsing="false" styleClass="message-label" text="Maximum loan&#10;ownership" GridPane.rowIndex="5" />
                   <TextField fx:id="maxOpenLoansTF" disable="true" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <TextField fx:id="maxOwnershipLoanTF" disable="true" styleClass="text-field" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label fx:id="amountErrorLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="298.0" styleClass="error-label" textFill="#e40808" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS">
@@ -74,7 +74,7 @@
                         <Insets left="10.0" />
                      </padding>
                   </Label>
-                  <Button fx:id="confrimScrambleButton" mnemonicParsing="false" onAction="#confirmFilterOnAction" prefHeight="25.0" prefWidth="97.0" styleClass="confirm-button" text="Confirm" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                  <Button fx:id="confrimScrambleButton" mnemonicParsing="false" onAction="#confirmFilterOnAction" prefHeight="25.0" prefWidth="97.0" styleClass="action-buttons" text="Confirm" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                </children>
             </GridPane>
             <GridPane fx:id="scrambleResultGP" layoutX="37.0" layoutY="261.0" prefHeight="396.0" prefWidth="895.0" styleClass="background-only" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="260.0">
@@ -86,21 +86,21 @@
                 <RowConstraints fillHeight="false" maxHeight="201.0" minHeight="10.0" prefHeight="73.0" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <TabPane fx:id="inlayResultTP" prefHeight="302.0" prefWidth="850.0" styleClass="loans-tabpane" tabClosingPolicy="UNAVAILABLE" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                  <TabPane fx:id="inlayResultTP" prefHeight="302.0" prefWidth="850.0" tabClosingPolicy="UNAVAILABLE" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                     <tabs>
-                      <Tab fx:id="inlayResultNewTab" styleClass="loan-tab" text="New">
+                      <Tab fx:id="inlayResultNewTab" text="New">
                            <content>
                               <fx:include fx:id="newLoanTB" source="../../table/loantable/newLoanTable.fxml" />
                            </content>
                       </Tab>
-                      <Tab fx:id="inlayResultPendingTab" styleClass="loan-tab" text="Pending">
+                      <Tab fx:id="inlayResultPendingTab" text="Pending">
                            <content>
                               <fx:include fx:id="pendingLoanTB" source="../../table/loantable/pendingLoanTable.fxml" />
                            </content>
                       </Tab>
                     </tabs>
                   </TabPane>
-                  <Button fx:id="confirmSelectionButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#confirmInlayOnAction" styleClass="confirm-button" text="Confirm Selection" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="confirmSelectionButton" maxWidth="-Infinity" mnemonicParsing="false" onAction="#confirmInlayOnAction" styleClass="action-buttons" text="Confirm Selection" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>

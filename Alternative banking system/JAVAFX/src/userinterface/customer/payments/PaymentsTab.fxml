@@ -44,7 +44,7 @@
                               <RowConstraints maxHeight="47.33331298828125" minHeight="10.0" prefHeight="47.33331298828125" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Button fx:id="completePaymentButton" mnemonicParsing="false" onAction="#completePaymentOnAction" prefHeight="48.0" prefWidth="215.0" text="Complete payment for selected loan" GridPane.rowIndex="1" />
+                              <Button fx:id="completePaymentButton" mnemonicParsing="false" onAction="#completePaymentOnAction" prefHeight="48.0" prefWidth="215.0" styleClass="action-buttons" text="Complete payment for selected loan" GridPane.rowIndex="1" />
                               <Label fx:id="completePaymentError" prefHeight="54.0" prefWidth="191.0" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets left="10.0" />
@@ -55,7 +55,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </TextField>
-                              <Label fx:id="paymentAmountLabel" prefHeight="24.0" prefWidth="207.0" text="Please select payment amount:" visible="false">
+                              <Label fx:id="paymentAmountLabel" prefHeight="24.0" prefWidth="207.0" styleClass="message-label" text="Please select payment amount:" visible="false">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -86,7 +86,7 @@
                         </TabPane>
                         <HBox fx:id="closeButtonAndErrorHB" layoutX="9.0" layoutY="303.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="53.0" prefWidth="414.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <children>
-                              <Button fx:id="closeLoanButton" mnemonicParsing="false" onAction="#closeLoanOnAction" prefHeight="53.0" prefWidth="210.0" text="Close selected loan" />
+                              <Button fx:id="closeLoanButton" mnemonicParsing="false" onAction="#closeLoanOnAction" prefHeight="53.0" prefWidth="210.0" styleClass="action-buttons" text="Close selected loan" />
                               <Label fx:id="closeLoanError" prefHeight="54.0" prefWidth="191.0" textFill="RED" />
                            </children>
                            <padding>
@@ -101,7 +101,7 @@
       </TabPane>
       <AnchorPane fx:id="notificationsAP" layoutX="417.0" layoutY="1.0" prefHeight="400.0" prefWidth="187.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="notificationsTitle" layoutX="41.0" layoutY="14.0" text="Payments notifications" />
+            <Label fx:id="notificationsTitle" layoutX="41.0" layoutY="14.0" styleClass="message-label" text="Payments notifications" />
             <TableView fx:id="notificationsTableView" layoutX="27.0" layoutY="41.0" prefHeight="277.0" prefWidth="186.0" AnchorPane.bottomAnchor="82.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="41.0">
                <columns>
                   <TableColumn fx:id="loanIDNotification" prefWidth="75.0" text="Loan ID" />

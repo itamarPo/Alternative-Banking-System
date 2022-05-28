@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="informationAP" prefHeight="380.0" prefWidth="665.0" styleClass="background-only" stylesheets="@InformationTab1.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.information.InformationTabController">
+<AnchorPane fx:id="informationAP" prefHeight="380.0" prefWidth="665.0" styleClass="background-only" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.information.InformationTabController">
    <children>
       <HBox id="balance-hbox" alignment="BOTTOM_LEFT" prefHeight="23.0" prefWidth="200.0" styleClass="background-only" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

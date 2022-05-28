@@ -1,14 +1,14 @@
+/*top of scene*/
+/*file, current yaz*/
 .top-labels{
     -fx-font: 16px "Serif";
     -fx-background-color: WHITE;
 }
+/*borderpane, Hbox*/
 .background-only{
-    -fx-background-color: BLACK;
-}
-.top-combo-box{
     -fx-background-color: WHITE;
 }
-.center-background-only{
-    -fx-background-color: RED;
-
+/*userCB, skinCB*/
+.top-combo-box{
+    -fx-background-color: WHITE;
 }

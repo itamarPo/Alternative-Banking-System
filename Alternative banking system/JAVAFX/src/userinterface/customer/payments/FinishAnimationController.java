@@ -15,8 +15,8 @@ public class FinishAnimationController {
     public void initialize(){
         ScaleTransition scaleTransition = new ScaleTransition();
         ScaleTransition scale = new ScaleTransition();
-        scale.setNode(finishedImage);
-        scale.setDuration(Duration.millis(2000));
+        scaleTransition.setNode(finishedImage);
+        scaleTransition.setDuration(Duration.millis(2000));
         scale.setCycleCount(TranslateTransition.INDEFINITE);
         scale.setInterpolator(Interpolator.LINEAR);
         scale.setByX(1.3);

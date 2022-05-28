@@ -1,14 +1,32 @@
+/*****top of scene*****/
+/*file, current yaz*/
 .top-labels{
     -fx-font: 16px "Serif";
     -fx-background-color: WHITE;
 }
+/*borderpane, Hbox*/
 .background-only{
-    -fx-background-color: BLACK;
+    -fx-background-color: WHITE;
 }
+/*userCB, skinCB*/
 .top-combo-box{
     -fx-background-color: WHITE;
 }
+
+/*****center of scene*****/
+/*anchorpane, Hbox*/
 .center-background-only{
-    -fx-background-color: RED;
+
+}
+/*increaseyaz, loadfile*/
+.center-top-button{
+
+}
+/*loans tabpane*/
+.center-loan-tabpane{
+
+}
+/*new,pending,active,risk,finished*/
+.center-loan.tab{
 
 }

@@ -2,14 +2,13 @@
 /*file, current yaz*/
 .top-labels{
     -fx-font: 16px "Serif";
-    -fx-background-color: #fafad2;
+    -fx-background-color: BLACK;
 }
 /*borderpane, Hbox*/
 .background-only{
-    -fx-background-color: #fafad2;
+    -fx-background-color: BLACK;
 }
 /*userCB, skinCB*/
 .top-combo-box{
-    -fx-background-color: #fafad2;
+    -fx-background-color: BLACK;
 }
-

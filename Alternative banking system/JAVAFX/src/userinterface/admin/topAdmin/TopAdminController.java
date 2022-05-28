@@ -32,7 +32,12 @@ public class TopAdminController {
     private final String YAZSTATEMENT = "Current Yaz: " ;
     private final String FILESTATMENT = "File: " ;
     private final String ADMIN = "Admin";
-    private final String STYLE1 = "/userinterface/admin/topAdmin/TopAdmin1.css";
+    private final String THEMEDEFAULT = "/userinterface/admin/topAdmin/TopAdminDefault.css";
+    private final String THEMEDARK = "/userinterface/admin/topAdmin/TopAdminDark.css";
+    private final String THEMEBRIGHT = "/userinterface/admin/topAdmin/TopAdminBright.css";
+    private final String DEFAULT = "Default";
+    private final String DARK = "Dark";
+    private final String BRIGHT = "Bright";
 
     //SubComponents
     @FXML private AnchorPane CenterAdmin;
@@ -40,6 +45,7 @@ public class TopAdminController {
 
     //JavaFX components
     @FXML private ComboBox<String> UserCB;
+    @FXML private ComboBox<String> ThemeCB;
     @FXML private ScrollPane MainSP;
     @FXML private BorderPane MainBP;
     @FXML private Label FileLABEL;
@@ -64,7 +70,14 @@ public class TopAdminController {
         YazLABEL.setText(YAZSTATEMENT + '0');
         UserCB.getItems().add("Admin");
         UserCB.setValue("Admin");
-//        MainSP.getStylesheets().add(STYLE1);
+        ThemeCB.getItems().addAll("Default", "Dark", "Bright");
+        ThemeCB.setValue("Default");
+        MainSP.getStylesheets().add(THEMEDEFAULT);
+//        MainSP.getStylesheets().add(THEMEDARK);
+//        MainSP.getStylesheets().add(THEMEBRIGHT);
+//        MainSP.getStylesheets().set(2,THEMEDEFAULT);
+
+//        MainSP.getStylesheets().add(THEMEBRIGHT);
     }
 
 
@@ -75,6 +88,7 @@ public class TopAdminController {
     public MainController getMainController() {return mainController;}
     public Engine getEngine() {return engine;}
     public ScrollPane getMainSP() {return MainSP;}
+    public ComboBox<String> getThemeCB() {return ThemeCB;}
 
     //setters
     public void setMainControllerAndEngine(MainController mainController, Engine engine) {
@@ -89,6 +103,7 @@ public class TopAdminController {
         this.FileLABEL.setText(topCustomerController.getFileLABEL().getText());
         this.UserCB.setValue(newChoice);
         this.YazLABEL.setText(topCustomerController.getYazLABEL().getText());
+        this.ThemeCB.setValue(topCustomerController.getThemeCB().getValue());
     }
 
    public void LoadFileAction(String AbsolutePath) {
@@ -96,7 +111,6 @@ public class TopAdminController {
             engine.loadFile(AbsolutePath);
             FileLABEL.setText(FILESTATMENT + AbsolutePath);
             YazLABEL.setText(YAZSTATEMENT + Engine.getTime());
-//            UserCB.setItems((ObservableList<String>) engine.getCustomerNames());
             UserCB.getItems().clear();
             UserCB.getItems().add("Admin");
             UserCB.setValue("Admin");
@@ -127,12 +141,49 @@ public class TopAdminController {
 
         }
     }
-        @FXML
+
+    @FXML
     public void SetCBOnAction(ActionEvent actionEvent) {
         if(UserCB.getItems().size() != 0) {
             String UserPick = UserCB.getValue();
             if (!UserPick.equals(ADMIN)) {
                 mainController.changeScene(UserPick);
+            }
+        }
+    }
+    @FXML
+    public void SetThemeCBOnAction(ActionEvent actionEvent) {
+       MainSP.getStylesheets().clear();
+        switch(ThemeCB.getValue()){
+            case DEFAULT:{
+                MainSP.getStylesheets().add(THEMEDEFAULT);
+                break;
+            }
+            case DARK:{
+                MainSP.getStylesheets().add(THEMEDARK);
+                break;
+            }
+            case BRIGHT:{
+                MainSP.getStylesheets().add(THEMEBRIGHT);
+                break;
+            }
+        }
+        mainController.getTopCustomerController().updateTheme(ThemeCB.getValue());
+    }
+    public void updateTheme(String newTheme){
+        MainSP.getStylesheets().clear();
+        switch (newTheme){
+            case DEFAULT:{
+                MainSP.getStylesheets().add(THEMEDEFAULT);
+                break;
+            }
+            case DARK:{
+                MainSP.getStylesheets().add(THEMEDARK);
+                break;
+            }
+            case BRIGHT:{
+                MainSP.getStylesheets().add(THEMEBRIGHT);
+                break;
             }
         }
     }

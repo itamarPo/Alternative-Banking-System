@@ -26,6 +26,12 @@ public class TopCustomerController {
     private final String YAZSTATEMENT = "Current Yaz: " ;
     private final String FILESTATEMENT = "File: " ;
     private final String ADMIN = "Admin";
+    private final String THEMEDEFAULT = "/userinterface/customer/TopCustomerDefault.css";
+    private final String THEMEDARK = "/userinterface/customer/TopCustomerDark.css";
+    private final String THEMEBRIGHT = "/userinterface/customer/TopCustomerBright.css";
+    private final String DEFAULT = "Default";
+    private final String DARK = "Dark";
+    private final String BRIGHT = "Bright";
 
     //SubComponents
     @FXML private AnchorPane informationTab;
@@ -44,6 +50,7 @@ public class TopCustomerController {
 
     //JavaFX
     @FXML private ComboBox<String> UserCB;
+    @FXML private ComboBox<String> ThemeCB;
     @FXML private ScrollPane MainSP;
     @FXML private BorderPane MainBP;
     @FXML private Label FileLABEL;
@@ -89,6 +96,7 @@ public class TopCustomerController {
                 }
             }
         });
+        MainSP.getStylesheets().add(THEMEDEFAULT);
     }
 
 
@@ -99,6 +107,7 @@ public class TopCustomerController {
     public Label getYazLABEL() {return YazLABEL;}
     public MainController getMainController() {return mainController;}
     public ScrollPane getMainSP() {return MainSP;}
+    public ComboBox<String> getThemeCB() {return ThemeCB;}
 
     //setters
     public void setMainControllerAndEngine(MainController mainController, Engine engine) {
@@ -119,6 +128,9 @@ public class TopCustomerController {
         this.FileLABEL.setText(topAdminController.getFileLABEL().getText());
         this.UserCB.setItems(topAdminController.getUserCB().getItems());
         this.YazLABEL.setText(topAdminController.getYazLABEL().getText());
+        if(ThemeCB.getItems().size() == 0){
+            ThemeCB.setItems(topAdminController.getThemeCB().getItems());
+        }
     }
 
     public void setTopBar(TopAdminController topAdminController, String newChoice){
@@ -127,6 +139,7 @@ public class TopCustomerController {
         if(!newChoice.equals(ADMIN))
             changeInfoFollowedComboBox(newChoice);
         this.YazLABEL.setText(topAdminController.getYazLABEL().getText());
+        this.ThemeCB.setValue(topAdminController.getThemeCB().getValue());
     }
 
     @FXML
@@ -138,6 +151,43 @@ public class TopCustomerController {
         }
         else {
             changeInfoFollowedComboBox(UserPick);
+        }
+    }
+    @FXML
+    public void SetThemeCBOnAction(ActionEvent actionEvent) {
+        MainSP.getStylesheets().clear();
+        switch(ThemeCB.getValue()){
+            case DEFAULT:{
+                MainSP.getStylesheets().add(THEMEDEFAULT);
+                break;
+            }
+            case DARK:{
+                MainSP.getStylesheets().add(THEMEDARK);
+                break;
+            }
+            case BRIGHT:{
+                MainSP.getStylesheets().add(THEMEBRIGHT);
+                break;
+            }
+        }
+        mainController.getTopAdminController().updateTheme(ThemeCB.getValue());
+    }
+
+    public void updateTheme(String newTheme){
+        MainSP.getStylesheets().clear();
+        switch (newTheme){
+            case DEFAULT:{
+                MainSP.getStylesheets().add(THEMEDEFAULT);
+                break;
+            }
+            case DARK:{
+                MainSP.getStylesheets().add(THEMEDARK);
+                break;
+            }
+            case BRIGHT:{
+                MainSP.getStylesheets().add(THEMEBRIGHT);
+                break;
+            }
         }
     }
 

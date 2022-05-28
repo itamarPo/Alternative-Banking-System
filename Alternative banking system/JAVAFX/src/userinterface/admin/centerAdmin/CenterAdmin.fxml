@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane fx:id="AdminAP" maxHeight="2500.0" maxWidth="2500.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.admin.centerAdmin.CenterAdminController">
+<AnchorPane fx:id="AdminAP" maxHeight="2500.0" maxWidth="2500.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" styleClass="center-background-only" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.admin.centerAdmin.CenterAdminController">
    <children>
       <fx:include fx:id="customerTable" layoutY="238.0" source="../../table/customerTable/customerTable.fxml" AnchorPane.bottomAnchor="-0.6666666666666572" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <HBox layoutX="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

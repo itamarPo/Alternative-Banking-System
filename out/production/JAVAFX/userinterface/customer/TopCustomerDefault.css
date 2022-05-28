@@ -1,0 +1,16 @@
+.top-labels{
+    -fx-font: 16px "Serif";
+    -fx-background-color: GREY;
+}
+.background-only{
+    -fx-background-color: WHITE;
+}
+#customers-combo-box{
+    -fx-background-color: WHITE;
+}
+#customer-options-tabpane{
+    -fx-background-color: RED;
+}
+.customer-option-tab{
+    -fx-background-color: WHITE ;
+}

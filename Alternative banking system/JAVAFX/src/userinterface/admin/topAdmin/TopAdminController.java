@@ -5,6 +5,8 @@ import exceptions.filesexepctions.LoanCategoryNotExistException;
 import exceptions.filesexepctions.OwnerLoanNotExistException;
 import exceptions.filesexepctions.TimeOfPaymentNotDivideEqualyException;
 import exceptions.filesexepctions.TwoClientsWithSameNameException;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -50,12 +52,14 @@ public class TopAdminController {
     @FXML private BorderPane MainBP;
     @FXML private Label FileLABEL;
     @FXML private Label YazLABEL;
+    @FXML private Button animationToggleButton;
 
     //Regular Fields
     private MainController mainController;
     private Engine engine;
+    private FadeTransition yazTransition;
 
-
+    private boolean animationOn;
     //constructor
     public TopAdminController() {
 
@@ -78,6 +82,8 @@ public class TopAdminController {
 //        MainSP.getStylesheets().set(2,THEMEDEFAULT);
 
 //        MainSP.getStylesheets().add(THEMEBRIGHT);
+        yazTransition = new FadeTransition();
+        animationOn = true;
     }
 
 
@@ -211,8 +217,33 @@ public class TopAdminController {
         //finished
         temp.stream().filter(x -> x.getStatus().equals("Finished")).forEach(y -> finished.add((FinishedLoanDTO) y));
         CenterAdminController.getFinishLoanController().setValues(finished);
+
     }
 
+    public void yazIncreaseAnimation(){
+        yazTransition.setNode(CenterAdmin);
+        yazTransition.setCycleCount(1);
+        yazTransition.setDuration(Duration.seconds(1.6));
+        yazTransition.setInterpolator(Interpolator.EASE_BOTH);
+        yazTransition.setFromValue(0);
+        yazTransition.setToValue(1);
+        yazTransition.play();
+    }
 
+    public void setAnimationButtonOnAction(ActionEvent actionEvent){
+        if(animationOn)
+        {
+            animationOn=false;
+            animationToggleButton.setText("Set Animation On");
+        }
+        else{
+            animationOn=true;
+            animationToggleButton.setText("Set Animation Off");
+        }
+        mainController.getTopCustomerController().getPaymentsTabController().setAnimation(animationOn);
+    }
 
+    public boolean isAnimationOn() {
+        return animationOn;
+    }
 }

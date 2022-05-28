@@ -12,7 +12,7 @@ import userinterface.customer.TopCustomerController;
 import java.net.URL;
 
 public class Main extends Application {
-    private final double WIDTH = 1000;
+    private final double WIDTH = 1200;
     private final double HEIGHT = 550;
     @Override
     public void start(Stage primaryStage) throws Exception {

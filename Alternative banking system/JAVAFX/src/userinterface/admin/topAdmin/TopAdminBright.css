@@ -1,0 +1,17 @@
+/* top of scene */
+.top-labels{
+    -fx-font: 16px "Serif";
+    -fx-background-color: BLUE;
+}
+.background-only{
+    -fx-background-color: WHITE;
+}
+.top-combo-box{
+    -fx-background-color: RED;
+}
+.center-background-only{
+    -fx-background-color: WHITE;
+
+}
+
+/*      */

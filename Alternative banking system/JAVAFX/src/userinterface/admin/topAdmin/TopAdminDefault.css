@@ -1,0 +1,14 @@
+.top-labels{
+    -fx-font: 16px "Serif";
+    -fx-background-color: WHITE;
+}
+.background-only{
+    -fx-background-color: BLACK;
+}
+.top-combo-box{
+    -fx-background-color: WHITE;
+}
+.center-background-only{
+    -fx-background-color: RED;
+
+}

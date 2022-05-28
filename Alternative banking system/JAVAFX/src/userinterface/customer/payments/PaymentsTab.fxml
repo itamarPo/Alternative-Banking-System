@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane fx:id="paymentsTabAP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.payments.PaymentsTabController">
+<AnchorPane fx:id="paymentsTabAP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.customer.payments.PaymentsTabController">
    <children>
       <TabPane fx:id="closeOrPaymentTabPane" prefHeight="400.0" prefWidth="414.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="186.0" AnchorPane.topAnchor="0.0">
         <tabs>
@@ -75,11 +75,13 @@
                             <Tab fx:id="closeLoanActiveTab" text="Active">
                                  <content>
                                     <fx:include fx:id="closeLoanActiveTable" source="../../table/loantable/activeLoanTable.fxml" />
-                                 </content></Tab>
+                                 </content>
+                              </Tab>
                             <Tab fx:id="closeLoanRiskTab" text="Risk">
                                  <content>
                                     <fx:include fx:id="closeLoanRiskTable" source="../../table/loantable/riskLoanTable.fxml" />
-                                 </content></Tab>
+                                 </content>
+                              </Tab>
                           </tabs>
                         </TabPane>
                         <HBox fx:id="closeButtonAndErrorHB" layoutX="9.0" layoutY="303.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="53.0" prefWidth="414.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -110,6 +112,11 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <HBox layoutX="14.0" layoutY="326.0" prefHeight="84.0" prefWidth="187.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <fx:include fx:id="finishImage" source="finishImageAnimation.fxml" />
+               </children>
+            </HBox>
          </children>
       </AnchorPane>
    </children>

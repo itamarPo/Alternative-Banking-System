@@ -266,6 +266,8 @@ public class TopCustomerController {
         temp2.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> makePaymentRisk.add((ActiveRiskLoanDTO)  y));
         makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
         paymentsTabController.setValues(engine.getNotifications(userPick),makePaymentActive,makePaymentRisk,closeLoanActive,closeLoanRisk);
+        paymentsTabController.getFinishImage().setVisible(false);
+        paymentsTabController.setAnimation(mainController.getTopAdminController().isAnimationOn());
     }
     public void updateInlayTab(){
         inlayTabController.addCategoriesToCCB();

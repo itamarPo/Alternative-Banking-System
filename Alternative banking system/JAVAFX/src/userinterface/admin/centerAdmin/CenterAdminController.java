@@ -1,8 +1,10 @@
 package userinterface.admin.centerAdmin;
 
 import database.Engine;
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -43,7 +45,7 @@ public class CenterAdminController {
     //Regular Fields
     private TopAdminController topAdminController;
     private Engine engine;
-
+    private FadeTransition yazTransition;
 
     //Constructor
     public CenterAdminController() {
@@ -59,6 +61,7 @@ public class CenterAdminController {
         activeLoanController.setCenterAdminController(this);
         riskLoanController.setCenterAdminController(this);
         finishedLoanController.setCenterAdminController(this);
+        yazTransition = new FadeTransition();
     }
 
 
@@ -117,6 +120,9 @@ public class CenterAdminController {
         Integer time = Engine.getTime() ;
         topAdminController.getYazLABEL().setText( "Current Yaz: " + time.toString());
         topAdminController.updateAdminTable();
+        if(topAdminController.isAnimationOn())
+            topAdminController.yazIncreaseAnimation();
+
     }
 
     public void enableAfterFileLoader(){

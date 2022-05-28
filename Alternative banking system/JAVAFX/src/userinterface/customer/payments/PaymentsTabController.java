@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -39,6 +40,8 @@ public class PaymentsTabController {
 
     @FXML private ScrollPane makePaymentRiskTable;
     @FXML private RiskLoanTableController makePaymentRiskTableController;
+    @FXML private AnchorPane finishImage;
+    @FXML private FinishAnimationController finishImageController;
 
 
     //JavaFX components
@@ -74,6 +77,7 @@ public class PaymentsTabController {
     //Regular Fields
     private TopCustomerController topCustomerController;
     private Engine engine;
+    private boolean animation;
     @FXML
     private void initialize() {
         loanIDNotification.setCellValueFactory(new PropertyValueFactory<>("loanID"));
@@ -91,14 +95,17 @@ public class PaymentsTabController {
              paymentAmountTextField.clear();
              paymentAmountTextField.setVisible(!paymentAmountTextField.isVisible());
              completePaymentError.setText("");
-
+             finishImage.setVisible(false);
         });
          closeLoanTabPane.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
              closeLoanActiveTableController.getTableView().getSelectionModel().clearSelection();
              closeLoanRiskTableController.getTableView().getSelectionModel().clearSelection();
              closeLoanError.setText("");
+             finishImage.setVisible(false);
          });
-
+         closeOrPaymentTabPane.getSelectionModel().selectedItemProperty().addListener((ov,oldTab,newTab)->{
+             finishImage.setVisible(false);
+         });
     }
     public void setControllersAndStages(){
         closeLoanActiveTableController.setPaymentsTabController(this);
@@ -116,12 +123,20 @@ public class PaymentsTabController {
         return topCustomerController;
     }
 
+    public AnchorPane getFinishImage() {
+        return finishImage;
+    }
+
     //Setters
     public void setTopCustomerController(TopCustomerController topCustomerController) {
         this.topCustomerController = topCustomerController;
     }
 
-    public void setValues(List<PaymentNotificationDTO> paymentNotifications, List<ActiveRiskLoanDTO> makePaymentActive, List<ActiveRiskLoanDTO> makePaymentRisk,List<ActiveRiskLoanDTO> closeLoanActive, List<ActiveRiskLoanDTO> closeLoanRisk){
+    public void setAnimation(boolean animation) {
+        this.animation = animation;
+    }
+
+    public void setValues(List<PaymentNotificationDTO> paymentNotifications, List<ActiveRiskLoanDTO> makePaymentActive, List<ActiveRiskLoanDTO> makePaymentRisk, List<ActiveRiskLoanDTO> closeLoanActive, List<ActiveRiskLoanDTO> closeLoanRisk){
         ObservableList<PaymentNotificationDTO> PaymentNotificationDTOObservableList = FXCollections.observableList(paymentNotifications);
         notificationsTableView.getItems().setAll(PaymentNotificationDTOObservableList);
 
@@ -156,6 +171,9 @@ public class PaymentsTabController {
                 topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
                 Notifications success = Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
                 success.show();
+                if(engine.getLoanByName(selectedItem.getLoanID()).getStatus().getStatus().equals("Finished") && animation) {
+                    animateLoanFinish();
+                }
                 return;
             }
             if (makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
@@ -171,6 +189,9 @@ public class PaymentsTabController {
                     topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
                     Notifications success = Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
                     success.show();
+                    if(engine.getLoanByName(selectedItem.getLoanID()).getStatus().getStatus().equals("Finished") && animation) {
+                        animateLoanFinish();
+                    }
                 } catch (NumberFormatException e) {
                     completePaymentError.setText("Invalid input!");
                 }catch (Exception e){
@@ -208,7 +229,9 @@ public class PaymentsTabController {
 
             Notifications completedLoan = Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(10)).position(Pos.CENTER);
             completedLoan.show();
-
+            if(engine.getLoanByName(selectedItem.getLoanID()).getStatus().getStatus().equals("Finished") && animation) {
+                animateLoanFinish();
+            }
 
         } catch (WithDrawMoneyException e) {
             Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
@@ -216,6 +239,10 @@ public class PaymentsTabController {
         } catch (Exception e) {
             closeLoanError.setText("No loan has been selected!");
         }
+    }
+    public void animateLoanFinish(){
+        finishImage.setVisible(true);
+        finishImageController.setAnimation();
     }
 }
 

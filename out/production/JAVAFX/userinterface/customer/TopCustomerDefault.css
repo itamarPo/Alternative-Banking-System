@@ -14,15 +14,33 @@
 }
 
 /*****center of scene*****/
-.table-column{
-    -fx-background-color: GREEN;
+/*.table-view  {*/
+/*    -fx-border-color: BLUE;*/
+
+/*    -fx-text-fill: GREEN;*/
+
+/*    }*/
+/*.table-column {*/
+/*    -fx-border-color: BLUE;*/
+/*    -fx-background-color: GREEN;*/
+/*    -fx-text-fill: RED;*/
+/*}*/
+
+/*.table-column.column-header {*/
+/*    -fx-text-fill: GREEN;*/
+/*}*/
+.table-view{
+    -fx-table-header-border-color: -fx-box-border;
+    -fx-table-cell-border-color: derive(-fx-color,5%);
 }
 
-.table-view {
-    -fx-background-color: BLUE;
 
 
 
-}
+
+
+
+
+
 
 

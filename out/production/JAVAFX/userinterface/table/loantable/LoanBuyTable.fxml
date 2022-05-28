@@ -6,22 +6,22 @@
 
 <ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.table.loantable.LoanBuyTableController">
    <content>
-      <TableView fx:id="tableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="600.0">
+      <TableView fx:id="tableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="600.0" styleClass="table-view">
         <columns>
-          <TableColumn fx:id="loanID" prefWidth="75.0" text="Loan ID" />
-          <TableColumn fx:id="category" prefWidth="75.0" text="Category" />
-            <TableColumn fx:id="owner" prefWidth="75.0" text="Owner" />
-            <TableColumn fx:id="seller" prefWidth="75.0" text="Seller&#10;" />
-            <TableColumn fx:id="amount" prefWidth="75.0" text="Amount" />
-            <TableColumn fx:id="duration" prefWidth="75.0" text="Duration" />
-            <TableColumn fx:id="interest" prefWidth="75.0" text="Interest" />
-            <TableColumn fx:id="timePerPayment" prefWidth="75.0" text="Time&#10;Between&#10;Payments" />
-            <TableColumn fx:id="listOfLenders" prefWidth="75.0" text="Lenders" />
-            <TableColumn fx:id="startingActiveTime" prefWidth="75.0" text="Activated&#10;YAZ" />
-            <TableColumn fx:id="nextPaymentTime" prefWidth="75.0" text="Next &#10;Payment&#10;YAZ" />
-            <TableColumn fx:id="payments" prefWidth="75.0" text="Payments" />
-            <TableColumn fx:id="price" prefWidth="75.0" text="Price&#10;" />
-            <TableColumn fx:id="expectedProfit" prefWidth="75.0" text="Expected&#10;Profit" />
+          <TableColumn fx:id="loanID" prefWidth="75.0" styleClass="table-column" text="Loan ID" />
+          <TableColumn fx:id="category" prefWidth="75.0" styleClass="table-column" text="Category" />
+            <TableColumn fx:id="owner" prefWidth="75.0" styleClass="table-column" text="Owner" />
+            <TableColumn fx:id="seller" prefWidth="75.0" styleClass="table-column" text="Seller&#10;" />
+            <TableColumn fx:id="amount" prefWidth="75.0" styleClass="table-column" text="Amount" />
+            <TableColumn fx:id="duration" prefWidth="75.0" styleClass="table-column" text="Duration" />
+            <TableColumn fx:id="interest" prefWidth="75.0" styleClass="table-column" text="Interest" />
+            <TableColumn fx:id="timePerPayment" prefWidth="75.0" styleClass="table-column" text="Time&#10;Between&#10;Payments" />
+            <TableColumn fx:id="listOfLenders" prefWidth="75.0" styleClass="table-column" text="Lenders" />
+            <TableColumn fx:id="startingActiveTime" prefWidth="75.0" styleClass="table-column" text="Activated&#10;YAZ" />
+            <TableColumn fx:id="nextPaymentTime" prefWidth="75.0" styleClass="table-column" text="Next &#10;Payment&#10;YAZ" />
+            <TableColumn fx:id="payments" prefWidth="75.0" styleClass="table-column" text="Payments" />
+            <TableColumn fx:id="price" prefWidth="75.0" styleClass="table-column" text="Price&#10;" />
+            <TableColumn fx:id="expectedProfit" prefWidth="75.0" styleClass="table-column" text="Expected&#10;Profit" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

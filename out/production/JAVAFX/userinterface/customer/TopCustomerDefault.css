@@ -1,4 +1,4 @@
-/*top of scene*/
+/******top of scene*****/
 /*file, current yaz*/
 .top-labels{
     -fx-font: 16px "Serif";
@@ -11,6 +11,18 @@
 /*userCB, skinCB*/
 .top-combo-box{
     -fx-background-color: WHITE;
+}
+
+/*****center of scene*****/
+.table-column{
+    -fx-background-color: GREEN;
+}
+
+.table-view {
+    -fx-background-color: BLUE;
+
+
+
 }
 
 

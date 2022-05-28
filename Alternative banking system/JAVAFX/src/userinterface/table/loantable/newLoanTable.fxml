@@ -6,7 +6,7 @@
 
 <ScrollPane fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userinterface.table.loantable.NewLoanTableController">
    <content>
-      <TableView fx:id="tableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="600.0" styleClass="table-view">
+      <TableView fx:id="tableView" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="600.0" >
         <columns>
           <TableColumn fx:id="loanID" minWidth="-1.0" prefWidth="75.0" styleClass="table-column" text="Loan ID" />
           <TableColumn fx:id="category" minWidth="-1.0" prefWidth="75.0" styleClass="table-column" text="Category" />

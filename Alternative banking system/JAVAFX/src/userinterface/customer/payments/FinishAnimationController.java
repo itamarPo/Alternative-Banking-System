@@ -3,7 +3,6 @@ package userinterface.customer.payments;
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
@@ -11,7 +10,6 @@ public class FinishAnimationController {
 
     private ImageView finishedImage;
 
-    @FXML
     public void initialize(){
         ScaleTransition scaleTransition = new ScaleTransition();
         ScaleTransition scale = new ScaleTransition();

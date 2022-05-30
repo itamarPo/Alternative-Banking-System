@@ -181,7 +181,8 @@ public class InlayTabController {
                 }
             }
        });
-
+        this.amountToInvest = amountToinvest;
+        this.maxOwnership = maxownership;
     }
 
 

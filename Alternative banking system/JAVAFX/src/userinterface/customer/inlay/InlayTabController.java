@@ -2,9 +2,15 @@ package userinterface.customer.inlay;
 
 import database.Engine;
 import exceptions.accountexception.WithDrawMoneyException;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -17,12 +23,12 @@ import objects.loans.PendingLoanDTO;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.Notifications;
 import userinterface.customer.TopCustomerController;
-import userinterface.customer.information.InformationTabController;
 import userinterface.table.loantable.NewLoanTableController;
 import userinterface.table.loantable.PendingLoanTableController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
@@ -68,6 +74,11 @@ public class InlayTabController {
     @FXML private TabPane inlayResultTP;
     @FXML private Tab inlayResultNewTab;
     @FXML private Tab inlayResultPendingTab;
+
+    @FXML private ProgressBar progressBar;
+
+    @FXML private Label progressPercent;
+    @FXML private Button clearSelectionCategoryButton;
     //Regular Fields
 
     private int amountToInvest;
@@ -135,26 +146,44 @@ public class InlayTabController {
     //Regular methods
     @FXML
     public void confirmFilterOnAction(ActionEvent actionEvent){
+
         int amountToinvest = getAmountToInvest();
         List<String> categoriesList = getFilteredCategories(); // this list might be empty! if so there is no filter for categories!
         int minInterest = getMinInterest();
         int minYAZ = getMinYAZ();
         int maxOpenLoans = getMaxOpenLoans();
         int maxownership = getMaxOwnership();
+        final int[] amountToInvestTmp = new int[1];
+        final int[] maxownershipTmp = new int[1];
         if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
             newLoanTBController.getTableView().getItems().clear();
             pendingLoanTBController.getTableView().getItems().clear();
             return;
         }
         enableAllErrors();
-        List<NewLoanDTO> filteredNewLoans = engine.getFilteredLoans(categoriesList,minInterest,minYAZ,topCustomerController.getUserCB().getValue(), maxOpenLoans);
-        newLoanTBController.setValues(filteredNewLoans.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
-        this.amountToInvest = amountToinvest;
-        this.maxOwnership = maxownership;
-        List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
-        filteredNewLoans.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
-        pendingLoanTBController.setValues(filteredPendingLoans);
+        final List<NewLoanDTO>[] filteredLoans = new List[]{new ArrayList<>()};
+        inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,topCustomerController.getUserCB().getValue(), maxOpenLoans, engine);
+        Thread thread = new Thread(filteredNewLoans);
+        thread.setName("HELPME");
+        bindTaskToProgress(filteredNewLoans,()-> {confirmSelectionButton.setDisable(false); confirmScrambleButton.setDisable(false);});
+        thread.start();
+        filteredNewLoans.valueProperty().addListener(new ChangeListener<List<NewLoanDTO>>() {
+            @Override
+            public void changed(ObservableValue<? extends List<NewLoanDTO>> observable, List<NewLoanDTO> oldValue, List<NewLoanDTO> newValue) {
+                if (newValue != null) {
+                   // filteredLoans[0] = newValue;
+                    newLoanTBController.setValues(newValue.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
+                    amountToInvestTmp[0] = amountToinvest;
+                    maxownershipTmp[0] = maxownership;
+                    List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
+                    newValue.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
+                    pendingLoanTBController.setValues(filteredPendingLoans);
+                }
+            }
+       });
+
     }
+
 
     private void enableAllErrors() {
         amountErrorLabel.setText("");
@@ -282,6 +311,11 @@ public class InlayTabController {
     }
 
     public void resetFields() {
+        amountErrorLabel.setText("");
+        maxOpenLoanErrorLabel.setText("");
+        maxOwnershipLoanErrorLabel.setText("");
+        minYazErrorLabel.setText("");
+        minInterestErrorLabel.setText("");
         amountTF.setText("");
         minInterestCB.setSelected(false);
         minYazCB.setSelected(false);
@@ -289,8 +323,33 @@ public class InlayTabController {
         maxOwnershipLoanCB.setSelected(false);
         newLoanTBController.getTableView().getItems().clear();
         pendingLoanTBController.getTableView().getItems().clear();
+        progressBar.setVisible(false);
+        progressPercent.setText("");
     }
 
+    public void bindTaskToProgress(inlayTask filteredNewLoans, Runnable onFinish){
+        confirmSelectionButton.setDisable(true);
+        confirmScrambleButton.setDisable(true);
+        progressBar.setVisible(true);
+        progressBar.progressProperty().bind(filteredNewLoans.progressProperty());
+        progressPercent.textProperty().bind(
+                Bindings.concat(
+                        Bindings.format(
+                                "%.0f",
+                                Bindings.multiply(
+                                        filteredNewLoans.progressProperty(),
+                                        100)),
+                        " %"));
+    filteredNewLoans.valueProperty().addListener((observable, oldValue, newValue) -> {
+        onTaskFinished(Optional.ofNullable(onFinish));
+    });
+}
+
+    public void onTaskFinished(Optional<Runnable> onFinish) {
+        this.progressPercent.textProperty().unbind();
+        this.progressBar.progressProperty().unbind();
+        onFinish.ifPresent(Runnable::run);
+    }
     @FXML
     public void confirmInlayOnAction(ActionEvent actionEvent)throws Exception{
         List<NewLoanDTO> newLoansPicked = newLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected().isSelected()).collect(Collectors.toList());
@@ -303,7 +362,13 @@ public class InlayTabController {
         }
         engine.splitMoneyBetweenLoans(newLoansPicked.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()), amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
         resetFields();
-
+        Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+        successInlay.showInformation();
         topCustomerController.updateInformationTab(topCustomerController.getUserCB().getValue());
     }
+
+    public void clearSelectionCategoryOnAction(ActionEvent actionEvent){
+        categoriesCCB.getCheckModel().clearChecks();
+    }
+
 }

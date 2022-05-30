@@ -315,12 +315,12 @@ public class Engine implements EngineInterface , Serializable {
       List<NewLoanDTO> validLoans = new ArrayList<>();
       List<Loans> filteredLoans = new ArrayList<>(loans);
       filteredLoans = filteredLoans.stream()
-              .filter(l-> l.getStatus().getStatus().equals("New") || l.getStatus().getStatus().equals("Pending"))
-              .filter(l-> categories.contains(l.getLoanCategory()))
-              .filter(l-> minInterest <= l.getInterestPerPayment())
-              .filter(l-> minTime <= l.getTimeLimitOfLoan())
-              .filter(l-> !l.getBorrowerName().equals(userName))
-              .filter(l-> (getCustomerByName(l.getBorrowerName()).getBorrowerList().stream()
+              .filter(l -> l.getStatus().getStatus().equals("New") || l.getStatus().getStatus().equals("Pending"))
+              .filter(l -> categories.contains(l.getLoanCategory()))
+              .filter(l -> minInterest <= l.getInterestPerPayment())
+              .filter(l -> minTime <= l.getTimeLimitOfLoan())
+              .filter(l -> !l.getBorrowerName().equals(userName))
+              .filter(l -> (getCustomerByName(l.getBorrowerName()).getBorrowerList().stream()
               .filter(x -> !(x.getStatus().getStatus().equals("Finished"))).count() <= maxOpenLoans))
               .collect(Collectors.toList());
 

@@ -204,7 +204,7 @@ public class PaymentsTabController {
             }
         } catch (NotEnoughMoneyInAccount e){
             Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
-            notEnoughMoney.show();
+            notEnoughMoney.showError();
         } catch(Exception e){
             completePaymentError.setText("No loan has been selected!");
         }
@@ -235,7 +235,7 @@ public class PaymentsTabController {
 
         } catch (WithDrawMoneyException e) {
             Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
-            notEnoughMoney.show();
+            notEnoughMoney.showError();
         } catch (Exception e) {
             closeLoanError.setText("No loan has been selected!");
         }

@@ -125,20 +125,20 @@ public class TopAdminController {
             mainController.getTopCustomerController().setTopBarAfterFileLoaded(this);
             updateAdminTable();
             Notifications categoryNotExist = Notifications.create().text("File loaded successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
-            categoryNotExist.show();
+            categoryNotExist.showInformation();
 
         } catch (LoanCategoryNotExistException e) {
             Notifications categoryNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
-            categoryNotExist.show();
+            categoryNotExist.showError();
         } catch (OwnerLoanNotExistException e) {
             Notifications ownerNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
-            ownerNotExist.show();
+            ownerNotExist.showError();
         } catch (TimeOfPaymentNotDivideEqualyException e) {
             Notifications TimeNotDivideEqually = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
-            TimeNotDivideEqually.show();
+            TimeNotDivideEqually.showError();
         } catch (TwoClientsWithSameNameException e) {
             Notifications categoryNotExist = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
-            categoryNotExist.show();
+            categoryNotExist.showError();
         } catch (JAXBException e) {
 
         } catch (FileNotFoundException e) {

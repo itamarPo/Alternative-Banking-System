@@ -83,7 +83,7 @@ public class InlayTabController {
 
     private int amountToInvest;
     private int maxOwnership;
-
+    private boolean filterInProgress = false;
 
     //Regular fields
     private TopCustomerController topCustomerController;
@@ -165,7 +165,8 @@ public class InlayTabController {
         inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,topCustomerController.getUserCB().getValue(), maxOpenLoans, engine);
         Thread thread = new Thread(filteredNewLoans);
         thread.setName("HELPME");
-        bindTaskToProgress(filteredNewLoans,()-> {confirmSelectionButton.setDisable(false); confirmScrambleButton.setDisable(false);});
+        bindTaskToProgress(filteredNewLoans,()-> {confirmSelectionButton.setDisable(false); confirmScrambleButton.setDisable(false);
+            filterInProgress = false; topCustomerController.getUserCB().setDisable(false);});
         thread.start();
         filteredNewLoans.valueProperty().addListener(new ChangeListener<List<NewLoanDTO>>() {
             @Override
@@ -324,13 +325,17 @@ public class InlayTabController {
         maxOwnershipLoanCB.setSelected(false);
         newLoanTBController.getTableView().getItems().clear();
         pendingLoanTBController.getTableView().getItems().clear();
-        progressBar.setVisible(false);
-        progressPercent.setText("");
+        if(!filterInProgress) {
+            progressBar.setVisible(false);
+            progressPercent.setText("");
+        }
     }
 
     public void bindTaskToProgress(inlayTask filteredNewLoans, Runnable onFinish){
+        topCustomerController.getUserCB().setDisable(true);
         confirmSelectionButton.setDisable(true);
         confirmScrambleButton.setDisable(true);
+        filterInProgress = true;
         progressBar.setVisible(true);
         progressBar.progressProperty().bind(filteredNewLoans.progressProperty());
         progressPercent.textProperty().bind(

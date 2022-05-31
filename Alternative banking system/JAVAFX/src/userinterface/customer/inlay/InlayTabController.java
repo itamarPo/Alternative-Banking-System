@@ -153,11 +153,9 @@ public class InlayTabController {
         int minYAZ = getMinYAZ();
         int maxOpenLoans = getMaxOpenLoans();
         int maxownership = getMaxOwnership();
-        final int[] amountToInvestTmp = new int[1];
-        final int[] maxownershipTmp = new int[1];
         if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
-            newLoanTBController.getTableView().getItems().clear();
-            pendingLoanTBController.getTableView().getItems().clear();
+//            newLoanTBController.getTableView().getItems().clear();
+//            pendingLoanTBController.getTableView().getItems().clear();
             return;
         }
         enableAllErrors();
@@ -174,8 +172,6 @@ public class InlayTabController {
                 if (newValue != null) {
                    // filteredLoans[0] = newValue;
                     newLoanTBController.setValues(newValue.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
-                    amountToInvestTmp[0] = amountToinvest;
-                    maxownershipTmp[0] = maxownership;
                     List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
                     newValue.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
                     pendingLoanTBController.setValues(filteredPendingLoans);
@@ -223,45 +219,46 @@ public class InlayTabController {
         return selectedCategories.stream().collect(Collectors.toList());
     }
     public int getMinInterest() {
-        if (!minInterestCB.isSelected()) {
-            return 0;
-        }
-        String interestInput = minInterestTF.getText();
-        if (interestInput.equals("")) {
-            return 0;
-        } else {
-            try {
+        try {
+            if (!minInterestCB.isSelected()) {
+                return 0;
+            }
+            String interestInput = minInterestTF.getText();
+            if (interestInput.equals("")) {
+                throw new NumberFormatException();
+            } else {
                 int minInterest = Integer.parseInt(interestInput); //NumberFormatException
                 if (minInterest < 0) {
                     throw new NumberFormatException(); //NumberFormatException
                 }
                 minInterestErrorLabel.setText("");
                 return minInterest;
-            } catch (NumberFormatException e) {
-                minInterestErrorLabel.setText("Invalid input. Please enter a positive integer!");
             }
+
+        } catch (NumberFormatException e) {
+            minInterestErrorLabel.setText("Invalid input. Please enter a positive integer!");
+            return INVALID;
         }
-        return INVALID;
     }
     public int getMinYAZ(){
+       try{
         if (!minYazCB.isSelected()) {
             return 0;
         }
         String YAZInput = minYazTF.getText();
         if (YAZInput.equals("")) {
-            return 0;
+            throw new NumberFormatException();
         } else {
-            try {
                 int minYAZ = Integer.parseInt(YAZInput); //NumberFormatException
                 if (minYAZ < 0) {
                     throw new NumberFormatException(); //NumberFormatException
-                }
+            }
                 minYazErrorLabel.setText("");
                 return minYAZ;
-            } catch (NumberFormatException e) {
-                minYazErrorLabel.setText("Invalid input. Please enter a positive integer!");
             }
-        }
+        }catch (NumberFormatException e) {
+           minYazErrorLabel.setText("Invalid input. Please enter a positive integer!");
+       }
         return INVALID;
     }
     public int getMaxOpenLoans(){

@@ -78,7 +78,7 @@
                   </Label>
                   <Button fx:id="confirmScrambleButton" mnemonicParsing="false" onAction="#confirmFilterOnAction" prefHeight="25.0" prefWidth="97.0" styleClass="action-buttons" text="Confirm" GridPane.columnIndex="2" GridPane.rowIndex="6" />
                   <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="249.0" progress="0.0" visible="false" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-                  <Label fx:id="progressPercent" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="6" />
+                  <Label id="progress-label" fx:id="progressPercent" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="6" />
                   <Button fx:id="clearSelectionCategoryButton" mnemonicParsing="false" onAction="#clearSelectionCategoryOnAction" styleClass="action-buttons" text="Clear Selection" GridPane.columnIndex="2" GridPane.rowIndex="1">
                      <GridPane.margin>
                         <Insets left="10.0" />

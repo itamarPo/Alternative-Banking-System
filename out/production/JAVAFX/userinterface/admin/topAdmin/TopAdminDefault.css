@@ -65,3 +65,13 @@
     -fx-text-fill: #f5f5f5;
     -fx-font:12px "Segoe UI Semibold";
 }
+
+/**** labels ****/
+#loans-label{
+    -fx-text-fill: #f5f5f5;
+    -fx-font:12px "Segoe UI Black";
+}
+#customers-label{
+    -fx-text-fill: #f5f5f5;
+    -fx-font:12px "Segoe UI Black";
+}

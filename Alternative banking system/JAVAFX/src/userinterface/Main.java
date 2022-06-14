@@ -5,8 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import userinterface.MainController.MainController;
-import userinterface.customer.TopCustomerController;
+
 
 import java.net.URL;
 
@@ -25,10 +24,10 @@ public class Main extends Application {
 
         //Customer
         FXMLLoader loaderCustomer = new FXMLLoader();
-        URL customerFXML = getClass().getResource("/userinterface/customer/TopCustomer.fxml");
+        URL customerFXML = getClass().getResource("/userinterface/customer/customerScreen.fxml");
         loaderCustomer.setLocation(customerFXML);
         Parent root2 = loaderCustomer.load();
-        TopCustomerController topCustomerController = loaderCustomer.getController();
+        //TopCustomerController topCustomerController = loaderCustomer.getController();
         Scene CustomerScene = new Scene(root2, WIDTH, HEIGHT);
 
         //Main Controller

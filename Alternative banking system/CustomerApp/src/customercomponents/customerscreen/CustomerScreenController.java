@@ -1,4 +1,4 @@
-package userinterface.customer;
+package customercomponents.customerscreen;
 
 import database.Engine;
 import javafx.event.ActionEvent;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TopCustomerController {
+public class CustomerScreenController {
 
     //constants
     private final String YAZSTATEMENT = "Current Yaz: " ;
@@ -67,7 +67,7 @@ public class TopCustomerController {
 
 
     //constructor
-    public TopCustomerController(){
+    public CustomerScreenController(){
 
     }
 
@@ -141,7 +141,7 @@ public class TopCustomerController {
 //        this.ThemeCB.setValue(topAdminController.getThemeCB().getValue());
 //    }
 
- //   @FXML
+//    @FXML
 //    public void SetCBOnAction(ActionEvent actionEvent) {
 //        String UserPick = UserCB.getValue();
 //        if(UserPick.equals(ADMIN)){
@@ -288,5 +288,8 @@ public class TopCustomerController {
         loanSellTabController.setValues(lenderLoans,loansOnSale);
     }
 
-
+    @FXML
+    public void LoadFileOnAction(ActionEvent event){
+        return;
+    }
 }

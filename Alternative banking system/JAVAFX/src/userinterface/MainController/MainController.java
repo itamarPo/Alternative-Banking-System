@@ -1,10 +1,9 @@
 package userinterface.MainController;
 
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import database.Engine;
-import userinterface.customer.TopCustomerController;
+//import userinterface.customer.TopCustomerController;
 
 public class MainController {
 
@@ -14,7 +13,7 @@ public class MainController {
     // private TopAdminController topAdminController;
     private Scene AdminScene;
     //Customer
-    private TopCustomerController topCustomerController;
+   // private TopCustomerController topCustomerController;
     private Scene CustomerScene;
 
     //Regular Fields
@@ -37,9 +36,9 @@ public class MainController {
         return primaryStage;
     }
 
-    public TopCustomerController getTopCustomerController() {
-        return topCustomerController;
-    }
+//    public TopCustomerController getTopCustomerController() {
+//        return topCustomerController;
+//    }
 
     //  public TopAdminController getTopAdminController() {return topAdminController;}
 

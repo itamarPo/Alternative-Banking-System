@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 //import userinterface.MainController.MainController;
 //import userinterface.admin.topAdmin.TopAdminController;
-//import userinterface.customer.TopCustomerController;
+//import customercomponents.customerscreen.TopCustomerController;
 
 import java.net.URL;
 
@@ -41,7 +41,7 @@ public class AdminMain extends Application {
 
 //        Customer
 //        FXMLLoader loaderCustomer = new FXMLLoader();
-//        URL customerFXML = getClass().getResource("/userinterface/customer/TopCustomer.fxml");
+//        URL customerFXML = getClass().getResource("/userinterface/customer/customerScreen.fxml");
 //        loaderCustomer.setLocation(customerFXML);
 //        Parent root2 = loaderCustomer.load();
 //        TopCustomerController topCustomerController = loaderCustomer.getController();

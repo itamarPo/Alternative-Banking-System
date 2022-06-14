@@ -1,7 +1,7 @@
 package userinterface.customer.payments;
 
+import customercomponents.customerscreen.CustomerScreenController;
 import database.Engine;
-import database.client.PaymentNotification;
 import exceptions.accountexception.NotEnoughMoneyInAccount;
 import exceptions.accountexception.WithDrawMoneyException;
 import javafx.collections.FXCollections;
@@ -11,10 +11,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.payments.PaymentNotificationDTO;
@@ -24,7 +22,6 @@ import userinterface.table.loantable.ActiveLoanTableController;
 import userinterface.table.loantable.RiskLoanTableController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PaymentsTabController {
 

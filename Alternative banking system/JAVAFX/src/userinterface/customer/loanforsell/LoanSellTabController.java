@@ -13,15 +13,11 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
-import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.LoansForSaleDTO;
 import org.controlsfx.control.CheckListView;
 import org.controlsfx.control.Notifications;
-import userinterface.customer.TopCustomerController;
-import userinterface.table.loantable.ActiveLoanTableController;
 import userinterface.table.loantable.LoanBuyTableController;
 
-import java.beans.EventHandler;
 import java.util.List;
 
 public class LoanSellTabController {

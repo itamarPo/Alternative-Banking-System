@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Alternative banking system/AdminApp/AdminApp.iml" filepath="$PROJECT_DIR$/Alternative banking system/AdminApp/AdminApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Alternative-Banking-System.iml" filepath="$PROJECT_DIR$/.idea/Alternative-Banking-System.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Alternative banking system/CustomerApp/CustomerApp.iml" filepath="$PROJECT_DIR$/Alternative banking system/CustomerApp/CustomerApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/Alternative banking system/DTO/DTO.iml" filepath="$PROJECT_DIR$/Alternative banking system/DTO/DTO.iml" />
       <module fileurl="file://$PROJECT_DIR$/Alternative banking system/JAVAFX/JAVAFX.iml" filepath="$PROJECT_DIR$/Alternative banking system/JAVAFX/JAVAFX.iml" />
       <module fileurl="file://$PROJECT_DIR$/Alternative banking system/engine/engine.iml" filepath="$PROJECT_DIR$/Alternative banking system/engine/engine.iml" />

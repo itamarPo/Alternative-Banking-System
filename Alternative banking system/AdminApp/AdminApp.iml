@@ -7,5 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="DTO" exported="" />
+    <orderEntry type="module" module-name="engine" exported="" />
+    <orderEntry type="module" module-name="JAVAFX" exported="" />
+    <orderEntry type="library" exported="" name="controlsfx-8.40.141" level="project" />
   </component>
 </module>

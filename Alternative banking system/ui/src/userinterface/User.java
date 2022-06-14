@@ -194,7 +194,7 @@ public class User implements UserInterface {
 
     @Override
     public void moveTimeForward() {
-        data.moveTimeForward();
+       // data.moveTimeForward();
     }
 
 

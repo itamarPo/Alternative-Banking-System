@@ -10,7 +10,6 @@ import objects.customers.CustomerInfoDTO;
 import objects.customers.loanInfo.LoanInfoDTO;
 import objects.loans.*;
 import userinterface.MainController.MainController;
-import userinterface.admin.topAdmin.TopAdminController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
 import userinterface.customer.loanforsell.LoanSellTabController;
@@ -142,17 +141,17 @@ public class TopCustomerController {
         this.ThemeCB.setValue(topAdminController.getThemeCB().getValue());
     }
 
-    @FXML
-    public void SetCBOnAction(ActionEvent actionEvent) {
-        String UserPick = UserCB.getValue();
-        if(UserPick.equals(ADMIN)){
-            mainController.changeScene(ADMIN);
-            mainController.getTopAdminController().updateAdminTable();
-        }
-        else {
-            changeInfoFollowedComboBox(UserPick);
-        }
-    }
+ //   @FXML
+//    public void SetCBOnAction(ActionEvent actionEvent) {
+//        String UserPick = UserCB.getValue();
+//        if(UserPick.equals(ADMIN)){
+//            mainController.changeScene(ADMIN);
+////            mainController.getTopAdminController().updateAdminTable();
+//        }
+//        else {
+//            changeInfoFollowedComboBox(UserPick);
+//        }
+//    }
     @FXML
     public void SetThemeCBOnAction(ActionEvent actionEvent) {
         MainSP.getStylesheets().clear();
@@ -267,7 +266,7 @@ public class TopCustomerController {
         makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
         paymentsTabController.setValues(engine.getNotifications(userPick),makePaymentActive,makePaymentRisk,closeLoanActive,closeLoanRisk);
         paymentsTabController.getFinishImage().setVisible(false);
-        paymentsTabController.setAnimation(mainController.getTopAdminController().isAnimationOn());
+      //  paymentsTabController.setAnimation(mainController.getTopAdminController().isAnimationOn());
     }
     public void updateInlayTab(){
         inlayTabController.addCategoriesToCCB();

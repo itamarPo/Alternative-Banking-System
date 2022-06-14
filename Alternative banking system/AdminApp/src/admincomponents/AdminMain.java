@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 
-public class Main extends Application {
+public class AdminMain extends Application {
     private final double WIDTH = 1200;
     private final double HEIGHT = 550;
     @Override
@@ -24,16 +24,20 @@ public class Main extends Application {
         adminLogin.setLocation(adminLoginFXML);
         Parent root1 = adminLogin.load();
         AdminLoginController adminLoginController = adminLogin.getController();
+        adminLoginController.setPrimaryStage(primaryStage);
         Scene adminLoginScene = new Scene(root1, WIDTH, HEIGHT);
 
         //Admin Screen scene
         FXMLLoader adminScreen = new FXMLLoader();
-        URL adminScreenFXML = getClass().getResource("/admincomponents/adminscreen/adminScreen.fxml");
+        URL adminScreenFXML = getClass().getResource("/userinterface/admin/adminScreen.fxml");
         adminScreen.setLocation(adminScreenFXML);
         Parent root2 = adminScreen.load();
         AdminScreenController adminScreenController = adminScreen.getController();
+        adminScreenController.setPrimaryStage(primaryStage);
         Scene adminScreenScene = new Scene(root2,WIDTH,HEIGHT);
 
+        adminLoginController.setAdminScreenScene(adminScreenScene);
+        //../../../../JAVAFX/src/userinterface/admin/centerAdmin/adminScreen.fxml
 
 //        Customer
 //        FXMLLoader loaderCustomer = new FXMLLoader();
@@ -44,12 +48,12 @@ public class Main extends Application {
 //        Scene CustomerScene = new Scene(root2, WIDTH, HEIGHT);
 
         //Main Controller
-        MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);
-        mainController.setSubControllers();
+//        MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);
+//        mainController.setSubControllers();
 
         //Start program
         primaryStage.setTitle("Alternative Banking System");
-        primaryStage.setScene(AdminScene);
+        primaryStage.setScene(adminLoginScene);
         primaryStage.show();
 
     }

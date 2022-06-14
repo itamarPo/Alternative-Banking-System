@@ -9,7 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="DTO" exported="" />
     <orderEntry type="module" module-name="engine" exported="" />
-    <orderEntry type="library" name="controlsfx-8.40.14" level="project" />
     <orderEntry type="library" name="controlsfx-8.40.141" level="project" />
+    <orderEntry type="module" module-name="AdminApp" exported="" />
   </component>
 </module>

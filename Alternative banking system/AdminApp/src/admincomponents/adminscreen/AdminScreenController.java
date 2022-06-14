@@ -47,7 +47,7 @@ public class AdminScreenController {
     @FXML private AnchorPane AdminAP;
 
     //Regular Fields
-    private Stage primaryStage;
+
 
    // private Engine engine;
     private FadeTransition yazTransition;
@@ -92,14 +92,8 @@ public class AdminScreenController {
 
     //Setters
 
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
-
 
     //Regular Methods
-
-
     @FXML
     void increaseYazOnAction(ActionEvent event){
         //engine.moveTImeForward2();

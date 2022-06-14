@@ -1,5 +1,7 @@
 package customercomponents;
 
+import customercomponents.customerscreen.CustomerScreenController;
+import customercomponents.customerlogin.CustomerLoginController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

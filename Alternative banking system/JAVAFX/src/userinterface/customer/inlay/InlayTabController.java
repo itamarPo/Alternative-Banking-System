@@ -1,5 +1,6 @@
 package userinterface.customer.inlay;
 
+import customercomponents.customerscreen.CustomerScreenController;
 import database.Engine;
 import exceptions.accountexception.WithDrawMoneyException;
 import javafx.beans.binding.Bindings;
@@ -19,7 +20,6 @@ import objects.loans.NewLoanDTO;
 import objects.loans.PendingLoanDTO;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.Notifications;
-import userinterface.customer.TopCustomerController;
 import userinterface.table.loantable.NewLoanTableController;
 import userinterface.table.loantable.PendingLoanTableController;
 
@@ -83,7 +83,7 @@ public class InlayTabController {
     private boolean filterInProgress = false;
 
     //Regular fields
-    private TopCustomerController topCustomerController;
+    private CustomerScreenController customerScreenController;
     private Engine engine;
 
 
@@ -124,11 +124,11 @@ public class InlayTabController {
 
     }
 
-    public void setControllersAndStages(){
-        newLoanTBController.setInlayTabController(this);
-        pendingLoanTBController.setInlayTabController(this);
-        pendingLoanTBController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-    }
+//    public void setControllersAndStages(){
+//        newLoanTBController.setInlayTabController(this);
+//        pendingLoanTBController.setInlayTabController(this);
+//        pendingLoanTBController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+//    }
 
     //Getters
     public CheckComboBox getCategoriesCCB() {return categoriesCCB;}
@@ -143,40 +143,40 @@ public class InlayTabController {
     //Regular methods
     @FXML
     public void confirmFilterOnAction(ActionEvent actionEvent){
-
-        int amountToinvest = getAmountToInvest();
-        List<String> categoriesList = getFilteredCategories(); // this list might be empty! if so there is no filter for categories!
-        int minInterest = getMinInterest();
-        int minYAZ = getMinYAZ();
-        int maxOpenLoans = getMaxOpenLoans();
-        int maxownership = getMaxOwnership();
-        if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
-//            newLoanTBController.getTableView().getItems().clear();
-//            pendingLoanTBController.getTableView().getItems().clear();
-            return;
-        }
-        enableAllErrors();
-        final List<NewLoanDTO>[] filteredLoans = new List[]{new ArrayList<>()};
-        inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,topCustomerController.getUserCB().getValue(), maxOpenLoans, engine);
-        Thread thread = new Thread(filteredNewLoans);
-        thread.setName("HELPME");
-        bindTaskToProgress(filteredNewLoans,()-> {confirmSelectionButton.setDisable(false); confirmScrambleButton.setDisable(false);
-            filterInProgress = false; topCustomerController.getUserCB().setDisable(false);});
-        thread.start();
-        filteredNewLoans.valueProperty().addListener(new ChangeListener<List<NewLoanDTO>>() {
-            @Override
-            public void changed(ObservableValue<? extends List<NewLoanDTO>> observable, List<NewLoanDTO> oldValue, List<NewLoanDTO> newValue) {
-                if (newValue != null) {
-                   // filteredLoans[0] = newValue;
-                    newLoanTBController.setValues(newValue.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
-                    List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
-                    newValue.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
-                    pendingLoanTBController.setValues(filteredPendingLoans);
-                }
-            }
-       });
-        this.amountToInvest = amountToinvest;
-        this.maxOwnership = maxownership;
+//
+//        int amountToinvest = getAmountToInvest();
+//        List<String> categoriesList = getFilteredCategories(); // this list might be empty! if so there is no filter for categories!
+//        int minInterest = getMinInterest();
+//        int minYAZ = getMinYAZ();
+//        int maxOpenLoans = getMaxOpenLoans();
+//        int maxownership = getMaxOwnership();
+//        if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
+////            newLoanTBController.getTableView().getItems().clear();
+////            pendingLoanTBController.getTableView().getItems().clear();
+//            return;
+//        }
+//        enableAllErrors();
+//        final List<NewLoanDTO>[] filteredLoans = new List[]{new ArrayList<>()};
+////        inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,Cus.getUserCB().getValue(), maxOpenLoans, engine);
+//        Thread thread = new Thread(filteredNewLoans);
+//        thread.setName("HELPME");
+//        bindTaskToProgress(filteredNewLoans,()-> {confirmSelectionButton.setDisable(false); confirmScrambleButton.setDisable(false);
+//            filterInProgress = false; topCustomerController.getUserCB().setDisable(false);});
+//        thread.start();
+//        filteredNewLoans.valueProperty().addListener(new ChangeListener<List<NewLoanDTO>>() {
+//            @Override
+//            public void changed(ObservableValue<? extends List<NewLoanDTO>> observable, List<NewLoanDTO> oldValue, List<NewLoanDTO> newValue) {
+//                if (newValue != null) {
+//                   // filteredLoans[0] = newValue;
+//                    newLoanTBController.setValues(newValue.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
+//                    List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
+//                    newValue.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
+//                    pendingLoanTBController.setValues(filteredPendingLoans);
+//                }
+//            }
+//       });
+//        this.amountToInvest = amountToinvest;
+//        this.maxOwnership = maxownership;
     }
 
 
@@ -196,7 +196,9 @@ public class InlayTabController {
                 throw new Exception();
             }
             int number = Integer.parseInt(amountInput); // NumberFormatException
-            engine.checkAmountOfInvestment(topCustomerController.getUserCB().getValue(), (double) number); //WithDrawMoneyException
+
+//            engine.checkAmountOfInvestment(topCustomerController.getUserCB().getValue(), (double) number); //WithDrawMoneyException
+            //TODO: http request to check if sum to invest is valid
             amountErrorLabel.setText("");
             return number;
         } catch (NumberFormatException e) {
@@ -326,7 +328,7 @@ public class InlayTabController {
     }
 
     public void bindTaskToProgress(inlayTask filteredNewLoans, Runnable onFinish){
-        topCustomerController.getUserCB().setDisable(true);
+//        topCustomerController.getUserCB().setDisable(true);
         confirmSelectionButton.setDisable(true);
         confirmScrambleButton.setDisable(true);
         filterInProgress = true;
@@ -360,11 +362,13 @@ public class InlayTabController {
             ownerNotExist.show();
             return;
         }
-        engine.splitMoneyBetweenLoans(newLoansPicked.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()), amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
+
+//        engine.splitMoneyBetweenLoans(newLoansPicked.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()), amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
+        //TODO: http request to inlay
         resetFields();
         Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
         successInlay.showInformation();
-        topCustomerController.updateInformationTab(topCustomerController.getUserCB().getValue());
+//        topCustomerController.updateInformationTab(topCustomerController.getUserCB().getValue());
     }
 
     public void clearSelectionCategoryOnAction(ActionEvent actionEvent){

@@ -73,10 +73,10 @@ public class CustomerScreenController {
 
     @FXML
     private void initialize() {
-        informationTabController.setTopCustomerController(this);
-        paymentsTabController.setTopCustomerController(this);
-        inlayTabController.setTopCustomerController(this);
-        loanSellTabController.setTopCustomerController(this);
+        informationTabController.setCustomerScreenController(this);
+        paymentsTabController.setCustomerScreenController(this);
+        inlayTabController.setCustomerScreenController(this);
+        loanSellTabController.setCustomerScreenController(this);
         customerOptionsTB.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             String user = UserCB.getValue();
             switch(newTab.getText()){
@@ -116,10 +116,10 @@ public class CustomerScreenController {
         inlayTabController.setEngine(this.engine);
         paymentsTabController.setEngine(this.engine);
         loanSellTabController.setEngine(this.engine);
-        informationTabController.setControllersAndStages();
-        inlayTabController.setControllersAndStages();
-        paymentsTabController.setControllersAndStages();
-        loanSellTabController.setControllersAndStages();
+//        informationTabController.setControllersAndStages();
+//        inlayTabController.setControllersAndStages();
+//        paymentsTabController.setControllersAndStages();
+//        loanSellTabController.setControllersAndStages();
     }
 
     //****Regular Methods****//

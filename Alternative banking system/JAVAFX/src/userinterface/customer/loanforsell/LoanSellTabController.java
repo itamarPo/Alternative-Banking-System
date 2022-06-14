@@ -1,4 +1,5 @@
 package userinterface.customer.loanforsell;
+import customercomponents.customerscreen.CustomerScreenController;
 import database.Engine;
 import exceptions.accountexception.NotEnoughMoneyInAccount;
 import javafx.collections.FXCollections;
@@ -39,7 +40,7 @@ public class LoanSellTabController {
     @FXML private Label errorBuyMessage;
 
     //Regular Fields
-    private TopCustomerController topCustomerController;
+    private CustomerScreenController customerScreenController;
     private Engine engine;
 
 
@@ -58,17 +59,17 @@ public class LoanSellTabController {
         this.engine = engine;
     }
 
-    public void setControllersAndStages(){
-        buyLoansTableController.setLoanSellTabController(this);
-        buyLoansTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-    }
+//    public void setControllersAndStages() {
+//        buyLoansTableController.setLoanSellTabController(this);
+//        buyLoansTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+//    }
 
     //Setters
-    public void setTopCustomerController(TopCustomerController topCustomerController) {
-        this.topCustomerController = topCustomerController;
+    public void setCustomerScreenController(CustomerScreenController customerScreenController) {
+        this.customerScreenController = customerScreenController;
     }
 
-    public void setValues(List<String> loanIDs, List<LoansForSaleDTO> loansToSell){
+    public void setValues(List<String> loanIDs, List<LoansForSaleDTO> loansToSell) {
         sellLoanCLV.getCheckModel().clearChecks();
         sellLoanCLV.getItems().clear();
         sellLoanCLV.getItems().addAll(loanIDs);
@@ -76,40 +77,42 @@ public class LoanSellTabController {
         buyLoansTableController.setValues(loansForSale);
 
     }
-    
+
     //Regular methods
     @FXML
     public void confirmSellOnAction(ActionEvent actionEvent) {
         List<String> selectedLoans = sellLoanCLV.getCheckModel().getCheckedItems();
-        if(selectedLoans.size() == 0){
+        if (selectedLoans.size() == 0) {
             sellErrorMessage.setVisible(true);    //error
             return;
         }
-        engine.setLoansForSale(topCustomerController.getUserCB().getValue(), selectedLoans);
+//        engine.setLoansForSale(topCustomerController.getUserCB().getValue(), selectedLoans);
         sellErrorMessage.setVisible(false);
-        topCustomerController.updateLoanSellTab(topCustomerController.getUserCB().getValue());
+//        topCustomerController.updateLoanSellTab(topCustomerController.getUserCB().getValue());
 
     }
+
     @FXML
     public void confirmBuyButtonOnAction(ActionEvent actionEvent) {
-        try{
-        LoansForSaleDTO selectedLoan = null;
-        if (buyLoansTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
-            selectedLoan = buyLoansTableController.getTableView().getSelectionModel().getSelectedItem();
-            engine.sellLoan(selectedLoan, topCustomerController.getUserCB().getValue());
-            Notifications success = Notifications.create().text("Loan purchase has been completed successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
-            success.show();
-            topCustomerController.updateLoanSellTab(topCustomerController.getUserCB().getValue());
-        }else{
-            throw new Exception();//user didn't select
-        }
-    } catch (NotEnoughMoneyInAccount e){
-        Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(5)).position(Pos.CENTER);
-        notEnoughMoney.show();
-    } catch(Exception e){
-        errorBuyMessage.setText("No loan has been selected!");
+//        try{
+//        LoansForSaleDTO selectedLoan = null;
+//        if (buyLoansTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+//            selectedLoan = buyLoansTableController.getTableView().getSelectionModel().getSelectedItem();
+//            engine.sellLoan(selectedLoan, topCustomerController.getUserCB().getValue());
+//            Notifications success = Notifications.create().text("Loan purchase has been completed successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+//            success.show();
+//            topCustomerController.updateLoanSellTab(topCustomerController.getUserCB().getValue());
+//        }else{
+//            throw new Exception();//user didn't select
+//        }
+//    } catch (NotEnoughMoneyInAccount e){
+//        Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+//        notEnoughMoney.show();
+//    } catch(Exception e){
+//        errorBuyMessage.setText("No loan has been selected!");
+//    }
+//        }
     }
-        }
 }
 
 

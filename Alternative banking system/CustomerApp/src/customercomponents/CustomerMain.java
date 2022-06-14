@@ -16,42 +16,28 @@ public class CustomerMain extends Application {
     private final double HEIGHT = 550;
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //Admin Login scene
-        FXMLLoader adminLogin = new FXMLLoader();
-        URL adminLoginFXML = getClass().getResource("/admincomponents/adminlogin/adminLogin.fxml");
-        adminLogin.setLocation(adminLoginFXML);
-        Parent root1 = adminLogin.load();
-        //AdminLoginController adminLoginController = adminLogin.getController();
-       // adminLoginController.setPrimaryStage(primaryStage);
-        Scene adminLoginScene = new Scene(root1, WIDTH, HEIGHT);
+        //Customer Login scene
+        FXMLLoader customerLogin = new FXMLLoader();
+        URL customerLoginFXML = getClass().getResource("/customercomponents/customerlogin/customerLogin.fxml");
+        customerLogin.setLocation(customerLoginFXML);
+        Parent root1 = customerLogin.load();
+        CustomerLoginController customerLoginController = customerLogin.getController();
+        customerLoginController.setPrimaryStage(primaryStage);
+        Scene customerLoginScene = new Scene(root1, WIDTH, HEIGHT);
 
-        //Admin Screen scene
-        FXMLLoader adminScreen = new FXMLLoader();
-        URL adminScreenFXML = getClass().getResource("/userinterface/admin/adminScreen.fxml");
-        adminScreen.setLocation(adminScreenFXML);
-        Parent root2 = adminScreen.load();
-        //AdminScreenController adminScreenController = adminScreen.getController();
-       // adminScreenController.setPrimaryStage(primaryStage);
-        Scene adminScreenScene = new Scene(root2,WIDTH,HEIGHT);
+        //Customer Screen scene
+        FXMLLoader customerScreen = new FXMLLoader();
+        URL customerScreenFXML = getClass().getResource("/userinterface/customer/customerScreen.fxml");
+        customerScreen.setLocation(customerScreenFXML);
+        Parent root2 = customerScreen.load();
+        CustomerScreenController customerScreenController = customerScreen.getController();
+        Scene customerScreenScene = new Scene(root2,WIDTH,HEIGHT);
 
-      //  adminLoginController.setAdminScreenScene(adminScreenScene);
-        //../../../../JAVAFX/src/userinterface/admin/centerAdmin/adminScreen.fxml
-
-//        Customer
-//        FXMLLoader loaderCustomer = new FXMLLoader();
-//        URL customerFXML = getClass().getResource("/userinterface/customer/TopCustomer.fxml");
-//        loaderCustomer.setLocation(customerFXML);
-//        Parent root2 = loaderCustomer.load();
-//        TopCustomerController topCustomerController = loaderCustomer.getController();
-//        Scene CustomerScene = new Scene(root2, WIDTH, HEIGHT);
-
-        //Main Controller
-//        MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);
-//        mainController.setSubControllers();
+        customerLoginController.setCustomerScreenScene(customerScreenScene);
 
         //Start program
         primaryStage.setTitle("Alternative Banking System");
-        primaryStage.setScene(adminLoginScene);
+        primaryStage.setScene(customerLoginScene);
         primaryStage.show();
 
     }

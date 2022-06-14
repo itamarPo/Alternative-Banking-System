@@ -88,7 +88,7 @@ public class AccountTransactionController {
     void chargeButtonOnAction(ActionEvent event) {
         popUpController.setErrorMessage("");
         popUpController.setTextField("");
-        popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "charge:", popUpExist, true);
+       // popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "charge:", popUpExist, true);
         if(!popUpExist) {
             popUpExist = true;
             popUpController.setEngine(this.engine);
@@ -99,7 +99,7 @@ public class AccountTransactionController {
     void withdrawButtonOnAction(ActionEvent event) {
         popUpController.setErrorMessage("");
         popUpController.setTextField("");
-        popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "withdraw:", popUpExist, false);
+       // popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "withdraw:", popUpExist, false);
         if(!popUpExist) {
             popUpExist = true;
             popUpController.setEngine(this.engine);

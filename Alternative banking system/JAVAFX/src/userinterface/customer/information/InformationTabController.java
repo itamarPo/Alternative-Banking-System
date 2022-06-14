@@ -1,7 +1,7 @@
 package userinterface.customer.information;
 
+import customercomponents.customerscreen.CustomerScreenController;
 import database.Engine;
-import database.client.AccountTransaction;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -62,7 +62,7 @@ public class InformationTabController {
     @FXML private Label balanceLabel;
 
     //Regular Fields
-    private TopCustomerController topCustomerController;
+    private CustomerScreenController customerScreenController;
     private Engine engine;
     private String userName;
 
@@ -117,32 +117,32 @@ public class InformationTabController {
 
     }
 
-    public void setControllersAndStages(){
-        newLoanerTableController.setInformationTabController(this);
-        pendingLoanerTableController.setInformationTabController(this);
-        pendingLoanerTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-        pendingLenderTableController.setInformationTabController(this);
-        pendingLenderTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-        activeLoanerTableController.setInformationTabController(this);
-        activeLoanerTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-        activeLenderTableController.setInformationTabController(this);
-        activeLenderTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-        riskLoanerTableController.setInformationTabController(this);
-        riskLoanerTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-        riskLenderTableController.setInformationTabController(this);
-        riskLenderTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-        finishedLoanerTableController.setInformationTabController(this);
-        finishedLoanerTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-        finishedLenderTableController.setInformationTabController(this);
-        finishedLenderTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-    }
+//    public void setControllersAndStages(){
+//        newLoanerTableController.setInformationTabController(this);
+//        pendingLoanerTableController.setInformationTabController(this);
+//        pendingLoanerTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
+//        pendingLenderTableController.setInformationTabController(this);
+//        pendingLenderTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
+//        activeLoanerTableController.setInformationTabController(this);
+//        activeLoanerTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
+//        activeLenderTableController.setInformationTabController(this);
+//        activeLenderTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
+//        riskLoanerTableController.setInformationTabController(this);
+//        riskLoanerTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
+//        riskLenderTableController.setInformationTabController(this);
+//        riskLenderTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
+//        finishedLoanerTableController.setInformationTabController(this);
+//        finishedLoanerTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
+//        finishedLenderTableController.setInformationTabController(this);
+//        finishedLenderTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
+//    }
     public void setUserName(String userName) {
         this.userName = userName;
         transactionInfoController.setUserName(this.userName);
     }
 
-    public TopCustomerController getTopCustomerController() {
-        return topCustomerController;
+    public CustomerScreenController getCustomerScreenController() {
+        return customerScreenController;
     }
 
     //Setters

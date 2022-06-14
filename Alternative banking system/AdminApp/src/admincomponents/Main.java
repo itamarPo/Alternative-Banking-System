@@ -20,7 +20,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         //Admin Login scene
         FXMLLoader adminLogin = new FXMLLoader();
-        URL adminLoginFXML = getClass().getResource("/admincomponents/adminlogin/loginfxml.fxml");
+        URL adminLoginFXML = getClass().getResource("/admincomponents/adminlogin/adminLogin.fxml");
         adminLogin.setLocation(adminLoginFXML);
         Parent root1 = adminLogin.load();
         AdminLoginController adminLoginController = adminLogin.getController();
@@ -28,7 +28,7 @@ public class Main extends Application {
 
         //Admin Screen scene
         FXMLLoader adminScreen = new FXMLLoader();
-        URL adminScreenFXML = getClass().getResource("/admincomponents/adminlogin/loginfxml.fxml");
+        URL adminScreenFXML = getClass().getResource("/admincomponents/adminscreen/adminScreen.fxml");
         adminScreen.setLocation(adminScreenFXML);
         Parent root2 = adminScreen.load();
         AdminScreenController adminScreenController = adminScreen.getController();

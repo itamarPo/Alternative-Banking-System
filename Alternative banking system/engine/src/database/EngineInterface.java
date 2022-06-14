@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.util.List;
 
 public interface EngineInterface{
-    Boolean loadFile(String filePath) throws FileNotFoundException, JAXBException , Exception;
+    Boolean loadFile(String filePath ,String customerName) throws FileNotFoundException, JAXBException , Exception;
     void checkCustomerInfo(AbsCustomers newCustomers) throws Exception;
     void organizeInformation(AbsDescriptor descriptor) throws Exception;
     void checkLoansInfo(List<AbsCustomer> newCustomers, List<String> newCategories, AbsLoans newLoans) throws Exception;

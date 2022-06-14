@@ -123,23 +123,23 @@ public class TopCustomerController {
     }
 
     //****Regular Methods****//
-    public void setTopBarAfterFileLoaded(TopAdminController topAdminController){
-        this.FileLABEL.setText(topAdminController.getFileLABEL().getText());
-        this.UserCB.setItems(topAdminController.getUserCB().getItems());
-        this.YazLABEL.setText(topAdminController.getYazLABEL().getText());
-        if(ThemeCB.getItems().size() == 0){
-            ThemeCB.setItems(topAdminController.getThemeCB().getItems());
-        }
-    }
+//    public void setTopBarAfterFileLoaded(TopAdminController topAdminController){
+//        this.FileLABEL.setText(topAdminController.getFileLABEL().getText());
+//        this.UserCB.setItems(topAdminController.getUserCB().getItems());
+//        this.YazLABEL.setText(topAdminController.getYazLABEL().getText());
+//        if(ThemeCB.getItems().size() == 0){
+//            ThemeCB.setItems(topAdminController.getThemeCB().getItems());
+//        }
+//    }
 
-    public void setTopBar(TopAdminController topAdminController, String newChoice){
-        this.FileLABEL.setText(topAdminController.getFileLABEL().getText());
-        this.UserCB.setValue(newChoice);
-        if(!newChoice.equals(ADMIN))
-            changeInfoFollowedComboBox(newChoice);
-        this.YazLABEL.setText(topAdminController.getYazLABEL().getText());
-        this.ThemeCB.setValue(topAdminController.getThemeCB().getValue());
-    }
+//    public void setTopBar(TopAdminController topAdminController, String newChoice){
+//        this.FileLABEL.setText(topAdminController.getFileLABEL().getText());
+//        this.UserCB.setValue(newChoice);
+//        if(!newChoice.equals(ADMIN))
+//            changeInfoFollowedComboBox(newChoice);
+//        this.YazLABEL.setText(topAdminController.getYazLABEL().getText());
+//        this.ThemeCB.setValue(topAdminController.getThemeCB().getValue());
+//    }
 
  //   @FXML
 //    public void SetCBOnAction(ActionEvent actionEvent) {
@@ -169,7 +169,7 @@ public class TopCustomerController {
                 break;
             }
         }
-        mainController.getTopAdminController().updateTheme(ThemeCB.getValue());
+//        mainController.getTopAdminController().updateTheme(ThemeCB.getValue());
     }
 
     public void updateTheme(String newTheme){

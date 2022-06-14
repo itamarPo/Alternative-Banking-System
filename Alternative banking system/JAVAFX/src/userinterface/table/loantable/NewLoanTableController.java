@@ -9,7 +9,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import objects.loans.NewLoanDTO;
-import userinterface.admin.centerAdmin.CenterAdminController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
 
@@ -32,7 +31,7 @@ public class NewLoanTableController implements Initializable {
     //Regular Fields
     private InlayTabController inlayTabController;
     private InformationTabController informationTabController;
-    private CenterAdminController centerAdminController;
+    private AdminScreenController adminScreenController;
 
 
     @Override
@@ -56,8 +55,8 @@ public class NewLoanTableController implements Initializable {
         this.informationTabController = informationTabController;
     }
 
-    public void setCenterAdminController(CenterAdminController centerAdminController) {
-        this.centerAdminController = centerAdminController;
+    public void setAdminScreenController(AdminScreenController adminScreenController) {
+        this.adminScreenController = adminScreenController;
     }
 
 

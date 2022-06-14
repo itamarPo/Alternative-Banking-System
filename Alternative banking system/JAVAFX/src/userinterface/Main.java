@@ -20,7 +20,7 @@ public class Main extends Application {
         URL adminFXML = getClass().getResource("/userinterface/admin/topAdmin/TopAdmin.fxml");
         loaderAdmin.setLocation(adminFXML);
         Parent root1 = loaderAdmin.load();
-        TopAdminController topAdminController = loaderAdmin.getController();
+//        TopAdminController topAdminController = loaderAdmin.getController();
         Scene AdminScene = new Scene(root1, WIDTH, HEIGHT);
 
         //Customer
@@ -32,8 +32,8 @@ public class Main extends Application {
         Scene CustomerScene = new Scene(root2, WIDTH, HEIGHT);
 
         //Main Controller
-        MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);
-        mainController.setSubControllers();
+//        MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);
+//        mainController.setSubControllers();
 
         //Start program
         primaryStage.setTitle("Alternative Banking System");

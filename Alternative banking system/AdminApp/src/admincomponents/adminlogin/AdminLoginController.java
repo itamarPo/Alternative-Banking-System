@@ -8,9 +8,40 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class AdminLoginController {
-    @FXML
-    private TextField nameTextField;
+
+    //JAVAFX components
+    @FXML private TextField nameTextField;
+    @FXML private Button loginButton;
+
+    //Constructor
+    public AdminLoginController() {
+
+    }
 
     @FXML
-    private Button loginButton;
+    private void initialize() {
+    }
+
+
+    //Regular fields
+    private Stage primaryStage;
+    private Scene adminScreenScene;
+
+
+    //Setters
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public void setAdminScreenScene(Scene adminScreenScene) {
+        this.adminScreenScene = adminScreenScene;
+    }
+
+    //Regular Methods
+    @FXML
+    void loginOnAction(ActionEvent event) {
+        primaryStage.setScene(adminScreenScene);
+    }
+
+
 }

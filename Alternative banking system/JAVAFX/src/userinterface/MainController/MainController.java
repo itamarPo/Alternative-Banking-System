@@ -33,8 +33,13 @@ public class MainController {
 //    }
 
     //getters
-    public Stage getPrimaryStage() {return primaryStage;}
-    public TopCustomerController getTopCustomerController() {return topCustomerController;}
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public TopCustomerController getTopCustomerController() {
+        return topCustomerController;
+    }
 
     //  public TopAdminController getTopAdminController() {return topAdminController;}
 

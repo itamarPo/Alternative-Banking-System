@@ -1,5 +1,6 @@
 package userinterface.table.loantable;
 
+import admincomponents.adminscreen.AdminScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

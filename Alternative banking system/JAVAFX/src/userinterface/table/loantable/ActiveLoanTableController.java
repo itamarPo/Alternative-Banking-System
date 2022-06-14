@@ -1,5 +1,6 @@
 package userinterface.table.loantable;
 
+import admincomponents.adminscreen.AdminScreenController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,7 +17,6 @@ import javafx.stage.Stage;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.LenderMap;
 import objects.loans.payments.PaymentsDTO;
-import userinterface.admin.centerAdmin.CenterAdminController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.payments.PaymentsTabController;
 import userinterface.table.LendersTableController;
@@ -55,7 +55,7 @@ public class ActiveLoanTableController{
     //Regular Fields
     private PaymentsTabController paymentsTabController;
     private InformationTabController informationTabController;
-    private CenterAdminController centerAdminController;
+    private AdminScreenController adminScreenController;
 
     private Stage primaryStage;
 
@@ -113,8 +113,8 @@ public class ActiveLoanTableController{
         this.informationTabController = informationTabController;
     }
 
-    public void setCenterAdminController(CenterAdminController centerAdminController) {
-        this.centerAdminController = centerAdminController;
+    public void setAdminScreenController(AdminScreenController adminScreenController) {
+        this.adminScreenController = adminScreenController;
     }
 
     public void setPrimaryStage(Stage primaryStage) {

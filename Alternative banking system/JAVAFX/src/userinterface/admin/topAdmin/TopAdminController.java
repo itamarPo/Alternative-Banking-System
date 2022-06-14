@@ -114,7 +114,7 @@ public class TopAdminController {
 
    public void LoadFileAction(String AbsolutePath) {
         try {
-            engine.loadFile(AbsolutePath);
+            engine.loadFile(AbsolutePath , "Menash");
             FileLABEL.setText(FILESTATMENT + AbsolutePath);
             YazLABEL.setText(YAZSTATEMENT + Engine.getTime());
             UserCB.getItems().clear();

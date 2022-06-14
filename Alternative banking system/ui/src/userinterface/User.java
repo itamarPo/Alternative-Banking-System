@@ -139,7 +139,7 @@ public class User implements UserInterface {
         Boolean FileLoadedSuccessfully = false;
         System.out.println("Please enter the file's path that you wish to load. \r\nMake sure the file's type is xml :");
         try {
-            FileLoadedSuccessfully = data.loadFile(scanner.nextLine());
+            FileLoadedSuccessfully = data.loadFile(scanner.nextLine() , "Menash");
         }
         //JAXB error
         catch (JAXBException e) {

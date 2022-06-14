@@ -51,7 +51,7 @@ public class Engine implements EngineInterface , Serializable {
       time = timeToSave;
    }
 
-   public Boolean loadFile(String filePath) throws FileNotFoundException, JAXBException, Exception {
+   public Boolean loadFile(String filePath, String customerName) throws FileNotFoundException, JAXBException, Exception {
 //      String[] list = filePath.split("\\.");
 ////      if (!list[list.length - 1].equals("xml")) {
 ////         throw new NotXmlExcpetion();

@@ -13,6 +13,10 @@ public class AdminLoginController {
     @FXML private TextField nameTextField;
     @FXML private Button loginButton;
 
+    //Regular fields
+    private Stage primaryStage;
+    private Scene adminScreenScene;
+
     //Constructor
     public AdminLoginController() {
 
@@ -23,9 +27,7 @@ public class AdminLoginController {
     }
 
 
-    //Regular fields
-    private Stage primaryStage;
-    private Scene adminScreenScene;
+
 
 
     //Setters

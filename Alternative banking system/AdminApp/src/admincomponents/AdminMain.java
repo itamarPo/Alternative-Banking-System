@@ -33,7 +33,6 @@ public class AdminMain extends Application {
         adminScreen.setLocation(adminScreenFXML);
         Parent root2 = adminScreen.load();
         AdminScreenController adminScreenController = adminScreen.getController();
-        adminScreenController.setPrimaryStage(primaryStage);
         Scene adminScreenScene = new Scene(root2,WIDTH,HEIGHT);
 
         adminLoginController.setAdminScreenScene(adminScreenScene);

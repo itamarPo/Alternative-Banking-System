@@ -17,7 +17,6 @@ import javafx.util.Duration;
 import objects.loans.ActiveRiskLoanDTO;
 import objects.loans.payments.PaymentNotificationDTO;
 import org.controlsfx.control.Notifications;
-import userinterface.customer.TopCustomerController;
 import userinterface.table.loantable.ActiveLoanTableController;
 import userinterface.table.loantable.RiskLoanTableController;
 
@@ -72,7 +71,7 @@ public class PaymentsTabController {
 
 
     //Regular Fields
-    private TopCustomerController topCustomerController;
+    private CustomerScreenController customerScreenController;
     private Engine engine;
     private boolean animation;
     @FXML
@@ -104,20 +103,20 @@ public class PaymentsTabController {
              finishImage.setVisible(false);
          });
     }
-    public void setControllersAndStages(){
-        closeLoanActiveTableController.setPaymentsTabController(this);
-        closeLoanActiveTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-        closeLoanRiskTableController.setPaymentsTabController(this);
-        closeLoanRiskTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-        makePaymentActiveTableController.setPaymentsTabController(this);
-        makePaymentActiveTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-        makePaymentRiskTableController.setPaymentsTabController(this);
-        makePaymentRiskTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-    }
+//    public void setControllersAndStages(){
+//        closeLoanActiveTableController.setPaymentsTabController(this);
+//        closeLoanActiveTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+//        closeLoanRiskTableController.setPaymentsTabController(this);
+//        closeLoanRiskTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+//        makePaymentActiveTableController.setPaymentsTabController(this);
+//        makePaymentActiveTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+//        makePaymentRiskTableController.setPaymentsTabController(this);
+//        makePaymentRiskTableController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
+//    }
 
     //Getters
-    public TopCustomerController getTopCustomerController() {
-        return topCustomerController;
+    public CustomerScreenController getTopCustomerController() {
+        return customerScreenController;
     }
 
     public AnchorPane getFinishImage() {
@@ -125,8 +124,8 @@ public class PaymentsTabController {
     }
 
     //Setters
-    public void setTopCustomerController(TopCustomerController topCustomerController) {
-        this.topCustomerController = topCustomerController;
+    public void setCustomerScreenController(CustomerScreenController customerScreenController) {
+        this.customerScreenController = customerScreenController;
     }
 
     public void setAnimation(boolean animation) {
@@ -159,83 +158,83 @@ public class PaymentsTabController {
     //Regular methods
     @FXML
     public void completePaymentOnAction(ActionEvent actionEvent) {
-        try {
-            ActiveRiskLoanDTO selectedItem = null;
-            if (makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
-                selectedItem = makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem();
-                engine.makeActivePayment(selectedItem.getLoanID(),selectedItem.getBorrowerName());
-                topCustomerController.updatePayments(selectedItem.getBorrowerName());
-                topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
-                Notifications success = Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
-                success.show();
-                if(engine.getLoanByName(selectedItem.getLoanID()).getStatus().getStatus().equals("Finished") && animation) {
-                    animateLoanFinish();
-                }
-                return;
-            }
-            if (makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
-                selectedItem = makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem();
-                try {
-                    String amount = paymentAmountTextField.getText();
-                    Double Amount = Double.parseDouble(amount);
-                    if(Amount <= 0){
-                        throw new Exception();
-                    }
-                    engine.makeRiskPayment(selectedItem.getLoanID(), selectedItem.getBorrowerName(),Amount);
-                    topCustomerController.updatePayments(selectedItem.getBorrowerName());
-                    topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
-                    Notifications success = Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
-                    success.show();
-                    if(engine.getLoanByName(selectedItem.getLoanID()).getStatus().getStatus().equals("Finished") && animation) {
-                        animateLoanFinish();
-                    }
-                } catch (NumberFormatException e) {
-                    completePaymentError.setText("Invalid input!");
-                }catch (Exception e){
-                    completePaymentError.setText("Please enter a positive number!");
-                }
-                return;
-            }
-            if(selectedItem == null){
-                throw new Exception();//user didn't select
-            }
-        } catch (NotEnoughMoneyInAccount e){
-            Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
-            notEnoughMoney.showError();
-        } catch(Exception e){
-            completePaymentError.setText("No loan has been selected!");
-        }
+//        try {
+//            ActiveRiskLoanDTO selectedItem = null;
+//            if (makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+//                selectedItem = makePaymentActiveTableController.getTableView().getSelectionModel().getSelectedItem();
+//                engine.makeActivePayment(selectedItem.getLoanID(),selectedItem.getBorrowerName());
+//                topCustomerController.updatePayments(selectedItem.getBorrowerName());
+//                topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
+//                Notifications success = Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+//                success.show();
+//                if(engine.getLoanByName(selectedItem.getLoanID()).getStatus().getStatus().equals("Finished") && animation) {
+//                    animateLoanFinish();
+//                }
+//                return;
+//            }
+//            if (makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+//                selectedItem = makePaymentRiskTableController.getTableView().getSelectionModel().getSelectedItem();
+//                try {
+//                    String amount = paymentAmountTextField.getText();
+//                    Double Amount = Double.parseDouble(amount);
+//                    if(Amount <= 0){
+//                        throw new Exception();
+//                    }
+//                    engine.makeRiskPayment(selectedItem.getLoanID(), selectedItem.getBorrowerName(),Amount);
+//                    topCustomerController.updatePayments(selectedItem.getBorrowerName());
+//                    topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
+//                    Notifications success = Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+//                    success.show();
+//                    if(engine.getLoanByName(selectedItem.getLoanID()).getStatus().getStatus().equals("Finished") && animation) {
+//                        animateLoanFinish();
+//                    }
+//                } catch (NumberFormatException e) {
+//                    completePaymentError.setText("Invalid input!");
+//                }catch (Exception e){
+//                    completePaymentError.setText("Please enter a positive number!");
+//                }
+//                return;
+//            }
+//            if(selectedItem == null){
+//                throw new Exception();//user didn't select
+//            }
+//        } catch (NotEnoughMoneyInAccount e){
+//            Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
+//            notEnoughMoney.showError();
+//        } catch(Exception e){
+//            completePaymentError.setText("No loan has been selected!");
+//        }
     }
 
     @FXML
     public void closeLoanOnAction(ActionEvent actionEvent) {
-        try{
-            ActiveRiskLoanDTO selectedItem = null;
-            if (closeLoanActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
-                selectedItem = closeLoanActiveTableController.getTableView().getSelectionModel().getSelectedItem();
-            }
-            if (closeLoanRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
-                selectedItem = closeLoanRiskTableController.getTableView().getSelectionModel().getSelectedItem();
-            }
-            if(selectedItem == null){
-                throw new Exception();//user didn't select
-            }
-            engine.closeLoan(selectedItem.getBorrowerName(),selectedItem.getLoanID());
-            topCustomerController.updatePayments(selectedItem.getBorrowerName());
-            topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
-
-            Notifications completedLoan = Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(10)).position(Pos.CENTER);
-            completedLoan.show();
-            if(engine.getLoanByName(selectedItem.getLoanID()).getStatus().getStatus().equals("Finished") && animation) {
-                animateLoanFinish();
-            }
-
-        } catch (WithDrawMoneyException e) {
-            Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
-            notEnoughMoney.showError();
-        } catch (Exception e) {
-            closeLoanError.setText("No loan has been selected!");
-        }
+//        try{
+//            ActiveRiskLoanDTO selectedItem = null;
+//            if (closeLoanActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+//                selectedItem = closeLoanActiveTableController.getTableView().getSelectionModel().getSelectedItem();
+//            }
+//            if (closeLoanRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+//                selectedItem = closeLoanRiskTableController.getTableView().getSelectionModel().getSelectedItem();
+//            }
+//            if(selectedItem == null){
+//                throw new Exception();//user didn't select
+//            }
+//            engine.closeLoan(selectedItem.getBorrowerName(),selectedItem.getLoanID());
+//            topCustomerController.updatePayments(selectedItem.getBorrowerName());
+//            topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
+//
+//            Notifications completedLoan = Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(10)).position(Pos.CENTER);
+//            completedLoan.show();
+//            if(engine.getLoanByName(selectedItem.getLoanID()).getStatus().getStatus().equals("Finished") && animation) {
+//                animateLoanFinish();
+//            }
+//
+//        } catch (WithDrawMoneyException e) {
+//            Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
+//            notEnoughMoney.showError();
+//        } catch (Exception e) {
+//            closeLoanError.setText("No loan has been selected!");
+//        }
     }
     public void animateLoanFinish(){
         finishImage.setVisible(true);

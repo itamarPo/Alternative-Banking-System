@@ -9,7 +9,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import userinterface.customer.TopCustomerController;
 import userinterface.customer.information.accountTransaction.AccountTransactionController;
 import userinterface.table.loantable.*;
 
@@ -56,9 +55,6 @@ public class InformationTabController {
     @FXML private Tab activeLenderTab;
     @FXML private Tab riskLenderTab;
     @FXML private Tab finishedLenderTab;
-
-
-
     @FXML private Label balanceLabel;
 
     //Regular Fields
@@ -146,8 +142,8 @@ public class InformationTabController {
     }
 
     //Setters
-    public void setTopCustomerController(TopCustomerController topCustomerController) {
-        this.topCustomerController = topCustomerController;
+    public void setCustomerScreenController(CustomerScreenController customerScreenController) {
+        this.customerScreenController = customerScreenController;
     }
 
     public void setEngine(Engine engine){

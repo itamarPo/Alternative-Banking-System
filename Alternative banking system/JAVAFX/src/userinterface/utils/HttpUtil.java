@@ -12,10 +12,7 @@ public class HttpUtil {
     private final static OkHttpClient HTTP_CLIENT_CUSTOMER = new OkHttpClient.Builder()
             .cookieJar(simpleCookieCustomer)
             .followRedirects(false).build();
-    public static void runAsync(String finalUrl, boolean isAdmin, Callback callback) {
-        MediaType mediaType = MediaType.parse("text/plain");
-        RequestBody body = RequestBody.create(mediaType, "");
-        Request request = new Request.Builder().url(finalUrl).method("POST", body).build();
+    public static void runAsync(Request request, boolean isAdmin, Callback callback) {
         Call call;
         if(isAdmin) {
             call = HttpUtil.HTTP_CLIENT_ADMIN.newCall(request);

@@ -9,10 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.HttpUrl;
-import okhttp3.Response;
+import okhttp3.*;
 import org.controlsfx.control.Notifications;
 import userinterface.Constants;
 import userinterface.utils.HttpUtil;
@@ -47,6 +44,9 @@ public class CustomerLoginController {
                 .addQueryParameter("userName", userName).addQueryParameter("isAdmin", "false")
                 .build()
                 .toString();
+        Request request = new Request.Builder()
+                .url(finalUrl).post(null)
+                .build();
 
         HttpUtil.runAsync(request, false ,new Callback() {
             @Override

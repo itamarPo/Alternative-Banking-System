@@ -1,9 +1,8 @@
-package userinterface;
+package userinterface.utils;
 
 import okhttp3.*;
-import userinterface.SimpleAdminCookie;
 
-public class HttpAdminUtil {
+public class HttpUtil {
     private final static SimpleAdminCookie simpleCookieAdmin = new SimpleAdminCookie();
     private final static SimpleAdminCookie simpleCookieCustomer = new SimpleAdminCookie();
     private final static OkHttpClient HTTP_CLIENT_ADMIN = new OkHttpClient.Builder()
@@ -19,10 +18,10 @@ public class HttpAdminUtil {
         Request request = new Request.Builder().url(finalUrl).method("POST", body).build();
         Call call;
         if(isAdmin) {
-            call = HttpAdminUtil.HTTP_CLIENT_ADMIN.newCall(request);
+            call = HttpUtil.HTTP_CLIENT_ADMIN.newCall(request);
         }
         else {
-            call = HttpAdminUtil.HTTP_CLIENT_CUSTOMER.newCall(request);
+            call = HttpUtil.HTTP_CLIENT_CUSTOMER.newCall(request);
         }
         call.enqueue(callback);
     }

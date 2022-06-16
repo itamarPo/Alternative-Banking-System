@@ -57,6 +57,25 @@ public class Engine implements EngineInterface , Serializable {
       time = timeToSave;
    }
 
+
+   public boolean isCustomerExists(String customerName){
+      for (Customer customer:customers) {
+         if(customer.getName().equalsIgnoreCase(customerName))
+            return true;
+      }
+      return false;
+   }
+
+
+
+   public void addCustomer(String userName, boolean isAdmin){
+      customers.add(new Customer(userName, 0));
+      if(isAdmin){
+         adminExist = true;
+         customers.get(customers.size()-1).setAdmin(true);
+      }
+   }
+
    public Boolean loadFile(String filePath, String customerName) throws FileNotFoundException, JAXBException, Exception {
 //      String[] list = filePath.split("\\.");
 ////      if (!list[list.length - 1].equals("xml")) {

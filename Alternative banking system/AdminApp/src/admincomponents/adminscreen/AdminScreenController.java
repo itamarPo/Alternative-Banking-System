@@ -110,4 +110,14 @@ public class AdminScreenController {
         IncreaseYazBUTTON.setDisable(false);
     }
 
+    public void startInfoRefresh(){
+        chatAreaRefresher = new ChatAreaRefresher(
+                chatVersion,
+                autoUpdate,
+                httpStatusUpdate::updateHttpLine,
+                this::updateChatLines);
+        timer = new Timer();
+        timer.schedule(chatAreaRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
+
 }

@@ -36,6 +36,7 @@ public class AdminMain extends Application {
         Scene adminScreenScene = new Scene(root2,WIDTH,HEIGHT);
 
         adminLoginController.setAdminScreenScene(adminScreenScene);
+        adminLoginController.setAdminScreenController(adminScreenController);
         
         //../../../../JAVAFX/src/userinterface/admin/centerAdmin/adminScreen.fxml
 

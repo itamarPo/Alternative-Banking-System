@@ -24,7 +24,14 @@ public class AdminInfoRefresher extends TimerTask {
                 .build();
 
         HttpUtil.runAsync(request,true, new Callback() {
+            public void onFailure(Call call, IOException e) {
 
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
 
         }
     }

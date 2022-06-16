@@ -3,6 +3,7 @@ package servlet.common;
 import database.Engine;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,12 +29,14 @@ public class LoginServlet extends HttpServlet {
                     if(!engine.isAdminExist()){
                         engine.setAdminExist(true);
                         request.getSession(true).setAttribute("userName", userName);
+                        //might need cookie for name
                     } else{
                         response.sendError(401);
                     }
                 } else{
                     engine.addCustomer(userName,false);
                     request.getSession(true).setAttribute("userName", userName);
+                    response.addCookie(new Cookie("Name", userName));
                 }
             }
         }

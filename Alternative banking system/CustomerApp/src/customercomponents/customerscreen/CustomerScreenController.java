@@ -22,6 +22,7 @@ import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
 import userinterface.customer.loanforsell.LoanSellTabController;
 import userinterface.customer.payments.PaymentsTabController;
+import userinterface.utils.HttpUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,8 +75,7 @@ public class CustomerScreenController {
     @FXML private Tab payments;
 
     //Regular Fields
-    private MainController mainController;
-    private Engine engine;
+    private Stage primaryStage;
 
 
 

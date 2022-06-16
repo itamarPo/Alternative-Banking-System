@@ -15,7 +15,7 @@ import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.controlsfx.control.Notifications;
 import userinterface.Constants;
-import userinterface.HttpAdminUtil;
+import userinterface.utils.HttpUtil;
 
 import java.io.IOException;
 
@@ -48,7 +48,7 @@ public class CustomerLoginController {
                 .build()
                 .toString();
 
-        HttpAdminUtil.runAsync(finalUrl, false ,new Callback() {
+        HttpUtil.runAsync(request, false ,new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Platform.runLater(() ->

@@ -16,6 +16,7 @@ import userinterface.table.customerTable.CustomerTableController;
 import userinterface.table.loantable.*;
 
 import java.io.File;
+import java.util.Timer;
 
 public class AdminScreenController {
 
@@ -47,7 +48,7 @@ public class AdminScreenController {
     @FXML private AnchorPane AdminAP;
 
     //Regular Fields
-
+    private Timer timer;
 
    // private Engine engine;
     private FadeTransition yazTransition;

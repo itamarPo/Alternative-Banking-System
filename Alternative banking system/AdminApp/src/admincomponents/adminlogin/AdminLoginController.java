@@ -16,6 +16,7 @@ import okhttp3.HttpUrl;
 import okhttp3.Response;
 import org.controlsfx.control.Notifications;
 import userinterface.Constants;
+import userinterface.utils.HttpUtil;
 
 
 import java.io.IOException;
@@ -52,6 +53,10 @@ public class AdminLoginController {
         this.adminScreenScene = adminScreenScene;
     }
 
+    public void setAdminScreenController(AdminScreenController adminScreenController) {
+        this.adminScreenController = adminScreenController;
+    }
+
     //Regular Methods
     @FXML
     void loginOnAction(ActionEvent event) {
@@ -68,7 +73,7 @@ public class AdminLoginController {
                 .build()
                 .toString();
 
-        HttpAdminUtil.runAsync(finalUrl, true ,new Callback()  {
+        HttpUtil.runAsync(request, true ,new Callback()  {
             @Override
             public void onFailure(Call call, IOException e) {
                 Platform.runLater( () ->

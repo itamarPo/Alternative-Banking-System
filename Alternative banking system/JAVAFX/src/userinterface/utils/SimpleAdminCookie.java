@@ -1,4 +1,4 @@
-package userinterface;
+package userinterface.utils;
 
 import com.sun.istack.internal.NotNull;
 import okhttp3.Cookie;

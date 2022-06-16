@@ -1,5 +1,6 @@
 package admincomponents.adminscreen;
 
+import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.util.Duration;
@@ -12,6 +13,11 @@ import java.io.IOException;
 import java.util.TimerTask;
 
 public class AdminInfoRefresher extends TimerTask {
+    private AdminScreenController adminScreenController;
+
+    public AdminInfoRefresher(AdminScreenController adminScreenController) {
+        this.adminScreenController = adminScreenController;
+    }
 
     @Override
     public void run() {

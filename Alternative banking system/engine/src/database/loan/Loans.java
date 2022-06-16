@@ -20,7 +20,6 @@ public class Loans implements Serializable, LoansInterface {
     private int timePerPayment;
     private Map<String, Double> listOflenders;
     private double loanSizeNoInterest;
-    private double normalPay;
     private LoanStatus status;
     private double collectedSoFar;
     private double leftToBeCollected;
@@ -37,7 +36,6 @@ public class Loans implements Serializable, LoansInterface {
         this.timePerPayment = timePerPayment;
         this.listOflenders = new HashMap<>();
         this.loanSizeNoInterest = loanSizeNoInterest;
-        this.normalPay = 0;
         this.collectedSoFar = 0;
         this.leftToBeCollected = loanSizeNoInterest;
         this.status = new LoanStatus("New", 0,0,0,0,0,loanSizeNoInterest*((double)InterestPerPayment/100),loanSizeNoInterest);

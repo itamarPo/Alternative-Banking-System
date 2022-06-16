@@ -45,7 +45,7 @@ public class CustomerLoginController {
                 .build()
                 .toString();
         Request request = new Request.Builder()
-                .url(finalUrl).post(null)
+                .url(finalUrl).post(RequestBody.create("", MediaType.parse("")))
                 .build();
 
         HttpUtil.runAsync(request, false ,new Callback() {

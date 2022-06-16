@@ -74,7 +74,7 @@ public class AdminLoginController {
                 .build()
                 .toString();
         Request request = new Request.Builder()
-                .url(finalUrl).post(null)
+                .url(finalUrl).post(RequestBody.create("", MediaType.parse("")))
                 .build();
 
         HttpUtil.runAsync(request, true ,new Callback()  {

@@ -18,6 +18,8 @@ import userinterface.table.loantable.*;
 import java.io.File;
 import java.util.Timer;
 
+import static userinterface.Constants.REFRESH_RATE;
+
 public class AdminScreenController {
 
     //Sub components

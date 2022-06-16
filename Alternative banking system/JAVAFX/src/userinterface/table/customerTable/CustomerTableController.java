@@ -54,5 +54,6 @@ public class CustomerTableController implements Initializable {
     public void setValues(List<CustomerInfoDTO> customersList ){
         ObservableList<CustomerInfoDTO> CustomerInfoDTOObservableList = FXCollections.observableArrayList(customersList);
         table.getItems().setAll(CustomerInfoDTOObservableList);
+        //TODO: prevent user from selecting rows in the table
     }
 }

@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
             else{
                 if(isAdmin.equals("true")){
                     if(!engine.isAdminExist()){
-                        engine.addCustomer(userName,true);
+                        engine.setAdminExist(true);
                         request.getSession(true).setAttribute("userName", userName);
                     } else{
                         response.sendError(401);

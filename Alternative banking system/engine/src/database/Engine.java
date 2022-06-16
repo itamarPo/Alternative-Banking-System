@@ -3,7 +3,7 @@ package database;
 import database.client.AccountTransaction;
 import database.client.Customer;
 import database.loan.Loans;
-import database.fileresource.generated.*;
+import database.fileresource.exe3.generated.*;
 import database.loan.Payment;
 import exceptions.accountexception.NotEnoughMoneyInAccount;
 import exceptions.accountexception.notAllAmountSuccessfullyInvested;
@@ -16,6 +16,7 @@ import objects.customers.loanInfo.*;
 import objects.loans.*;
 import objects.loans.payments.PaymentNotificationDTO;
 import objects.loans.payments.PaymentsDTO;
+import okhttp3.internal.http2.Hpack;
 
 
 import javax.xml.bind.JAXBContext;
@@ -66,7 +67,9 @@ public class Engine implements EngineInterface , Serializable {
       return false;
    }
 
-
+   public void setAdminExist(boolean adminExist) {
+      this.adminExist = adminExist;
+   }
 
    public void addCustomer(String userName, boolean isAdmin){
       customers.add(new Customer(userName, 0));
@@ -76,13 +79,13 @@ public class Engine implements EngineInterface , Serializable {
       }
    }
 
-   public Boolean loadFile(String filePath, String customerName) throws FileNotFoundException, JAXBException, Exception {
+   public Boolean loadFile(InputStream XMLFile, String customerName) throws FileNotFoundException, JAXBException, Exception {
 //      String[] list = filePath.split("\\.");
 ////      if (!list[list.length - 1].equals("xml")) {
 ////         throw new NotXmlExcpetion();
 ////      }
-      InputStream XMLFile = new FileInputStream(filePath);
-      JAXBContext jc = JAXBContext.newInstance("database.fileresource.generated");
+      //InputStream XMLFile = new FileInputStream(filePath);
+      JAXBContext jc = JAXBContext.newInstance("database.fileresource.exe3.generated");
       Unmarshaller u = jc.createUnmarshaller();
       AbsDescriptor descriptor = (AbsDescriptor) u.unmarshal(XMLFile);
       organizeInformation(descriptor);
@@ -111,62 +114,37 @@ public class Engine implements EngineInterface , Serializable {
    }
 
 
-   @Override
-   public void organizeInformation(AbsDescriptor descriptor) throws Exception {
-      AbsCustomers newCustomers = descriptor.getAbsCustomers();
-      checkCustomerInfo(newCustomers);
-      AbsCategories newCategories = descriptor.getAbsCategories();
-      AbsLoans newLoans = descriptor.getAbsLoans();
-      checkLoansInfo(newCustomers.getAbsCustomer(), newCategories.getAbsCategory(), newLoans);
-      resetEngine();
-      copyDataToEngineFields(newCustomers, newLoans, newCategories);
+  // @Override
+   public void organizeInformation(String customerName, AbsDescriptor descriptor) throws Exception {
+//      AbsCustomers newCustomers = descriptor.getAbsCustomers();
+//      checkCustomerInfo(newCustomers);
+         AbsCategories newCategories = descriptor.getAbsCategories();
+         AbsLoans newLoans = descriptor.getAbsLoans();
+         checkLoansInfo(newCategories.getAbsCategory(), newLoans);
+         //resetEngine();
+         copyDataToEngineFields(customerName ,newLoans, newCategories);
    }
 
-   @Override
-   public void checkCustomerInfo(AbsCustomers newCustomers) throws TwoClientsWithSameNameException {
-      List<String> customerInfo = new ArrayList<>();
-      for (AbsCustomer customer : newCustomers.getAbsCustomer()) {
-         if (customerInfo.contains(customer.getName().toLowerCase())) {
-            throw new TwoClientsWithSameNameException(customer.getName());
-         }
-         customerInfo.add(customer.getName().toLowerCase());
-      }
-   }
-
-   @Override
-   public void checkLoansInfo(List<AbsCustomer> newCustomers, List<String> newCategories, AbsLoans newLoans) throws Exception {
-      boolean customerFound = false;
+   public void checkLoansInfo( List<String> newCategories, AbsLoans newLoans) throws Exception {
       for (AbsLoan loan : newLoans.getAbsLoan()) {
          if (!newCategories.contains(loan.getAbsCategory())) {
             throw new LoanCategoryNotExistException(loan.getAbsCategory(), loan.getId());
          }
-         for (AbsCustomer customer : newCustomers) {
-            customerFound = loan.getAbsOwner().equals(customer.getName());
-            if (customerFound)
-               break;
-         }
-         if (!customerFound)
-            throw new OwnerLoanNotExistException(loan.getAbsOwner(), loan.getId());
          if (loan.getAbsTotalYazTime() % loan.getAbsPaysEveryYaz() != 0) {
             throw new TimeOfPaymentNotDivideEqualyException(loan.getAbsTotalYazTime(), loan.getAbsPaysEveryYaz());
          }
       }
    }
 
-   @Override
-   public void copyDataToEngineFields(AbsCustomers newCustomers, AbsLoans newLoans, AbsCategories newCategories) {
-      //customers copy
-
-      for (AbsCustomer newCustomer : newCustomers.getAbsCustomer()) {
-         customers.add(new Customer(newCustomer.getName(), newCustomer.getAbsBalance()));
-      }
+//   @Override
+   public void copyDataToEngineFields(String customerName, AbsLoans newLoans, AbsCategories newCategories) {
       //categories copy
       for (String newCategory : newCategories.getAbsCategory()) {
          loansByCategories.put(newCategory, new ArrayList<>());
       }
       //loans copy
       for (AbsLoan newLoan : newLoans.getAbsLoan()) {
-         Loans loan = new Loans(newLoan.getAbsOwner(), newLoan.getId(), newLoan.getAbsCategory(),
+         Loans loan = new Loans(customerName, newLoan.getId(), newLoan.getAbsCategory(),
                  newLoan.getAbsTotalYazTime(), newLoan.getAbsIntristPerPayment(),
                  newLoan.getAbsPaysEveryYaz(), newLoan.getAbsCapital());
          loans.add(loan);

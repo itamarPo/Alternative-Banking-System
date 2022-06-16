@@ -113,13 +113,9 @@ public class AdminScreenController {
     }
 
     public void startInfoRefresh(){
-        chatAreaRefresher = new ChatAreaRefresher(
-                chatVersion,
-                autoUpdate,
-                httpStatusUpdate::updateHttpLine,
-                this::updateChatLines);
+        AdminInfoRefresher adminInfoRefresher = new AdminInfoRefresher(this);
         timer = new Timer();
-        timer.schedule(chatAreaRefresher, REFRESH_RATE, REFRESH_RATE);
+        timer.schedule(adminInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 
 }

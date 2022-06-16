@@ -88,7 +88,9 @@ public class Engine implements EngineInterface , Serializable {
       JAXBContext jc = JAXBContext.newInstance("database.fileresource.exe3.generated");
       Unmarshaller u = jc.createUnmarshaller();
       AbsDescriptor descriptor = (AbsDescriptor) u.unmarshal(XMLFile);
-      organizeInformation(descriptor);
+      synchronized (this) {
+         organizeInformation(customerName, descriptor);
+      }
       return true;
    }
 
@@ -143,19 +145,22 @@ public class Engine implements EngineInterface , Serializable {
          loansByCategories.put(newCategory, new ArrayList<>());
       }
       //loans copy
+      Customer customer = getCustomerByName(customerName);
       for (AbsLoan newLoan : newLoans.getAbsLoan()) {
          Loans loan = new Loans(customerName, newLoan.getId(), newLoan.getAbsCategory(),
                  newLoan.getAbsTotalYazTime(), newLoan.getAbsIntristPerPayment(),
                  newLoan.getAbsPaysEveryYaz(), newLoan.getAbsCapital());
          loans.add(loan);
          loansByCategories.get(loan.getLoanCategory()).add(loan);
-         for (Customer neededCustomer : customers) {
-            if (neededCustomer.getName().equals(loan.getBorrowerName())) {
-               neededCustomer.getBorrowerList().add(loan);
-               break;
-            }
-         }
+         customer.getBorrowerList().add(loan);
       }
+//         for (Customer neededCustomer : customers) {
+//            if (neededCustomer.getName().equals(loan.getBorrowerName())) {
+//               neededCustomer.getBorrowerList().add(loan);
+//               break;
+//            }
+//         }
+
    }
 
    @Override

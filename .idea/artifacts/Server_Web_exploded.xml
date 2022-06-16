@@ -1,0 +1,27 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Server:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Server_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Server/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Server" />
+          <element id="module-output" name="JAVAFX" />
+          <element id="module-output" name="CustomerApp" />
+          <element id="module-output" name="engine" />
+          <element id="module-output" name="DTO" />
+          <element id="module-output" name="AdminApp" />
+          <element id="module-output" name="Alternative-Banking-System" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="gson-2.1 (1)" />
+          <element id="library" level="project" name="okio-2.8.0" />
+          <element id="library" level="project" name="okhttp-4.9.1" />
+          <element id="library" level="project" name="kotlin-stdlib-common-1.4.10" />
+          <element id="library" level="project" name="kotlin-stdlib-1.4.10" />
+          <element id="library" level="project" name="controlsfx-8.40.141" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

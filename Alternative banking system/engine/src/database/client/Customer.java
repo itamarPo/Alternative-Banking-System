@@ -11,6 +11,7 @@ import static java.lang.Math.abs;
 
 public class Customer implements CustomerInterface, Serializable {
     private String name;
+    private boolean isAdmin;
     private double balance;
     private List<Loans> lenderList;
     private List<Loans> borrowerList;
@@ -29,6 +30,7 @@ public class Customer implements CustomerInterface, Serializable {
         this.balance = balance;
         notifications = new ArrayList<>();
         loansForSale = new ArrayList<>();
+        isAdmin = false;
     }
 
     @Override
@@ -86,5 +88,9 @@ public class Customer implements CustomerInterface, Serializable {
 
     public void addNotification(String loanID, int notificationYaz, double sumOfPayment){
         notifications.add(0, new PaymentNotification(loanID,notificationYaz,sumOfPayment));
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

@@ -34,17 +34,23 @@ public class Engine implements EngineInterface , Serializable {
    private static int time = 1;
    private int timeToSave; // A field which we use in the bonus, to save the current time.
 
+   private boolean adminExist;
+
    public Engine() {
       customers = new ArrayList<>();
       loans = new ArrayList<>();
       loansByCategories = new LinkedHashMap<>();
       timeToSave = 1;
+      this.adminExist = false;
    }
 
    public static int getTime() {
       return time;
    }
 
+   public boolean isAdminExist() {
+      return adminExist;
+   }
 
    public void resetTime() {
       timeToSave = 1;

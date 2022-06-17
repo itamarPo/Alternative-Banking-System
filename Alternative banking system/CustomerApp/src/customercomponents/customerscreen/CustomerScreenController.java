@@ -91,7 +91,7 @@ public class CustomerScreenController {
         inlayTabController.setCustomerScreenController(this);
         loanSellTabController.setCustomerScreenController(this);
         customerOptionsTB.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
-            String user = UserCB.getValue();
+            //String user = UserCB.getValue();
             switch(newTab.getText()){
                 case "Information":{
                     //updateInformationTab(user);
@@ -320,7 +320,7 @@ public class CustomerScreenController {
         File f = new File(absolutePath);
         RequestBody body =
                 new MultipartBody.Builder()
-                        .addFormDataPart("file1", f.getName(), RequestBody.create(f, MediaType.parse("xml")))
+                        .addFormDataPart("file1", f.getName(), RequestBody.create(f, MediaType.parse("text/xml")))
                         //.addFormDataPart("key1", "value1") // you can add multiple, different parts as needed
                         .build();
 
@@ -351,7 +351,7 @@ public class CustomerScreenController {
                     Platform.runLater(() ->
                     {
                         try {
-                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).show();
+                            Notifications.create().title("Success").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).show();
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }

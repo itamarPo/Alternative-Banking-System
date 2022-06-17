@@ -9,31 +9,54 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import utils.EngineServlet;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Scanner;
 
 @WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload-file"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class FileUploadServlet extends HttpServlet{
 
         @Override
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            //TODO: fix row 26
             response.setContentType("text/plain");
-            InputStream file = request.getPart("file1").getInputStream();
-            String customerName = null;
+            //InputStream file = request.getParts();
+
+            PrintWriter out = response.getWriter();
+
+            Collection<Part> parts = request.getParts();
+
+            out.println("Total parts : " + parts.size());
+
+            StringBuilder fileContent = new StringBuilder();
+            for (Part part : parts) {
+                printPart(part, out);
+
+                //to write the content of the file to an actual file in the system (will be created at c:\samplefile)
+                //part.write("samplefile");
+
+                //to write the content of the file to a string
+                fileContent.append(readFromInputStream(part.getInputStream()));
+            }
+            InputStream file = new ByteArrayInputStream(fileContent.toString().getBytes(StandardCharsets.UTF_8));
+            //printFileContent(fileContent.toString(), out);
+
+            String customerName = "";
             for(Cookie cookie: request.getCookies())
                 if(cookie.getName().equals("Name")){
                     customerName = cookie.getValue();
                 }
-            if(customerName == null){
-                response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            if(customerName == ""){
+                //response.sendError(HttpServletResponse.SC_FORBIDDEN);
             }else{
                 try {
                     EngineServlet.getEngine(getServletContext()).loadFile(file, customerName);
+                    response.setStatus(200);
                 }catch (LoanCategoryNotExistException e){
                     response.getWriter().println(e.toString());
                     response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
@@ -41,7 +64,10 @@ public class FileUploadServlet extends HttpServlet{
                     response.getWriter().println(e.toString());
                     response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
                 } catch (Exception e) {
-                    response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+                    System.out.println(e.toString());
+                    response.getWriter().println(e.toString());
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                   // response.
                 }
             }
         }
@@ -61,6 +87,20 @@ public class FileUploadServlet extends HttpServlet{
             out.println(sb.toString());
         }
 
+    private String readFromInputStream(InputStream inputStream) {
+        return new Scanner(inputStream).useDelimiter("\\Z").next();
+    }
+
+    private void printFileContent(String content, PrintWriter out) {
+        out.println("File content:");
+        out.println(content);
+    }
+
 
 }
+
+
+
+
+
 

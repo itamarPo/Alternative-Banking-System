@@ -11,7 +11,7 @@ public interface UserInterface {
     void getCustomersInfo();
     void getLoansInfo();
     void moveTimeForward();
-    void loadFile();
+    //void loadFile();
     void addMoneyToAccount();
     void getMoneyFromAccount();
     void activationOfInlay();

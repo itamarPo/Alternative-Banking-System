@@ -134,46 +134,46 @@ public class User implements UserInterface {
         System.out.println("9. Save current state (bonus).");
     }
 
-    @Override
-    public void loadFile(){
-        Boolean FileLoadedSuccessfully = false;
-        System.out.println("Please enter the file's path that you wish to load. \r\nMake sure the file's type is xml :");
-        try {
-            FileLoadedSuccessfully = data.loadFile(scanner.nextLine() , "Menash");
-        }
-        //JAXB error
-        catch (JAXBException e) {
-            System.out.println("Failed to load file, reason: ");
-            System.out.println("JAXB related error");
-        } catch (FileNotFoundException e) {
-            System.out.println("Failed to load file, reason: ");
-            System.out.println("The file's path was incorrect. please make sure that the path is correct.");
-        } catch (TwoClientsWithSameNameException e) {
-            System.out.println("Failed to load file, reason: ");
-            e.printMessage();
-        } catch (NotXmlExcpetion e) {
-            System.out.println("Failed to load file, reason: ");
-            e.printMessage();
-        } catch (OwnerLoanNotExistException e) {
-            System.out.println("Failed to load file, reason: ");
-            e.printMessage();
-        } catch (LoanCategoryNotExistException e){
-            System.out.println("Failed to load file, reason: ");
-            e.printMessage();
-        } catch (TimeOfPaymentNotDivideEqualyException e){
-            System.out.println("Failed to load file, reason: ");
-            e.printMessage();
-        } catch (Exception e) {
-            System.out.println("Failed to load file, reason: ");
-            e.printStackTrace();
-        }
-        if(FileLoadedSuccessfully){
-            FileLoaded = true;
-            System.out.println("File loaded successfully!");
-        }
 
-
-    }
+//    public void loadFile(){
+//        Boolean FileLoadedSuccessfully = false;
+//        System.out.println("Please enter the file's path that you wish to load. \r\nMake sure the file's type is xml :");
+//        try {
+//            FileLoadedSuccessfully = data.loadFile(scanner.nextLine() , "Menash");
+//        }
+//        //JAXB error
+//        catch (JAXBException e) {
+//            System.out.println("Failed to load file, reason: ");
+//            System.out.println("JAXB related error");
+//        } catch (FileNotFoundException e) {
+//            System.out.println("Failed to load file, reason: ");
+//            System.out.println("The file's path was incorrect. please make sure that the path is correct.");
+//        } catch (TwoClientsWithSameNameException e) {
+//            System.out.println("Failed to load file, reason: ");
+//            e.printMessage();
+//        } catch (NotXmlExcpetion e) {
+//            System.out.println("Failed to load file, reason: ");
+//            e.printMessage();
+//        } catch (OwnerLoanNotExistException e) {
+//            System.out.println("Failed to load file, reason: ");
+//            e.printMessage();
+//        } catch (LoanCategoryNotExistException e){
+//            System.out.println("Failed to load file, reason: ");
+//            e.printMessage();
+//        } catch (TimeOfPaymentNotDivideEqualyException e){
+//            System.out.println("Failed to load file, reason: ");
+//            e.printMessage();
+//        } catch (Exception e) {
+//            System.out.println("Failed to load file, reason: ");
+//            e.printStackTrace();
+//        }
+//        if(FileLoadedSuccessfully){
+//            FileLoaded = true;
+//            System.out.println("File loaded successfully!");
+//        }
+//
+//
+//    }
 
     @Override
     public void getLoansInfo() {

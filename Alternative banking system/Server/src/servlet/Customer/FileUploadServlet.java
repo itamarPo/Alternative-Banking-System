@@ -46,28 +46,23 @@ public class FileUploadServlet extends HttpServlet{
             InputStream file = new ByteArrayInputStream(fileContent.toString().getBytes(StandardCharsets.UTF_8));
             //printFileContent(fileContent.toString(), out);
 
-            String customerName = "";
+            String customerName = null;
             for(Cookie cookie: request.getCookies())
                 if(cookie.getName().equals("Name")){
                     customerName = cookie.getValue();
                 }
-            if(customerName == ""){
-                //response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            if(customerName == null){
+                response.sendError(HttpServletResponse.SC_FORBIDDEN);
             }else{
                 try {
                     EngineServlet.getEngine(getServletContext()).loadFile(file, customerName);
                     response.setStatus(200);
                 }catch (LoanCategoryNotExistException e){
-                    response.getWriter().println(e.toString());
                     response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
                 }catch (TimeOfPaymentNotDivideEqualyException e) {
-                    response.getWriter().println(e.toString());
                     response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
                 } catch (Exception e) {
-                    System.out.println(e.toString());
-                    response.getWriter().println(e.toString());
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                   // response.
                 }
             }
         }

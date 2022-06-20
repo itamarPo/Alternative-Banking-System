@@ -63,7 +63,9 @@ public class CustomerLoginController {
                 } else {
                     Platform.runLater(() ->
                             primaryStage.setScene(customerScreenScene));
+
                 }
+               // return false;
             }
         });
 

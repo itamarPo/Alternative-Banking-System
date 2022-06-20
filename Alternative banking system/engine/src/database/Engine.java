@@ -25,6 +25,7 @@ import javax.xml.bind.Unmarshaller;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import javafx.scene.control.CheckBox;
 
 import static java.lang.Math.min;
 
@@ -34,8 +35,8 @@ public class Engine implements EngineInterface , Serializable {
    private Map<String, List<Loans>> loansByCategories; //saves all the loans which has the same category
    private static int time = 1;
    private int timeToSave; // A field which we use in the bonus, to save the current time.
-
    private boolean adminExist;
+   private String adminName;
 
    public Engine() {
       customers = new ArrayList<>();
@@ -59,7 +60,9 @@ public class Engine implements EngineInterface , Serializable {
    }
 
 
-   public boolean isCustomerExists(String customerName){
+   public boolean isNameExists(String customerName){
+      if(customerName.equals(adminName))
+         return true;
       for (Customer customer:customers) {
          if(customer.getName().equalsIgnoreCase(customerName))
             return true;
@@ -69,6 +72,10 @@ public class Engine implements EngineInterface , Serializable {
 
    public void setAdminExist(boolean adminExist) {
       this.adminExist = adminExist;
+   }
+
+   public void setAdminName(String adminName) {
+      this.adminName = adminName;
    }
 
    public void addCustomer(String userName, boolean isAdmin){

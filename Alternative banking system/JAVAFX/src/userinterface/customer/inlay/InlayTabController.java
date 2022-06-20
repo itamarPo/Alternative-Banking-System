@@ -143,40 +143,40 @@ public class InlayTabController {
     //Regular methods
     @FXML
     public void confirmFilterOnAction(ActionEvent actionEvent){
-//
-//        int amountToinvest = getAmountToInvest();
-//        List<String> categoriesList = getFilteredCategories(); // this list might be empty! if so there is no filter for categories!
-//        int minInterest = getMinInterest();
-//        int minYAZ = getMinYAZ();
-//        int maxOpenLoans = getMaxOpenLoans();
-//        int maxownership = getMaxOwnership();
-//        if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
-////            newLoanTBController.getTableView().getItems().clear();
-////            pendingLoanTBController.getTableView().getItems().clear();
-//            return;
-//        }
-//        enableAllErrors();
-//        final List<NewLoanDTO>[] filteredLoans = new List[]{new ArrayList<>()};
-////        inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,Cus.getUserCB().getValue(), maxOpenLoans, engine);
-//        Thread thread = new Thread(filteredNewLoans);
-//        thread.setName("HELPME");
-//        bindTaskToProgress(filteredNewLoans,()-> {confirmSelectionButton.setDisable(false); confirmScrambleButton.setDisable(false);
-//            filterInProgress = false; topCustomerController.getUserCB().setDisable(false);});
-//        thread.start();
-//        filteredNewLoans.valueProperty().addListener(new ChangeListener<List<NewLoanDTO>>() {
-//            @Override
-//            public void changed(ObservableValue<? extends List<NewLoanDTO>> observable, List<NewLoanDTO> oldValue, List<NewLoanDTO> newValue) {
-//                if (newValue != null) {
-//                   // filteredLoans[0] = newValue;
-//                    newLoanTBController.setValues(newValue.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
-//                    List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
-//                    newValue.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
-//                    pendingLoanTBController.setValues(filteredPendingLoans);
-//                }
-//            }
-//       });
-//        this.amountToInvest = amountToinvest;
-//        this.maxOwnership = maxownership;
+
+        int amountToinvest = getAmountToInvest();
+        List<String> categoriesList = getFilteredCategories(); // this list might be empty! if so there is no filter for categories!
+        int minInterest = getMinInterest();
+        int minYAZ = getMinYAZ();
+        int maxOpenLoans = getMaxOpenLoans();
+        int maxownership = getMaxOwnership();
+        if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
+//            newLoanTBController.getTableView().getItems().clear();
+//            pendingLoanTBController.getTableView().getItems().clear();
+            return;
+        }
+        enableAllErrors();
+        //final List<NewLoanDTO>[] filteredLoans = new List[]{new ArrayList<>()};
+        inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,"Name"/*Cus.getUserCB().getValue()*/, maxOpenLoans, engine);
+        Thread thread = new Thread(filteredNewLoans);
+        thread.setName("HELPME");
+        bindTaskToProgress(filteredNewLoans,()-> {confirmSelectionButton.setDisable(false); confirmScrambleButton.setDisable(false);
+            filterInProgress = false;});
+        thread.start();
+        filteredNewLoans.valueProperty().addListener(new ChangeListener<List<NewLoanDTO>>() {
+            @Override
+            public void changed(ObservableValue<? extends List<NewLoanDTO>> observable, List<NewLoanDTO> oldValue, List<NewLoanDTO> newValue) {
+                if (newValue != null) {
+                   // filteredLoans[0] = newValue;
+                    newLoanTBController.setValues(newValue.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
+                    List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
+                    newValue.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
+                    pendingLoanTBController.setValues(filteredPendingLoans);
+                }
+            }
+       });
+        this.amountToInvest = amountToinvest;
+        this.maxOwnership = maxownership;
     }
 
 
@@ -354,8 +354,8 @@ public class InlayTabController {
     }
     @FXML
     public void confirmInlayOnAction(ActionEvent actionEvent)throws Exception{
-        List<NewLoanDTO> newLoansPicked = newLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected().isSelected()).collect(Collectors.toList());
-        List<NewLoanDTO> pendingLoansPicked = pendingLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected().isSelected()).collect(Collectors.toList());
+        List<NewLoanDTO> newLoansPicked = newLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected()).collect(Collectors.toList());
+        List<NewLoanDTO> pendingLoansPicked = pendingLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected()).collect(Collectors.toList());
         newLoansPicked.addAll(pendingLoansPicked);
         if(newLoansPicked.size() == 0){
             Notifications ownerNotExist = Notifications.create().title("Error").text("You must select a loan for the inlay!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);

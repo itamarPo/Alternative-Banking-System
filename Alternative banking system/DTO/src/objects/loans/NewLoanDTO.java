@@ -5,29 +5,25 @@ import javafx.scene.control.CheckBox;
 public class NewLoanDTO {
     private String loanID;
 
-    public String getLoanID() {
-        return loanID;
-    }
-
     private String borrowerName;
-
-    public double getSizeNoInterest() {
-        return sizeNoInterest;
-    }
 
     private String loanCategory;
     private double sizeNoInterest;
     private int timeLimitOfLoan;
     private double interestPerPayment;
     private int timePerPayment;
-    private CheckBox IsSelected;
+    private boolean IsSelected;
+    private String status;
 
+    public String getLoanID() {
+        return loanID;
+    }
+    public double getSizeNoInterest() {
+        return sizeNoInterest;
+    }
     public String getStatus() {
         return status;
     }
-
-    private String status;
-
     public String getBorrowerName() {
         return borrowerName;
     }
@@ -48,9 +44,7 @@ public class NewLoanDTO {
         return timePerPayment;
     }
 
-    public CheckBox getIsSelected() {
-        return IsSelected;
-    }
+    public boolean getIsSelected() {return IsSelected;}
 
     public void setLoanCategory(String loanCategory) {
         this.loanCategory = loanCategory;
@@ -65,7 +59,7 @@ public class NewLoanDTO {
         this.interestPerPayment = interestPerPayment;
         this.timePerPayment = timePerPayment;
         this.status = status;
-        this.IsSelected = new CheckBox();
+        this.IsSelected = false;
     }
 
     public void print(){

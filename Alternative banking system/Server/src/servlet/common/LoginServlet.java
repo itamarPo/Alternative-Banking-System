@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
         String isAdmin = request.getParameter("isAdmin");
         //user already exists
         synchronized (this){
-            if(engine.isCustomerExists(userName)){
+            if(engine.isNameExists(userName)){
                 response.sendError(401);
             }
             else{
@@ -29,6 +29,7 @@ public class LoginServlet extends HttpServlet {
                     if(!engine.isAdminExist()){
                         engine.setAdminExist(true);
                         request.getSession(true).setAttribute("userName", userName);
+                        engine.setAdminName(userName);
                         //might need cookie for name
                     } else{
                         response.sendError(401);

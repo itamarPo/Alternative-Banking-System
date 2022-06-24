@@ -46,6 +46,7 @@ public class FileUploadServlet extends HttpServlet{
             InputStream file = new ByteArrayInputStream(fileContent.toString().getBytes(StandardCharsets.UTF_8));
             //printFileContent(fileContent.toString(), out);
 
+            //TODO: change to session attribute!
             String customerName = null;
             for(Cookie cookie: request.getCookies())
                 if(cookie.getName().equals("Name")){

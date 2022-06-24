@@ -1,5 +1,6 @@
 package customercomponents.customerlogin;
 
+import customercomponents.customerscreen.CustomerScreenController;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

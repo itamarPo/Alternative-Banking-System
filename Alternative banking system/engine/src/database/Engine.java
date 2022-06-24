@@ -210,10 +210,10 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    @Override
-   public List<CustomerInfoDTO> getCustomerInfo() {
+   public List<CustomerInfoDTO> getCustomersInfo() {
 
       List<CustomerInfoDTO> customersInfo = new ArrayList<>();
-      LoanInfoDTO newLoan;
+      //LoanInfoDTO newLoan;
       for (Customer customer : customers) {
          customersInfo.add(new CustomerInfoDTO(customer.getName(), customer.getBalance()));
          for (AccountTransaction accountTransaction : customer.getTransactions()) {

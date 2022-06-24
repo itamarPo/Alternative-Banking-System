@@ -1,8 +1,6 @@
 package database;
 
 import database.client.Customer;
-import database.fileresource.generated.*;
-import exceptions.accountexception.NameException;
 import objects.DisplayCustomerName;
 import objects.customers.CustomerInfoDTO;
 import objects.loans.NewLoanDTO;
@@ -19,8 +17,8 @@ public interface EngineInterface{
    // void checkLoansInfo(List<AbsCustomer> newCustomers, List<String> newCategories, AbsLoans newLoans) throws Exception;
    // void copyDataToEngineFields(AbsCustomers newCustomers, AbsLoans newLoans, AbsCategories newCategories);
     void resetTime();
-    List<NewLoanDTO> getLoansInfo();
-    List<CustomerInfoDTO> getCustomerInfo();
+    List<NewLoanDTO> getLoansInfo(String userName);
+    List<CustomerInfoDTO> getCustomersInfo();
     Customer getCustomerByName(String name) throws Exception;
     void addMoneyToAccount(Customer userChoice, double moneyToAdd);
     DisplayCustomerName namesForDisplay();

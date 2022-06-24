@@ -25,11 +25,15 @@ public class CustomerLoginController {
     //Regular fields
     private Stage primaryStage;
     private Scene customerScreenScene;
-
+    private CustomerScreenController customerScreenController;
 
     //Setters
     public void setPrimaryStage(Stage primaryStage) {this.primaryStage = primaryStage;}
     public void setCustomerScreenScene(Scene customerScreenScene) {this.customerScreenScene = customerScreenScene;}
+
+    public void setCustomerScreenController(CustomerScreenController customerScreenController) {
+        this.customerScreenController = customerScreenController;
+    }
 
     //Regular Methods
     @FXML
@@ -63,12 +67,12 @@ public class CustomerLoginController {
                 } else {
                     Platform.runLater(() ->
                             primaryStage.setScene(customerScreenScene));
+                            customerScreenController.startInfoRefresh();
+                    //update all the time
 
+
+                    // return false;
                 }
-               // return false;
-            }
-        });
-
+            }});
     }
-
 }

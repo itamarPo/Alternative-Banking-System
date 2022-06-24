@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 import java.util.stream.Collectors;
 
 import static userinterface.Constants.*;
@@ -79,7 +80,7 @@ public class CustomerScreenController {
     private Stage primaryStage;
     private String userName;
     private CustomerLoginController customerLoginController;
-
+    private Timer timer;
     //constructor
     public CustomerScreenController(){
 
@@ -215,8 +216,13 @@ public class CustomerScreenController {
     }
 
     /*Pitaron elganti yoter: kria po le HTTP aim ma she ani zarih*/
+    public void startInfoRefresh(){
+        CustomerInfoRefresher customerInfoRefresher = new CustomerInfoRefresher(this);
+        timer = new Timer();
+        timer.schedule(customerInfoRefresher, REFRESH_RATE, REFRESH_RATE);
+    }
     public void changeInfoFollowedComboBox(String UserPick){
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + ADMIN_PULL_INFORMATION_RESOURCE)
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_INFORMATION_RESOURCE)
                 .newBuilder().addQueryParameter("userName", UserPick)
                 .build()
                 .toString();
@@ -231,19 +237,19 @@ public class CustomerScreenController {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String jsonArrayOfInformation = response.body().string();;
-               CustomersRelatedInfoDTO CustomersRelatedInfo = GSON_INSTANCE.fromJson(jsonArrayOfInformation, CustomersRelatedInfoDTO.class);
-                List<NewLoanDTO> loans = CustomersRelatedInfo.getLoanList();
-                List<CustomerInfoDTO> customerList = CustomersRelatedInfo.getCustomerList();
+                String jsonArrayOfInformation = response.body().string();
+                CustomersRelatedInfoDTO CustomersRelatedInfo = GSON_INSTANCE.fromJson(jsonArrayOfInformation, CustomersRelatedInfoDTO.class);
+                List<NewLoanDTO> loans = CustomersRelatedInfo.getRelatedLoans();
+                CustomerInfoDTO customer = CustomersRelatedInfo.getCustomerInfo();
                 List<PaymentNotificationDTO> paymentNotification = CustomersRelatedInfo.getPaymentsNotificationList();
                 List<LoansForSaleDTO> loansOnSale = CustomersRelatedInfo.getLoansForSaleList();
+                List<String> categories = CustomersRelatedInfo.getCategories();
                 Platform.runLater(() ->{
-                    updateInformationTab(UserPick, customerList, loans);
+                   // updateInformationTab(UserPick, customer, loans);
                     updatePayments(UserPick, paymentNotification, loans);
                     updateInlayTab();
-                    updateLoanSellTab(UserPick, customerList, loansOnSale);
+                    updateLoanSellTab(UserPick, customer, loansOnSale);
                 });
-                // return false;
             }
 
         });
@@ -262,12 +268,11 @@ public class CustomerScreenController {
         return inlayTabController;
     }
 
-    public void updateInformationTab (String UserPick, List<CustomerInfoDTO> customerInfo, List<NewLoanDTO> loanList){
+    public void updateInformationTab (String UserPick, List<NewLoanDTO> loanList, CustomerInfoDTO customerInfo){
 
-        informationTabController.setUserName(UserPick);
-        informationTabController.getTransactionInfoController().setTableValues(customerInfo.stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null));
-        informationTabController.getBalanceLabel().setText("Balance: "+
-               customerInfo.stream().filter(l->l.getName().equals(UserPick)).findFirst().orElse(null).getBalance());
+//        informationTabController.setUserName(UserPick);
+        informationTabController.getTransactionInfoController().setTableValues(customerInfo);
+        informationTabController.getBalanceLabel().setText("Balance: "+ customerInfo.getBalance());
 
         List<NewLoanDTO> temp =loanList.stream().filter(l->l.getBorrowerName().equals(UserPick)).collect(Collectors.toList());
         List<PendingLoanDTO> pending = new ArrayList<>();
@@ -322,13 +327,13 @@ public class CustomerScreenController {
         paymentsTabController.getFinishImage().setVisible(false);
       //  paymentsTabController.setAnimation(mainController.getTopAdminController().isAnimationOn());
     }
-    public void updateInlayTab(){
+    public void updateInlayTab(){ //TODO: add relevant categories with HTTP call
         inlayTabController.addCategoriesToCCB();
         inlayTabController.resetFields();
     }
 
-    public void updateLoanSellTab(String userPick, List<CustomerInfoDTO> customers, List<LoansForSaleDTO> loansOnSale){
-       CustomerInfoDTO customer = customers.stream().filter(l->l.getName().equals(userPick)).findFirst().orElse(null);
+    public void updateLoanSellTab(String userPick, CustomerInfoDTO customer, List<LoansForSaleDTO> loansOnSale){
+      // CustomerInfoDTO customer = customers.stream().filter(l->l.getName().equals(userPick)).findFirst().orElse(null);
 //        CustomerInfoDTO customer = null;
 //        for(CustomerInfoDTO customerInfoDTO: customers){
 //            if(customerInfoDTO.getName().equals(userPick))

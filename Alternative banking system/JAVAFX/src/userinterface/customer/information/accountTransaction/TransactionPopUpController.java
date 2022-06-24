@@ -1,7 +1,6 @@
 package userinterface.customer.information.accountTransaction;
 
 import database.Engine;
-import database.client.Customer;
 import exceptions.accountexception.WithDrawMoneyException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -115,7 +113,7 @@ public class TransactionPopUpController {
            }
 
            accountTransactionController.getInformationTabController().getBalanceLabel().setText("Balance: " + engine.getCustomerByName(userName).getBalance());
-           accountTransactionController.setTableValues(engine.getCustomerInfo().stream().filter(l->l.getName().equals(userName)).findFirst().orElse(null));
+           accountTransactionController.setTableValues(engine.getCustomersInfo().stream().filter(l->l.getName().equals(userName)).findFirst().orElse(null));
            errorMessage.setText(null);
            popUpStage.close();
         }

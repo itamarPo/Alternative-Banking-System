@@ -171,9 +171,18 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    @Override
-   public List<NewLoanDTO> getLoansInfo() {
+   public List<NewLoanDTO> getLoansInfo(String userName) {
       List<NewLoanDTO> DTOloans = new ArrayList<>();
-      for (Loans loan : loans){
+      List<Loans> iterateLoans = new ArrayList<>();
+      if(userName == null){
+         iterateLoans = loans;
+      } else{
+         Customer customer = getCustomerByName(userName);
+         iterateLoans.addAll(customer.getBorrowerList());
+         iterateLoans.addAll(customer.getLenderList());
+      }
+
+      for (Loans loan : iterateLoans){
          switch (loan.getStatus().getStatus()) {
             case "New": {
                DTOloans.add(new NewLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
@@ -203,10 +212,32 @@ public class Engine implements EngineInterface , Serializable {
                        loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay()));
                break;
          }
-
       }
       return DTOloans;
+   }
 
+   public CustomerInfoDTO getCustomerInfo(String userName){
+      Customer customer = getCustomerByName(userName);
+      if(customer!=null) {
+         CustomerInfoDTO customerDTO = new CustomerInfoDTO(userName, customer.getBalance());
+         for (AccountTransaction accountTransaction : customer.getTransactions()) {
+            customerDTO.getTransactionDTOS().add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(),
+                    accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(),
+                    accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
+         }
+         for (Loans lenderLoan : customer.getLenderList()) {
+            customerDTO.getLenderList().add(customerDTOClassArrange(lenderLoan));
+         }
+         for (Loans borrowerLoan : customer.getBorrowerList()) {
+            customerDTO.getBorrowerList().add(customerDTOClassArrange(borrowerLoan));
+         }
+         for (Loans loanForSale : customer.getLoansForSale()) {
+            customerDTO.getLoansForSale().add(customerDTOClassArrange(loanForSale));
+         }
+         customerDTO.setLoansAmounts();
+         return customerDTO;
+      }
+      return null;
    }
 
    @Override
@@ -215,26 +246,28 @@ public class Engine implements EngineInterface , Serializable {
       List<CustomerInfoDTO> customersInfo = new ArrayList<>();
       //LoanInfoDTO newLoan;
       for (Customer customer : customers) {
-         customersInfo.add(new CustomerInfoDTO(customer.getName(), customer.getBalance()));
-         for (AccountTransaction accountTransaction : customer.getTransactions()) {
-            customersInfo.get(customersInfo.size() - 1).getTransactionDTOS().add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(),
-                    accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(),
-                    accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
+         customersInfo.add(getCustomerInfo(customer.getName()));
 
-         }
-         for (Loans lenderLoan : customer.getLenderList()) {
-            newLoan = customerDTOClassArrange(lenderLoan);
-            customersInfo.get(customersInfo.size() - 1).getLenderList().add(newLoan);
-         }
-         for (Loans borrowerLoan : customer.getBorrowerList()) {
-            newLoan = customerDTOClassArrange(borrowerLoan);
-            customersInfo.get(customersInfo.size() - 1).getBorrowerList().add(newLoan);
-         }
-         for (Loans loanForSale : customer.getLoansForSale()) {
-            newLoan = customerDTOClassArrange(loanForSale);
-            customersInfo.get(customersInfo.size() - 1).getLoansForSale().add(newLoan);
-         }
-         customersInfo.get(customersInfo.size() - 1).setLoansAmounts();
+//         customersInfo.add(new CustomerInfoDTO(customer.getName(), customer.getBalance()));
+//         for (AccountTransaction accountTransaction : customer.getTransactions()) {
+//            customersInfo.get(customersInfo.size() - 1).getTransactionDTOS().add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(),
+//                    accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(),
+//                    accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
+//
+//         }
+//         for (Loans lenderLoan : customer.getLenderList()) {
+//            newLoan = customerDTOClassArrange(lenderLoan);
+//            customersInfo.get(customersInfo.size() - 1).getLenderList().add(newLoan);
+//         }
+//         for (Loans borrowerLoan : customer.getBorrowerList()) {
+//            newLoan = customerDTOClassArrange(borrowerLoan);
+//            customersInfo.get(customersInfo.size() - 1).getBorrowerList().add(newLoan);
+//         }
+//         for (Loans loanForSale : customer.getLoansForSale()) {
+//            newLoan = customerDTOClassArrange(loanForSale);
+//            customersInfo.get(customersInfo.size() - 1).getLoansForSale().add(newLoan);
+//         }
+//         customersInfo.get(customersInfo.size() - 1).setLoansAmounts();
       }
 
       return customersInfo;

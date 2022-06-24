@@ -49,9 +49,10 @@ public class PendingLoanTableController {
     private InlayTabController inlayTabController;
     private InformationTabController informationTabController;
     private AdminScreenController adminScreenController;
+    private Button listOfLendersButton = new Button("Show");
     private Stage primaryStage;
 
-
+    //TODO: create new class for all the info of PendingLoanDTO and a button for lenders table
     //Constructor
     public PendingLoanTableController() {
 

@@ -36,8 +36,10 @@ public class CustomerMain extends Application {
         Scene customerScreenScene = new Scene(root2,WIDTH,HEIGHT);
 
         customerLoginController.setCustomerScreenScene(customerScreenScene);
+        customerLoginController.setCustomerScreenController(customerScreenController);
         customerScreenController.setPrimaryStage(primaryStage);
         customerScreenController.setCustomerLoginController(customerLoginController);
+
         //Start program
         primaryStage.setTitle("Alternative Banking System");
         primaryStage.setScene(customerLoginScene);

@@ -274,7 +274,7 @@ public class CustomerScreenController {
         informationTabController.getTransactionInfoController().setTableValues(customerInfo);
         informationTabController.getBalanceLabel().setText("Balance: "+ customerInfo.getBalance());
 
-        List<NewLoanDTO> temp =loanList.stream().filter(l->l.getBorrowerName().equals(UserPick)).collect(Collectors.toList());
+        List<NewLoanDTO> temp = loanList.stream().filter(l->l.getBorrowerName().equals(UserPick)).collect(Collectors.toList());
         List<PendingLoanDTO> pending = new ArrayList<>();
 
         List<ActiveRiskLoanDTO> active = new ArrayList<>();
@@ -290,9 +290,8 @@ public class CustomerScreenController {
         informationTabController.getRiskLoanerTableController().setValues(risk);
         temp.stream().filter(x -> x.getStatus().equals("Finished")).forEach(y -> finished.add((FinishedLoanDTO) y));
         informationTabController.getFinishedLoanerTableController().setValues(finished);
+
         //Lender Tables
-
-
         List<NewLoanDTO> temp2 = loanList.stream().filter(x -> !x.getStatus().equals("New")).collect(Collectors.toList());
         final List<PendingLoanDTO> temp3 = new ArrayList<>();
         temp2.forEach(x -> temp3.add( (PendingLoanDTO) x));

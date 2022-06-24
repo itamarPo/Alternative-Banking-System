@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Engine engine = EngineServlet.getEngine(getServletContext());
-        String userName = request.getParameter("userName");
+        String userName = request.getParameter(USERNAME);
         String isAdmin = request.getParameter("isAdmin");
         //user already exists
         synchronized (this){

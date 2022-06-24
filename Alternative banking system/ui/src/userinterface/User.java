@@ -186,7 +186,7 @@
 //
 //    @Override
 //    public void getCustomersInfo() {
-//        List<CustomerInfoDTO> customersInfo = data.getCustomerInfo();
+//        List<CustomerInfoDTO> customersInfo = data.getCustomersInfo();
 //        for(CustomerInfoDTO customerInfo : customersInfo)
 //            customerInfo.print();
 //    }

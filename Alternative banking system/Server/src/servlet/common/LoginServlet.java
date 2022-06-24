@@ -11,6 +11,8 @@ import utils.EngineServlet;
 
 import java.io.IOException;
 
+import static userinterface.Constants.USERNAME;
+
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet {
 

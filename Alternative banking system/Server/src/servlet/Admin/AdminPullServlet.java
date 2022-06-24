@@ -22,8 +22,8 @@ public class AdminPullServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Engine engine = EngineServlet.getEngine(getServletContext());
         // customer info
-        List<CustomerInfoDTO> customerInfoDTOList = engine.getCustomerInfo();
-        List<NewLoanDTO> loansInfoList = engine.getLoansInfo();
+        List<CustomerInfoDTO> customerInfoDTOList = engine.getCustomersInfo();
+        List<NewLoanDTO> loansInfoList = engine.getLoansInfo(null);
         LoanAndCustomerInfoDTO loanAndCustomerInfoDTO = new LoanAndCustomerInfoDTO(customerInfoDTOList, loansInfoList);
         response.setContentType("application/json");
         try (PrintWriter out = response.getWriter()) {

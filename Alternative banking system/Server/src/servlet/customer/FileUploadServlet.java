@@ -1,6 +1,5 @@
-package servlet.Customer;
+package servlet.customer;
 
-import database.Engine;
 import exceptions.filesexepctions.LoanCategoryNotExistException;
 import exceptions.filesexepctions.TimeOfPaymentNotDivideEqualyException;
 import jakarta.servlet.ServletException;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Scanner;
 

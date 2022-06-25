@@ -1,5 +1,6 @@
 package customercomponents.customerscreen;
 
+import com.google.gson.Gson;
 import customercomponents.customerlogin.CustomerLoginController;
 import database.Engine;
 import javafx.application.Platform;
@@ -330,6 +331,68 @@ public class CustomerScreenController {
         inlayTabController.addCategoriesToCCB();
         inlayTabController.resetFields();
     }
+
+    public boolean inlaySumCheck(Double amount){
+        final boolean[] sumCheck = {false};
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_INLAY_SUM_RESOURCE)
+                .newBuilder().addQueryParameter("Amount", amount.toString())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .build();
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful())
+                {
+                    sumCheck[0] = false;
+                }
+            }
+        });
+        return false;
+    }
+
+    public List<NewLoanDTO> getFilteredLoans(Double amountToInvest,List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans, Integer maxOwnership){
+        List<NewLoanDTO> filteredLoans;
+        Gson gson = new Gson();
+        String json = gson.toJson(categories);
+//        RequestBody body = RequestBody.create(json, "") // new
+//        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        RequestBody body = RequestBody.create(
+                json, MediaType.parse("application/json"));
+
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_INLAY_FILTER_RESOURCE)
+                .newBuilder()
+                .addQueryParameter("minInterest", minInterest.toString())
+                .addQueryParameter("minYAZ", minYAZ.toString())
+                .addQueryParameter("maxOpenLoans", maxOpenLoans.toString())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .post(body)
+                .build();
+
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
+
+    }
+
 
     public void updateLoanSellTab(String userPick, CustomerInfoDTO customer, List<LoansForSaleDTO> loansOnSale){
       // CustomerInfoDTO customer = customers.stream().filter(l->l.getName().equals(userPick)).findFirst().orElse(null);

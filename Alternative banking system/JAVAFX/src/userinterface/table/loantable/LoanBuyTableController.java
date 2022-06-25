@@ -109,45 +109,45 @@ public class LoanBuyTableController {
     public void setValues(List<LoansForSaleDTO> activeList) {
         ObservableList<LoansForSaleDTO> loansForSaleDTOSObservableList = FXCollections.observableList(activeList);
         tableView.getItems().setAll(loansForSaleDTOSObservableList);
-        for(int i=0; i<tableView.getItems().size(); i++){
-            int finalI = i;
-            Button lendersButton = tableView.getItems().get(i).getLendersButton();
-            lendersButton.setText("Show");
-            lendersButton.setOnAction(new EventHandler<ActionEvent>(){
-                @Override
-                public void handle(ActionEvent actionEvent){
-                    if(!lenderStageExist){
-                        lenderStageExist = true;
-                        lendersTableController.setPopUpScene();
-                        lendersTableController.getPopUpLenderStage().initModality(Modality.WINDOW_MODAL);
-                        lendersTableController.getPopUpLenderStage().initOwner(primaryStage);
-                    }
-                    List<LenderMap> lenders = new ArrayList<>();
-                    Map<String, Double> lendersMap = activeList.get(finalI).getListOfLenders();
-                    for (Map.Entry<String,Double> entry : lendersMap.entrySet()){
-                        lenders.add(new LenderMap(entry.getKey(), entry.getValue()));
-                    }
-                    lendersTableController.setValues(lenders);
-
-                    lendersTableController.getPopUpLenderStage().show();
-                }
-            });
-            Button paymentButton = tableView.getItems().get(i).getPaymentsButton();
-            paymentButton.setText("Show");
-            paymentButton.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent){
-                    if(!paymentStageExist){
-                        paymentStageExist = true;
-                        paymentTableController.setPopUpScene();
-                        paymentTableController.getPopUpPaymentStage().initModality(Modality.WINDOW_MODAL);
-                        paymentTableController.getPopUpPaymentStage().initOwner(primaryStage);
-                    }
-                    List<PaymentsDTO> pay = tableView.getItems().get(finalI).getPayments();
-                    paymentTableController.setValues(pay);
-                    paymentTableController.getPopUpPaymentStage().show();
-                }
-            });
-        }
-    }
+//        for(int i=0; i<tableView.getItems().size(); i++){
+//            int finalI = i;
+//           // Button lendersButton = tableView.getItems().get(i).getLendersButton();
+//           // lendersButton.setText("Show");
+//          //  lendersButton.setOnAction(new EventHandler<ActionEvent>(){
+//                @Override
+//                public void handle(ActionEvent actionEvent){
+//                    if(!lenderStageExist){
+//                        lenderStageExist = true;
+//                        lendersTableController.setPopUpScene();
+//                        lendersTableController.getPopUpLenderStage().initModality(Modality.WINDOW_MODAL);
+//                        lendersTableController.getPopUpLenderStage().initOwner(primaryStage);
+//                    }
+//                    List<LenderMap> lenders = new ArrayList<>();
+//                    Map<String, Double> lendersMap = activeList.get(finalI).getListOfLenders();
+//                    for (Map.Entry<String,Double> entry : lendersMap.entrySet()){
+//                        lenders.add(new LenderMap(entry.getKey(), entry.getValue()));
+//                    }
+//                    lendersTableController.setValues(lenders);
+//
+//                    lendersTableController.getPopUpLenderStage().show();
+//                }
+//            });
+//            Button paymentButton = tableView.getItems().get(i).getPaymentsButton();
+//            paymentButton.setText("Show");
+//            paymentButton.setOnAction(new EventHandler<ActionEvent>() {
+//                @Override
+//                public void handle(ActionEvent actionEvent){
+//                    if(!paymentStageExist){
+//                        paymentStageExist = true;
+//                        paymentTableController.setPopUpScene();
+//                        paymentTableController.getPopUpPaymentStage().initModality(Modality.WINDOW_MODAL);
+//                        paymentTableController.getPopUpPaymentStage().initOwner(primaryStage);
+//                    }
+//                    List<PaymentsDTO> pay = tableView.getItems().get(finalI).getPayments();
+//                    paymentTableController.setValues(pay);
+//                    paymentTableController.getPopUpPaymentStage().show();
+//                }
+//            });
+//        }
+   }
 }

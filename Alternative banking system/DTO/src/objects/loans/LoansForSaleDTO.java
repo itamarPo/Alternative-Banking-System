@@ -17,11 +17,11 @@ public class LoansForSaleDTO {
     private double interestPerPayment;
     private int timePerPayment;
     private Map<String, Double> listOfLenders;
-    private Button lendersButton;
+  //  private Button lendersButton;
     private int startingActiveTime;
     private int nextPaymentTime;
     private List<PaymentsDTO> Payments;
-    private Button paymentsButton;
+    //private Button paymentsButton;
     private double price;
     private double expectedProfit;
 
@@ -36,11 +36,11 @@ public class LoansForSaleDTO {
         this.interestPerPayment = interestPerPayment;
         this.timePerPayment = timePerPayment;
         this.listOfLenders = listOfLenders;
-        this.lendersButton = new Button();
+        //this.lendersButton = new Button();
         this.startingActiveTime = startingActiveTime;
         this.nextPaymentTime = nextPaymentTime;
         this.Payments = payments;
-        this.paymentsButton = new Button();
+       // this.paymentsButton = new Button();
         this.price = Double.parseDouble(df.format(price));
         this.expectedProfit = Double.parseDouble(df.format(expectedProfit));
     }
@@ -54,11 +54,11 @@ public class LoansForSaleDTO {
     public double getInterestPerPayment() {return interestPerPayment;}
     public int getTimePerPayment() {return timePerPayment;}
     public Map<String, Double> getListOfLenders() {return listOfLenders;}
-    public Button getLendersButton() {return lendersButton;}
+    //public Button getLendersButton() {return lendersButton;}
     public int getStartingActiveTime() {return startingActiveTime;}
     public int getNextPaymentTime() {return nextPaymentTime;}
     public List<PaymentsDTO> getPayments() {return Payments;}
-    public Button getPaymentsButton() {return paymentsButton;}
+    //public Button getPaymentsButton() {return paymentsButton;}
     public double getPrice() {return price;}
     public double getExpectedProfit() {return expectedProfit;}
 }

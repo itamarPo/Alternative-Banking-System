@@ -3,6 +3,7 @@ package userinterface.customer.inlay;
 import customercomponents.customerscreen.CustomerScreenController;
 import database.Engine;
 import exceptions.accountexception.WithDrawMoneyException;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -78,8 +79,8 @@ public class InlayTabController {
     @FXML private Button clearSelectionCategoryButton;
     //Regular Fields
 
-    private int amountToInvest;
-    private int maxOwnership;
+    private Integer amountToInvest;
+    private Integer maxOwnership;
     private boolean filterInProgress = false;
 
     //Regular fields
@@ -156,25 +157,32 @@ public class InlayTabController {
             return;
         }
         enableAllErrors();
-        //final List<NewLoanDTO>[] filteredLoans = new List[]{new ArrayList<>()};
-        inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,"Name"/*Cus.getUserCB().getValue()*/, maxOpenLoans, engine);
-        Thread thread = new Thread(filteredNewLoans);
-        thread.setName("HELPME");
-        bindTaskToProgress(filteredNewLoans,()-> {confirmSelectionButton.setDisable(false); confirmScrambleButton.setDisable(false);
-            filterInProgress = false;});
-        thread.start();
-        filteredNewLoans.valueProperty().addListener(new ChangeListener<List<NewLoanDTO>>() {
-            @Override
-            public void changed(ObservableValue<? extends List<NewLoanDTO>> observable, List<NewLoanDTO> oldValue, List<NewLoanDTO> newValue) {
-                if (newValue != null) {
-                   // filteredLoans[0] = newValue;
-                    newLoanTBController.setValues(newValue.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
-                    List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
-                    newValue.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
-                    pendingLoanTBController.setValues(filteredPendingLoans);
-                }
-            }
-       });
+        this.amountToInvest = amountToinvest;
+        this.maxOwnership = maxownership;
+        //input check
+        customerScreenController.inlaySumCheck((double)amountToinvest);
+        //filtering
+        List<NewLoanDTO> filteredLoans = customerScreenController.getFilteredLoans(Double.valueOf(amountToInvest), categoriesList,minInterest,minYAZ,maxOpenLoans,maxownership);
+                //inlay
+//        //final List<NewLoanDTO>[] filteredLoans = new List[]{new ArrayList<>()};
+//        inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,"Name"/*Cus.getUserCB().getValue()*/, maxOpenLoans, engine);
+//        Thread thread = new Thread(filteredNewLoans);
+//        thread.setName("HELPME");
+//        bindTaskToProgress(filteredNewLoans,()-> {confirmSelectionButton.setDisable(false); confirmScrambleButton.setDisable(false);
+//            filterInProgress = false;});
+//        thread.start();
+//        filteredNewLoans.valueProperty().addListener(new ChangeListener<List<NewLoanDTO>>() {
+//            @Override
+//            public void changed(ObservableValue<? extends List<NewLoanDTO>> observable, List<NewLoanDTO> oldValue, List<NewLoanDTO> newValue) {
+//                if (newValue != null) {
+//                   // filteredLoans[0] = newValue;
+//                    newLoanTBController.setValues(newValue.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
+//                    List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
+//                    newValue.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
+//                    pendingLoanTBController.setValues(filteredPendingLoans);
+//                }
+//            }
+//       });
         this.amountToInvest = amountToinvest;
         this.maxOwnership = maxownership;
     }
@@ -196,7 +204,9 @@ public class InlayTabController {
                 throw new Exception();
             }
             int number = Integer.parseInt(amountInput); // NumberFormatException
-
+            if(number <= 0){
+                throw new NumberFormatException();
+            }
 //            engine.checkAmountOfInvestment(topCustomerController.getUserCB().getValue(), (double) number); //WithDrawMoneyException
             //TODO: http request to check if sum to invest is valid
             amountErrorLabel.setText("");

@@ -24,7 +24,7 @@ public class CustomerInfoRefresher extends TimerTask {
 
     @Override
     public void run() {
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + ADMIN_PULL_INFORMATION_RESOURCE)
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_INFORMATION_RESOURCE)
                 .newBuilder()
                 .build()
                 .toString();
@@ -40,10 +40,13 @@ public class CustomerInfoRefresher extends TimerTask {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String jsonArrayOfInformation = response.body().string();
+                String userName;
                 CustomersRelatedInfoDTO allTabsCustomerInformation = GSON_INSTANCE.fromJson(jsonArrayOfInformation, CustomersRelatedInfoDTO.class);
-                String userName = allTabsCustomerInformation.getCustomerInfo().getName();
+
+                userName = allTabsCustomerInformation.getCustomerInfo().getName();
                 List<NewLoanDTO> relatedLoans = allTabsCustomerInformation.getRelatedLoans();
                 CustomerInfoDTO customerInfo = allTabsCustomerInformation.getCustomerInfo();
+
 
                 Platform.runLater(() ->{
                     customerScreenController.updateInformationTab(userName, relatedLoans, customerInfo);

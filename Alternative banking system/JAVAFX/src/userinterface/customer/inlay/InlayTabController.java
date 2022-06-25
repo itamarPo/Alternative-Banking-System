@@ -162,7 +162,7 @@ public class InlayTabController {
         //input check
         customerScreenController.inlaySumCheck((double)amountToinvest);
         //filtering
-        List<NewLoanDTO> filteredLoans = customerScreenController.getFilteredLoans(Double.valueOf(amountToInvest), categoriesList,minInterest,minYAZ,maxOpenLoans,maxownership);
+        List<NewLoanDTO> filteredLoans = customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans);
                 //inlay
 //        //final List<NewLoanDTO>[] filteredLoans = new List[]{new ArrayList<>()};
 //        inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,"Name"/*Cus.getUserCB().getValue()*/, maxOpenLoans, engine);

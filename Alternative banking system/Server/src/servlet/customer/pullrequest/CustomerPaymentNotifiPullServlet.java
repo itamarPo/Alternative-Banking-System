@@ -1,4 +1,4 @@
-package servlet.Customer.pullrequest;
+package servlet.customer.pullrequest;
 
 public class CustomerPaymentNotifiPullServlet {
 }

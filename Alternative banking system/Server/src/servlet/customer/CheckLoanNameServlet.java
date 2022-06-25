@@ -15,7 +15,6 @@ public class CheckLoanNameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(EngineServlet.getEngine(getServletContext()).getLoanByName((String)request.getAttribute("LoanName"))==null)
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-
     }
 
 }

@@ -29,6 +29,7 @@ import userinterface.utils.HttpUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.stream.Collectors;
@@ -358,8 +359,8 @@ public class CustomerScreenController {
         return false;
     }
 
-    public List<NewLoanDTO> getFilteredLoans(Double amountToInvest,List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans, Integer maxOwnership){
-        List<NewLoanDTO> filteredLoans;
+    public List<NewLoanDTO> getFilteredLoans(List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans){
+        final List<NewLoanDTO>[] filteredLoans = (List<NewLoanDTO>[]) new Object[1];
         Gson gson = new Gson();
         String json = gson.toJson(categories);
 //        RequestBody body = RequestBody.create(json, "") // new
@@ -387,10 +388,16 @@ public class CustomerScreenController {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
+                if(!response.isSuccessful())
+                    filteredLoans[0] = null;
+                else
+                {
+                    String responseJson = response.body().string();
+                    filteredLoans[0] = Arrays.stream(GSON_INSTANCE.fromJson(responseJson, NewLoanDTO[].class)).collect(Collectors.toList());
+                }
             }
         });
-
+        return filteredLoans[0];
     }
 
 

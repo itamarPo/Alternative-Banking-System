@@ -41,6 +41,8 @@ public class CustomerInfoRefresher extends TimerTask {
             public void onResponse(Call call, Response response) throws IOException {
                 String jsonArrayOfInformation = response.body().string();
                 String userName;
+                if(jsonArrayOfInformation==null || jsonArrayOfInformation=="")
+                    return;
                 CustomersRelatedInfoDTO allTabsCustomerInformation = GSON_INSTANCE.fromJson(jsonArrayOfInformation, CustomersRelatedInfoDTO.class);
 
                 userName = allTabsCustomerInformation.getCustomerInfo().getName();

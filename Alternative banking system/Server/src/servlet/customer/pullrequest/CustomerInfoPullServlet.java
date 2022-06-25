@@ -20,7 +20,7 @@ import java.util.List;
 
 import static userinterface.Constants.USERNAME;
 
-@WebServlet(name = "CustomerPullInfoServlet", urlPatterns = {"/Customer-Pull-Information-Servlet"})
+@WebServlet(name = "CustomerInfoPullServlet", urlPatterns = {"/Customer-Pull-Information-Servlet"})
 public class CustomerInfoPullServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

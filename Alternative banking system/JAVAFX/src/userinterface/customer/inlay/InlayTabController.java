@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import objects.customers.CustomerInfoInlayDTO;
 import objects.loans.NewLoanDTO;
 import objects.loans.PendingLoanDTO;
 import org.controlsfx.control.CheckComboBox;
@@ -30,6 +31,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.util.Arrays.stream;
+import static userinterface.Constants.DIFFERENT;
 
 public class InlayTabController {
     //Constatns
@@ -144,13 +146,22 @@ public class InlayTabController {
     //Regular methods
     @FXML
     public void confirmFilterOnAction(ActionEvent actionEvent){
-
+        CustomerInfoInlayDTO customerInfoInlay;
         int amountToinvest = getAmountToInvest();
         List<String> categoriesList = getFilteredCategories(); // this list might be empty! if so there is no filter for categories!
         int minInterest = getMinInterest();
         int minYAZ = getMinYAZ();
         int maxOpenLoans = getMaxOpenLoans();
         int maxownership = getMaxOwnership();
+        customerInfoInlay = customerScreenController.inlaySumCheck((double)amountToinvest);
+        if(maxOpenLoans==DIFFERENT) {
+            maxOpenLoans = customerInfoInlay.getOpenLoans();
+        }
+        if(customerInfoInlay.isWithDrawException()){
+            amountErrorLabel.setText(customerInfoInlay.getResult());
+            amountToinvest = INVALID;
+        }
+
         if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
 //            newLoanTBController.getTableView().getItems().clear();
 //            pendingLoanTBController.getTableView().getItems().clear();
@@ -160,7 +171,8 @@ public class InlayTabController {
         this.amountToInvest = amountToinvest;
         this.maxOwnership = maxownership;
         //input check
-        customerScreenController.inlaySumCheck((double)amountToinvest);
+
+            //throw new WithDrawMoneyException(customerScreenController.getUserCB().getValue(), (double)amountToinvest);
         //filtering
         List<NewLoanDTO> filteredLoans = customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans);
                 //inlay
@@ -207,7 +219,7 @@ public class InlayTabController {
             if(number <= 0){
                 throw new NumberFormatException();
             }
-//            engine.checkAmountOfInvestment(topCustomerController.getUserCB().getValue(), (double) number); //WithDrawMoneyException
+          //  engine.checkAmountOfInvestment(topCustomerController.getUserCB().getValue(), (double) number); //WithDrawMoneyException
             //TODO: http request to check if sum to invest is valid
             amountErrorLabel.setText("");
             return number;
@@ -274,7 +286,7 @@ public class InlayTabController {
     }
     public int getMaxOpenLoans(){
         if(!maxOpenLoansCB.isSelected()){
-            return engine.getNumOfLoans();
+            return DIFFERENT;
         }
         else{
             String maxOpenLoansInput = maxOpenLoansTF.getText();
@@ -314,8 +326,8 @@ public class InlayTabController {
     }
 
 
-    public void addCategoriesToCCB() {
-        ObservableList<String> categories = FXCollections.observableArrayList(engine.getCategoriesList().getCategoriesList());
+    public void addCategoriesToCCB(List<String> engineCategories) {
+        ObservableList<String> categories = FXCollections.observableArrayList(engineCategories);
         categoriesCCB.getItems().clear();
         categoriesCCB.getItems().addAll(categories);
     }

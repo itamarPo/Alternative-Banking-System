@@ -16,16 +16,24 @@ import static userinterface.Constants.*;
 
 public class CustomerInfoRefresher extends TimerTask {
     private CustomerScreenController customerScreenController;
+    private String userName;
 
-
-    public CustomerInfoRefresher(CustomerScreenController customerScreenController) {
+    public CustomerInfoRefresher(CustomerScreenController customerScreenController, String userName) {
         this.customerScreenController = customerScreenController;
+        this.userName = userName;
     }
 
     @Override
     public void run() {
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + "/Customer-Pull-Information-Servlet")
-                .newBuilder()
+//        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_INFORMATION_RESOURCE)
+//                .newBuilder()
+//                .build()
+//                .toString();
+//        Request requestCustomerTable = new Request.Builder()
+//                .url(finalUrlInformation)
+//                .build();
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_INFORMATION_RESOURCE)
+                .newBuilder().addQueryParameter("userName", userName)
                 .build()
                 .toString();
         Request requestCustomerTable = new Request.Builder()
@@ -39,6 +47,9 @@ public class CustomerInfoRefresher extends TimerTask {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful())
+                    System.out.println("call = " + call + ", response = " + response);
+                else{
                 String jsonArrayOfInformation = response.body().string();
                 String userName;
                 if(jsonArrayOfInformation==null || jsonArrayOfInformation=="")
@@ -50,10 +61,10 @@ public class CustomerInfoRefresher extends TimerTask {
                 CustomerInfoDTO customerInfo = allTabsCustomerInformation.getCustomerInfo();
 
 
-                Platform.runLater(() ->{
-                    customerScreenController.updateInformationTab(userName, relatedLoans, customerInfo);
-                });
+                Platform.runLater(() -> customerScreenController.updateInformationTab(userName, relatedLoans, customerInfo));
+                }
             }
+
 
         });
 

@@ -14,6 +14,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import objects.customers.CustomerInfoDTO;
+import objects.customers.CustomerInfoInlayDTO;
 import objects.customers.CustomersRelatedInfoDTO;
 import objects.customers.loanInfo.LoanInfoDTO;
 import objects.loans.*;
@@ -124,6 +125,7 @@ public class CustomerScreenController {
     //public MainController getMainController() {return mainController;}
     public ScrollPane getMainSP() {return MainSP;}
     public ComboBox<String> getThemeCB() {return ThemeCB;}
+    public String getUserName() {return userName;}
 
     //setters
 //    public void setMainControllerAndEngine(MainController mainController, Engine engine) {
@@ -218,8 +220,8 @@ public class CustomerScreenController {
     }
 
     /*Pitaron elganti yoter: kria po le HTTP aim ma she ani zarih*/
-    public void startInfoRefresh(){
-        CustomerInfoRefresher customerInfoRefresher = new CustomerInfoRefresher(this);
+    public void startInfoRefresh(String customerName){
+        CustomerInfoRefresher customerInfoRefresher = new CustomerInfoRefresher(this, customerName);
         timer = new Timer();
         timer.schedule(customerInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
@@ -329,13 +331,49 @@ public class CustomerScreenController {
       //  paymentsTabController.setAnimation(mainController.getTopAdminController().isAnimationOn());
     }
     public void updateInlayTab(){ //TODO: add relevant categories with HTTP call
-        inlayTabController.addCategoriesToCCB();
-        inlayTabController.resetFields();
+        //final List<String>[] categories = (List<String>[]) new Object[1];
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_CATEGORIES_RESOURCE)
+                .newBuilder()
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .build();
+
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Notifications.create().title("Error").text("Error getting call").hideAfter(Duration.seconds(3)).position(Pos.CENTER).showError();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                if(!response.isSuccessful()) {
+                    Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(3)).position(Pos.CENTER).showError();
+                    Platform.runLater(()->{
+                        inlayTabController.addCategoriesToCCB(null);
+                        inlayTabController.resetFields();});
+                }
+                else
+                {
+                    List<String> categories;
+                    categories = Arrays.asList(GSON_INSTANCE.fromJson(response.body().string(), String[].class)).stream().collect(Collectors.toList());
+                    Platform.runLater(()->{
+                        inlayTabController.addCategoriesToCCB(categories);
+                        inlayTabController.resetFields();});
+                }
+            }
+        });
+
+    }
+    public int inlayGetNumOfLoans(){
+        return 0;
     }
 
-    public boolean inlaySumCheck(Double amount){
-        final boolean[] sumCheck = {false};
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_INLAY_SUM_RESOURCE)
+    public CustomerInfoInlayDTO inlaySumCheck(Double amount){
+        final CustomerInfoInlayDTO customerInfoInlayDTO[] = new CustomerInfoInlayDTO[1];
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_INLAY_INPUT_RESOURCE)
                 .newBuilder().addQueryParameter("Amount", amount.toString())
                 .build()
                 .toString();
@@ -350,13 +388,10 @@ public class CustomerScreenController {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(!response.isSuccessful())
-                {
-                    sumCheck[0] = false;
-                }
+                customerInfoInlayDTO[0] = GSON_INSTANCE.fromJson(response.body().string(), CustomerInfoInlayDTO.class);
             }
         });
-        return false;
+       return customerInfoInlayDTO[0];
     }
 
     public List<NewLoanDTO> getFilteredLoans(List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans){

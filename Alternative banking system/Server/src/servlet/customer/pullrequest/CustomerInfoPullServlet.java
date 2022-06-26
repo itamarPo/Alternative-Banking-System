@@ -25,8 +25,10 @@ public class CustomerInfoPullServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Engine engine = EngineServlet.getEngine(getServletContext());
-        if(request.getSession() != null) {
-            String userName = String.valueOf(request.getSession().getAttribute(USERNAME));
+        //if(request.getSession().getAttribute(USERNAME) != null) {
+          //  String userName = String.valueOf(request.getSession().getAttribute(USERNAME));
+        if(request.getParameter(USERNAME)!=null){
+            String userName = request.getParameter(USERNAME);
             List<NewLoanDTO> loansInfoList = engine.getLoansInfo(userName);
             CustomerInfoDTO customerInfoDTO = engine.getCustomerInfo(userName);
             List<String> categoriesList = engine.getCategoriesList().getCategoriesList();

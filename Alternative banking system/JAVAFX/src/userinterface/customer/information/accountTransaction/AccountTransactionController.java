@@ -78,6 +78,10 @@ public class AccountTransactionController {
         popUpController.setEngine(this.engine);
     }
 
+    public TransactionPopUpController getPopUpController() {
+        return popUpController;
+    }
+
     //Setters
     public void setInformationTabController(InformationTabController informationTabController) {
         this.informationTabController = informationTabController;
@@ -88,10 +92,10 @@ public class AccountTransactionController {
     void chargeButtonOnAction(ActionEvent event) {
         popUpController.setErrorMessage("");
         popUpController.setTextField("");
-       // popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "charge:", popUpExist, true);
+        popUpController.setPopUp(informationTabController.getCustomerScreenController().getPrimaryStage(), MESSAGE + "charge:", popUpExist, true);
         if(!popUpExist) {
             popUpExist = true;
-            popUpController.setEngine(this.engine);
+           // popUpController.setEngine(this.engine);
         }
     }
 
@@ -99,10 +103,10 @@ public class AccountTransactionController {
     void withdrawButtonOnAction(ActionEvent event) {
         popUpController.setErrorMessage("");
         popUpController.setTextField("");
-       // popUpController.setPopUp(informationTabController.getTopCustomerController().getMainController().getPrimaryStage(), MESSAGE + "withdraw:", popUpExist, false);
+        popUpController.setPopUp(informationTabController.getCustomerScreenController().getPrimaryStage(), MESSAGE + "withdraw:", popUpExist, false);
         if(!popUpExist) {
             popUpExist = true;
-            popUpController.setEngine(this.engine);
+            //popUpController.setEngine(this.engine);
         }
     }
 

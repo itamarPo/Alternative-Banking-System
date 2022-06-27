@@ -1,9 +1,19 @@
 package objects.customers;
 
+import com.sun.javafx.binding.ExpressionHelper;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.ObservableValueBase;
+
+import java.util.EventListener;
+
 public class CustomerInfoInlayDTO {
     private boolean withDrawException;
     private String result;
     private int openLoans;
+
 
     public CustomerInfoInlayDTO(boolean withDrawException, String result, int openLoans) {
         this.withDrawException = withDrawException;
@@ -21,5 +31,17 @@ public class CustomerInfoInlayDTO {
 
     public int getOpenLoans() {
         return openLoans;
+    }
+
+    public void setWithDrawException(boolean withDrawException) {
+        this.withDrawException = withDrawException;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public void setOpenLoans(int openLoans) {
+        this.openLoans = openLoans;
     }
 }

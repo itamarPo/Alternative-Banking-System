@@ -47,6 +47,9 @@ public class TransactionPopUpController {
     private AccountTransactionController accountTransactionController;
 
     //Getters
+
+    public Stage getPopUpStage() {return popUpStage;}
+
     public Label getMessageButton() {return messageButton;}
     public AnchorPane getTransactionPopUpAP() {return transactionPopUpAP;}
 
@@ -100,22 +103,23 @@ public class TransactionPopUpController {
            if(userSum<=0){
                throw new Exception();
            }
-           if(chargeOrWithdraw)
-               engine.addMoneyToAccount(engine.getCustomerByName(userName), userSum);
-           else {
-               try {
-                   engine.drawMoneyFromAccount(engine.getCustomerByName(userName), userSum);
-               }
-               catch (WithDrawMoneyException e){
-                   errorMessage.setText(e.toString());
-                   return;
-               }
-           }
-
-           accountTransactionController.getInformationTabController().getBalanceLabel().setText("Balance: " + engine.getCustomerByName(userName).getBalance());
-           accountTransactionController.setTableValues(engine.getCustomersInfo().stream().filter(l->l.getName().equals(userName)).findFirst().orElse(null));
-           errorMessage.setText(null);
-           popUpStage.close();
+//           if(chargeOrWithdraw)
+//               engine.addMoneyToAccount(engine.getCustomerByName(userName), userSum);
+//           else {
+//               try {
+//                   engine.drawMoneyFromAccount(engine.getCustomerByName(userName), userSum);
+//               }
+//               catch (WithDrawMoneyException e){
+//                   errorMessage.setText(e.toString());
+//                   return;
+//               }
+//           }
+//
+//           accountTransactionController.getInformationTabController().getBalanceLabel().setText("Balance: " + engine.getCustomerByName(userName).getBalance());
+//           accountTransactionController.setTableValues(engine.getCustomersInfo().stream().filter(l->l.getName().equals(userName)).findFirst().orElse(null));
+//           errorMessage.setText(null);
+//           popUpStage.close();
+            getAccountTransactionController().getInformationTabController().getCustomerScreenController().transactionUpdate(chargeOrWithdraw,userSum);
         }
         catch (Exception e){
             errorMessage.setText("Incorrect Input. Please Enter a valid Number");

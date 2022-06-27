@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import objects.loans.NewLoanDTO;
+import sun.misc.IOUtils;
 import utils.EngineServlet;
 
 import java.io.IOException;
@@ -26,8 +27,8 @@ public class CustomerInlayFilterPullServlet extends HttpServlet {
         Integer minInterest = Integer.getInteger(request.getParameter("minInterest"));
         Integer maxOpenLoans = Integer.getInteger(request.getParameter("maxOpenLoans"));
         Gson gson = new Gson();
-        String json = request.getReader().toString();
-        List<String> categories= Arrays.stream(gson.fromJson(json, String[].class)).collect(Collectors.toList());
+        String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+        List<String> categories= Arrays.asList(gson.fromJson(json, String[].class));
         Engine engine = EngineServlet.getEngine(getServletContext());
         List<NewLoanDTO> filteredList = engine.getFilteredLoans(categories, minInterest, minYaz, String.valueOf(request.getSession().getAttribute(USERNAME)), maxOpenLoans);
         Gson returnGson = new Gson();

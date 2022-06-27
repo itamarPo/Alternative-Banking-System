@@ -151,33 +151,36 @@ public class InlayTabController {
         List<String> categoriesList = getFilteredCategories(); // this list might be empty! if so there is no filter for categories!
         int minInterest = getMinInterest();
         int minYAZ = getMinYAZ();
-        int maxOpenLoans = getMaxOpenLoans();
+      //  int maxOpenLoans = getMaxOpenLoans();
         int maxownership = getMaxOwnership();
-        customerInfoInlay = customerScreenController.inlaySumCheck((double)amountToinvest);
-        if(maxOpenLoans==DIFFERENT) {
-            if(customerInfoInlay==null)
-                Notifications.create().title("ERROR").text("ERRORRRRRR").hideAfter(Duration.seconds(2)).position(Pos.CENTER).showError();
-            else
-                maxOpenLoans = customerInfoInlay.getOpenLoans();
-        }
-        if(customerInfoInlay.isWithDrawException()){
-            amountErrorLabel.setText(customerInfoInlay.getResult());
-            amountToinvest = INVALID;
-        }
-
-        if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
-//            newLoanTBController.getTableView().getItems().clear();
-//            pendingLoanTBController.getTableView().getItems().clear();
+       // customerInfoInlay.add(new CustomerInfoInlayDTO(false,"",0));
+        if(minInterest == INVALID || minYAZ == INVALID || maxownership == INVALID)
             return;
-        }
-        enableAllErrors();
-        this.amountToInvest = amountToinvest;
-        this.maxOwnership = maxownership;
+        customerScreenController.inlaySumCheck((double)amountToinvest, maxownership, categoriesList ,minInterest,minYAZ);
+//        if(maxOpenLoans==DIFFERENT) {
+//            if(customerInfoInlay==null)
+//                Notifications.create().title("ERROR").text("ERRORRRRRR").hideAfter(Duration.seconds(2)).position(Pos.CENTER).showError();
+//            else
+//                maxOpenLoans = customerInfoInlay.getOpenLoans();
+//        }
+//        if(customerInfoInlay.isWithDrawException()){
+//            amountErrorLabel.setText(customerInfoInlay.getResult());
+//            amountToinvest = INVALID;
+//        }
+
+//        if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
+////            newLoanTBController.getTableView().getItems().clear();
+////            pendingLoanTBController.getTableView().getItems().clear();
+//            return;
+//        }
+//        enableAllErrors();
+//        this.amountToInvest = amountToinvest;
+//        this.maxOwnership = maxownership;
         //input check
 
             //throw new WithDrawMoneyException(customerScreenController.getUserCB().getValue(), (double)amountToinvest);
         //filtering
-        List<NewLoanDTO> filteredLoans = customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans);
+       // List<NewLoanDTO> filteredLoans = customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans);
                 //inlay
 //        //final List<NewLoanDTO>[] filteredLoans = new List[]{new ArrayList<>()};
 //        inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,"Name"/*Cus.getUserCB().getValue()*/, maxOpenLoans, engine);
@@ -198,10 +201,45 @@ public class InlayTabController {
 //                }
 //            }
 //       });
-        this.amountToInvest = amountToinvest;
-        this.maxOwnership = maxownership;
+//        this.amountToInvest = amountToinvest;
+//        this.maxOwnership = maxownership;
     }
 
+    public void filterCheckAndContinue(CustomerInfoInlayDTO customerInfoInlay, int maxownership, List<String> categoriesList,
+                                       int minInterest, int minYAZ){
+       int maxOpenLoans = getMaxOpenLoans();
+        int amountToinvest = getAmountToInvest();
+        if(maxOpenLoans==DIFFERENT) {
+            if(customerInfoInlay==null)
+                Notifications.create().title("ERROR").text("ERRORRRRRR").hideAfter(Duration.seconds(2)).position(Pos.CENTER).showError();
+            else
+                maxOpenLoans = customerInfoInlay.getOpenLoans();
+        }
+        if(customerInfoInlay.isWithDrawException()){
+            amountErrorLabel.setText(customerInfoInlay.getResult());
+            amountToinvest = INVALID;
+        }
+
+        if(amountToinvest == INVALID || maxOpenLoans == INVALID) {
+//            newLoanTBController.getTableView().getItems().clear();
+//            pendingLoanTBController.getTableView().getItems().clear();
+            return;
+        }
+        enableAllErrors();
+        this.amountToInvest = amountToinvest;
+        this.maxOwnership = maxownership;
+        //input check
+        //throw new WithDrawMoneyException(customerScreenController.getUserCB().getValue(), (double)amountToinvest);
+        //filtering
+       customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans);
+    }
+
+    public void inlayImplement(List<NewLoanDTO> filteredLoans){
+        newLoanTBController.setValues(filteredLoans.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
+        List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
+        filteredLoans.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
+        pendingLoanTBController.setValues(filteredPendingLoans);
+    }
 
     private void enableAllErrors() {
         amountErrorLabel.setText("");

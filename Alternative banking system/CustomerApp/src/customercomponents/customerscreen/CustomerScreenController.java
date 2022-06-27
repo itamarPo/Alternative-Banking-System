@@ -22,6 +22,7 @@ import objects.loans.payments.PaymentNotificationDTO;
 import okhttp3.*;
 import org.controlsfx.control.Notifications;
 import userinterface.customer.information.InformationTabController;
+import userinterface.customer.information.accountTransaction.AccountTransactionController;
 import userinterface.customer.inlay.InlayTabController;
 import userinterface.customer.loanforsell.LoanSellTabController;
 import userinterface.customer.payments.PaymentsTabController;
@@ -126,6 +127,8 @@ public class CustomerScreenController {
     public ScrollPane getMainSP() {return MainSP;}
     public ComboBox<String> getThemeCB() {return ThemeCB;}
     public String getUserName() {return userName;}
+
+    public Stage getPrimaryStage() {return primaryStage;}
 
     //setters
 //    public void setMainControllerAndEngine(MainController mainController, Engine engine) {
@@ -312,6 +315,49 @@ public class CustomerScreenController {
         pendingLenders.stream().filter(p->p.getStatus().equals("Finished")).forEach(x -> finishedLenders.add((FinishedLoanDTO) x));
         informationTabController.getFinishedLenderTableController().setValues(finishedLenders.stream().filter(p -> p.getStatus().equals("Finished")).collect(Collectors.toList()));
     }
+
+    public void transactionUpdate(Boolean chargeOrWithdraw, final Double amount){
+        //Gson gson = new Gson();
+        //String json = gson.toJson(categories);
+//        RequestBody body = RequestBody.create(json, "") // new
+//        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+        RequestBody body = RequestBody.create(
+                "", MediaType.parse("txt"));
+
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + TRANSACTION_POPUP_IMPLEMENTATION)
+                .newBuilder()
+                .addQueryParameter(AMOUNT, amount.toString())
+                .addQueryParameter(USERNAME, userName)
+                .addQueryParameter("chargeOrWithdraw", chargeOrWithdraw.toString())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .post(body)
+                .build();
+
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("call = " + call + ", e = " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful()){
+                    Platform.runLater(()->informationTabController.getTransactionInfoController().getPopUpController().setErrorMessage(response.body().toString()));
+                }
+                else{
+                    CustomerInfoDTO customerInfo = GSON_INSTANCE.fromJson(response.body().string(), CustomerInfoDTO.class);
+                    Platform.runLater(()->{
+                        informationTabController.getBalanceLabel().setText("Balance: " + customerInfo.getBalance());
+                        informationTabController.getTransactionInfoController().setTableValues(customerInfo);
+                        informationTabController.getTransactionInfoController().getPopUpController().setErrorMessage(null);
+                        informationTabController.getTransactionInfoController().getPopUpController().getPopUpStage().close();});
+                }
+            }
+        });
+    }
     public void updatePayments(String userPick, List<PaymentNotificationDTO> paymentNotificationList, List<NewLoanDTO> loanList){
         List<NewLoanDTO> temp = loanList.stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
         List<ActiveRiskLoanDTO> closeLoanActive = new ArrayList<>();
@@ -371,9 +417,12 @@ public class CustomerScreenController {
         return 0;
     }
 
-    public CustomerInfoInlayDTO inlaySumCheck(Double amount){
-        final CustomerInfoInlayDTO[] customerInfoInlayDTO = new CustomerInfoInlayDTO[1];
-        CustomerInfoInlayDTO temp;
+    public void inlaySumCheck(final Double amount/*,final List<CustomerInfoInlayDTO> customerInfoInlayDTO*/, final int maxOwnerShip,
+                                              final List<String> categories, final int minInterest ,final int minYaz ){
+       // final CustomerInfoInlayDTO customerInfoInlayDTO[] = new CustomerInfoInlayDTO[1];
+        //customerInfoInlayDTO.add(new CustomerInfoInlayDTO(false, "", 0));
+
+       // customerInfoInlayDTO[0] = new CustomerInfoInlayDTO(false, "", 0);
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_INLAY_INPUT_RESOURCE)
                 .newBuilder().addQueryParameter("Amount", amount.toString())
                 .build()
@@ -381,25 +430,27 @@ public class CustomerScreenController {
         Request request = new Request.Builder()
                 .url(finalUrlInformation)
                 .build();
-        HttpUtil.runAsync(request, false, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                System.out.println("call = " + call + ", e = " + e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Gson gson = GSON_INSTANCE;
-                CustomerInfoInlayDTO customerInfoInlay = gson.fromJson(response.body().string(), CustomerInfoInlayDTO.class);
-                customerInfoInlayDTO[0] = customerInfoInlay;
-            }
-        });
-        temp = customerInfoInlayDTO[0];
-       return temp;
+            HttpUtil.runAsync(request, false, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    System.out.println("call = " + call + ", e = " + e);
+                }
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    Gson gson = GSON_INSTANCE;
+                    CustomerInfoInlayDTO customerInfoInlay = gson.fromJson(response.body().string(), CustomerInfoInlayDTO.class);
+//                    customerInfoInlayDTO.get(customerInfoInlayDTO.size()-1).setOpenLoans(customerInfoInlay.getOpenLoans());
+//                    customerInfoInlayDTO.get(customerInfoInlayDTO.size()-1).setResult(customerInfoInlay.getResult());
+//                    customerInfoInlayDTO.get(customerInfoInlayDTO.size()-1).setWithDrawException(customerInfoInlay.isWithDrawException());
+                    Platform.runLater(()->
+                            inlayTabController.filterCheckAndContinue(customerInfoInlay, maxOwnerShip, categories, minInterest, minYaz));
+                }
+            });
     }
 
-    public List<NewLoanDTO> getFilteredLoans(List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans){
-        final List<NewLoanDTO>[] filteredLoans = (List<NewLoanDTO>[]) new Object[1];
+    public void getFilteredLoans(List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans){
+        //final List<NewLoanDTO>[] filteredLoans = new List[1];
+        //filteredLoans[0] = new ArrayList<>();
         Gson gson = new Gson();
         String json = gson.toJson(categories);
 //        RequestBody body = RequestBody.create(json, "") // new
@@ -428,15 +479,17 @@ public class CustomerScreenController {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(!response.isSuccessful())
-                    filteredLoans[0] = null;
+                  //  filteredLoans[0] = null;
+                    System.out.println("call = " + call + ", response = " + response);
                 else
                 {
                     String responseJson = response.body().string();
-                    filteredLoans[0] = Arrays.stream(GSON_INSTANCE.fromJson(responseJson, NewLoanDTO[].class)).collect(Collectors.toList());
+                    List<NewLoanDTO> filteredLoans = Arrays.asList(GSON_INSTANCE.fromJson(responseJson, NewLoanDTO[].class));
+                    Platform.runLater(()->inlayTabController.inlayImplement(filteredLoans));
                 }
             }
         });
-        return filteredLoans[0];
+       // return filteredLoans[0];
     }
 
 

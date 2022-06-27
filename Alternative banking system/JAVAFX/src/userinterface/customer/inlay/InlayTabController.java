@@ -155,7 +155,10 @@ public class InlayTabController {
         int maxownership = getMaxOwnership();
         customerInfoInlay = customerScreenController.inlaySumCheck((double)amountToinvest);
         if(maxOpenLoans==DIFFERENT) {
-            maxOpenLoans = customerInfoInlay.getOpenLoans();
+            if(customerInfoInlay==null)
+                Notifications.create().title("ERROR").text("ERRORRRRRR").hideAfter(Duration.seconds(2)).position(Pos.CENTER).showError();
+            else
+                maxOpenLoans = customerInfoInlay.getOpenLoans();
         }
         if(customerInfoInlay.isWithDrawException()){
             amountErrorLabel.setText(customerInfoInlay.getResult());

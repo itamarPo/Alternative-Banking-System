@@ -372,7 +372,8 @@ public class CustomerScreenController {
     }
 
     public CustomerInfoInlayDTO inlaySumCheck(Double amount){
-        final CustomerInfoInlayDTO customerInfoInlayDTO[] = new CustomerInfoInlayDTO[1];
+        final CustomerInfoInlayDTO[] customerInfoInlayDTO = new CustomerInfoInlayDTO[1];
+        CustomerInfoInlayDTO temp;
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_INLAY_INPUT_RESOURCE)
                 .newBuilder().addQueryParameter("Amount", amount.toString())
                 .build()
@@ -383,15 +384,18 @@ public class CustomerScreenController {
         HttpUtil.runAsync(request, false, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                System.out.println("call = " + call + ", e = " + e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                customerInfoInlayDTO[0] = GSON_INSTANCE.fromJson(response.body().string(), CustomerInfoInlayDTO.class);
+                Gson gson = GSON_INSTANCE;
+                CustomerInfoInlayDTO customerInfoInlay = gson.fromJson(response.body().string(), CustomerInfoInlayDTO.class);
+                customerInfoInlayDTO[0] = customerInfoInlay;
             }
         });
-       return customerInfoInlayDTO[0];
+        temp = customerInfoInlayDTO[0];
+       return temp;
     }
 
     public List<NewLoanDTO> getFilteredLoans(List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans){

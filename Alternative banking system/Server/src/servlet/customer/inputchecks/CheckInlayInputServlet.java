@@ -26,13 +26,13 @@ public class CheckInlayInputServlet extends HttpServlet {
         Gson gson = new Gson();
         String json;
         try {
+            String userName = String.valueOf(request.getSession().getAttribute(USERNAME));
             engine.checkAmountOfInvestment(String.valueOf(request.getSession().getAttribute(USERNAME)), amount);
-             customerInfoInlayDTO = new CustomerInfoInlayDTO(false,"", maxOpenLoans);
-             json = gson.toJson(customerInfoInlayDTO);
-             response.getWriter().println(json);
+            customerInfoInlayDTO = new CustomerInfoInlayDTO(false,"", maxOpenLoans);
+            json = gson.toJson(customerInfoInlayDTO);
+            response.getWriter().println(json);
         }catch (Exception e){
             customerInfoInlayDTO = new CustomerInfoInlayDTO(true, e.toString(), maxOpenLoans);
-            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
             json = gson.toJson(customerInfoInlayDTO);
             response.getWriter().println(json);
         }

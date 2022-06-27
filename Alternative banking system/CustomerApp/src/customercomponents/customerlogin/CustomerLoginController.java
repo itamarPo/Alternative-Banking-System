@@ -68,6 +68,7 @@ public class CustomerLoginController {
                 } else {
                     Platform.runLater(() ->
                             primaryStage.setScene(customerScreenScene));
+                            customerScreenController.setUserName(userName);
                             customerScreenController.startInfoRefresh(userName);
                     //update all the time
 

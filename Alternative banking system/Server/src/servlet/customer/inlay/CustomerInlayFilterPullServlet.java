@@ -23,9 +23,9 @@ import static userinterface.Constants.USERNAME;
 public class CustomerInlayFilterPullServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Integer minYaz = Integer.getInteger(request.getParameter("minYAZ"));
-        Integer minInterest = Integer.getInteger(request.getParameter("minInterest"));
-        Integer maxOpenLoans = Integer.getInteger(request.getParameter("maxOpenLoans"));
+        Integer minYaz = Integer.parseInt(request.getParameter("minYAZ"));
+        Integer minInterest = Integer.parseInt(request.getParameter("minInterest"));
+        Integer maxOpenLoans = Integer.parseInt(request.getParameter("maxOpenLoans"));
         Gson gson = new Gson();
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
         List<String> categories= Arrays.asList(gson.fromJson(json, String[].class));

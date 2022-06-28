@@ -345,7 +345,13 @@ public class CustomerScreenController {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(!response.isSuccessful()){
-                    Platform.runLater(()->informationTabController.getTransactionInfoController().getPopUpController().setErrorMessage(response.body().toString()));
+                    Platform.runLater(()-> {
+                        try {
+                            informationTabController.getTransactionInfoController().getPopUpController().setErrorMessage(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
                 }
                 else{
                     CustomerInfoDTO customerInfo = GSON_INSTANCE.fromJson(response.body().string(), CustomerInfoDTO.class);
@@ -460,9 +466,9 @@ public class CustomerScreenController {
 
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_INLAY_FILTER_RESOURCE)
                 .newBuilder()
-                .addQueryParameter("minInterest", minInterest.toString())
-                .addQueryParameter("minYAZ", minYAZ.toString())
-                .addQueryParameter("maxOpenLoans", maxOpenLoans.toString())
+                .addQueryParameter("minInterest", String.valueOf(minInterest))
+                .addQueryParameter("minYAZ", String.valueOf(minYAZ))
+                .addQueryParameter("maxOpenLoans", String.valueOf(maxOpenLoans))
                 .build()
                 .toString();
         Request request = new Request.Builder()

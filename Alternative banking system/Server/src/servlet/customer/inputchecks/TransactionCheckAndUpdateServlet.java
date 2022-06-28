@@ -32,8 +32,8 @@ public class TransactionCheckAndUpdateServlet extends HttpServlet {
                 engine.drawMoneyFromAccount(engine.getCustomerByName(userName), amount);
                 response.getWriter().println(gson.toJson(engine.getCustomerInfo(userName)));
             } catch (Exception e) {
-                response.getWriter().println(e.toString());
                 response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+                response.getWriter().println(e.toString());
             }
         }
     }

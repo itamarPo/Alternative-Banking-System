@@ -26,6 +26,8 @@ import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
 import userinterface.customer.loanforsell.LoanSellTabController;
 import userinterface.customer.payments.PaymentsTabController;
+import userinterface.table.loantable.NewLoanTableController;
+import userinterface.table.loantable.tableobject.NewLoanTableObject;
 import userinterface.utils.HttpUtil;
 
 import java.io.File;
@@ -292,10 +294,12 @@ public class CustomerScreenController {
 
         List<NewLoanTableObject> temp = loanList.stream().filter(l->l.getBorrowerName().equals(UserPick)).collect(Collectors.toList());
         List<PendingLoanDTO> pending = new ArrayList<>();
+        
 
         List<ActiveRiskLoanDTO> active = new ArrayList<>();
         List<ActiveRiskLoanDTO> risk = new ArrayList<>();
         List<FinishedLoanDTO> finished = new ArrayList<>();
+
         //Loaner Tables
         informationTabController.getNewLoanerTableController().setValues(temp.stream().filter(p->p.getStatus().equals("New")).collect(Collectors.toList()));
         temp.stream().filter(x -> x.getStatus().equals("Pending")).forEach(y -> pending.add((PendingLoanDTO) y));
@@ -505,6 +509,41 @@ public class CustomerScreenController {
             }
         });
        // return filteredLoans[0];
+    }
+
+    public void makeInlay(List<NewLoanDTO> loans, Integer amountToInvest, Integer maxOwnership){
+        Gson gson = new Gson();
+        String json = gson.toJson(loans);
+        RequestBody body = RequestBody.create(
+                json, MediaType.parse("application/json"));
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_MAKE_INLAY_RESOURCE)
+                .newBuilder()
+                .addQueryParameter(AMOUNT, String.valueOf(amountToInvest))
+                .addQueryParameter("maxOwnership", String.valueOf(maxOwnership))
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .post(body)
+                .build();
+
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("call = " + call + ", e = " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                   Platform.runLater(() -> {
+                       inlayTabController.resetFields();
+                       Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+                       successInlay.showInformation();
+                   });
+                }
+            }
+        });
     }
 
 

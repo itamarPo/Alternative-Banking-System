@@ -33,9 +33,7 @@ public class CreateLoanServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
-        else{
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-        }
+
     }
 
 }

@@ -24,6 +24,8 @@ import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.Notifications;
 import userinterface.table.loantable.NewLoanTableController;
 import userinterface.table.loantable.PendingLoanTableController;
+import userinterface.table.loantable.tableobject.NewLoanTableObject;
+import userinterface.table.loantable.tableobject.PendingLoanTableObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +127,7 @@ public class InlayTabController {
         //Creating checkbox column
         TableColumn<PendingLoanTableObject, CheckBox> checkBoxColumn = new TableColumn<>();
         checkBoxColumn.setCellValueFactory(new PropertyValueFactory<>("IsSelected"));
+        //Adding column to table
         pendingLoanTBController.getTableView().getColumns().add(0,checkBoxColumn);
 
     }
@@ -421,15 +424,20 @@ public class InlayTabController {
     }
     @FXML
     public void confirmInlayOnAction(ActionEvent actionEvent)throws Exception{
-        List<NewLoanDTO> newLoansPicked = newLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected()).collect(Collectors.toList());
-        List<NewLoanDTO> pendingLoansPicked = pendingLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected()).collect(Collectors.toList());
+        List<NewLoanDTO> newLoansPicked = newLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected().isSelected())
+                .map(t -> new NewLoanDTO(t.getLoanID(), t.getBorrowerName(), t.getLoanCategory(), t.getSizeNoInterest(), t.getTimeLimitOfLoan(),
+                t.getInterestPerPayment(), t.getTimePerPayment(), t.getStatus())).collect(Collectors.toList());
+        List<PendingLoanDTO> pendingLoansPicked = pendingLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected().isSelected())
+                .map(t -> new PendingLoanDTO(t.getLoanID(), t.getBorrowerName(), t.getLoanCategory(), t.getSizeNoInterest(), t.getTimeLimitOfLoan(),
+                        t.getInterestPerPayment(), t.getTimePerPayment(), t.getStatus(), t.getListOfLenders(), t.getCollectedSoFar(),
+                        t.getSumLeftToBeCollected())).collect(Collectors.toList());
         newLoansPicked.addAll(pendingLoansPicked);
         if(newLoansPicked.size() == 0){
             Notifications ownerNotExist = Notifications.create().title("Error").text("You must select a loan for the inlay!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
             ownerNotExist.show();
             return;
         }
-
+        customerScreenController.makeInlay(newLoansPicked, amountToInvest, maxOwnership);
 //        engine.splitMoneyBetweenLoans(newLoansPicked.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()), amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
         //TODO: http request to inlay
 //        resetFields();

@@ -115,13 +115,15 @@ public class InlayTabController {
             maxOwnershipLoanErrorLabel.setText("");}
         );
 
-        //Adding checkbox column to the new table
-        TableColumn<NewLoanDTO, CheckBox> checkBoxCol = new TableColumn<>();
+        //Creating checkbox column
+        TableColumn<NewLoanTableObject, CheckBox> checkBoxCol = new TableColumn<>();
+        //TableColumn<?, CheckBox> checkBoxTableColumn = new TableColumn<>();
         checkBoxCol.setCellValueFactory(new PropertyValueFactory<>("IsSelected"));
         checkBoxCol.setText("Select loans");
+        //Adding column to table
         newLoanTBController.getTableView().getColumns().add(0, checkBoxCol);
-        //Adding checkbox column to the pending table
-        TableColumn<PendingLoanDTO, CheckBox> checkBoxColumn = new TableColumn<>();
+        //Creating checkbox column
+        TableColumn<PendingLoanTableObject, CheckBox> checkBoxColumn = new TableColumn<>();
         checkBoxColumn.setCellValueFactory(new PropertyValueFactory<>("IsSelected"));
         pendingLoanTBController.getTableView().getColumns().add(0,checkBoxColumn);
 
@@ -430,9 +432,9 @@ public class InlayTabController {
 
 //        engine.splitMoneyBetweenLoans(newLoansPicked.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()), amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
         //TODO: http request to inlay
-        resetFields();
-        Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
-        successInlay.showInformation();
+//        resetFields();
+//        Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+//        successInlay.showInformation();
 //        topCustomerController.updateInformationTab(topCustomerController.getUserCB().getValue());
     }
 

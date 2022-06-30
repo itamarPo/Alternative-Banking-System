@@ -112,26 +112,26 @@ public class FinishedLoanTableController {
         finishedTable.getItems().setAll(FinishedLoanDTOObservableList);
         for(int i=0; i<finishedTable.getItems().size(); i++){
             int finalI = i;
-            Button lendersButton = finishedTable.getItems().get(i).getLendersButton();
-            lendersButton.setText("Show");
-            lendersButton.setOnAction(new EventHandler<ActionEvent>(){
-                @Override
-                public void handle(ActionEvent actionEvent){
-                    if(!lenderStageExist){
-                        lenderStageExist = true;
-                        lendersTableController.setPopUpScene();
-                        lendersTableController.getPopUpLenderStage().initModality(Modality.WINDOW_MODAL);
-                        lendersTableController.getPopUpLenderStage().initOwner(primaryStage);
-                    }
-                    List<LenderMap> lenders = new ArrayList<>();
-                    Map<String, Double> lendersMap = finishedList.get(finalI).getListOfLenders();
-                    for (Map.Entry<String,Double> entry : lendersMap.entrySet()){
-                        lenders.add(new LenderMap(entry.getKey(), entry.getValue()));
-                    }
-                    lendersTableController.setValues(lenders);
-                    lendersTableController.getPopUpLenderStage().show();
-                }
-            });
+           // Button lendersButton = finishedTable.getItems().get(i).getLendersButton();
+          //  lendersButton.setText("Show");
+          //  lendersButton.setOnAction(new EventHandler<ActionEvent>(){
+//                @Override
+//                public void handle(ActionEvent actionEvent){
+//                    if(!lenderStageExist){
+//                        lenderStageExist = true;
+//                        lendersTableController.setPopUpScene();
+//                        lendersTableController.getPopUpLenderStage().initModality(Modality.WINDOW_MODAL);
+//                        lendersTableController.getPopUpLenderStage().initOwner(primaryStage);
+//                    }
+//                    List<LenderMap> lenders = new ArrayList<>();
+//                    Map<String, Double> lendersMap = finishedList.get(finalI).getListOfLenders();
+//                    for (Map.Entry<String,Double> entry : lendersMap.entrySet()){
+//                        lenders.add(new LenderMap(entry.getKey(), entry.getValue()));
+//                    }
+//                    lendersTableController.setValues(lenders);
+//                    lendersTableController.getPopUpLenderStage().show();
+//                }
+//            });
 
             Button paymentButton = finishedTable.getItems().get(i).getPaymentsButton();
             paymentButton.setText("Show");

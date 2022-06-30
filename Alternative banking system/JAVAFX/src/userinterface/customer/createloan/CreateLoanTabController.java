@@ -1,5 +1,6 @@
 package userinterface.customer.createloan;
 
+import customercomponents.customerscreen.CustomerScreenController;
 import exceptions.filesexepctions.TimeOfPaymentNotDivideEqualyException;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -14,11 +15,10 @@ import userinterface.utils.HttpUtil;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static userinterface.Constants.*;
 
-public class CreateLoanController {
+public class CreateLoanTabController {
     //JAVAFX components
     @FXML
     private TextField loanNameTF;
@@ -52,6 +52,7 @@ public class CreateLoanController {
     private int timePerPayment;
     private double amount;
     private int InterestPerPayment;
+    private CustomerScreenController customerScreenController;
     private String category;
 
     @FXML
@@ -83,8 +84,16 @@ public class CreateLoanController {
 
     }
 
+    public void setCustomerScreenController(CustomerScreenController customerScreenController) {
+        this.customerScreenController = customerScreenController;
+    }
+
     public void setCategoryCB(List<String> categories) {
         this.categoryCB.setItems(FXCollections.observableArrayList(categories));
+    }
+
+    public void setNameError(String nameError) {
+        this.nameError.setText(nameError);
     }
 
     //Regular Methods
@@ -94,7 +103,8 @@ public class CreateLoanController {
             /** Here we will make a new HTTP call which shall call the relative engine method which will add the new loan.
              * NEED TO CHECK IF THERE IS A SYNC REQUIREMENT!!!!!
              * I suggest we send the information via gson.*/
-            checkLoanNameAndCreate();
+            customerScreenController.LoanNameCheckAndCreate(loanNameTF.getText(), category, amount, duration, timePerPayment, InterestPerPayment);
+
         }
     }
 
@@ -185,7 +195,7 @@ public class CreateLoanController {
         String interestPerPayment = InterestPerPaymentTF.getText();
         try {
             int interest = Integer.parseInt(interestPerPayment); //NumberFormatException
-            if(amount < 1){
+            if(interest < 1){
                 throw new Exception();
             }
             InterestPerPaymentError.setText("");
@@ -199,47 +209,27 @@ public class CreateLoanController {
         return INVALID;
     }
     public boolean checkCategory(){
-        if(categoryCB.getSelectionModel().selectedItemProperty().equals(null)) {
+        if(categoryCB.getSelectionModel().getSelectedItem()==null) {
             categoryError.setText("Please Choose a category");
             return false;
         }
         categoryError.setText("");
         return true;
     }
-    public void checkLoanNameAndCreate(){
-//        final boolean[] checkName = new boolean[1];
-//        checkName[0] = false;
-//        if(loanNameTF.getText().equals("") || loanNameTF.getText().equals(null))
-//        {
-//            nameError.setText("Please insert a name.");
-//            return false;
-//        }
 
-        String finalUrlLoansTable = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_LOAN_NAME_AND_CREATE_RESOURCE)
-                .newBuilder()
-                .build()
-                .toString();
-        Request request = new Request.Builder()
-                .url(finalUrlLoansTable)
-                .build();
-        HttpUtil.runAsync(request, false, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                System.out.println("error");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    Platform.runLater(()->
-                    Notifications.create().title("Loan Created!").text("The loan was successfully created!").hideAfter(Duration.seconds(3)).position(Pos.CENTER).showInformation());
-                } else{
-                    Platform.runLater(()->nameError.setText("Loan's name already exists!"));
-                }
-            }
-        });
-//        if (checkName[0]==true)
-//            return false;
-//        return true;
+    public void resetFields(){
+        category = "";
+        amountTF.setText("");
+        durationTF.setText("");
+        loanNameTF.setText("");
+        timePerPaymentTF.setText("");
+        InterestPerPaymentTF.setText("");
+        nameError.setText("");
+        amountError.setText("");
+        categoryError.setText("");
+        durationError.setText("");
+        timePerPaymentError.setText("");
+        InterestPerPaymentError.setText("");
     }
+
 }

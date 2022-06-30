@@ -26,25 +26,18 @@ public class NewLoanDTO {
     public String getBorrowerName() {
         return borrowerName;
     }
-
     public String getLoanCategory() {
         return loanCategory;
     }
-
     public int getTimeLimitOfLoan() {
         return timeLimitOfLoan;
     }
-
     public double getInterestPerPayment() {
         return interestPerPayment;
     }
-
     public int getTimePerPayment() {
         return timePerPayment;
     }
-
-    public boolean getIsSelected() {return IsSelected;}
-
     public void setLoanCategory(String loanCategory) {
         this.loanCategory = loanCategory;
     }

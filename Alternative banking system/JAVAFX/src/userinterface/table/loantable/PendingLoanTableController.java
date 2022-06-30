@@ -19,6 +19,8 @@ import objects.loans.PendingLoanDTO;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
 import userinterface.table.LendersTableController;
+import userinterface.table.loantable.tableobject.NewLoanTableObject;
+import userinterface.table.loantable.tableobject.PendingLoanTableObject;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,17 +36,17 @@ public class PendingLoanTableController {
 
     private boolean lenderStageExist = false;
     //JavaFX components
-    @FXML private TableView<PendingLoanDTO> tableView;
-    @FXML private TableColumn<PendingLoanDTO, String> loanID;
-    @FXML private TableColumn<PendingLoanDTO, String> category;
-    @FXML private TableColumn<PendingLoanDTO, String> owner;
-    @FXML private TableColumn<PendingLoanDTO, Double> amount;
-    @FXML private TableColumn<PendingLoanDTO, Integer> duration;
-    @FXML private TableColumn<PendingLoanDTO, Integer> interest;
-    @FXML private TableColumn<PendingLoanDTO, Integer> timePerPayment;
-    @FXML private TableColumn<PendingLoanDTO, Button> listOfLenders;
-    @FXML private TableColumn<PendingLoanDTO, Double> collectedSoFar;
-    @FXML private TableColumn<PendingLoanDTO, Double> sumLeftToBeCollected;
+    @FXML private TableView<PendingLoanTableObject> tableView;
+    @FXML private TableColumn<PendingLoanTableObject, String> loanID;
+    @FXML private TableColumn<PendingLoanTableObject, String> category;
+    @FXML private TableColumn<PendingLoanTableObject, String> owner;
+    @FXML private TableColumn<PendingLoanTableObject, Double> amount;
+    @FXML private TableColumn<PendingLoanTableObject, Integer> duration;
+    @FXML private TableColumn<PendingLoanTableObject, Integer> interest;
+    @FXML private TableColumn<PendingLoanTableObject, Integer> timePerPayment;
+    @FXML private TableColumn<PendingLoanTableObject, Button> listOfLenders;
+    @FXML private TableColumn<PendingLoanTableObject, Double> collectedSoFar;
+    @FXML private TableColumn<PendingLoanTableObject, Double> sumLeftToBeCollected;
 
     //Regular Fields
     private InlayTabController inlayTabController;
@@ -83,7 +85,7 @@ public class PendingLoanTableController {
     }
 
     //Getters
-    public TableView<PendingLoanDTO> getTableView() {return tableView;}
+    public TableView<PendingLoanTableObject> getTableView() {return tableView;}
 
     //Setters
 

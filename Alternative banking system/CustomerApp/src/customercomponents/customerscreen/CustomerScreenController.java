@@ -21,6 +21,7 @@ import objects.loans.*;
 import objects.loans.payments.PaymentNotificationDTO;
 import okhttp3.*;
 import org.controlsfx.control.Notifications;
+import userinterface.customer.createloan.CreateLoanController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.information.accountTransaction.AccountTransactionController;
 import userinterface.customer.inlay.InlayTabController;
@@ -61,6 +62,10 @@ public class CustomerScreenController {
 
     @FXML private ScrollPane inlayTab;
     @FXML private InlayTabController inlayTabController;
+
+    @FXML private ScrollPane createLoan;
+
+    @FXML private CreateLoanController createLoanController;
 
     @FXML private ScrollPane loanSellTab;
     @FXML private LoanSellTabController loanSellTabController;
@@ -111,6 +116,9 @@ public class CustomerScreenController {
                 }
                 case "Buy/Sell Loans":{
                   //  updateLoanSellTab(user);
+                }
+                case "Create Loan":{
+                    updateCreateLoanTab();
                 }
             }
         });
@@ -512,6 +520,23 @@ public class CustomerScreenController {
         lenderLoans.removeIf(p -> loansForSale.contains(p));
         //List<LoansForSaleDTO> loansOnSale = engine.getLoansAvailableToBuy(userPick);
         loanSellTabController.setValues(lenderLoans,loansOnSale);
+    }
+
+    public void updateCreateLoanTab(){
+        Request request = new Request.Builder()
+                .url(FULL_PATH_DOMAIN + AVAILABLE_CATEGORIES_PULL_RESOURCE)
+                .build();
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("call = " + call + ", e = " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                createLoanController.setCategoryCB(Arrays.asList(GSON_INSTANCE.fromJson(response.body().string(), String[].class)));
+            }
+        });
     }
 
     @FXML

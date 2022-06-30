@@ -167,7 +167,15 @@ public class Engine implements EngineInterface , Serializable {
 //               break;
 //            }
 //         }
+   }
 
+   public void createNewLoan(String customerName, String category, String loanID, int loanDuration,
+                             int loanInterest, int timePerPayment, double loansAmount){
+      Customer customer = getCustomerByName(customerName);
+      Loans loan = new Loans(customerName, loanID, category, loanDuration, loanInterest, timePerPayment, loansAmount);
+      loans.add(loan);
+      loansByCategories.get(category).add(loan);
+      customer.getBorrowerList().add(loan);
    }
 
    @Override

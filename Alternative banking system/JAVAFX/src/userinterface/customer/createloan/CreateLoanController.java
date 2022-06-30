@@ -1,20 +1,24 @@
 package userinterface.customer.createloan;
 
 import exceptions.filesexepctions.TimeOfPaymentNotDivideEqualyException;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import objects.loans.NewLoanDTO;
-import objects.loans.PendingLoanDTO;
+import javafx.util.Duration;
 import okhttp3.*;
+import org.controlsfx.control.Notifications;
 import userinterface.utils.HttpUtil;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static userinterface.Constants.*;
 
-public class CreateLoan {
+public class CreateLoanController {
     //JAVAFX components
     @FXML
     private TextField loanNameTF;
@@ -79,6 +83,10 @@ public class CreateLoan {
 
     }
 
+    public void setCategoryCB(List<String> categories) {
+        this.categoryCB.setItems(FXCollections.observableArrayList(categories));
+    }
+
     //Regular Methods
     @FXML
     public void createNewLoanOnAction(ActionEvent event) {
@@ -86,6 +94,7 @@ public class CreateLoan {
             /** Here we will make a new HTTP call which shall call the relative engine method which will add the new loan.
              * NEED TO CHECK IF THERE IS A SYNC REQUIREMENT!!!!!
              * I suggest we send the information via gson.*/
+            checkLoanNameAndCreate();
         }
     }
 
@@ -108,8 +117,11 @@ public class CreateLoan {
             category = categoryCB.getSelectionModel().getSelectedItem().toString();
         if(InterestPerPayment==INVALID)
             return false;
-        if(checkLoanName())
-                return false;
+        if(loanNameTF.getText().equals("") || loanNameTF.getText().equals(null))
+        {
+            nameError.setText("Please insert a name.");
+            return false;
+        }
 
         return true;
     }
@@ -194,16 +206,16 @@ public class CreateLoan {
         categoryError.setText("");
         return true;
     }
-    public boolean checkLoanName(){
-        final boolean[] checkName = new boolean[1];
-        checkName[0] = false;
-        if(loanNameTF.getText().equals("") || loanNameTF.getText().equals(null))
-        {
-            nameError.setText("Please insert a name.");
-            return false;
-        }
+    public void checkLoanNameAndCreate(){
+//        final boolean[] checkName = new boolean[1];
+//        checkName[0] = false;
+//        if(loanNameTF.getText().equals("") || loanNameTF.getText().equals(null))
+//        {
+//            nameError.setText("Please insert a name.");
+//            return false;
+//        }
 
-        String finalUrlLoansTable = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_LOAN_NAME_RESOURCE)
+        String finalUrlLoansTable = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_LOAN_NAME_AND_CREATE_RESOURCE)
                 .newBuilder()
                 .build()
                 .toString();
@@ -218,12 +230,16 @@ public class CreateLoan {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful())
-                    checkName[0] = true;
+                if (response.isSuccessful()) {
+                    Platform.runLater(()->
+                    Notifications.create().title("Loan Created!").text("The loan was successfully created!").hideAfter(Duration.seconds(3)).position(Pos.CENTER).showInformation());
+                } else{
+                    Platform.runLater(()->nameError.setText("Loan's name already exists!"));
+                }
             }
         });
-        if (checkName[0]==true)
-            return false;
-        return true;
+//        if (checkName[0]==true)
+//            return false;
+//        return true;
     }
 }

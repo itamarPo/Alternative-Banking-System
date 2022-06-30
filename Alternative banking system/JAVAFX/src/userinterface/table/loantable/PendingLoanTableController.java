@@ -25,6 +25,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PendingLoanTableController {
 
@@ -60,16 +61,16 @@ public class PendingLoanTableController {
 
     //Initialize after constructor
     public void initialize() {
-        loanID.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, String>("loanID"));
-        category.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, String>("loanCategory"));
-        owner.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, String>("borrowerName"));
-        duration.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Integer>("timeLimitOfLoan"));
-        amount.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Double>("sizeNoInterest"));
-        interest.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Integer>("interestPerPayment"));
-        timePerPayment.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Integer>("timePerPayment"));
-        listOfLenders.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Button>("lendersButton"));
-        collectedSoFar.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Double>("collectedSoFar"));
-        sumLeftToBeCollected.setCellValueFactory(new PropertyValueFactory<PendingLoanDTO, Double>("sumLeftToBeCollected"));
+        loanID.setCellValueFactory(new PropertyValueFactory<PendingLoanTableObject, String>("loanID"));
+        category.setCellValueFactory(new PropertyValueFactory<PendingLoanTableObject, String>("loanCategory"));
+        owner.setCellValueFactory(new PropertyValueFactory<PendingLoanTableObject, String>("borrowerName"));
+        duration.setCellValueFactory(new PropertyValueFactory<PendingLoanTableObject, Integer>("timeLimitOfLoan"));
+        amount.setCellValueFactory(new PropertyValueFactory<PendingLoanTableObject, Double>("sizeNoInterest"));
+        interest.setCellValueFactory(new PropertyValueFactory<PendingLoanTableObject, Integer>("interestPerPayment"));
+        timePerPayment.setCellValueFactory(new PropertyValueFactory<PendingLoanTableObject, Integer>("timePerPayment"));
+        listOfLenders.setCellValueFactory(new PropertyValueFactory<PendingLoanTableObject, Button>("lendersButton"));
+        collectedSoFar.setCellValueFactory(new PropertyValueFactory<PendingLoanTableObject, Double>("collectedSoFar"));
+        sumLeftToBeCollected.setCellValueFactory(new PropertyValueFactory<PendingLoanTableObject, Double>("sumLeftToBeCollected"));
         FXMLLoader loaderlenders = new FXMLLoader();
         URL lendersFXML = getClass().getResource("/userinterface/table/lendersTable.fxml");
         loaderlenders.setLocation(lendersFXML);
@@ -103,7 +104,8 @@ public class PendingLoanTableController {
     }
 
     public void setValues(List<PendingLoanDTO> pendingLoansList){
-        ObservableList<PendingLoanDTO> pendingLoanDTOObservableList = FXCollections.observableArrayList(pendingLoansList);
+        List<PendingLoanTableObject> pendingLoanTableObjects = pendingLoansList.stream().map(t -> new PendingLoanTableObject(t)).collect(Collectors.toList());
+        ObservableList<PendingLoanTableObject> pendingLoanDTOObservableList = FXCollections.observableArrayList(pendingLoanTableObjects);
         tableView.getItems().setAll(pendingLoanDTOObservableList);
         for(int i=0; i<tableView.getItems().size(); i++){
             tableView.getItems().get(i).getLendersButton().setText("Show");

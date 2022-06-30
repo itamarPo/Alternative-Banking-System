@@ -12,7 +12,6 @@ public class NewLoanDTO {
     private int timeLimitOfLoan;
     private double interestPerPayment;
     private int timePerPayment;
-    private boolean IsSelected;
     private String status;
 
     public String getLoanID() {
@@ -59,8 +58,8 @@ public class NewLoanDTO {
         this.interestPerPayment = interestPerPayment;
         this.timePerPayment = timePerPayment;
         this.status = status;
-        this.IsSelected = false;
     }
+
 
     public void print(){
         System.out.println("Loan ID: " + loanID);

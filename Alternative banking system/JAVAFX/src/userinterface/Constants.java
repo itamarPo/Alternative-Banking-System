@@ -9,9 +9,10 @@ public class Constants {
     public final static String AVAILABLE_CATEGORIES_PULL_RESOURCE = "/Available-Categories-Pull-Servlet";
     public final static String CUSTOMER_PULL_INFORMATION_RESOURCE = "/Customer-Pull-Information-Servlet";
     public final static String CUSTOMER_PULL_CATEGORIES_RESOURCE = "/Customer-Categories-Pull-Servlet";
-    public final static String CHECK_LOAN_NAME_AND_CREATE_RESOURCE = "/Check-Loan-Name-And-Create";
+    public final static String CREATE_LOAN_RESOURCE = "/Create-Loan-Servlet";
     public final static String CHECK_INLAY_INPUT_RESOURCE = "/Check-Inlay-Input-Servlet";
     public final static String CUSTOMER_INLAY_FILTER_RESOURCE = "/Customer-Inlay-Filter-Pull-Servlet";
+    public final static String CUSTOMER_MAKE_INLAY_RESOURCE = "/Customer-Make-Inlay-Servlet";
     public final static String TRANSACTION_POPUP_IMPLEMENTATION = "/Transaction-CheckAndUpdate-Servlet";
     public final static Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 600;

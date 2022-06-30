@@ -21,9 +21,8 @@ import objects.loans.*;
 import objects.loans.payments.PaymentNotificationDTO;
 import okhttp3.*;
 import org.controlsfx.control.Notifications;
-import userinterface.customer.createloan.CreateLoanController;
+import userinterface.customer.createloan.CreateLoanTabController;
 import userinterface.customer.information.InformationTabController;
-import userinterface.customer.information.accountTransaction.AccountTransactionController;
 import userinterface.customer.inlay.InlayTabController;
 import userinterface.customer.loanforsell.LoanSellTabController;
 import userinterface.customer.payments.PaymentsTabController;
@@ -63,9 +62,9 @@ public class CustomerScreenController {
     @FXML private ScrollPane inlayTab;
     @FXML private InlayTabController inlayTabController;
 
-    @FXML private ScrollPane createLoan;
+    @FXML private ScrollPane createLoanTab;
 
-    @FXML private CreateLoanController createLoanController;
+    @FXML private CreateLoanTabController createLoanTabController;
 
     @FXML private ScrollPane loanSellTab;
     @FXML private LoanSellTabController loanSellTabController;
@@ -84,6 +83,7 @@ public class CustomerScreenController {
     @FXML private Tab information;
     @FXML private Tab inlay;
     @FXML private Tab payments;
+    @FXML private Tab createLoan;
 
     //Regular Fields
     private Stage primaryStage;
@@ -101,6 +101,7 @@ public class CustomerScreenController {
         paymentsTabController.setCustomerScreenController(this);
         inlayTabController.setCustomerScreenController(this);
         loanSellTabController.setCustomerScreenController(this);
+        createLoanTabController.setCustomerScreenController(this);
         customerOptionsTB.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             //String user = UserCB.getValue();
             switch(newTab.getText()){
@@ -289,7 +290,7 @@ public class CustomerScreenController {
         informationTabController.getTransactionInfoController().setTableValues(customerInfo);
         informationTabController.getBalanceLabel().setText("Balance: "+ customerInfo.getBalance());
 
-        List<NewLoanDTO> temp = loanList.stream().filter(l->l.getBorrowerName().equals(UserPick)).collect(Collectors.toList());
+        List<NewLoanTableObject> temp = loanList.stream().filter(l->l.getBorrowerName().equals(UserPick)).collect(Collectors.toList());
         List<PendingLoanDTO> pending = new ArrayList<>();
 
         List<ActiveRiskLoanDTO> active = new ArrayList<>();
@@ -534,9 +535,67 @@ public class CustomerScreenController {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                createLoanController.setCategoryCB(Arrays.asList(GSON_INSTANCE.fromJson(response.body().string(), String[].class)));
+                Platform.runLater(()->
+                {
+                    try {
+                        createLoanTabController.setCategoryCB(Arrays.asList(GSON_INSTANCE.fromJson(response.body().string(), String[].class)));
+                        createLoanTabController.resetFields();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             }
         });
+    }
+
+    public void LoanNameCheckAndCreate(String loanID,String category, Double amount, Integer loanDuration, Integer timePerPayment, Integer loanInterest){
+//        final boolean[] checkName = new boolean[1];
+//        checkName[0] = false;
+//        if(loanNameTF.getText().equals("") || loanNameTF.getText().equals(null))
+//        {
+//            nameError.setText("Please insert a name.");
+//            return false;
+//        }
+        RequestBody body = RequestBody.create(
+                "", MediaType.parse("txt"));
+
+            String finalUrlLoansTable = HttpUrl.parse(FULL_PATH_DOMAIN + CREATE_LOAN_RESOURCE)
+                    .newBuilder()
+                    .addQueryParameter(USERNAME, userName)
+                    .addQueryParameter("loanID", loanID)
+                    .addQueryParameter("category", category)
+                    .addQueryParameter(AMOUNT, amount.toString())
+                    .addQueryParameter("loanDuration", loanDuration.toString())
+                    .addQueryParameter("timePerPayment", timePerPayment.toString())
+                    .addQueryParameter("loanInterest", loanInterest.toString())
+                    .build()
+                    .toString();
+            Request request = new Request.Builder()
+                    .url(finalUrlLoansTable)
+                    .post(body)
+                    .build();
+            HttpUtil.runAsync(request, false, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    System.out.println("error");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        Platform.runLater(()->{
+                                Notifications.create().title("Loan Created!").text("The loan was successfully created!").hideAfter(Duration.seconds(3)).position(Pos.CENTER).showInformation();
+                                createLoanTabController.resetFields();});
+
+                    } else{
+                        Platform.runLater(()->createLoanTabController.setNameError("Loan's name already exists!"));
+                    }
+                }
+            });
+//        if (checkName[0]==true)
+//            return false;
+//        return true;
+
     }
 
     @FXML

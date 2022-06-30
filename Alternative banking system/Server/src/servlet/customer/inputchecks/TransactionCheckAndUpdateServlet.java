@@ -20,7 +20,7 @@ public class TransactionCheckAndUpdateServlet extends HttpServlet {
         Engine engine = EngineServlet.getEngine(getServletContext());
         Boolean chargeOrWithdraw = Boolean.parseBoolean(request.getParameter("chargeOrWithdraw"));
         Double amount = Double.parseDouble(request.getParameter(AMOUNT));
-        String userName = request.getParameter(USERNAME);
+        String userName = String.valueOf(request.getSession().getAttribute(USERNAME));
         Gson gson = GSON_INSTANCE;
         if(chargeOrWithdraw)
         {

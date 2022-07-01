@@ -4,7 +4,10 @@ import javafx.application.Platform;
 import objects.admin.LoanAndCustomerInfoDTO;
 import objects.customers.CustomerInfoDTO;
 import objects.customers.CustomersRelatedInfoDTO;
+import objects.loans.ActiveRiskLoanDTO;
+import objects.loans.FinishedLoanDTO;
 import objects.loans.NewLoanDTO;
+import objects.loans.PendingLoanDTO;
 import okhttp3.*;
 import userinterface.utils.HttpUtil;
 
@@ -25,13 +28,6 @@ public class CustomerInfoRefresher extends TimerTask {
 
     @Override
     public void run() {
-//        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_INFORMATION_RESOURCE)
-//                .newBuilder()
-//                .build()
-//                .toString();
-//        Request requestCustomerTable = new Request.Builder()
-//                .url(finalUrlInformation)
-//                .build();
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_INFORMATION_RESOURCE)
                 .newBuilder().addQueryParameter("userName", userName)
                 .build()
@@ -55,17 +51,16 @@ public class CustomerInfoRefresher extends TimerTask {
                 if(jsonArrayOfInformation==null || jsonArrayOfInformation=="")
                     return;
                 CustomersRelatedInfoDTO allTabsCustomerInformation = GSON_INSTANCE.fromJson(jsonArrayOfInformation, CustomersRelatedInfoDTO.class);
-
                 userName = allTabsCustomerInformation.getCustomerInfo().getName();
-                List<NewLoanDTO> relatedLoans = allTabsCustomerInformation.getRelatedLoans();
+                List<NewLoanDTO> newLoans = allTabsCustomerInformation.getNewLoans();
+                List<PendingLoanDTO> pendingLoans = allTabsCustomerInformation.getPendingLoans();
+                List<ActiveRiskLoanDTO> activeLoans = allTabsCustomerInformation.getActiveLoans();
+                List<ActiveRiskLoanDTO> riskLoans = allTabsCustomerInformation.getRiskLoans();
+                List<FinishedLoanDTO> finishedLoans = allTabsCustomerInformation.getFinishedLoans();
                 CustomerInfoDTO customerInfo = allTabsCustomerInformation.getCustomerInfo();
-
-
-                Platform.runLater(() -> customerScreenController.updateInformationTab(userName, relatedLoans, customerInfo));
+                Platform.runLater(() -> customerScreenController.updateInformationTab(userName, newLoans,pendingLoans,activeLoans,riskLoans,finishedLoans, customerInfo));
                 }
             }
-
-
         });
 
     }

@@ -15,7 +15,7 @@ public class Constants {
     public final static String CUSTOMER_MAKE_INLAY_RESOURCE = "/Customer-Make-Inlay-Servlet";
     public final static String TRANSACTION_POPUP_IMPLEMENTATION = "/Transaction-CheckAndUpdate-Servlet";
     public final static Gson GSON_INSTANCE = new Gson();
-    public final static int REFRESH_RATE = 600;
+    public final static int REFRESH_RATE = 3000;
     public final static String UPLOAD_FILE = "/upload-file";
     public final static String USERNAME = "userName";
     public final static String AMOUNT = "Amount";

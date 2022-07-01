@@ -72,7 +72,7 @@ public class NewLoanTableController implements Initializable {
     //Regular Methods
     public void setValues(List<NewLoanDTO> newLoansList){
         List<NewLoanTableObject> newLoanTableObjects = newLoansList.stream().map(t -> new NewLoanTableObject(t)).collect(Collectors.toList());
-       ObservableList<NewLoanTableObject> newLoanDTOObservableList = FXCollections.observableArrayList(newLoanTableObjects);
-       tableView.getItems().setAll(newLoanDTOObservableList);
+        ObservableList<NewLoanTableObject> newLoanDTOObservableList = FXCollections.observableArrayList(newLoanTableObjects);
+        tableView.getItems().setAll(newLoanDTOObservableList);
     }
 }

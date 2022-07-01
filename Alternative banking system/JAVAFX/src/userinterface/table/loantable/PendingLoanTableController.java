@@ -33,8 +33,8 @@ public class PendingLoanTableController {
 
     //Sub Components
     private LendersTableController lendersTableController;
-
     private boolean lenderStageExist = false;
+
     //JavaFX components
     @FXML private TableView<PendingLoanTableObject> tableView;
     @FXML private TableColumn<PendingLoanTableObject, String> loanID;

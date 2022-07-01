@@ -22,7 +22,6 @@ public class PendingLoanTableObject extends PendingLoanDTO {
     public CheckBox getIsSelected() {
         return IsSelected;
     }
-
     public Button getLendersButton() {
         return lendersButton;
     }

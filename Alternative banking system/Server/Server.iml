@@ -20,19 +20,19 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 10.0.22" level="application_server_libraries" />
-    <orderEntry type="library" name="kotlin-stdlib-1.4.10" level="project" />
-    <orderEntry type="library" name="kotlin-stdlib-common-1.4.10" level="project" />
-    <orderEntry type="library" name="okhttp-4.9.1" level="project" />
-    <orderEntry type="library" name="okio-2.8.0" level="project" />
-    <orderEntry type="library" name="gson-2.1-javadoc (1)" level="project" />
-    <orderEntry type="library" name="gson-2.1-sources (1)" level="project" />
-    <orderEntry type="library" name="gson-2.1 (1)" level="project" />
+    <orderEntry type="library" exported="" name="kotlin-stdlib-1.4.10" level="project" />
+    <orderEntry type="library" exported="" name="kotlin-stdlib-common-1.4.10" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-4.9.1" level="project" />
+    <orderEntry type="library" exported="" name="okio-2.8.0" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.1-javadoc (1)" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.1-sources (1)" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.1 (1)" level="project" />
     <orderEntry type="module" module-name="AdminApp" exported="" />
-    <orderEntry type="module" module-name="Alternative-Banking-System" />
+    <orderEntry type="module" module-name="Alternative-Banking-System" exported="" />
     <orderEntry type="module" module-name="CustomerApp" exported="" />
     <orderEntry type="module" module-name="DTO" exported="" />
     <orderEntry type="module" module-name="engine" exported="" />
     <orderEntry type="module" module-name="JAVAFX" exported="" />
+    <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 10.0.11" level="application_server_libraries" />
   </component>
 </module>

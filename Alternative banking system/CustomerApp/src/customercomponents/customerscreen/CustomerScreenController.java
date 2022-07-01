@@ -239,40 +239,40 @@ public class CustomerScreenController {
         timer = new Timer();
         timer.schedule(customerInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-    public void changeInfoFollowedComboBox(String UserPick){
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_INFORMATION_RESOURCE)
-                .newBuilder().addQueryParameter("userName", UserPick)
-                .build()
-                .toString();
-        Request requestCustomerTable = new Request.Builder()
-                .url(finalUrlInformation)
-                .build();
-
-        HttpUtil.runAsync(requestCustomerTable,true, new Callback() {
-            public void onFailure(Call call, IOException e) {
-                System.out.println("problem");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String jsonArrayOfInformation = response.body().string();
-                CustomersRelatedInfoDTO CustomersRelatedInfo = GSON_INSTANCE.fromJson(jsonArrayOfInformation, CustomersRelatedInfoDTO.class);
-                List<NewLoanDTO> loans = CustomersRelatedInfo.getRelatedLoans();
-                CustomerInfoDTO customer = CustomersRelatedInfo.getCustomerInfo();
-                List<PaymentNotificationDTO> paymentNotification = CustomersRelatedInfo.getPaymentsNotificationList();
-                List<LoansForSaleDTO> loansOnSale = CustomersRelatedInfo.getLoansForSaleList();
-                List<String> categories = CustomersRelatedInfo.getCategories();
-                Platform.runLater(() ->{
-                   // updateInformationTab(UserPick, customer, loans);
-                    updatePayments(UserPick, paymentNotification, loans);
-                    updateInlayTab();
-                    updateLoanSellTab(UserPick, customer, loansOnSale);
-                });
-            }
-
-        });
-
-    }
+//    public void changeInfoFollowedComboBox(String UserPick){
+//        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_INFORMATION_RESOURCE)
+//                .newBuilder().addQueryParameter("userName", UserPick)
+//                .build()
+//                .toString();
+//        Request requestCustomerTable = new Request.Builder()
+//                .url(finalUrlInformation)
+//                .build();
+//
+//        HttpUtil.runAsync(requestCustomerTable,true, new Callback() {
+//            public void onFailure(Call call, IOException e) {
+//                System.out.println("problem");
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                String jsonArrayOfInformation = response.body().string();
+//                CustomersRelatedInfoDTO CustomersRelatedInfo = GSON_INSTANCE.fromJson(jsonArrayOfInformation, CustomersRelatedInfoDTO.class);
+//                List<NewLoanDTO> loans = CustomersRelatedInfo.getRelatedLoans();
+//                CustomerInfoDTO customer = CustomersRelatedInfo.getCustomerInfo();
+//                List<PaymentNotificationDTO> paymentNotification = CustomersRelatedInfo.getPaymentsNotificationList();
+//                List<LoansForSaleDTO> loansOnSale = CustomersRelatedInfo.getLoansForSaleList();
+//                List<String> categories = CustomersRelatedInfo.getCategories();
+//                Platform.runLater(() ->{
+//                   // updateInformationTab(UserPick, customer, loans);
+//                    updatePayments(UserPick, paymentNotification, loans);
+//                    updateInlayTab();
+//                    updateLoanSellTab(UserPick, customer, loansOnSale);
+//                });
+//            }
+//
+//        });
+//
+//    }
 
     public InformationTabController getInformationTabController() {
         return informationTabController;
@@ -286,47 +286,25 @@ public class CustomerScreenController {
         return inlayTabController;
     }
 
-    public void updateInformationTab (String UserPick, List<NewLoanDTO> loanList, CustomerInfoDTO customerInfo){
-
-//        informationTabController.setUserName(UserPick);
+    public void updateInformationTab (String UserPick, List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans , List<FinishedLoanDTO> finishedLoans, CustomerInfoDTO customerInfo){
+        //Transactions and balance
+        informationTabController.setUserName(UserPick);
         informationTabController.getTransactionInfoController().setTableValues(customerInfo);
         informationTabController.getBalanceLabel().setText("Balance: "+ customerInfo.getBalance());
 
-        List<NewLoanTableObject> temp = loanList.stream().filter(l->l.getBorrowerName().equals(UserPick)).collect(Collectors.toList());
-        List<PendingLoanDTO> pending = new ArrayList<>();
-        
-
-        List<ActiveRiskLoanDTO> active = new ArrayList<>();
-        List<ActiveRiskLoanDTO> risk = new ArrayList<>();
-        List<FinishedLoanDTO> finished = new ArrayList<>();
-
         //Loaner Tables
-        informationTabController.getNewLoanerTableController().setValues(temp.stream().filter(p->p.getStatus().equals("New")).collect(Collectors.toList()));
-        temp.stream().filter(x -> x.getStatus().equals("Pending")).forEach(y -> pending.add((PendingLoanDTO) y));
-        informationTabController.getPendingLoanerTableController().setValues(pending);
-        temp.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> active.add((ActiveRiskLoanDTO)  y));
-        informationTabController.getActiveLoanerTableController().setValues(active);
-        temp.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> risk.add((ActiveRiskLoanDTO) y));
-        informationTabController.getRiskLoanerTableController().setValues(risk);
-        temp.stream().filter(x -> x.getStatus().equals("Finished")).forEach(y -> finished.add((FinishedLoanDTO) y));
-        informationTabController.getFinishedLoanerTableController().setValues(finished);
+        informationTabController.getNewLoanerTableController().setValues(newLoans);
+        informationTabController.getPendingLoanerTableController().setValues(pendingLoans.stream().filter(l -> l.getBorrowerName().equals(UserPick)).collect(Collectors.toList()));
+        informationTabController.getActiveLoanerTableController().setValues(activeLoans.stream().filter(l -> l.getBorrowerName().equals(UserPick)).collect(Collectors.toList()));
+        informationTabController.getRiskLoanerTableController().setValues(riskLoans.stream().filter(l -> l.getBorrowerName().equals(UserPick)).collect(Collectors.toList()));
+        informationTabController.getFinishedLoanerTableController().setValues(finishedLoans.stream().filter(l -> l.getBorrowerName().equals(UserPick)).collect(Collectors.toList()));
 
         //Lender Tables
-        List<NewLoanDTO> temp2 = loanList.stream().filter(x -> !x.getStatus().equals("New")).collect(Collectors.toList());
-        final List<PendingLoanDTO> temp3 = new ArrayList<>();
-        temp2.forEach(x -> temp3.add( (PendingLoanDTO) x));
-        List<PendingLoanDTO> pendingLenders = temp3.stream().filter(p->p.getListOfLenders().containsKey(UserPick)).collect(Collectors.toList());
-        List<ActiveRiskLoanDTO> activeLenders = new ArrayList<>();
-        List<ActiveRiskLoanDTO> riskLenders = new ArrayList<>();
-        List<FinishedLoanDTO>finishedLenders = new ArrayList<>();
+        informationTabController.getPendingLenderTableController().setValues(pendingLoans.stream().filter(l -> l.getListOfLenders().containsKey(UserPick)).collect(Collectors.toList()));
+        informationTabController.getActiveLenderTableController().setValues(activeLoans.stream().filter(l -> l.getListOfLenders().containsKey(UserPick)).collect(Collectors.toList()));
+        informationTabController.getRiskLenderTableController().setValues(riskLoans.stream().filter(l -> l.getListOfLenders().containsKey(UserPick)).collect(Collectors.toList()));
+        informationTabController.getFinishedLenderTableController().setValues(finishedLoans.stream().filter(l -> l.getListOfLenders().containsKey(UserPick)).collect(Collectors.toList()));
 
-        informationTabController.getPendingLenderTableController().setValues(pendingLenders.stream().filter(p -> p.getStatus().equals("Pending")).collect(Collectors.toList()));
-        pendingLenders.stream().filter(p->p.getStatus().equals("Active")).forEach(x -> activeLenders.add((ActiveRiskLoanDTO) x));
-        informationTabController.getActiveLenderTableController().setValues(activeLenders.stream().filter(p -> p.getStatus().equals("Active")).collect(Collectors.toList()));
-        pendingLenders.stream().filter(p->p.getStatus().equals("Risk")).forEach(x -> riskLenders.add((ActiveRiskLoanDTO) x));
-        informationTabController.getRiskLenderTableController().setValues(riskLenders.stream().filter(p -> p.getStatus().equals("Risk")).collect(Collectors.toList()));
-        pendingLenders.stream().filter(p->p.getStatus().equals("Finished")).forEach(x -> finishedLenders.add((FinishedLoanDTO) x));
-        informationTabController.getFinishedLenderTableController().setValues(finishedLenders.stream().filter(p -> p.getStatus().equals("Finished")).collect(Collectors.toList()));
     }
 
     public void transactionUpdate(Boolean chargeOrWithdraw, final Double amount){

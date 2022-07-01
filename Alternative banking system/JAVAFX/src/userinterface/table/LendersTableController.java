@@ -20,17 +20,11 @@ import java.util.Map;
 public class LendersTableController {
 
     @FXML private ScrollPane lendersTableSP;
-    @FXML
-    private TableView<LenderMap> lendersTable;
-
-    @FXML
-    private TableColumn<LenderMap, String> loanerName;
-
-    @FXML
-    private TableColumn<LenderMap, Double> amount;
+    @FXML private TableView<LenderMap> lendersTable;
+    @FXML private TableColumn<LenderMap, String> loanerName;
+    @FXML private TableColumn<LenderMap, Double> amount;
 
     private Stage popUpLenderStage;
-
     private Scene popUpLenderScene;
 
     public Stage getPopUpLenderStage() {
@@ -44,16 +38,7 @@ public class LendersTableController {
 
     public void setValues(List<LenderMap> values){
         ObservableList<LenderMap> listData = FXCollections.observableArrayList(values);
-       // listData.addAll(values);
-        //ObservableMap mapValues = FXCollections.observableMap(listData);
         lendersTable.getItems().setAll(listData);
-
-
-//        TableColumn<Map, String> firstNameColumn = new TableColumn<Map, String>("First Name");
-//        firstNameColumn.setCellValueFactory(new MapValueFactory<String>("firstName"));
-//
-//        TableView table = new TableView(personMapList);
-//        tableView.getColumns().setAll(firstNameColumn);
     }
 
     public LendersTableController(){

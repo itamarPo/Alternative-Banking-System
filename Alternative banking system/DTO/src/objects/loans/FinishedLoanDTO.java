@@ -10,16 +10,23 @@ public class FinishedLoanDTO extends PendingLoanDTO{
     private int startingTime;
     private List<PaymentsDTO> payments;
     private int finishingTime;
-    private Button paymentsButton;
 
     public FinishedLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, double interestPerPayment, int timePerPayment, String status, Map<String, Double> listOfLenders, Double collectedSoFar, Double sumLeftToBeCollected, int startingTime, List<PaymentsDTO> payments, int finishingTime) {
         super(loanID, borrowerName, loanCategory, sizeNoInterest, timeLimitOfLoan, interestPerPayment, timePerPayment, status, listOfLenders, collectedSoFar, sumLeftToBeCollected);
         this.startingTime = startingTime;
         this.payments = payments;
         this.finishingTime = finishingTime;
-        this.paymentsButton = new Button();
     }
 
+    public int getStartingTime() {
+        return startingTime;
+    }
+    public List<PaymentsDTO> getPayments() {
+        return payments;
+    }
+    public int getFinishingTime() {
+        return finishingTime;
+    }
 
     public void print(){
         super.print();
@@ -32,19 +39,5 @@ public class FinishedLoanDTO extends PendingLoanDTO{
 
     }
 
-    public int getStartingTime() {
-        return startingTime;
-    }
 
-    public List<PaymentsDTO> getPayments() {
-        return payments;
-    }
-
-    public int getFinishingTime() {
-        return finishingTime;
-    }
-
-    public Button getPaymentsButton() {
-        return paymentsButton;
-    }
 }

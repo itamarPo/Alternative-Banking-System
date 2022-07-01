@@ -21,12 +21,15 @@ import userinterface.customer.information.InformationTabController;
 import userinterface.customer.payments.PaymentsTabController;
 import userinterface.table.LendersTableController;
 import userinterface.table.PaymentTableController;
+import userinterface.table.loantable.tableobject.ActiveLoanTableObject;
+import userinterface.table.loantable.tableobject.PendingLoanTableObject;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ActiveLoanTableController{
 
@@ -35,22 +38,22 @@ public class ActiveLoanTableController{
     private LendersTableController lendersTableController;
     private PaymentTableController paymentTableController;
     //JavaFX components
-    @FXML private TableView<ActiveRiskLoanDTO> tableView;
-    @FXML private TableColumn<ActiveRiskLoanDTO, String> loanID;
-    @FXML private TableColumn<ActiveRiskLoanDTO, String> category;
-    @FXML private TableColumn<ActiveRiskLoanDTO, String> owner;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Double> amount;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Integer> duration;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Integer> interest;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Integer> timePerPayment;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Button> listOfLenders;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Integer> startingActiveTime;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Integer> nextPaymentTime;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Button> payments;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Double> allInitialPayedSoFar;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Double> allInterestPayedSoFar;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Double> allInitialLeftToPay;
-    @FXML private TableColumn<ActiveRiskLoanDTO, Double> allInterestLeftToPay;
+    @FXML private TableView<ActiveLoanTableObject> tableView;
+    @FXML private TableColumn<ActiveLoanTableObject, String> loanID;
+    @FXML private TableColumn<ActiveLoanTableObject, String> category;
+    @FXML private TableColumn<ActiveLoanTableObject, String> owner;
+    @FXML private TableColumn<ActiveLoanTableObject, Double> amount;
+    @FXML private TableColumn<ActiveLoanTableObject, Integer> duration;
+    @FXML private TableColumn<ActiveLoanTableObject, Integer> interest;
+    @FXML private TableColumn<ActiveLoanTableObject, Integer> timePerPayment;
+    @FXML private TableColumn<ActiveLoanTableObject, Button> listOfLenders;
+    @FXML private TableColumn<ActiveLoanTableObject, Integer> startingActiveTime;
+    @FXML private TableColumn<ActiveLoanTableObject, Integer> nextPaymentTime;
+    @FXML private TableColumn<ActiveLoanTableObject, Button> payments;
+    @FXML private TableColumn<ActiveLoanTableObject, Double> allInitialPayedSoFar;
+    @FXML private TableColumn<ActiveLoanTableObject, Double> allInterestPayedSoFar;
+    @FXML private TableColumn<ActiveLoanTableObject, Double> allInitialLeftToPay;
+    @FXML private TableColumn<ActiveLoanTableObject, Double> allInterestLeftToPay;
 
     //Regular Fields
     private PaymentsTabController paymentsTabController;
@@ -62,21 +65,21 @@ public class ActiveLoanTableController{
 
     @FXML
     private void initialize(){
-        loanID.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, String>("loanID"));
-        category.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, String>("loanCategory"));
-        owner.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, String>("borrowerName"));
-        duration.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Integer>("timeLimitOfLoan"));
-        amount.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Double>("sizeNoInterest"));
-        interest.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Integer>("interestPerPayment"));
-        timePerPayment.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Integer>("timePerPayment"));
-        listOfLenders.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Button>("lendersButton"));
-        startingActiveTime.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Integer>("startingActiveTime"));
-        nextPaymentTime.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Integer>("nextPaymentTime"));
-        payments.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Button>("paymentsButton"));
-        allInitialPayedSoFar.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Double>("allInitialPayedSoFar"));
-        allInterestPayedSoFar.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Double>("allInterestPayedSoFar"));
-        allInitialLeftToPay.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Double>("allInitialLeftToPay"));
-        allInterestLeftToPay.setCellValueFactory(new PropertyValueFactory<ActiveRiskLoanDTO, Double>("allInterestLeftToPay"));
+        loanID.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, String>("loanID"));
+        category.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, String>("loanCategory"));
+        owner.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, String>("borrowerName"));
+        duration.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Integer>("timeLimitOfLoan"));
+        amount.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Double>("sizeNoInterest"));
+        interest.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Integer>("interestPerPayment"));
+        timePerPayment.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Integer>("timePerPayment"));
+        listOfLenders.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Button>("lendersButton"));
+        startingActiveTime.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Integer>("startingActiveTime"));
+        nextPaymentTime.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Integer>("nextPaymentTime"));
+        payments.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Button>("paymentsButton"));
+        allInitialPayedSoFar.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Double>("allInitialPayedSoFar"));
+        allInterestPayedSoFar.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Double>("allInterestPayedSoFar"));
+        allInitialLeftToPay.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Double>("allInitialLeftToPay"));
+        allInterestLeftToPay.setCellValueFactory(new PropertyValueFactory<ActiveLoanTableObject, Double>("allInterestLeftToPay"));
         FXMLLoader loaderlenders = new FXMLLoader();
         URL lendersFXML = getClass().getResource("/userinterface/table/lendersTable.fxml");
         loaderlenders.setLocation(lendersFXML);
@@ -97,10 +100,9 @@ public class ActiveLoanTableController{
         }
         paymentTableController = loaderPayment.getController();
     }
+
     //Getters
-
-
-    public TableView<ActiveRiskLoanDTO> getTableView() {
+    public TableView<ActiveLoanTableObject> getTableView() {
         return tableView;
     }
 
@@ -123,32 +125,32 @@ public class ActiveLoanTableController{
 
 
 
-    public void setValues(List<ActiveRiskLoanDTO> activeList) {
-        ObservableList<ActiveRiskLoanDTO> activeRiskLoanDTOObservableList = FXCollections.observableList(activeList);
-        tableView.getItems().setAll(activeRiskLoanDTOObservableList);
+    public void setValues(List<ActiveRiskLoanDTO> activeLoansList) {
+        List<ActiveLoanTableObject> activeLoanTableObjects = activeLoansList.stream().map(t -> new ActiveLoanTableObject(t)).collect(Collectors.toList());
+        ObservableList<ActiveLoanTableObject> activeLoanTableObjectObservableList = FXCollections.observableArrayList(activeLoanTableObjects);
+        tableView.getItems().setAll(activeLoanTableObjectObservableList);
         for(int i=0; i<tableView.getItems().size(); i++){
             int finalI = i;
-           // Button lendersButton = tableView.getItems().get(i).getLendersButton();
-            //lendersButton.setText("Show");
-//            lendersButton.setOnAction(new EventHandler<ActionEvent>(){
-//                @Override
-//                public void handle(ActionEvent actionEvent){
-//                    if(!lenderStageExist){
-//                        lenderStageExist = true;
-//                        lendersTableController.setPopUpScene();
-//                        lendersTableController.getPopUpLenderStage().initModality(Modality.WINDOW_MODAL);
-//                        lendersTableController.getPopUpLenderStage().initOwner(primaryStage);
-//                    }
-//                    List<LenderMap> lenders = new ArrayList<>();
-//                    Map<String, Double> lendersMap = activeList.get(finalI).getListOfLenders();
-//                    for (Map.Entry<String,Double> entry : lendersMap.entrySet()){
-//                        lenders.add(new LenderMap(entry.getKey(), entry.getValue()));
-//                    }
-//                    lendersTableController.setValues(lenders);
-//
-//                    lendersTableController.getPopUpLenderStage().show();
-//                }
-//            });
+            Button lendersButton = tableView.getItems().get(i).getLendersButton();
+            lendersButton.setText("Show");
+            lendersButton.setOnAction(new EventHandler<ActionEvent>(){
+                @Override
+                public void handle(ActionEvent actionEvent){
+                    if(!lenderStageExist){
+                        lenderStageExist = true;
+                        lendersTableController.setPopUpScene();
+                        lendersTableController.getPopUpLenderStage().initModality(Modality.WINDOW_MODAL);
+                        lendersTableController.getPopUpLenderStage().initOwner(primaryStage);
+                    }
+                    List<LenderMap> lenders = new ArrayList<>();
+                    Map<String, Double> lendersMap = activeLoansList.get(finalI).getListOfLenders();
+                    for (Map.Entry<String,Double> entry : lendersMap.entrySet()){
+                        lenders.add(new LenderMap(entry.getKey(), entry.getValue()));
+                    }
+                    lendersTableController.setValues(lenders);
+                    lendersTableController.getPopUpLenderStage().show();
+                }
+            });
 
             Button paymentButton = tableView.getItems().get(i).getPaymentsButton();
             paymentButton.setText("Show");

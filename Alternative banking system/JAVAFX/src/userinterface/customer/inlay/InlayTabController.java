@@ -271,8 +271,6 @@ public class InlayTabController {
             return number;
         } catch (NumberFormatException e) {
             amountErrorLabel.setText("Invalid input. Please enter a positive integer!");
-      //  } catch (WithDrawMoneyException e) {
-         //   amountErrorLabel.setText(e.toString());
         } catch (Exception e) {
             amountErrorLabel.setText("This filter is mandatory!");
         }

@@ -16,30 +16,18 @@ import java.util.List;
 
 public class PaymentTableController {
 
+    //JavaFX Components
     @FXML private ScrollPane paymentSP;
-    @FXML
-    private TableView<PaymentsDTO> tableView;
+    @FXML private TableView<PaymentsDTO> tableView;
+    @FXML private TableColumn<PaymentsDTO, Integer> timeOfPayment;
+    @FXML private TableColumn<PaymentsDTO, Double> sumOfPayment;
+    @FXML private TableColumn<PaymentsDTO, Double> interestComponent;
+    @FXML private TableColumn<PaymentsDTO, Double> initialComponent;
+    @FXML private TableColumn<PaymentsDTO, String> payedSuccessfully;
 
-    @FXML
-    private TableColumn<PaymentsDTO, Integer> timeOfPayment;
-
-    @FXML
-    private TableColumn<PaymentsDTO, Double> sumOfPayment;
-
-    @FXML
-    private TableColumn<PaymentsDTO, Double> interestComponent;
-
-    @FXML
-    private TableColumn<PaymentsDTO, Double> initialComponent;
-
-    @FXML
-    private TableColumn<PaymentsDTO, String> payedSuccessfully;
+    //Regular Fields
     private Stage popUpPaymentStage;
     private Scene popUpPaymentScene;
-
-    public Stage getPopUpPaymentStage() {
-        return popUpPaymentStage;
-    }
 
     public void initialize(){
         timeOfPayment.setCellValueFactory(new PropertyValueFactory<PaymentsDTO,Integer>("timeOfPayment"));
@@ -49,10 +37,15 @@ public class PaymentTableController {
         payedSuccessfully.setCellValueFactory(new PropertyValueFactory<PaymentsDTO,String>("payedSuccessfully"));
     }
 
+    //Getters
+    public Stage getPopUpPaymentStage() {
+        return popUpPaymentStage;
+    }
+
     public void setValues(List<PaymentsDTO> paymentsDTOList){
         ObservableList<PaymentsDTO> paymentsDTOObservableList = FXCollections.observableArrayList(paymentsDTOList);
         tableView.getItems().setAll(paymentsDTOObservableList);
-        tableView.getColumns().get(2);
+        tableView.getColumns().get(2); //?
     }
 
     public PaymentTableController(){

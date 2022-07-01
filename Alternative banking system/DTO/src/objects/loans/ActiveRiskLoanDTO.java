@@ -17,39 +17,31 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
     private double allInterestLeftToPay;
     private double allInitialLeftToPay;
 
-    private Button paymentsButton;
-
     public int getStartingActiveTime() {
         return startingActiveTime;
     }
-
     public int getNextPaymentTime() {
         return nextPaymentTime;
     }
-
     public double getLoanSize() {
         return loanSize;
     }
-
     public double getAllInterestPayedSoFar() {
         return allInterestPayedSoFar;
     }
-
     public double getAllInitialPayedSoFar() {
         return allInitialPayedSoFar;
     }
-
     public double getAllInterestLeftToPay() {
         return allInterestLeftToPay;
     }
-
     public double getAllInitialLeftToPay() {
         return allInitialLeftToPay;
     }
-
-    public Button getPaymentsButton() {
-        return paymentsButton;
+    public List<PaymentsDTO> getPayments() {
+        return Payments;
     }
+
 
 
     public ActiveRiskLoanDTO(String loanID, String borrowerName, String loanCategory, double sizeNoInterest, int timeLimitOfLoan, double interestPerPayment, int timePerPayment, String status, Map<String, Double> listOfLenders, Double collectedSoFar, Double sumLeftToBeCollected, int startingActiveTime, int nextPaymentTime, List<PaymentsDTO> payments, double allInterestPayedSoFar, double allInitialPayedSoFar, double allInterestLeftToPay, double allInitialLeftToPay) {
@@ -63,12 +55,9 @@ public class ActiveRiskLoanDTO extends PendingLoanDTO{
         this.allInterestLeftToPay = Double.parseDouble(df.format(allInterestLeftToPay));
         this.allInitialLeftToPay = Double.parseDouble(df.format(allInitialLeftToPay));
         this.loanSize = sizeNoInterest + sizeNoInterest*(interestPerPayment)/100;
-        this.paymentsButton = new Button();
     }
 
-    public List<PaymentsDTO> getPayments() {
-        return Payments;
-    }
+
 
     @Override
     public void print(){

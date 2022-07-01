@@ -6,7 +6,10 @@ import javafx.geometry.Pos;
 import javafx.util.Duration;
 import objects.admin.LoanAndCustomerInfoDTO;
 import objects.customers.CustomerInfoDTO;
+import objects.loans.ActiveRiskLoanDTO;
+import objects.loans.FinishedLoanDTO;
 import objects.loans.NewLoanDTO;
+import objects.loans.PendingLoanDTO;
 import okhttp3.*;
 import org.controlsfx.control.Notifications;
 import userinterface.Constants;
@@ -46,11 +49,19 @@ public class AdminInfoRefresher extends TimerTask {
             public void onResponse(Call call, Response response) throws IOException {
                 String jsonArrayOfInformation = response.body().string();
                 LoanAndCustomerInfoDTO loanAndCustomerInfo = GSON_INSTANCE.fromJson(jsonArrayOfInformation, LoanAndCustomerInfoDTO.class);
-                List<NewLoanDTO> loans = loanAndCustomerInfo.getLoanList();
+                List<NewLoanDTO> newLoans = loanAndCustomerInfo.getNewLoans();
+                List<PendingLoanDTO> pendingLoans = loanAndCustomerInfo.getPendingLoans();
+                List<ActiveRiskLoanDTO> activeLoans = loanAndCustomerInfo.getActiveLoans();
+                List<ActiveRiskLoanDTO> riskLoans = loanAndCustomerInfo.getRiskLoans();
+                List<FinishedLoanDTO> finishedLoans = loanAndCustomerInfo.getFinishedLoans();
                 List<CustomerInfoDTO> customerList = loanAndCustomerInfo.getCustomerList();
                 Platform.runLater(() ->{
                       adminScreenController.getCustomerTableController().setValues(customerList);
-                      adminScreenController.getNewLoanController().setValues(loans);
+                      adminScreenController.getNewLoanController().setValues(newLoans);
+                      adminScreenController.getPendingLoanController().setValues(pendingLoans);
+                      adminScreenController.getActiveLoanController().setValues(activeLoans);
+                      adminScreenController.getRiskLoanController().setValues(riskLoans);
+                      adminScreenController.getFinishLoanController().setValues(finishedLoans);
                 });
             }
 

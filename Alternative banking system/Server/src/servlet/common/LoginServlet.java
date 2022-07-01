@@ -30,16 +30,14 @@ public class LoginServlet extends HttpServlet {
                 if(isAdmin.equals("true")){
                     if(!engine.isAdminExist()){
                         engine.setAdminExist(true);
-                        request.getSession(true).setAttribute("userName", userName);
+                        request.getSession(true).setAttribute(USERNAME, userName);
                         engine.setAdminName(userName);
-                        //might need cookie for name
                     } else{
                         response.sendError(401);
                     }
                 } else{
                     engine.addCustomer(userName,false);
-                    request.getSession(true).setAttribute("userName", userName);
-                    response.addCookie(new Cookie("Name", userName));
+                    request.getSession(true).setAttribute(USERNAME, userName);
                 }
             }
         }

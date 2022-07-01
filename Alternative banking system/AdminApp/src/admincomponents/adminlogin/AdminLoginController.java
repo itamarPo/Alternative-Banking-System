@@ -81,7 +81,7 @@ public class AdminLoginController {
             @Override
             public void onFailure(Call call, IOException e) {
                 Platform.runLater( () ->
-                        Notifications.create().title("Error").text("Admin is already logged in!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).show());
+                        Notifications.create().title("Error").text("Unexpected error").hideAfter(Duration.seconds(5)).position(Pos.CENTER).show());
             }
 
             @Override

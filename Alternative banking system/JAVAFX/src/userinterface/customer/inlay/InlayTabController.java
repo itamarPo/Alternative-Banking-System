@@ -127,6 +127,7 @@ public class InlayTabController {
         //Creating checkbox column
         TableColumn<PendingLoanTableObject, CheckBox> checkBoxColumn = new TableColumn<>();
         checkBoxColumn.setCellValueFactory(new PropertyValueFactory<>("IsSelected"));
+        checkBoxColumn.setText("Select loans");
         //Adding column to table
         pendingLoanTBController.getTableView().getColumns().add(0,checkBoxColumn);
 
@@ -239,11 +240,15 @@ public class InlayTabController {
        customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans);
     }
 
-    public void inlayImplement(List<NewLoanDTO> filteredLoans){
-        newLoanTBController.setValues(filteredLoans.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
-        List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
-        filteredLoans.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
-        pendingLoanTBController.setValues(filteredPendingLoans);
+    public void inlayImplement(List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans){
+        //TODO: if there's no loans available from filter,create notification!
+        if(newLoans.size() == 0 && pendingLoans.size() == 0){
+            Notifications unsuccessInlay = Notifications.create().title("Failure").text("No loans suited to your filters has been found!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+            unsuccessInlay.showInformation();
+        } else{
+            newLoanTBController.setValues(newLoans);
+            pendingLoanTBController.setValues(pendingLoans);
+        }
     }
 
     private void enableAllErrors() {

@@ -1,6 +1,7 @@
 package servlet.customer;
 
 import exceptions.filesexepctions.LoanCategoryNotExistException;
+import exceptions.filesexepctions.LoanIDAlreadyExists;
 import exceptions.filesexepctions.TimeOfPaymentNotDivideEqualyException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -15,6 +16,8 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Scanner;
+
+import static userinterface.Constants.USERNAME;
 
 @WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload-file"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
@@ -44,12 +47,12 @@ public class FileUploadServlet extends HttpServlet{
             InputStream file = new ByteArrayInputStream(fileContent.toString().getBytes(StandardCharsets.UTF_8));
             //printFileContent(fileContent.toString(), out);
 
+
             //TODO: change to session attribute!
             String customerName = null;
-            for(Cookie cookie: request.getCookies())
-                if(cookie.getName().equals("Name")){
-                    customerName = cookie.getValue();
-                }
+            if(request.getSession(false) != null){
+                customerName = String.valueOf(request.getSession(false).getAttribute(USERNAME));
+            }
             if(customerName == null){
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
             }else{
@@ -58,12 +61,20 @@ public class FileUploadServlet extends HttpServlet{
                     response.setStatus(200);
                 }catch (LoanCategoryNotExistException e){
                     response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+                    response.getWriter().write(e.toString());
                 }catch (TimeOfPaymentNotDivideEqualyException e) {
                     response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
-                } catch (Exception e) {
+                    response.getWriter().write(e.toString());
+                } catch (LoanIDAlreadyExists e){
+                    response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+                    response.getWriter().write(e.toString());
+                }
+                catch (Exception e) {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    response.getWriter().write("Unknown error!");
                 }
             }
+            response.getWriter().close();
         }
 
         private void printPart(Part part, PrintWriter out) {

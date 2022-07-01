@@ -18,7 +18,6 @@ public class CreateLoanServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Engine engine = EngineServlet.getEngine(getServletContext());
-       // String customerName = request.getParameter(USERNAME);
         String customerName = String.valueOf(request.getSession().getAttribute(USERNAME));
         String loanID = request.getParameter("loanID");
         String category = request.getParameter("category");
@@ -33,6 +32,7 @@ public class CreateLoanServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             }
         }
+
 
     }
 

@@ -7,11 +7,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import objects.customers.loanInfo.CustomerFilterLoansDTO;
 import objects.loans.NewLoanDTO;
+import objects.loans.PendingLoanDTO;
 import sun.misc.IOUtils;
 import utils.EngineServlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,10 +34,15 @@ public class CustomerInlayFilterPullServlet extends HttpServlet {
         List<String> categories= Arrays.asList(gson.fromJson(json, String[].class));
         Engine engine = EngineServlet.getEngine(getServletContext());
         List<NewLoanDTO> filteredList = engine.getFilteredLoans(categories, minInterest, minYaz, String.valueOf(request.getSession().getAttribute(USERNAME)), maxOpenLoans);
+        List<NewLoanDTO> newLoans = new ArrayList<>();
+        filteredList.stream().filter(l -> l.getStatus().equals("New")).forEach(l -> newLoans.add(l));
+        List<PendingLoanDTO> pendingLoans = new ArrayList<>();
+        filteredList.stream().filter(l -> l.getStatus().equals("Pending")).forEach(l -> pendingLoans.add((PendingLoanDTO) l));
+        CustomerFilterLoansDTO loans = new CustomerFilterLoansDTO(newLoans,pendingLoans);
         Gson returnGson = new Gson();
-        String returnJson = returnGson.toJson(filteredList);
-        //String json = gson.toJson(loanAndCustomerInfoDTO);
+        String returnJson = returnGson.toJson(loans);
         response.getWriter().println(returnJson);
         response.getWriter().flush();
+        response.getWriter().close();
     }
 }

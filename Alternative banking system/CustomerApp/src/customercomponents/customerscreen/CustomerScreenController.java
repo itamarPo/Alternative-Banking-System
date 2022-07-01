@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import objects.customers.CustomerInfoDTO;
 import objects.customers.CustomerInfoInlayDTO;
 import objects.customers.CustomersRelatedInfoDTO;
+import objects.customers.loanInfo.CustomerFilterLoansDTO;
 import objects.customers.loanInfo.LoanInfoDTO;
 import objects.loans.*;
 import objects.loans.payments.PaymentNotificationDTO;
@@ -481,8 +482,10 @@ public class CustomerScreenController {
                 else
                 {
                     String responseJson = response.body().string();
-                    List<NewLoanDTO> filteredLoans = Arrays.asList(GSON_INSTANCE.fromJson(responseJson, NewLoanDTO[].class));
-                    Platform.runLater(()->inlayTabController.inlayImplement(filteredLoans));
+                    CustomerFilterLoansDTO filteredLoans = GSON_INSTANCE.fromJson(responseJson, CustomerFilterLoansDTO.class);
+                    List<NewLoanDTO> newLoans = filteredLoans.getNewLoans();
+                    List<PendingLoanDTO> pendingLoans = filteredLoans.getPendingLoans();
+                    Platform.runLater(()->inlayTabController.inlayImplement(newLoans, pendingLoans));
                 }
             }
         });
@@ -578,7 +581,6 @@ public class CustomerScreenController {
 
             String finalUrlLoansTable = HttpUrl.parse(FULL_PATH_DOMAIN + CREATE_LOAN_RESOURCE)
                     .newBuilder()
-                    .addQueryParameter(USERNAME, userName)
                     .addQueryParameter("loanID", loanID)
                     .addQueryParameter("category", category)
                     .addQueryParameter(AMOUNT, amount.toString())
@@ -625,10 +627,10 @@ public class CustomerScreenController {
             return;
         }
         String absolutePath = selectedFile.getAbsolutePath();
-        creatFileRequest(absolutePath);
+        createFileRequest(absolutePath);
     }
 
-    public void creatFileRequest(String absolutePath){
+    public void createFileRequest(String absolutePath){
         File f = new File(absolutePath);
         RequestBody body =
                 new MultipartBody.Builder()
@@ -656,7 +658,7 @@ public class CustomerScreenController {
                         try {
                             Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).show();
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+//                            throw new RuntimeException(e);
                         }
                     });
                 } else{
@@ -665,7 +667,7 @@ public class CustomerScreenController {
                         try {
                             Notifications.create().title("Success").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).show();
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+//                            throw new RuntimeException(e);
                         }
                     });
                 }

@@ -136,6 +136,10 @@ public class Engine implements EngineInterface , Serializable {
 
    public void checkLoansInfo( List<String> newCategories, AbsLoans newLoans) throws Exception {
       for (AbsLoan loan : newLoans.getAbsLoan()) {
+         int x = loans.stream().filter(l -> l.getLOANID().equals(loan.getId())).mapToInt(l -> 1).sum();
+         if(x > 0){
+            throw new LoanIDAlreadyExists(loan.getId());
+         }
          if (!newCategories.contains(loan.getAbsCategory())) {
             throw new LoanCategoryNotExistException(loan.getAbsCategory(), loan.getId());
          }

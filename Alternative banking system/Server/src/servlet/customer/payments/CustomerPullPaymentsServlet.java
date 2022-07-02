@@ -6,6 +6,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import objects.customers.PaymentUpdateDTO;
+import objects.loans.ActiveRiskLoanDTO;
+import objects.loans.payments.PaymentNotificationDTO;
 import userinterface.utils.HttpUtil;
 import utils.EngineServlet;
 

@@ -16,6 +16,7 @@ import javafx.util.Duration;
 import objects.customers.CustomerInfoDTO;
 import objects.customers.CustomerInfoInlayDTO;
 import objects.customers.CustomersRelatedInfoDTO;
+import objects.customers.PaymentUpdateDTO;
 import objects.customers.loanInfo.CustomerFilterLoansDTO;
 import objects.customers.loanInfo.LoanInfoDTO;
 import objects.loans.*;

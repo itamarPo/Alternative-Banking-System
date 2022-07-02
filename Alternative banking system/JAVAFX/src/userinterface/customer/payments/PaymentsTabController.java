@@ -132,21 +132,17 @@ public class PaymentsTabController {
         this.animation = animation;
     }
 
-    public void setValues(List<PaymentNotificationDTO> paymentNotifications, List<ActiveRiskLoanDTO> makePaymentActive, List<ActiveRiskLoanDTO> makePaymentRisk, List<ActiveRiskLoanDTO> closeLoanActive, List<ActiveRiskLoanDTO> closeLoanRisk){
+    public void setValues(List<PaymentNotificationDTO> paymentNotifications, List<ActiveRiskLoanDTO> makePaymentActive, List<ActiveRiskLoanDTO> riskLoans, List<ActiveRiskLoanDTO> closeLoanActive){
         ObservableList<PaymentNotificationDTO> PaymentNotificationDTOObservableList = FXCollections.observableList(paymentNotifications);
         notificationsTableView.getItems().setAll(PaymentNotificationDTOObservableList);
 
-        ObservableList<ActiveRiskLoanDTO> closeLoansRisk = FXCollections.observableList(closeLoanRisk);
-        closeLoanRiskTableController.setValues(closeLoansRisk);
+        closeLoanRiskTableController.setValues(riskLoans);
 
-        ObservableList<ActiveRiskLoanDTO> makePaymentsActive = FXCollections.observableList(makePaymentActive);
-        makePaymentActiveTableController.setValues(makePaymentsActive);
+        makePaymentActiveTableController.setValues(makePaymentActive);
 
-        ObservableList<ActiveRiskLoanDTO> makePaymentsRisk = FXCollections.observableList(makePaymentRisk);
-        makePaymentRiskTableController.setValues(makePaymentsRisk);
+        makePaymentRiskTableController.setValues(riskLoans);
 
-        ObservableList<ActiveRiskLoanDTO> closeLoansActive = FXCollections.observableList(closeLoanActive);
-        closeLoanActiveTableController.setValues(closeLoansActive);
+        closeLoanActiveTableController.setValues(closeLoanActive);
         completePaymentError.setText("");
 
     }

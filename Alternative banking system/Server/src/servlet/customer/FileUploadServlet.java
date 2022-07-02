@@ -48,7 +48,7 @@ public class FileUploadServlet extends HttpServlet{
             //printFileContent(fileContent.toString(), out);
 
 
-            //TODO: change to session attribute!
+
             String customerName = null;
             if(request.getSession(false) != null){
                 customerName = String.valueOf(request.getSession(false).getAttribute(USERNAME));
@@ -56,6 +56,7 @@ public class FileUploadServlet extends HttpServlet{
             if(customerName == null){
                 response.sendError(HttpServletResponse.SC_FORBIDDEN);
             }else{
+                //TODO: file loading errors aren't working properly
                 try {
                     EngineServlet.getEngine(getServletContext()).loadFile(file, customerName);
                     response.setStatus(200);

@@ -28,6 +28,8 @@ public class CustomerMakeInlayServlet extends HttpServlet {
         String userName = String.valueOf(request.getSession().getAttribute(USERNAME));
         Integer amount = Integer.parseInt(request.getParameter(AMOUNT));
         Integer maxOwnership = Integer.parseInt(request.getParameter("maxOwnership"));
+        //TODO: must check that these loans are still relevant, meaning they are still new/active!
+        //TODO: make sure this function is synchronized!
         engine.splitMoneyBetweenLoans(newLoanDTOList.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()),amount, userName,maxOwnership );
     }
 }

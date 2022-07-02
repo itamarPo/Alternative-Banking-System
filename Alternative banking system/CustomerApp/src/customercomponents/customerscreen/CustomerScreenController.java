@@ -446,7 +446,7 @@ public class CustomerScreenController {
             });
     }
 
-    public void getFilteredLoans(List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans){
+    public void getFilteredLoans(List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans , Integer amountToInvest){
         //final List<NewLoanDTO>[] filteredLoans = new List[1];
         //filteredLoans[0] = new ArrayList<>();
         Gson gson = new Gson();
@@ -456,11 +456,12 @@ public class CustomerScreenController {
         RequestBody body = RequestBody.create(
                 json, MediaType.parse("application/json"));
 
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_INLAY_FILTER_RESOURCE)
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_INLAY_INPUT_RESOURCE)
                 .newBuilder()
                 .addQueryParameter("minInterest", String.valueOf(minInterest))
                 .addQueryParameter("minYAZ", String.valueOf(minYAZ))
                 .addQueryParameter("maxOpenLoans", String.valueOf(maxOpenLoans))
+                .addQueryParameter(AMOUNT, String.valueOf(amountToInvest))
                 .build()
                 .toString();
         Request request = new Request.Builder()
@@ -476,12 +477,15 @@ public class CustomerScreenController {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(!response.isSuccessful())
-                  //  filteredLoans[0] = null;
-                    System.out.println("call = " + call + ", response = " + response);
-                else
+                if(!response.isSuccessful()) {
+                    Platform.runLater(() -> {
+                        String errorMessage = userName + " doesn't have enough money in account!";
+                        Notifications.create().title("Error").text(errorMessage).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
+                    });
+                } else
                 {
                     String responseJson = response.body().string();
+                    response.body().close();
                     CustomerFilterLoansDTO filteredLoans = GSON_INSTANCE.fromJson(responseJson, CustomerFilterLoansDTO.class);
                     List<NewLoanDTO> newLoans = filteredLoans.getNewLoans();
                     List<PendingLoanDTO> pendingLoans = filteredLoans.getPendingLoans();
@@ -489,7 +493,6 @@ public class CustomerScreenController {
                 }
             }
         });
-       // return filteredLoans[0];
     }
 
     public void makeInlay(List<NewLoanDTO> loans, Integer amountToInvest, Integer maxOwnership){
@@ -656,6 +659,7 @@ public class CustomerScreenController {
                     Platform.runLater(() ->
                     {
                         try {
+                            //TODO: file loading errors aren't working properly
                             Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).show();
                         } catch (IOException e) {
 //                            throw new RuntimeException(e);

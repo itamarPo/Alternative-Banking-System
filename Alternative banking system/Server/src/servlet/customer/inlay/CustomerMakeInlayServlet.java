@@ -24,12 +24,20 @@ public class CustomerMakeInlayServlet extends HttpServlet {
         Engine engine = EngineServlet.getEngine(getServletContext());
         Gson gson = GSON_INSTANCE;
         String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-        List<NewLoanDTO> newLoanDTOList = Arrays.asList(gson.fromJson(json, NewLoanDTO[].class));
+        List<String> newLoanDTOList = Arrays.asList(gson.fromJson(json, String[].class));
         String userName = String.valueOf(request.getSession().getAttribute(USERNAME));
         Integer amount = Integer.parseInt(request.getParameter(AMOUNT));
         Integer maxOwnership = Integer.parseInt(request.getParameter("maxOwnership"));
+        synchronized (this){
+            if(engine.checkLoansStatus(newLoanDTOList)){
+                engine.splitMoneyBetweenLoans(newLoanDTOList,amount, userName,maxOwnership );
+            } else{
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().println("One or more loans are no longer pending/new!");
+            }
+        }
         //TODO: must check that these loans are still relevant, meaning they are still new/active!
         //TODO: make sure this function is synchronized!
-        engine.splitMoneyBetweenLoans(newLoanDTOList.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()),amount, userName,maxOwnership );
+
     }
 }

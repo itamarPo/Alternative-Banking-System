@@ -62,7 +62,7 @@ public class CustomerLoginController {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if (response.code() != 200) {
+                if (!response.isSuccessful()) {
                     Platform.runLater(() ->
                             Notifications.create().title("Error").text("This user name is already in use!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).show());
                 } else {
@@ -70,10 +70,6 @@ public class CustomerLoginController {
                             primaryStage.setScene(customerScreenScene));
                             customerScreenController.setUserName(userName);
                             customerScreenController.startInfoRefresh(userName);
-                    //update all the time
-
-
-                    // return false;
                 }
             }});
     }

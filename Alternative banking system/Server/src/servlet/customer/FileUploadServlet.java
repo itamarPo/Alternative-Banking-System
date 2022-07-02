@@ -27,55 +27,49 @@ public class FileUploadServlet extends HttpServlet{
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
             response.setContentType("text/plain");
             //InputStream file = request.getParts();
-
             PrintWriter out = response.getWriter();
-
             Collection<Part> parts = request.getParts();
-
-            out.println("Total parts : " + parts.size());
-
+//            out.println("Total parts : " + parts.size());
             StringBuilder fileContent = new StringBuilder();
             for (Part part : parts) {
-                printPart(part, out);
-
+                //printPart(part, out);
                 //to write the content of the file to an actual file in the system (will be created at c:\samplefile)
                 //part.write("samplefile");
-
                 //to write the content of the file to a string
                 fileContent.append(readFromInputStream(part.getInputStream()));
             }
             InputStream file = new ByteArrayInputStream(fileContent.toString().getBytes(StandardCharsets.UTF_8));
             //printFileContent(fileContent.toString(), out);
 
-
-
             String customerName = null;
             if(request.getSession(false) != null){
                 customerName = String.valueOf(request.getSession(false).getAttribute(USERNAME));
             }
             if(customerName == null){
-                response.sendError(HttpServletResponse.SC_FORBIDDEN);
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             }else{
                 //TODO: file loading errors aren't working properly
                 try {
                     EngineServlet.getEngine(getServletContext()).loadFile(file, customerName);
-                    response.setStatus(200);
+                    out.println("File loaded successfully!");
                 }catch (LoanCategoryNotExistException e){
-                    response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
-                    response.getWriter().write(e.toString());
+                    response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+                    out.println(e);
                 }catch (TimeOfPaymentNotDivideEqualyException e) {
-                    response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
-                    response.getWriter().write(e.toString());
+                    response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+                    out.println(e);
                 } catch (LoanIDAlreadyExists e){
-                    response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
-                    response.getWriter().write(e.toString());
+//                    response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    out.println(e);
                 }
                 catch (Exception e) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                    response.getWriter().write("Unknown error!");
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    out.println("Unknown error!");
                 }
             }
-            response.getWriter().close();
+            out.flush();
+            out.close();
         }
 
         private void printPart(Part part, PrintWriter out) {

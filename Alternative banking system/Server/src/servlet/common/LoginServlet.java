@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
         //user already exists
         synchronized (this){
             if(engine.isNameExists(userName)){
-                response.sendError(401);
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
             else{
                 if(isAdmin.equals("true")){
@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
                         request.getSession(true).setAttribute(USERNAME, userName);
                         engine.setAdminName(userName);
                     } else{
-                        response.sendError(401);
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     }
                 } else{
                     engine.addCustomer(userName,false);

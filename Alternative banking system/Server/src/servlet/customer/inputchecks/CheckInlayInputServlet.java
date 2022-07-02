@@ -12,29 +12,32 @@ import utils.EngineServlet;
 
 import java.io.IOException;
 
-import static userinterface.Constants.USERNAME;
+import static userinterface.Constants.*;
 
 @WebServlet(name = "CheckInlayInputServlet", urlPatterns = {"/Check-Inlay-Input-Servlet"})
 public class CheckInlayInputServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String number = request.getParameter("Amount");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String number = request.getParameter(AMOUNT);
         double amount = Double.parseDouble(number);
         Engine engine = EngineServlet.getEngine(getServletContext());
-        CustomerInfoInlayDTO customerInfoInlayDTO;
-        int maxOpenLoans = engine.getNumOfLoans();
+//        CustomerInfoInlayDTO customerInfoInlayDTO;
+//        int maxOpenLoans = engine.getNumOfLoans();
         Gson gson = new Gson();
         String json;
         try {
             String userName = String.valueOf(request.getSession().getAttribute(USERNAME));
             engine.checkAmountOfInvestment(String.valueOf(request.getSession().getAttribute(USERNAME)), amount);
-            customerInfoInlayDTO = new CustomerInfoInlayDTO(false,"", maxOpenLoans);
-            json = gson.toJson(customerInfoInlayDTO);
-            response.getWriter().println(json);
+            request.getServletContext().getRequestDispatcher(CUSTOMER_INLAY_FILTER_RESOURCE).forward(request,response);
+           // customerInfoInlayDTO = new CustomerInfoInlayDTO(false,"", maxOpenLoans);
+            //json = gson.toJson(customerInfoInlayDTO);
+            //response.getWriter().println(json);
         }catch (Exception e){
-            customerInfoInlayDTO = new CustomerInfoInlayDTO(true, e.toString(), maxOpenLoans);
-            json = gson.toJson(customerInfoInlayDTO);
-            response.getWriter().println(json);
+            //customerInfoInlayDTO = new CustomerInfoInlayDTO(true, e.toString(), maxOpenLoans);
+            //json = gson.toJson(customerInfoInlayDTO);
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().flush();
+            response.getWriter().close();
         }
     }
 }

@@ -152,17 +152,19 @@ public class InlayTabController {
     //Regular methods
     @FXML
     public void confirmFilterOnAction(ActionEvent actionEvent){
-        CustomerInfoInlayDTO customerInfoInlay;
         int amountToinvest = getAmountToInvest();
         List<String> categoriesList = getFilteredCategories(); // this list might be empty! if so there is no filter for categories!
         int minInterest = getMinInterest();
         int minYAZ = getMinYAZ();
-      //  int maxOpenLoans = getMaxOpenLoans();
+        int maxOpenLoans = getMaxOpenLoans();
         int maxownership = getMaxOwnership();
        // customerInfoInlay.add(new CustomerInfoInlayDTO(false,"",0));
-        if(minInterest == INVALID || minYAZ == INVALID || maxownership == INVALID)
+        if(minInterest == INVALID || minYAZ == INVALID || maxownership == INVALID || maxOpenLoans == INVALID || amountToinvest == INVALID)
             return;
-        customerScreenController.inlaySumCheck((double)amountToinvest, maxownership, categoriesList ,minInterest,minYAZ);
+        this.amountToInvest = amountToinvest;
+        this.maxOwnership = maxownership;
+        customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans,amountToinvest);
+//        customerScreenController.inlaySumCheck((double)amountToinvest, maxownership, categoriesList ,minInterest,minYAZ);
 //        if(maxOpenLoans==DIFFERENT) {
 //            if(customerInfoInlay==null)
 //                Notifications.create().title("ERROR").text("ERRORRRRRR").hideAfter(Duration.seconds(2)).position(Pos.CENTER).showError();
@@ -237,17 +239,17 @@ public class InlayTabController {
         //input check
         //throw new WithDrawMoneyException(customerScreenController.getUserCB().getValue(), (double)amountToinvest);
         //filtering
-       customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans);
+     //  customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans);
     }
 
     public void inlayImplement(List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans){
-        //TODO: if there's no loans available from filter,create notification!
         if(newLoans.size() == 0 && pendingLoans.size() == 0){
             Notifications unsuccessInlay = Notifications.create().title("Failure").text("No loans suited to your filters has been found!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
             unsuccessInlay.showInformation();
         } else{
             newLoanTBController.setValues(newLoans);
             pendingLoanTBController.setValues(pendingLoans);
+            enableAllErrors();
         }
     }
 
@@ -270,8 +272,6 @@ public class InlayTabController {
             if(number <= 0){
                 throw new NumberFormatException();
             }
-          //  engine.checkAmountOfInvestment(topCustomerController.getUserCB().getValue(), (double) number); //WithDrawMoneyException
-            //TODO: http request to check if sum to invest is valid
             amountErrorLabel.setText("");
             return number;
         } catch (NumberFormatException e) {
@@ -339,7 +339,11 @@ public class InlayTabController {
         }
         else{
             String maxOpenLoansInput = maxOpenLoansTF.getText();
+
             try {
+                if(maxOpenLoansInput.equals("")){
+                    throw new NumberFormatException();
+                }
                 int maxOpenLoans = Integer.parseInt(maxOpenLoansInput); //NumberFormatException
                 if(maxOpenLoans < 1){
                     throw new NumberFormatException();
@@ -359,6 +363,9 @@ public class InlayTabController {
         else{
             String maxOwnershipInput = maxOwnershipLoanTF.getText();
             try {
+                if(maxOwnershipInput.equals("")){
+                    throw new NumberFormatException();
+                }
                 int maxOwnership = Integer.parseInt(maxOwnershipInput); //NumberFormatException
                 if(maxOwnership < 1 || maxOwnership > 100){
                     throw new Exception();
@@ -442,7 +449,7 @@ public class InlayTabController {
         }
         customerScreenController.makeInlay(newLoansPicked, amountToInvest, maxOwnership);
 //        engine.splitMoneyBetweenLoans(newLoansPicked.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()), amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
-        //TODO: http request to inlay
+
 //        resetFields();
 //        Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
 //        successInlay.showInformation();

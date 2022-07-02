@@ -372,6 +372,10 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public List<NewLoanDTO> getFilteredLoans(List<String> categories, double minInterest, int minTime, String userName, int maxOpenLoans) {
+      if(maxOpenLoans == -2){
+         maxOpenLoans = loans.size();
+      }
+      final int max = maxOpenLoans;
       List<NewLoanDTO> validLoans = new ArrayList<>();
       List<Loans> filteredLoans = new ArrayList<>(loans);
       filteredLoans = filteredLoans.stream()
@@ -381,7 +385,7 @@ public class Engine implements EngineInterface , Serializable {
               .filter(l -> minTime <= l.getTimeLimitOfLoan())
               .filter(l -> !l.getBorrowerName().equals(userName))
               .filter(l -> (getCustomerByName(l.getBorrowerName()).getBorrowerList().stream()
-              .filter(x -> !(x.getStatus().getStatus().equals("Finished"))).count() <= maxOpenLoans))
+              .filter(x -> !(x.getStatus().getStatus().equals("Finished"))).count() <= max))
               .collect(Collectors.toList());
 
       for(Loans candidateLoan: filteredLoans){
@@ -404,9 +408,6 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public void checkAmountOfInvestment(String customerName , double moneyToInvest) throws Exception {
-      if(moneyToInvest < 1){
-         throw new NumberFormatException();
-      }
       Customer customer = getCustomerByName(customerName);
       if (getCustomerByName(customerName).getBalance() - moneyToInvest < 0) {
          throw new WithDrawMoneyException(customer.getBalance(), moneyToInvest);

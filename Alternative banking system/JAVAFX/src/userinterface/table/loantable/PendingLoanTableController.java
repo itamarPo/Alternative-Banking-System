@@ -55,7 +55,7 @@ public class PendingLoanTableController {
     private Button listOfLendersButton = new Button("Show");
     private Stage primaryStage;
 
-    //TODO: create new class for all the info of PendingLoanDTO and a button for lenders table
+
     //Constructor
     public PendingLoanTableController() {
 

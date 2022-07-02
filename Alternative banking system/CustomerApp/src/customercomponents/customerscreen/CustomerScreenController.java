@@ -369,30 +369,36 @@ public class CustomerScreenController {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
+                if(response.isSuccessful()){
+                    PaymentUpdateDTO paymentUpdateDTO = GSON_INSTANCE.fromJson(response.body().string(), PaymentUpdateDTO.class);
+                    Platform.runLater(() ->{
+                        paymentsTabController.setValues(paymentUpdateDTO.getPaymentNotifications(), paymentUpdateDTO.getMakeActivePayment(),
+                                paymentUpdateDTO.getRiskLoans(), paymentUpdateDTO.getCloseActiveLoans());
+                    });
+                }
             }
         });
     }
 
 
-    public void updatePayments(String userPick, List<PaymentNotificationDTO> paymentNotificationList, List<NewLoanDTO> loanList){
-        List<NewLoanDTO> temp = loanList.stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
-        List<ActiveRiskLoanDTO> closeLoanActive = new ArrayList<>();
-        List<ActiveRiskLoanDTO> closeLoanRisk = new ArrayList<>();
-        List<NewLoanDTO> temp2 = loanList.stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
-        List<ActiveRiskLoanDTO> makePaymentActive = new ArrayList<>();
-        List<ActiveRiskLoanDTO> makePaymentRisk = new ArrayList<>();
-        //Loaner Tables
-        temp.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> closeLoanActive.add((ActiveRiskLoanDTO)  y));
-        temp.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> closeLoanRisk.add((ActiveRiskLoanDTO) y));
-        temp2.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> makePaymentActive.add((ActiveRiskLoanDTO)  y));
-        makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
-        temp2.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> makePaymentRisk.add((ActiveRiskLoanDTO)  y));
-        makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
-        paymentsTabController.setValues(paymentNotificationList,makePaymentActive,makePaymentRisk,closeLoanActive,closeLoanRisk);
-        paymentsTabController.getFinishImage().setVisible(false);
-      //  paymentsTabController.setAnimation(mainController.getTopAdminController().isAnimationOn());
-    }
+//    public void updatePayments(String userPick, List<PaymentNotificationDTO> paymentNotificationList, List<NewLoanDTO> loanList){
+//        List<NewLoanDTO> temp = loanList.stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
+//        List<ActiveRiskLoanDTO> closeLoanActive = new ArrayList<>();
+//        List<ActiveRiskLoanDTO> closeLoanRisk = new ArrayList<>();
+//        List<NewLoanDTO> temp2 = loanList.stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
+//        List<ActiveRiskLoanDTO> makePaymentActive = new ArrayList<>();
+//        List<ActiveRiskLoanDTO> makePaymentRisk = new ArrayList<>();
+//        //Loaner Tables
+//        temp.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> closeLoanActive.add((ActiveRiskLoanDTO)  y));
+//        temp.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> closeLoanRisk.add((ActiveRiskLoanDTO) y));
+//        temp2.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> makePaymentActive.add((ActiveRiskLoanDTO)  y));
+//        makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
+//        temp2.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> makePaymentRisk.add((ActiveRiskLoanDTO)  y));
+//        makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
+//        paymentsTabController.setValues(paymentNotificationList,makePaymentActive,makePaymentRisk,closeLoanActive,closeLoanRisk);
+//        paymentsTabController.getFinishImage().setVisible(false);
+//      //  paymentsTabController.setAnimation(mainController.getTopAdminController().isAnimationOn());
+//    }
     public void updateInlayTab(){ //TODO: add relevant categories with HTTP call
         //final List<String>[] categories = (List<String>[]) new Object[1];
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_CATEGORIES_RESOURCE)

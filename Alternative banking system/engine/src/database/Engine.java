@@ -760,4 +760,20 @@ public class Engine implements EngineInterface , Serializable {
       }
       return true;
    }
+
+   public List<ActiveRiskLoanDTO> getCustomerActiveRiskLoan (String userName){
+      Customer customer = getCustomerByName(userName);
+     List<ActiveRiskLoanDTO> loanDTOList = new ArrayList<>();
+     for(Loans loan: customer.getBorrowerList()){
+        if(loan.getStatus().getStatus().equals("Active") || loan.getStatus().getStatus().equals("Risk")){
+           loanDTOList.add(new ActiveRiskLoanDTO(loan.getLOANID(), loan.getBorrowerName(), loan.getLoanCategory(),
+                   loan.getLoanSizeNoInterest(), loan.getTimeLimitOfLoan(), loan.getInterestPerPayment(),
+                   loan.getTimePerPayment(), loan.getStatus().getStatus(), loan.getListOflenders(), loan.getCollectedSoFar(),
+                   loan.getLeftToBeCollected(), loan.getStatus().getStartingActiveTime(),
+                   loan.getStatus().getNextPaymentTime(), copyPaymentList(loan), loan.getStatus().getInterestPayed(),
+                   loan.getStatus().getInitialPayed(), loan.getStatus().getInterestLeftToPay(), loan.getStatus().getInitialLeftToPay()));
+        }
+     }
+     return loanDTOList;
+   }
 }

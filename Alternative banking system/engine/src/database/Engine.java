@@ -747,4 +747,17 @@ public class Engine implements EngineInterface , Serializable {
       Seller.getLoansForSale().removeIf(p ->p.getLOANID().equals(loan.getLOANID()));
       Buyer.getLenderList().add(loan);
    }
+
+   public boolean checkLoansStatus(List<String> newLoanDTOList) {
+      for(String loan: newLoanDTOList){
+         Loans loanToCheck = getLoanByName(loan);
+         if(loanToCheck == null){
+            return false;
+         }
+         if(!loanToCheck.getStatus().getStatus().equals("New") && !loanToCheck.getStatus().getStatus().equals("Pending")){
+            return false;
+         }
+      }
+      return true;
+   }
 }

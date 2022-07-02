@@ -66,7 +66,6 @@ public class CustomerScreenController {
     @FXML private InlayTabController inlayTabController;
 
     @FXML private ScrollPane createLoanTab;
-
     @FXML private CreateLoanTabController createLoanTabController;
 
     @FXML private ScrollPane loanSellTab;
@@ -115,7 +114,7 @@ public class CustomerScreenController {
                     updateInlayTab();
                     break;
                 } case "Payments":{
-                  //  updatePayments(user);
+                    paymentsUpdate();
                     break;
                 }
                 case "Buy/Sell Loans":{
@@ -130,7 +129,6 @@ public class CustomerScreenController {
     }
 
 
-
     //getters
     public Label getFileLABEL() {return FileLABEL;}
     public ComboBox<String> getUserCB() {return UserCB;}
@@ -139,8 +137,16 @@ public class CustomerScreenController {
     public ScrollPane getMainSP() {return MainSP;}
     public ComboBox<String> getThemeCB() {return ThemeCB;}
     public String getUserName() {return userName;}
-
     public Stage getPrimaryStage() {return primaryStage;}
+    public InformationTabController getInformationTabController() {
+        return informationTabController;
+    }
+    public PaymentsTabController getPaymentsTabController() {
+        return paymentsTabController;
+    }
+    public InlayTabController getInlayTabController() {
+        return inlayTabController;
+    }
 
     //setters
 //    public void setMainControllerAndEngine(MainController mainController, Engine engine) {
@@ -275,17 +281,7 @@ public class CustomerScreenController {
 //
 //    }
 
-    public InformationTabController getInformationTabController() {
-        return informationTabController;
-    }
 
-    public PaymentsTabController getPaymentsTabController() {
-        return paymentsTabController;
-    }
-
-    public InlayTabController getInlayTabController() {
-        return inlayTabController;
-    }
 
     public void updateInformationTab (String UserPick, List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans , List<FinishedLoanDTO> finishedLoans, CustomerInfoDTO customerInfo){
         //Transactions and balance
@@ -356,6 +352,29 @@ public class CustomerScreenController {
             }
         });
     }
+    public void paymentsUpdate(){
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PAYMENT_INFO_RESOURCE)
+                .newBuilder()
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .build();
+
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+            }
+        });
+    }
+
+
     public void updatePayments(String userPick, List<PaymentNotificationDTO> paymentNotificationList, List<NewLoanDTO> loanList){
         List<NewLoanDTO> temp = loanList.stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
         List<ActiveRiskLoanDTO> closeLoanActive = new ArrayList<>();
@@ -447,12 +466,8 @@ public class CustomerScreenController {
     }
 
     public void getFilteredLoans(List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans , Integer amountToInvest){
-        //final List<NewLoanDTO>[] filteredLoans = new List[1];
-        //filteredLoans[0] = new ArrayList<>();
         Gson gson = new Gson();
         String json = gson.toJson(categories);
-//        RequestBody body = RequestBody.create(json, "") // new
-//        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
         RequestBody body = RequestBody.create(
                 json, MediaType.parse("application/json"));
 
@@ -479,8 +494,14 @@ public class CustomerScreenController {
             public void onResponse(Call call, Response response) throws IOException {
                 if(!response.isSuccessful()) {
                     Platform.runLater(() -> {
-                        String errorMessage = userName + " doesn't have enough money in account!";
-                        Notifications.create().title("Error").text(errorMessage).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
+                        try {
+                            String error = response.body().string();
+                            Notifications.create().title("Error").text(error).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+//                        String errorMessage = userName + " doesn't have enough money in account!";
+
                     });
                 } else
                 {
@@ -497,7 +518,7 @@ public class CustomerScreenController {
 
     public void makeInlay(List<NewLoanDTO> loans, Integer amountToInvest, Integer maxOwnership){
         Gson gson = new Gson();
-        String json = gson.toJson(loans);
+        String json = gson.toJson(loans.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()));
         RequestBody body = RequestBody.create(
                 json, MediaType.parse("application/json"));
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_MAKE_INLAY_RESOURCE)
@@ -519,12 +540,21 @@ public class CustomerScreenController {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
-                   Platform.runLater(() -> {
-                       inlayTabController.resetFields();
-                       Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
-                       successInlay.showInformation();
-                   });
+                if(!response.isSuccessful()){
+                    Platform.runLater(()->{
+                        try {
+                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
+                        } catch (IOException e) {
+
+                        }
+                    });
+                   //TODO: add error if inlay isn't available
+                } else{
+                    Platform.runLater(() -> {
+                        inlayTabController.resetFields();
+                        Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
+                        successInlay.showInformation();
+                    });
                 }
             }
         });
@@ -548,7 +578,7 @@ public class CustomerScreenController {
 
     public void updateCreateLoanTab(){
         Request request = new Request.Builder()
-                .url(FULL_PATH_DOMAIN + AVAILABLE_CATEGORIES_PULL_RESOURCE)
+                .url(FULL_PATH_DOMAIN + CUSTOMER_PULL_CATEGORIES_RESOURCE)
                 .build();
         HttpUtil.runAsync(request, false, new Callback() {
             @Override
@@ -655,7 +685,7 @@ public class CustomerScreenController {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200){
+                if(!response.isSuccessful()){
                     Platform.runLater(() ->
                     {
                         try {

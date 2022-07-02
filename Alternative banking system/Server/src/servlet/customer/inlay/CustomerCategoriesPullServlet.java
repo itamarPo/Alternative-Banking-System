@@ -19,5 +19,6 @@ public class CustomerCategoriesPullServlet extends HttpServlet {
         //String json = gson.toJson(loanAndCustomerInfoDTO);
         response.getWriter().println(returnJson);
         response.getWriter().flush();
+        response.getWriter().close();
     }
 }

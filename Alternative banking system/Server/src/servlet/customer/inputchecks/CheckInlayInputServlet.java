@@ -28,9 +28,9 @@ public class CheckInlayInputServlet extends HttpServlet {
             engine.checkAmountOfInvestment(String.valueOf(request.getSession().getAttribute(USERNAME)), amount);
             request.getServletContext().getRequestDispatcher(CUSTOMER_INLAY_FILTER_RESOURCE).forward(request,response);
         }catch (Exception e){
-            //customerInfoInlayDTO = new CustomerInfoInlayDTO(true, e.toString(), maxOpenLoans);
-            //json = gson.toJson(customerInfoInlayDTO);
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.getWriter().println(e);
             response.getWriter().flush();
             response.getWriter().close();
         }

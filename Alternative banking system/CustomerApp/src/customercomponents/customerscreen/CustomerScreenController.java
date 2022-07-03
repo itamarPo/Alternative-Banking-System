@@ -17,6 +17,7 @@ import objects.customers.CustomerInfoDTO;
 import objects.customers.CustomerInfoInlayDTO;
 import objects.customers.CustomersRelatedInfoDTO;
 import objects.customers.PaymentUpdateDTO;
+import objects.customers.loanInfo.BuySellUpdateDTO;
 import objects.customers.loanInfo.CustomerFilterLoansDTO;
 import objects.customers.loanInfo.LoanInfoDTO;
 import objects.loans.*;
@@ -92,7 +93,9 @@ public class CustomerScreenController {
     private Stage primaryStage;
     private String userName;
     private CustomerLoginController customerLoginController;
+    //TODO: add last seen yaz, so when the yaz change we can know about it through the refresher! same for rewind!
     private Timer timer;
+
     //constructor
     public CustomerScreenController(){
 
@@ -119,7 +122,7 @@ public class CustomerScreenController {
                     break;
                 }
                 case "Buy/Sell Loans":{
-                  //  updateLoanSellTab(user);
+                    updateLoanSellTab();
                 }
                 case "Create Loan":{
                     updateCreateLoanTab();
@@ -569,7 +572,34 @@ public class CustomerScreenController {
     }
 
 
-    public void updateLoanSellTab(String userPick, CustomerInfoDTO customer, List<LoansForSaleDTO> loansOnSale){
+    public void updateLoanSellTab(){
+        Request request = new Request.Builder()
+                .url(FULL_PATH_DOMAIN + CUSTOMER_BUYSELL_PULL_RESOURCE)
+                .build();
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful()){
+
+                } else{
+                    String responseJson = response.body().string();
+                    response.body().close();
+                    BuySellUpdateDTO buySellLoans = GSON_INSTANCE.fromJson(responseJson, BuySellUpdateDTO.class);
+                    List<String> loansAvailableToSell = buySellLoans.getLoansAvailableToSell();
+                    List<LoansForSaleDTO> loansAvailableToBuy = buySellLoans.getLoansAvailableToBuy();
+                    Platform.runLater(() ->{
+                        loanSellTabController.setValues(loansAvailableToSell,loansAvailableToBuy);
+                    });
+
+
+                }
+            }
+        });
       // CustomerInfoDTO customer = customers.stream().filter(l->l.getName().equals(userPick)).findFirst().orElse(null);
 //        CustomerInfoDTO customer = null;
 //        for(CustomerInfoDTO customerInfoDTO: customers){
@@ -581,7 +611,7 @@ public class CustomerScreenController {
 //        List<String> lenderLoans = customer.getLenderList().stream().filter(p -> p.getStatus().equals("Active")).map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
 //        lenderLoans.removeIf(p -> loansForSale.contains(p));
 //        //List<LoansForSaleDTO> loansOnSale = engine.getLoansAvailableToBuy(userPick);
-//        loanSellTabController.setValues(lenderLoans,loansOnSale);
+
     }
 
     public void updateCreateLoanTab(){
@@ -798,6 +828,40 @@ public class CustomerScreenController {
                 }
             }
         });
+    }
+    public void putLoansOnSale(List<String> loansToSale){
+        Gson gson = new Gson();
+        String json = gson.toJson(loansToSale);
+        RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_SELL_LOANS_RESOURCE )
+                .newBuilder()
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .post(body)
+                .build();
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
 
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Platform.runLater(() -> {
+                    if (!response.isSuccessful()) {
+                        try {
+                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
+                        } catch (IOException e) {
+
+                        }
+                    } else {
+                        Notifications.create().title("Success").text("The chosen loans has moved to the transfer list!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
+                    }
+                    updateLoanSellTab();
+                });
+            }
+        });
     }
 }

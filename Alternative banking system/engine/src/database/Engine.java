@@ -712,12 +712,17 @@ public class Engine implements EngineInterface , Serializable {
       updatePaymentComponents(loan, InitialComponent, InterestComponent);
    }
 
-   public void setLoansForSale(String userName, List<String> listForSale){
-      listForSale.forEach(p->getCustomerByName(userName).getLoansForSale().add(getLoanByName(p)));
+   public void setLoansForSale(String userName, List<String> listForSale) throws Exception{
+      Customer customer = getCustomerByName(userName);
+      for(String loan: listForSale){
+         if(!getLoanByName(loan).getStatus().getStatus().equals("Active")){
+            throw new Exception();
+         }
+      }
+      listForSale.forEach(p->customer.getLoansForSale().add(getLoanByName(p)));
    }
 
    public List<LoansForSaleDTO> getLoansAvailableToBuy(String UserName){
-      List<Loans> loansForSale = new ArrayList<>();
       List<LoansForSaleDTO> DTOloansForSale = new ArrayList<>();
       for(Customer customer: customers){
          if(!customer.getName().equals(UserName))
@@ -730,9 +735,13 @@ public class Engine implements EngineInterface , Serializable {
                           loan.getStatus().getNextPaymentTime(), copyPaymentList(loan),price, price + price*loan.getInterestPerPayment()/100));
                }
             }
-         loansForSale.addAll(customer.getLoansForSale());
       }
       return DTOloansForSale;
+   }
+
+   public List<String> getLoansAvailableToSell(String userName){
+      Customer customer = getCustomerByName(userName);
+      return customer.getLenderList().stream().filter(l -> l.getStatus().getStatus().equals("Active")).map(Loans::getLOANID).collect(Collectors.toList());
    }
 
    public double getLoanBuyPrice(String name, Loans loan){

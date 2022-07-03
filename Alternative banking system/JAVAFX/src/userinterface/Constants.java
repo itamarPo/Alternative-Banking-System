@@ -17,6 +17,8 @@ public class Constants {
     public final static String CUSTOMER_PAYMENT_INFO_RESOURCE = "/Customer-Pull-Payments-Servlet";
     public final static String CUSTOMER_CLOSE_LOAN_RESOURCE = "/Customer-Close-Loan-Servlet";
     public final static String CUSTOMER_MAKE_PAYMENT_RESOURCE = "/Customer-Make-Payment-Servlet";
+    public final static String CUSTOMER_BUYSELL_PULL_RESOURCE = "/Customer-BuySell-Pull-Servlet";
+    public final static String CUSTOMER_SELL_LOANS_RESOURCE = "/Customer-Sell-Loans-Servlet";
     public final static Gson GSON_INSTANCE = new Gson();
     public final static int REFRESH_RATE = 3000;
     public final static String UPLOAD_FILE = "/upload-file";

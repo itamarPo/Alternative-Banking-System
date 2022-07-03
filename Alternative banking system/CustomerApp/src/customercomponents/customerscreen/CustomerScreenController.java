@@ -381,6 +381,47 @@ public class CustomerScreenController {
         });
     }
 
+    public void closeLoan(String loanName){
+        RequestBody body = RequestBody.create(
+                "", MediaType.parse("txt"));
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PAYMENT_CLOSE_RESOURCE)
+                .newBuilder()
+                .addQueryParameter("loanID", loanName)
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation).post(body)
+                .build();
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful())
+                {
+                    Platform.runLater(()->
+                    {
+                        try {
+                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(3)).position(Pos.CENTER).showError();
+
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+
+                }
+                else {
+                    Platform.runLater(()
+                            ->Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(4)).position(Pos.CENTER).showInformation());
+                    paymentsUpdate();
+                }
+            }
+        });
+
+    }
 
 //    public void updatePayments(String userPick, List<PaymentNotificationDTO> paymentNotificationList, List<NewLoanDTO> loanList){
 //        List<NewLoanDTO> temp = loanList.stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());

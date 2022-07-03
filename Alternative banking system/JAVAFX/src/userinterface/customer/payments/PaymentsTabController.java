@@ -204,33 +204,33 @@ public class PaymentsTabController {
 
     @FXML
     public void closeLoanOnAction(ActionEvent actionEvent) {
-//        try{
-//            ActiveRiskLoanDTO selectedItem = null;
-//            if (closeLoanActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
-//                selectedItem = closeLoanActiveTableController.getTableView().getSelectionModel().getSelectedItem();
-//            }
-//            if (closeLoanRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
-//                selectedItem = closeLoanRiskTableController.getTableView().getSelectionModel().getSelectedItem();
-//            }
-//            if(selectedItem == null){
-//                throw new Exception();//user didn't select
-//            }
-//            engine.closeLoan(selectedItem.getBorrowerName(),selectedItem.getLoanID());
+        try{
+            ActiveRiskLoanDTO selectedItem = null;
+            if (closeLoanActiveTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+                selectedItem = closeLoanActiveTableController.getTableView().getSelectionModel().getSelectedItem();
+            }
+            if (closeLoanRiskTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+                selectedItem = closeLoanRiskTableController.getTableView().getSelectionModel().getSelectedItem();
+            }
+            if(selectedItem == null){
+                throw new Exception();//user didn't select
+            }
+            customerScreenController.closeLoan(selectedItem.getLoanID());
 //            topCustomerController.updatePayments(selectedItem.getBorrowerName());
 //            topCustomerController.updateInformationTab(selectedItem.getBorrowerName());
-//
+
 //            Notifications completedLoan = Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(10)).position(Pos.CENTER);
 //            completedLoan.show();
 //            if(engine.getLoanByName(selectedItem.getLoanID()).getStatus().getStatus().equals("Finished") && animation) {
 //                animateLoanFinish();
 //            }
-//
+
 //        } catch (WithDrawMoneyException e) {
 //            Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(10)).position(Pos.CENTER);
 //            notEnoughMoney.showError();
-//        } catch (Exception e) {
-//            closeLoanError.setText("No loan has been selected!");
-//        }
+        } catch (Exception e) {
+            closeLoanError.setText("No loan has been selected!");
+        }
     }
     public void animateLoanFinish(){
         finishImage.setVisible(true);

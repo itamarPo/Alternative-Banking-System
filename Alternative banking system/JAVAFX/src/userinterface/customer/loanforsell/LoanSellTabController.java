@@ -41,7 +41,7 @@ public class LoanSellTabController {
 
     //Regular Fields
     private CustomerScreenController customerScreenController;
-    private Engine engine;
+//    private Engine engine;
 
 
     @FXML
@@ -55,9 +55,9 @@ public class LoanSellTabController {
 
     }
 
-    public void setEngine(Engine engine) {
-        this.engine = engine;
-    }
+//    public void setEngine(Engine engine) {
+//        this.engine = engine;
+//    }
 
 //    public void setControllersAndStages() {
 //        buyLoansTableController.setLoanSellTabController(this);
@@ -69,13 +69,12 @@ public class LoanSellTabController {
         this.customerScreenController = customerScreenController;
     }
 
-    public void setValues(List<String> loanIDs, List<LoansForSaleDTO> loansToSell) {
+    public void setValues(List<String> loansAvailableToSell, List<LoansForSaleDTO> loansAvailableToBuy) {
         sellLoanCLV.getCheckModel().clearChecks();
         sellLoanCLV.getItems().clear();
-        sellLoanCLV.getItems().addAll(loanIDs);
-        ObservableList<LoansForSaleDTO> loansForSale = FXCollections.observableList(loansToSell);
-        buyLoansTableController.setValues(loansForSale);
-
+        sellLoanCLV.getItems().addAll(loansAvailableToSell);
+        buyLoansTableController.setValues(loansAvailableToBuy);
+        sellErrorMessage.setVisible(false);
     }
 
     //Regular methods
@@ -86,8 +85,9 @@ public class LoanSellTabController {
             sellErrorMessage.setVisible(true);    //error
             return;
         }
+        customerScreenController.putLoansOnSale(selectedLoans);
 //        engine.setLoansForSale(topCustomerController.getUserCB().getValue(), selectedLoans);
-        sellErrorMessage.setVisible(false);
+
 //        topCustomerController.updateLoanSellTab(topCustomerController.getUserCB().getValue());
 
     }

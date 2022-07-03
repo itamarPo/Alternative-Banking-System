@@ -237,16 +237,29 @@ public class Engine implements EngineInterface , Serializable {
                     accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(),
                     accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
          }
-         for (Loans lenderLoan : customer.getLenderList()) {
-            customerDTO.getLenderList().add(customerDTOClassArrange(lenderLoan));
-         }
-         for (Loans borrowerLoan : customer.getBorrowerList()) {
-            customerDTO.getBorrowerList().add(customerDTOClassArrange(borrowerLoan));
-         }
-         for (Loans loanForSale : customer.getLoansForSale()) {
-            customerDTO.getLoansForSale().add(customerDTOClassArrange(loanForSale));
-         }
-         customerDTO.setLoansAmounts();
+         //Borrowing
+         List<Loans> borrowing = customer.getBorrowerList();
+         customerDTO.setNewBorrower(borrowing.stream().filter(l -> l.getStatus().getStatus().equals("New")).collect(Collectors.toList()).size());
+         customerDTO.setPendingBorrower(borrowing.stream().filter(l -> l.getStatus().getStatus().equals("Pending")).collect(Collectors.toList()).size());
+         customerDTO.setActiveBorrower(borrowing.stream().filter(l -> l.getStatus().getStatus().equals("Active")).collect(Collectors.toList()).size());
+         customerDTO.setRiskBorrower(borrowing.stream().filter(l -> l.getStatus().getStatus().equals("Risk")).collect(Collectors.toList()).size());
+         customerDTO.setFinishedBorrower(borrowing.stream().filter(l -> l.getStatus().getStatus().equals("Finished")).collect(Collectors.toList()).size());
+         //Lending
+         List<Loans> lending = customer.getLenderList();
+         customerDTO.setPendingLender(lending.stream().filter(l -> l.getStatus().getStatus().equals("Pending")).collect(Collectors.toList()).size());
+         customerDTO.setActiveLender(lending.stream().filter(l -> l.getStatus().getStatus().equals("Active")).collect(Collectors.toList()).size());
+         customerDTO.setRiskLender(lending.stream().filter(l -> l.getStatus().getStatus().equals("Risk")).collect(Collectors.toList()).size());
+         customerDTO.setFinishedLender(lending.stream().filter(l -> l.getStatus().getStatus().equals("Finished")).collect(Collectors.toList()).size());
+//         for (Loans lenderLoan : customer.getLenderList()) {
+//            customerDTO.getLenderList().add(customerDTOClassArrange(lenderLoan));
+//         }
+//         for (Loans borrowerLoan : customer.getBorrowerList()) {
+//            customerDTO.getBorrowerList().add(customerDTOClassArrange(borrowerLoan));
+//         }
+//         for (Loans loanForSale : customer.getLoansForSale()) {
+//            customerDTO.getLoansForSale().add(customerDTOClassArrange(loanForSale));
+//         }
+//         customerDTO.setLoansAmounts();
          return customerDTO;
       }
       return null;

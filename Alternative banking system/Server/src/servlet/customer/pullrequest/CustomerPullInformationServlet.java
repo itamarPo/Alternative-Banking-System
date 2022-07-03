@@ -41,11 +41,9 @@ public class CustomerPullInformationServlet extends HttpServlet {
             List<FinishedLoanDTO> finishedLoans = new ArrayList<>();
             allRelatedLoans.stream().filter(l -> l.getStatus().equals("Finished")).forEach(l-> finishedLoans.add((FinishedLoanDTO) l));
             CustomerInfoDTO customerInfoDTO = engine.getCustomerInfo(userName);
-            List<String> categoriesList = engine.getCategoriesList().getCategoriesList();
-            List<PaymentNotificationDTO> paymentNotification = engine.getNotifications(userName);
-            List<LoansForSaleDTO> loansOnSale = engine.getLoansAvailableToBuy(userName);
+
             CustomersRelatedInfoDTO loanAndCustomerInfoDTO = new CustomersRelatedInfoDTO(newLoans, pendingLoans, activeLoans,
-                    riskLoans,finishedLoans, customerInfoDTO, categoriesList, paymentNotification, loansOnSale);
+                    riskLoans,finishedLoans, customerInfoDTO);
             response.setContentType("application/json");
             try (PrintWriter out = response.getWriter()) {
                 Gson gson = new Gson();
@@ -54,8 +52,8 @@ public class CustomerPullInformationServlet extends HttpServlet {
                 out.flush();
             }
         } else{
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
-//            response.getWriter().print("No session was found for this customer! access denied");
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//            response.getWriter().println("No session was found for this customer! access denied");
         }
 
 

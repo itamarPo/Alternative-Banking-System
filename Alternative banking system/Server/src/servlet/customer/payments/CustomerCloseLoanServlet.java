@@ -10,17 +10,15 @@ import utils.EngineServlet;
 
 import java.io.IOException;
 
-import static userinterface.Constants.CUSTOMER_PAYMENT_INFO_RESOURCE;
 import static userinterface.Constants.USERNAME;
 
-@WebServlet(name = "CustomerClosePaymentsServlet", urlPatterns = {"/Customer-Close-Payments-Servlet"})
-public class CustomerClosePaymentServlet extends HttpServlet {
+@WebServlet(name = "CustomerCloseLoanServlet", urlPatterns = {"/Customer-Close-Loan-Servlet"})
+public class CustomerCloseLoanServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             Engine engine = EngineServlet.getEngine(getServletContext());
             engine.closeLoan(String.valueOf(request.getSession().getAttribute(USERNAME)), request.getParameter("loanID"));
-            //request.getServletContext().getRequestDispatcher(CUSTOMER_PAYMENT_INFO_RESOURCE).forward(request, response);
         } catch (Exception e) {
            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
            response.getWriter().println(e);

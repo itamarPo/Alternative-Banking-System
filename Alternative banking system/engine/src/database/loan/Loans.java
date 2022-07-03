@@ -152,6 +152,7 @@ public class Loans implements Serializable, LoansInterface {
         double InitialComponent = sumOfPayment * (100/ (100+InterestPerPayment));
         double InterestComponent = sumOfPayment - InitialComponent;
         status.addPayment(new Payment(Engine.getTime(),InterestComponent, sumOfPayment, InitialComponent, "Not Payed" ));
+        //TODO: remove loan from loans for sale!
     }
 
     @Override
@@ -168,6 +169,7 @@ public class Loans implements Serializable, LoansInterface {
     public void changeToFinish(){
         status.setFinishTime(Engine.getTime());
         status.setStatus("Finished");
+        //TODO: remove loan from loans for sale!
     }
 
     public double expectedPaymentAmount(){

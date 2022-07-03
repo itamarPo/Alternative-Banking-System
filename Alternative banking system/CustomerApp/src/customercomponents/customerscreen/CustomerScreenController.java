@@ -115,7 +115,7 @@ public class CustomerScreenController {
                     updateInlayTab();
                     break;
                 } case "Payments":{
-                    paymentsUpdate();
+                    updatePayments();
                     break;
                 }
                 case "Buy/Sell Loans":{
@@ -353,7 +353,7 @@ public class CustomerScreenController {
             }
         });
     }
-    public void paymentsUpdate(){
+    public void updatePayments(){
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PAYMENT_INFO_RESOURCE)
                 .newBuilder()
                 .build()
@@ -375,53 +375,14 @@ public class CustomerScreenController {
                     Platform.runLater(() ->{
                         paymentsTabController.setValues(paymentUpdateDTO.getPaymentNotifications(), paymentUpdateDTO.getMakeActivePayment(),
                                 paymentUpdateDTO.getRiskLoans(), paymentUpdateDTO.getCloseActiveLoans());
+                        paymentsTabController.getCloseLoanError().setText("");
+                        paymentsTabController.getCompletePaymentError().setText("");
                     });
                 }
             }
         });
     }
 
-    public void closeLoan(String loanName){
-        RequestBody body = RequestBody.create(
-                "", MediaType.parse("txt"));
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PAYMENT_CLOSE_RESOURCE)
-                .newBuilder()
-                .addQueryParameter("loanID", loanName)
-                .build()
-                .toString();
-        Request request = new Request.Builder()
-                .url(finalUrlInformation).post(body)
-                .build();
-        HttpUtil.runAsync(request, false, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(!response.isSuccessful())
-                {
-                    Platform.runLater(()->
-                    {
-                        try {
-                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(3)).position(Pos.CENTER).showError();
-
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-
-                }
-                else {
-                    Platform.runLater(()
-                            ->Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(4)).position(Pos.CENTER).showInformation());
-                    paymentsUpdate();
-                }
-            }
-        });
-
-    }
 
 //    public void updatePayments(String userPick, List<PaymentNotificationDTO> paymentNotificationList, List<NewLoanDTO> loanList){
 //        List<NewLoanDTO> temp = loanList.stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
@@ -441,7 +402,7 @@ public class CustomerScreenController {
 //        paymentsTabController.getFinishImage().setVisible(false);
 //      //  paymentsTabController.setAnimation(mainController.getTopAdminController().isAnimationOn());
 //    }
-    public void updateInlayTab(){ //TODO: add relevant categories with HTTP call
+    public void updateInlayTab(){
         //final List<String>[] categories = (List<String>[]) new Object[1];
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_CATEGORIES_RESOURCE)
                 .newBuilder()
@@ -596,7 +557,6 @@ public class CustomerScreenController {
 
                         }
                     });
-                   //TODO: add error if inlay isn't available
                 } else{
                     Platform.runLater(() -> {
                         inlayTabController.resetFields();
@@ -616,12 +576,12 @@ public class CustomerScreenController {
 //            if(customerInfoDTO.getName().equals(userPick))
 //                customer=customerInfoDTO;
 //        }
-        List<String> loanID = new ArrayList<>();
-        List<String> loansForSale = customer.getLoansForSale().stream().map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
-        List<String> lenderLoans = customer.getLenderList().stream().filter(p -> p.getStatus().equals("Active")).map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
-        lenderLoans.removeIf(p -> loansForSale.contains(p));
-        //List<LoansForSaleDTO> loansOnSale = engine.getLoansAvailableToBuy(userPick);
-        loanSellTabController.setValues(lenderLoans,loansOnSale);
+//        List<String> loanID = new ArrayList<>();
+//        List<String> loansForSale = customer.getLoansForSale().stream().map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
+//        List<String> lenderLoans = customer.getLenderList().stream().filter(p -> p.getStatus().equals("Active")).map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
+//        lenderLoans.removeIf(p -> loansForSale.contains(p));
+//        //List<LoansForSaleDTO> loansOnSale = engine.getLoansAvailableToBuy(userPick);
+//        loanSellTabController.setValues(lenderLoans,loansOnSale);
     }
 
     public void updateCreateLoanTab(){
@@ -737,7 +697,6 @@ public class CustomerScreenController {
                     Platform.runLater(() ->
                     {
                         try {
-                            //TODO: file loading errors aren't working properly
                             Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).show();
                         } catch (IOException e) {
 //                            throw new RuntimeException(e);
@@ -764,5 +723,81 @@ public class CustomerScreenController {
 
       //  System.out.println(response.body().string());
         return;
+    }
+    public void makePayment(String loanID, String activeOrRisk, Double amountToPay){
+        RequestBody body = RequestBody.create(
+                "", MediaType.parse("txt"));
+
+        String finalUrlLoansTable = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_MAKE_PAYMENT_RESOURCE)
+                .newBuilder()
+                .addQueryParameter("loanID", loanID)
+                .addQueryParameter("activeOrRisk", activeOrRisk)
+                .addQueryParameter(AMOUNT, String.valueOf(amountToPay))
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlLoansTable)
+                .post(body)
+                .build();
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful()){
+                    Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
+                    paymentsTabController.getCompletePaymentError().setText("");
+                } else{
+                    Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
+                    updatePayments();
+                }
+            }
+        });
+    }
+
+    public void closeLoan(String loanName){
+        RequestBody body = RequestBody.create(
+                "", MediaType.parse("txt"));
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_CLOSE_LOAN_RESOURCE)
+                .newBuilder()
+                .addQueryParameter("loanID", loanName)
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation).post(body)
+                .build();
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful())
+                {
+                    Platform.runLater(()->
+                    {
+                        try {
+                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(3)).position(Pos.CENTER).showError();
+                            paymentsTabController.getCloseLoanError().setText("");
+
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+
+                }
+                else {
+                    Platform.runLater(()
+                            ->Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(4)).position(Pos.CENTER).showInformation());
+                    updatePayments();
+                }
+            }
+        });
+
     }
 }

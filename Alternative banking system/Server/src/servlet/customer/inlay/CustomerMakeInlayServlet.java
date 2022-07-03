@@ -36,8 +36,5 @@ public class CustomerMakeInlayServlet extends HttpServlet {
                 response.getWriter().println("One or more loans are no longer pending/new!");
             }
         }
-        //TODO: must check that these loans are still relevant, meaning they are still new/active!
-        //TODO: make sure this function is synchronized!
-
     }
 }

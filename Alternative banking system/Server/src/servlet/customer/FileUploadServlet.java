@@ -48,7 +48,6 @@ public class FileUploadServlet extends HttpServlet{
             if(customerName == null){
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             }else{
-                //TODO: file loading errors aren't working properly
                 try {
                     EngineServlet.getEngine(getServletContext()).loadFile(file, customerName);
                     out.println("File loaded successfully!");

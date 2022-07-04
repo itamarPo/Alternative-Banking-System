@@ -41,10 +41,6 @@ public class AdminLoginController {
 
     }
 
-
-
-
-
     //Setters
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -81,7 +77,7 @@ public class AdminLoginController {
             @Override
             public void onFailure(Call call, IOException e) {
                 Platform.runLater( () ->
-                        Notifications.create().title("Error").text("Unexpected error").hideAfter(Duration.seconds(5)).position(Pos.CENTER).show());
+                        Notifications.create().title("Error").text("Can't communicate with the server!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).show());
             }
 
             @Override
@@ -93,11 +89,12 @@ public class AdminLoginController {
                 else{
                 Platform.runLater( () ->
                         primaryStage.setScene(adminScreenScene));
+                        adminScreenController.setUserName(userName);
+                        adminScreenController.getNameLabel().setText(adminScreenController.getNameLabel().getText() + userName);
                         adminScreenController.startInfoRefresh();
-                        //start updating data
+
 
                 }
-               // return false;
             }
         });
 

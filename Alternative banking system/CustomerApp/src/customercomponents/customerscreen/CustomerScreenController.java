@@ -1,6 +1,7 @@
 package customercomponents.customerscreen;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import customercomponents.customerlogin.CustomerLoginController;
 import database.Engine;
 import javafx.application.Platform;
@@ -94,6 +95,8 @@ public class CustomerScreenController {
     private String userName;
     private CustomerLoginController customerLoginController;
     //TODO: add last seen yaz, so when the yaz change we can know about it through the refresher! same for rewind!
+    //TODO: itamar update 04/07/22 before dawn: i fixed the issue i wrote to you in whatsapp, it was too late so i didnt want to
+    //TODO: nudge. also buying loan now works. all the remaining TODOs are relevant.
     private Timer timer;
 
     //constructor
@@ -778,11 +781,19 @@ public class CustomerScreenController {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(!response.isSuccessful()){
-                    Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
-                    paymentsTabController.getCompletePaymentError().setText("");
+                    Platform.runLater(()->{
+                        try {
+                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        paymentsTabController.getCompletePaymentError().setText("");});
+
                 } else{
-                    Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
-                    updatePayments();
+                    Platform.runLater(()->{
+                        Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
+                        updatePayments();});
+
                 }
             }
         });
@@ -831,7 +842,7 @@ public class CustomerScreenController {
     }
     public void putLoansOnSale(List<String> loansToSale){
         Gson gson = new Gson();
-        String json = gson.toJson(loansToSale);
+        String json = gson.toJson(loansToSale, new TypeToken<List<String>>(){}.getType());
         RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_SELL_LOANS_RESOURCE )
                 .newBuilder()
@@ -860,6 +871,44 @@ public class CustomerScreenController {
                         Notifications.create().title("Success").text("The chosen loans has moved to the transfer list!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
                     }
                     updateLoanSellTab();
+                });
+            }
+        });
+    }
+    public void buyLoan(LoansForSaleDTO loansForSale){
+        Gson gson = new Gson();
+        String json = gson.toJson(loansForSale, new TypeToken<LoansForSaleDTO>(){}.getType());
+        RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_BUY_LOAN_RESOURCE )
+                .newBuilder()
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .post(body)
+                .build();
+
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Platform.runLater(()->{
+                    if(response.isSuccessful()){
+                        Notifications.create().title("Success").text("Loan purchase has been completed successfully!")
+                                .hideAfter(Duration.seconds(5)).position(Pos.CENTER).showInformation();
+
+                    }
+                    else{
+                        try {
+                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                 });
             }
         });

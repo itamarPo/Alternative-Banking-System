@@ -94,24 +94,21 @@ public class LoanSellTabController {
 
     @FXML
     public void confirmBuyButtonOnAction(ActionEvent actionEvent) {
-//        try{
-//        LoansForSaleDTO selectedLoan = null;
-//        if (buyLoansTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
-//            selectedLoan = buyLoansTableController.getTableView().getSelectionModel().getSelectedItem();
-//            engine.sellLoan(selectedLoan, topCustomerController.getUserCB().getValue());
+        try{
+       // LoansForSaleDTO selectedLoan = null;
+        if (buyLoansTableController.getTableView().getSelectionModel().getSelectedItem() != null) {
+            customerScreenController.buyLoan(buyLoansTableController.getTableView().getSelectionModel().getSelectedItem());
+           // engine.sellLoan(selectedLoan, topCustomerController.getUserCB().getValue());
 //            Notifications success = Notifications.create().text("Loan purchase has been completed successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
 //            success.show();
-//            topCustomerController.updateLoanSellTab(topCustomerController.getUserCB().getValue());
-//        }else{
-//            throw new Exception();//user didn't select
-//        }
-//    } catch (NotEnoughMoneyInAccount e){
-//        Notifications notEnoughMoney = Notifications.create().title("Error").text(e.toString()).hideAfter(Duration.seconds(5)).position(Pos.CENTER);
-//        notEnoughMoney.show();
-//    } catch(Exception e){
-//        errorBuyMessage.setText("No loan has been selected!");
-//    }
-//        }
+          //  topCustomerController.updateLoanSellTab(topCustomerController.getUserCB().getValue());
+        }else{
+            throw new Exception();//user didn't select
+        }
+    } catch(Exception e){
+        errorBuyMessage.setText("No loan has been selected!");
+    }
+
     }
 }
 

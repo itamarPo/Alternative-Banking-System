@@ -33,7 +33,6 @@
     <orderEntry type="module" module-name="DTO" exported="" />
     <orderEntry type="module" module-name="engine" exported="" />
     <orderEntry type="module" module-name="JAVAFX" exported="" />
-    <orderEntry type="library" scope="PROVIDED" name="Tomcat 10.0.22" level="application_server_libraries" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 10.0.11" level="application_server_libraries" />
+    <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 10.0.22" level="application_server_libraries" />
   </component>
 </module>

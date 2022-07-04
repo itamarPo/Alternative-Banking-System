@@ -714,12 +714,23 @@ public class Engine implements EngineInterface , Serializable {
 
    public void setLoansForSale(String userName, List<String> listForSale) throws Exception{
       Customer customer = getCustomerByName(userName);
+      Loans loanCheck;
       for(String loan: listForSale){
          if(!getLoanByName(loan).getStatus().getStatus().equals("Active")){
             throw new Exception();
          }
       }
-      listForSale.forEach(p->customer.getLoansForSale().add(getLoanByName(p)));
+     /**old code, didn't work well*/
+     // listForSale.forEach(p->customer.getLoansForSale().add(getLoanByName(p)));
+      //TODO: itamar's "plaster"
+      for(String loanForSale: listForSale)
+      {
+         loanCheck = getLoanByName(loanForSale);
+         if(!loanCheck.isOnSale()) {
+            customer.getLoansForSale().add(loanCheck);
+            loanCheck.setOnSale(true);
+         }
+      }
    }
 
    public List<LoansForSaleDTO> getLoansAvailableToBuy(String UserName){
@@ -740,8 +751,8 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public List<String> getLoansAvailableToSell(String userName){
-      Customer customer = getCustomerByName(userName);
-      return customer.getLenderList().stream().filter(l -> l.getStatus().getStatus().equals("Active")).map(Loans::getLOANID).collect(Collectors.toList());
+      Customer customer = getCustomerByName(userName); //TODO 04.07.22 itamar's update: added !l.isOnSale
+      return customer.getLenderList().stream().filter(l -> l.getStatus().getStatus().equals("Active") && !l.isOnSale()).map(Loans::getLOANID).collect(Collectors.toList());
    }
 
    public double getLoanBuyPrice(String name, Loans loan){
@@ -764,6 +775,7 @@ public class Engine implements EngineInterface , Serializable {
       Seller.addMoney(loanToSell.getPrice());
       Buyer.drawMoney(loanToSell.getPrice());
       Loans loan = getLoanByName(loanToSell.getLoanID());
+      loan.setOnSale(false);
       loan.getListOflenders().put(Buyer.getName(),loan.getListOflenders().remove(Seller.getName()));
       Seller.getLenderList().removeIf(p -> p.getLOANID().equals(loan.getLOANID()));
       Seller.getLoansForSale().removeIf(p ->p.getLOANID().equals(loan.getLOANID()));

@@ -14,24 +14,24 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
-<ScrollPane fx:id="MainSP" fitToHeight="true" fitToWidth="true" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admincomponents.adminscreen.AdminScreenController">
+<ScrollPane fx:id="MainSP" fitToHeight="true" fitToWidth="true" stylesheets="@TopAdminDefault.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admincomponents.adminscreen.AdminScreenController">
    <content>
       <AnchorPane fx:id="AdminAP" maxHeight="2500.0" maxWidth="2500.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="600.0" styleClass="background-only">
          <children>
             <HBox layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="700.0" prefHeight="35.0" prefWidth="700.0" spacing="18.0" styleClass="center-background-only" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <Label fx:id="nameLabel" maxWidth="130.0" minWidth="-Infinity" prefHeight="34.0" prefWidth="90.0" styleClass="top-labels" text="Name: " HBox.hgrow="SOMETIMES">
+                  <Label fx:id="nameLabel" maxWidth="130.0" minWidth="-Infinity" prefHeight="35.0" prefWidth="100.0" styleClass="top-labels" text="Name: " HBox.hgrow="SOMETIMES">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Button fx:id="IncreaseYazBUTTON" maxWidth="125.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#increaseYazOnAction" prefHeight="39.0" prefWidth="91.0" text="Increase Yaz" HBox.hgrow="SOMETIMES">
+                  <Button fx:id="IncreaseYazBUTTON" maxWidth="125.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#increaseYazOnAction" prefHeight="35.0" prefWidth="91.0" text="Increase Yaz" HBox.hgrow="SOMETIMES">
                      <styleClass>
                         <String fx:value="top-labels" />
                         <String fx:value="center-top-button" />
                      </styleClass></Button>
-                  <Label fx:id="currentYazLabel" maxHeight="1.7976931348623157E308" maxWidth="125.0" minWidth="-Infinity" prefHeight="34.0" prefWidth="95.0" styleClass="top-labels" text="Current YAZ: 1 " HBox.hgrow="SOMETIMES" />
-                  <ToggleSwitch fx:id="rewindToggleSwitch" lineSpacing="10.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="95.0" styleClass="top-labels" text="Rewind" HBox.hgrow="NEVER">
+                  <Label fx:id="currentYazLabel" maxHeight="1.7976931348623157E308" maxWidth="125.0" minWidth="-Infinity" prefHeight="35.0" prefWidth="90.0" styleClass="top-labels" text="Current Yaz: 1 " HBox.hgrow="SOMETIMES" />
+                  <ToggleSwitch fx:id="rewindToggleSwitch" lineSpacing="10.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="80.0" styleClass="top-labels" text="Rewind" HBox.hgrow="NEVER">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -40,7 +40,7 @@
                      </padding>
                   </ToggleSwitch>
                   <ComboBox fx:id="rewindCB" disable="true" maxWidth="90.0" minWidth="-Infinity" prefHeight="35.0" prefWidth="50.0" promptText="1" styleClass="top-combo-box" HBox.hgrow="NEVER" />
-                  <ComboBox fx:id="skinCB" maxWidth="140.0" minWidth="-Infinity" onAction="#SetSkinCBOnAction" prefHeight="35.0" prefWidth="85.0" promptText="Default" styleClass="top-combo-box" HBox.hgrow="ALWAYS" />
+                  <ComboBox fx:id="skinCB" maxWidth="140.0" minWidth="-Infinity" onAction="#SetSkinCBOnAction" prefHeight="35.0" prefWidth="85.0" promptText="Default" styleClass="top-combo-box" HBox.hgrow="SOMETIMES" />
                </children>
                <padding>
                   <Insets left="10.0" />

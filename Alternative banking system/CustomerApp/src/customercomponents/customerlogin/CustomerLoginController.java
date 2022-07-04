@@ -41,7 +41,7 @@ public class CustomerLoginController {
     void loginOnAction(ActionEvent event) {
         String userName = nameTextField.getText();
         if(userName.equals("")){
-            //error label turn on
+            //TODO: add error label!
             return;
         }
 
@@ -70,6 +70,7 @@ public class CustomerLoginController {
                             primaryStage.setScene(customerScreenScene));
                             customerScreenController.setUserName(userName);
                             customerScreenController.startInfoRefresh(userName);
+                            //TODO: get customer's name to label!
                 }
             }});
     }

@@ -84,6 +84,8 @@ public class CustomerScreenController {
     @FXML private Label FileLABEL;
     @FXML private Label YazLABEL;
     @FXML private TabPane customerOptionsTB;
+    @FXML private Label serverStatusLabel;
+    @FXML private Label nameLabel;
 
     @FXML private Tab information;
     @FXML private Tab inlay;
@@ -217,7 +219,6 @@ public class CustomerScreenController {
                 break;
             }
         }
-//        mainController.getTopAdminController().updateTheme(ThemeCB.getValue());
     }
 
     public void setUserName(String userName) {
@@ -291,12 +292,7 @@ public class CustomerScreenController {
     }
 
     public void transactionUpdate(Boolean chargeOrWithdraw, final Double amount){
-        //Gson gson = new Gson();
-        //String json = gson.toJson(categories);
-//        RequestBody body = RequestBody.create(json, "") // new
-//        RequestBody body = RequestBody.create(JSON, jsonObject.toString());
-        RequestBody body = RequestBody.create(
-                "", MediaType.parse("txt"));
+        RequestBody body = RequestBody.create("", MediaType.parse("txt"));
 
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + TRANSACTION_POPUP_IMPLEMENTATION)
                 .newBuilder()
@@ -305,6 +301,7 @@ public class CustomerScreenController {
                 .addQueryParameter("chargeOrWithdraw", chargeOrWithdraw.toString())
                 .build()
                 .toString();
+
         Request request = new Request.Builder()
                 .url(finalUrlInformation)
                 .post(body)
@@ -424,9 +421,6 @@ public class CustomerScreenController {
         });
 
     }
-    public int inlayGetNumOfLoans(){
-        return 0;
-    }
 
     public void inlaySumCheck(final Double amount/*,final List<CustomerInfoInlayDTO> customerInfoInlayDTO*/, final int maxOwnerShip,
                                               final List<String> categories, final int minInterest ,final int minYaz ){
@@ -462,8 +456,7 @@ public class CustomerScreenController {
     public void getFilteredLoans(List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans , Integer amountToInvest){
         Gson gson = new Gson();
         String json = gson.toJson(categories);
-        RequestBody body = RequestBody.create(
-                json, MediaType.parse("application/json"));
+        RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
 
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_INLAY_INPUT_RESOURCE)
                 .newBuilder()

@@ -909,6 +909,7 @@ public class CustomerScreenController {
                             throw new RuntimeException(e);
                         }
                     }
+                    updateLoanSellTab();
                 });
             }
         });

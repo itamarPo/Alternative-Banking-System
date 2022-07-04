@@ -16,7 +16,7 @@ public class LoanAndCustomerInfoDTO {
     List<ActiveRiskLoanDTO> riskLoans;
     List<FinishedLoanDTO> finishedLoans;
 
-    public LoanAndCustomerInfoDTO(List<CustomerInfoDTO> customerList, List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans, List<FinishedLoanDTO> finishedLoans) {
+    public LoanAndCustomerInfoDTO(List<CustomerInfoDTO> customerList, List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans, List<FinishedLoanDTO> finishedLoans){
         this.customerList = customerList;
         this.newLoans = newLoans;
         this.pendingLoans = pendingLoans;
@@ -33,6 +33,4 @@ public class LoanAndCustomerInfoDTO {
     public List<CustomerInfoDTO> getCustomerList() {
         return customerList;
     }
-
-
 }

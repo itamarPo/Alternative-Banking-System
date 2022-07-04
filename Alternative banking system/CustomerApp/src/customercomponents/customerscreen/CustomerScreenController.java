@@ -95,8 +95,7 @@ public class CustomerScreenController {
     private String userName;
     private CustomerLoginController customerLoginController;
     //TODO: add last seen yaz, so when the yaz change we can know about it through the refresher! same for rewind!
-    //TODO: itamar update 04/07/22 before dawn: i fixed the issue i wrote to you in whatsapp, it was too late so i didnt want to
-    //TODO: nudge. also buying loan now works. all the remaining TODOs are relevant.
+    //
     private Timer timer;
 
     //constructor
@@ -229,24 +228,6 @@ public class CustomerScreenController {
         this.customerLoginController = customerLoginController;
     }
 
-    public void updateTheme(String newTheme){
-        MainSP.getStylesheets().clear();
-        switch (newTheme){
-            case DEFAULT:{
-                MainSP.getStylesheets().add(THEMEDEFAULT);
-                break;
-            }
-            case DARK:{
-                MainSP.getStylesheets().add(THEMEDARK);
-                break;
-            }
-            case BRIGHT:{
-                MainSP.getStylesheets().add(THEMEBRIGHT);
-                break;
-            }
-        }
-    }
-
     /*Pitaron elganti yoter: kria po le HTTP aim ma she ani zarih*/
     public void startInfoRefresh(String customerName){
         CustomerInfoRefresher customerInfoRefresher = new CustomerInfoRefresher(this, customerName);
@@ -287,8 +268,6 @@ public class CustomerScreenController {
 //        });
 //
 //    }
-
-
 
     public void updateInformationTab (String UserPick, List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans , List<FinishedLoanDTO> finishedLoans, CustomerInfoDTO customerInfo){
         //Transactions and balance

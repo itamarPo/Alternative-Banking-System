@@ -521,7 +521,7 @@ public class Engine implements EngineInterface , Serializable {
       investor.drawMoney(moneyToInvest);
       loan.updateStatusBeforeActive();
       if (loan.getStatus().getStatus().equals("Active")) {
-         getCustomerByName(loan.getBorrowerName()).addMoney(loan.getLoanSize());
+         getCustomerByName(loan.getBorrowerName()).addMoney(loan.getLoanSizeNoInterest());
       }
    }
 
@@ -720,17 +720,8 @@ public class Engine implements EngineInterface , Serializable {
             throw new Exception();
          }
       }
-     /**old code, didn't work well*/
      listForSale.forEach(p->customer.getLoansForSale().add(getLoanByName(p)));
-      //TODO: itamar's "plaster"
-//      for(String loanForSale: listForSale)
-//      {
-//         loanCheck = getLoanByName(loanForSale);
-//         if(!loanCheck.isOnSale()) {
-//            customer.getLoansForSale().add(loanCheck);
-//            loanCheck.setOnSale(true);
-//         }
-//      }
+
    }
 
    public List<LoansForSaleDTO> getLoansAvailableToBuy(String UserName){
@@ -751,7 +742,7 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public List<String> getLoansAvailableToSell(String userName){
-      Customer customer = getCustomerByName(userName); //TODO 04.07.22 itamar's update: added !l.isOnSale
+      Customer customer = getCustomerByName(userName);
       return customer.getLenderList().stream().filter(l -> l.getStatus().getStatus().equals("Active") && !customer.getLoansForSale().contains(l)).map(Loans::getLOANID).collect(Collectors.toList());
    }
 

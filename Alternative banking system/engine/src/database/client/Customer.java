@@ -19,9 +19,6 @@ public class Customer implements CustomerInterface, Serializable {
     private List<AccountTransaction> transactions;
     private List<PaymentNotification> notifications;
 
-
-
-
     public Customer(String clientName, double balance){
         name = clientName;
         lenderList = new ArrayList<>();

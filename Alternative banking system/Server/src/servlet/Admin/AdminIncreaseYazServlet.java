@@ -17,7 +17,6 @@ public class AdminIncreaseYazServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Engine engine = EngineServlet.getEngine(getServletContext());
         engine.moveTImeForward2();
-        //TODO: return the current yaz on response!
         response.setContentType("application/json");
         Gson gson = new Gson();
         Integer yaz = Engine.getTime();
@@ -26,6 +25,5 @@ public class AdminIncreaseYazServlet extends HttpServlet {
         response.getWriter().flush();
         response.getWriter().close();
         //TODO: later on, needs to save the engine to a file!
-
     }
 }

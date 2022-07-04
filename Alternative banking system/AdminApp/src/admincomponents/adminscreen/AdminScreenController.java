@@ -34,7 +34,7 @@ public class AdminScreenController {
     private final String DEFAULT = "Default";
     private final String DARK = "Dark";
     private final String BRIGHT = "Bright";
-    private final String YAZSTATEMENT = "Current YAZ: " ;
+    private final String YAZSTATEMENT = "Current Yaz: " ;
 
     //Sub components
     @FXML private ScrollPane newLoan;

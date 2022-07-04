@@ -53,7 +53,7 @@ public class AdminMain extends Application {
 //        mainController.setSubControllers();
 
         //Start program
-        primaryStage.setTitle("Alternative Banking System");
+        primaryStage.setTitle("Admin");
         primaryStage.setScene(adminLoginScene);
         primaryStage.show();
 

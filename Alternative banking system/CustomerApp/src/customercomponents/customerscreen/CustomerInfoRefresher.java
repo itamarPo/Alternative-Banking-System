@@ -59,6 +59,8 @@ public class CustomerInfoRefresher extends TimerTask {
                 List<FinishedLoanDTO> finishedLoans = allTabsCustomerInformation.getFinishedLoans();
                 CustomerInfoDTO customerInfo = allTabsCustomerInformation.getCustomerInfo();
                 Platform.runLater(() -> customerScreenController.updateInformationTab(userName, newLoans,pendingLoans,activeLoans,riskLoans,finishedLoans, customerInfo));
+                //TODO: 1) Add current yaz to the pull info. 2) Add server status to the pull info.
+                //TODO: 3) block tab pane if status is "read only"!
                 }
             }
         });

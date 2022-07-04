@@ -14,18 +14,24 @@
    <content>
       <BorderPane fx:id="MainBP" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" styleClass="background-only">
          <top>
-            <HBox alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="60.0" prefWidth="600.0" spacing="120.0" styleClass="background-only">
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="600.0" prefHeight="49.0" prefWidth="600.0" spacing="18.0" styleClass="background-only" BorderPane.alignment="CENTER">
                <children>
-                  <ComboBox id="customers-combo-box" fx:id="ThemeCB" layoutX="20.0" layoutY="20.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#SetThemeCBOnAction" prefHeight="40.0" prefWidth="141.0" />
-                  <Button fx:id="loadFileButton" mnemonicParsing="false" onAction="#LoadFileOnAction" prefHeight="40.0" prefWidth="135.0" text="Load File" />
-                  <Label fx:id="YazLABEL" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="100.0" prefHeight="17.0" prefWidth="77.0" styleClass="top-labels" text="Current Yaz:" />
+                  <Label fx:id="nameLabel" maxWidth="130.0" minWidth="-Infinity" prefHeight="35.0" prefWidth="90.0" styleClass="top-labels" text="Name: " HBox.hgrow="SOMETIMES">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Button fx:id="loadFileButton" maxWidth="125.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#LoadFileOnAction" prefHeight="35.0" prefWidth="91.0" styleClass="action-buttons" text="Load File" HBox.hgrow="SOMETIMES" />
+                  <Label fx:id="YazLABEL" maxHeight="1.7976931348623157E308" maxWidth="125.0" minWidth="-Infinity" prefHeight="35.0" prefWidth="90.0" styleClass="top-labels" text="Current Yaz:" HBox.hgrow="SOMETIMES" />
+                  <Label fx:id="serverStatusLabel" maxWidth="185.0" minWidth="-Infinity" prefHeight="35.0" prefWidth="145.0" styleClass="top-labels" text="Server Status: " HBox.hgrow="SOMETIMES" />
+                  <ComboBox id="customers-combo-box" fx:id="ThemeCB" layoutX="20.0" layoutY="20.0" maxHeight="1.7976931348623157E308" maxWidth="125.0" minWidth="-Infinity" onAction="#SetThemeCBOnAction" prefHeight="35.0" prefWidth="85.0" promptText="Default" styleClass="top-combo-box" HBox.hgrow="SOMETIMES" />
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
                <BorderPane.margin>
                   <Insets bottom="60.0" />
                </BorderPane.margin>
+               <padding>
+                  <Insets top="14.0" />
+               </padding>
             </HBox>
          </top>
          <center>

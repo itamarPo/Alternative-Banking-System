@@ -60,7 +60,7 @@ public class AdminLoginController {
 
         String userName = nameTextField.getText();
         if(userName.equals("")){
-            //error label turn on
+            //TODO: add error label!
             return;
         }
 
@@ -92,7 +92,6 @@ public class AdminLoginController {
                         adminScreenController.setUserName(userName);
                         adminScreenController.getNameLabel().setText(adminScreenController.getNameLabel().getText() + userName);
                         adminScreenController.startInfoRefresh();
-
 
                 }
             }

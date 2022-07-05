@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -24,6 +25,7 @@ public class AdminLoginController {
     //JAVAFX components
     @FXML private TextField nameTextField;
     @FXML private Button loginButton;
+    @FXML private Label errorLabel;
 
     //Regular fields
     private Stage primaryStage;
@@ -59,11 +61,11 @@ public class AdminLoginController {
     void loginOnAction(ActionEvent event) {
 
         String userName = nameTextField.getText();
-        if(userName.equals("")){
-            //TODO: add error label!
+        if (userName.equals("")) {
+            errorLabel.setVisible(true);
             return;
         }
-
+        errorLabel.setVisible(false);
         String finalUrl = HttpUrl.parse(Constants.FULL_PATH_DOMAIN + Constants.LOGIN_RESOURCE)
                 .newBuilder()
                 .addQueryParameter("userName", userName).addQueryParameter("isAdmin", "true")
@@ -73,31 +75,29 @@ public class AdminLoginController {
                 .url(finalUrl).post(RequestBody.create("", MediaType.parse("")))
                 .build();
 
-        HttpUtil.runAsync(request, true ,new Callback()  {
+        HttpUtil.runAsync(request, true, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Platform.runLater( () ->
-                        Notifications.create().title("Error").text("Can't communicate with the server!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).show());
+                Platform.runLater(() ->
+                        Notifications.create().title("Error").text("Can't communicate with the server!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(response.code() != 200){
-                    Platform.runLater( () ->
-                            Notifications.create().title("Error").text("Admin is already logged in!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).show());
-                }
-                else{
-                Platform.runLater( () ->
-                        primaryStage.setScene(adminScreenScene));
+                if (response.code() != 200) {
+                    Platform.runLater(() ->
+                            Notifications.create().title("Error").text("Admin is already logged in!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError());
+                } else {
+                    Platform.runLater(() -> {
+                        primaryStage.setTitle("Admin");
+                        primaryStage.setScene(adminScreenScene);
                         adminScreenController.setUserName(userName);
                         adminScreenController.getNameLabel().setText(adminScreenController.getNameLabel().getText() + userName);
                         adminScreenController.startInfoRefresh();
-
+                    });
                 }
             }
+
         });
-
     }
-
-
 }

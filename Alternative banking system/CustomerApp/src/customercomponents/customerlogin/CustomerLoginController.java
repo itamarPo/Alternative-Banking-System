@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -22,6 +23,7 @@ public class CustomerLoginController {
     //JAVAFX components
     @FXML private TextField nameTextField;
     @FXML private Button loginButton;
+    @FXML private Label errorLabel;
 
     //Regular fields
     private Stage primaryStage;
@@ -29,8 +31,13 @@ public class CustomerLoginController {
     private CustomerScreenController customerScreenController;
 
     //Setters
-    public void setPrimaryStage(Stage primaryStage) {this.primaryStage = primaryStage;}
-    public void setCustomerScreenScene(Scene customerScreenScene) {this.customerScreenScene = customerScreenScene;}
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
+    public void setCustomerScreenScene(Scene customerScreenScene) {
+        this.customerScreenScene = customerScreenScene;
+    }
 
     public void setCustomerScreenController(CustomerScreenController customerScreenController) {
         this.customerScreenController = customerScreenController;
@@ -40,11 +47,11 @@ public class CustomerLoginController {
     @FXML
     void loginOnAction(ActionEvent event) {
         String userName = nameTextField.getText();
-        if(userName.equals("")){
-            //TODO: add error label!
+        if (userName.equals("")) {
+            errorLabel.setVisible(true);
             return;
         }
-
+        errorLabel.setVisible(false);
         String finalUrl = HttpUrl.parse(Constants.FULL_PATH_DOMAIN + Constants.LOGIN_RESOURCE).newBuilder()
                 .addQueryParameter("userName", userName).addQueryParameter("isAdmin", "false")
                 .build()
@@ -53,25 +60,30 @@ public class CustomerLoginController {
                 .url(finalUrl).post(RequestBody.create("", MediaType.parse("")))
                 .build();
 
-        HttpUtil.runAsync(request, false ,new Callback() {
+        HttpUtil.runAsync(request, false, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Platform.runLater(() ->
-                        Notifications.create().title("Error").text("BLA BLA!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).show());
+                        Notifications.create().title("Error").text("Can't communicate with the server!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     Platform.runLater(() ->
-                            Notifications.create().title("Error").text("This user name is already in use!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).show());
+                            Notifications.create().title("Error").text("This user name is already in use!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError());
                 } else {
-                    Platform.runLater(() ->
-                            primaryStage.setScene(customerScreenScene));
-                            customerScreenController.setUserName(userName);
-                            customerScreenController.startInfoRefresh(userName);
-                            //TODO: get customer's name to label!
+                    Platform.runLater(() -> {
+                        primaryStage.setTitle(userName);
+                        primaryStage.setScene(customerScreenScene);
+                        customerScreenController.setUserName(userName);
+                        //TODO: get customer's name to label!
+                        customerScreenController.getNameLabel().setText(customerScreenController.getNameLabel().getText() + userName);
+                        customerScreenController.startInfoRefresh(userName);
+
+                    });
                 }
-            }});
+            }
+        });
     }
 }

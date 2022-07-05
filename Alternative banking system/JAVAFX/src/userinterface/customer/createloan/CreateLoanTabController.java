@@ -104,6 +104,7 @@ public class CreateLoanTabController {
              * NEED TO CHECK IF THERE IS A SYNC REQUIREMENT!!!!!
              * I suggest we send the information via gson.*/
             customerScreenController.LoanNameCheckAndCreate(loanNameTF.getText(), category, amount, duration, timePerPayment, InterestPerPayment);
+        } else{
 
         }
     }
@@ -113,6 +114,25 @@ public class CreateLoanTabController {
         duration = getLoansDuration();
         timePerPayment = getTimePerPayment();
         InterestPerPayment = getInterestPerPayment();
+        boolean categoriesOK = true;
+        boolean nameOK = true;
+        if(loanNameTF.getText().equals(""))
+        {
+            nameError.setText("Please insert a name!");
+            nameOK = false;
+        } else{
+            nameError.setText("");
+        }
+        if(!checkCategory()) {
+            categoriesOK = false;
+        }
+        else {
+            category = categoryCB.getSelectionModel().getSelectedItem().toString();
+            categoryError.setText("");
+        }
+
+
+
         if(amount==INVALID)
             return false;
         else
@@ -120,18 +140,24 @@ public class CreateLoanTabController {
             return false;
         if(timePerPayment==INVALID)
             return false;
-        if(!checkCategory()) {
+        if (categoriesOK == false) {
             return false;
         }
-        else
-            category = categoryCB.getSelectionModel().getSelectedItem().toString();
-        if(InterestPerPayment==INVALID)
-            return false;
-        if(loanNameTF.getText().equals("") || loanNameTF.getText().equals(null))
-        {
-            nameError.setText("Please insert a name.");
+        if(nameOK == false){
             return false;
         }
+//        if(!checkCategory()) {
+//            return false;
+//        }
+//        else
+//            category = categoryCB.getSelectionModel().getSelectedItem().toString();
+//        if(InterestPerPayment==INVALID)
+//            return false;
+//        if(loanNameTF.getText().equals(""))
+//        {
+//            nameError.setText("Please insert a name!");
+//            return false;
+//        }
 
         return true;
     }
@@ -147,7 +173,7 @@ public class CreateLoanTabController {
             amountError.setText("");
             return amount;
         } catch (NumberFormatException e){
-            amountError.setText("Invalid input. Please enter a positive number!");
+            amountError.setText("Invalid input. Please enter a positive Integer!");
         } catch (Exception e) {
             amountError.setText("Please enter a number Above 0!");
         }
@@ -165,7 +191,7 @@ public class CreateLoanTabController {
             durationError.setText("");
             return duration;
         } catch (NumberFormatException e){
-            durationError.setText("Invalid input. Please enter a positive number!");
+            durationError.setText("Invalid input. Please enter a positive Integer!");
         } catch (Exception e) {
             durationError.setText("Please enter a number Above 0!");
         }
@@ -182,7 +208,7 @@ public class CreateLoanTabController {
                 throw new TimeOfPaymentNotDivideEqualyException(duration, periodPayment);
             return periodPayment;
         }catch(NumberFormatException e){
-            timePerPaymentError.setText("Invalid input. Please enter a positive Integer");
+            timePerPaymentError.setText("Invalid input. Please enter a positive Integer!");
         }catch (TimeOfPaymentNotDivideEqualyException e){
             timePerPaymentError.setText(e.toString());
         } catch (Exception e) {
@@ -210,7 +236,7 @@ public class CreateLoanTabController {
     }
     public boolean checkCategory(){
         if(categoryCB.getSelectionModel().getSelectedItem()==null) {
-            categoryError.setText("Please Choose a category");
+            categoryError.setText("Please Choose a category!");
             return false;
         }
         categoryError.setText("");

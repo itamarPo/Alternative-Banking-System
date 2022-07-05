@@ -122,6 +122,7 @@ public class PaymentsTabController {
     }
     public Label getCloseLoanError() {return closeLoanError;}
     public Label getCompletePaymentError() {return completePaymentError;}
+    public TextField getPaymentAmountTextField() {return paymentAmountTextField;}
     //    public AnchorPane getFinishImage() {
 //        return finishImage;
 //    }

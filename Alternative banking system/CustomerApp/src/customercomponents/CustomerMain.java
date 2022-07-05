@@ -41,7 +41,7 @@ public class CustomerMain extends Application {
         customerScreenController.setCustomerLoginController(customerLoginController);
 
         //Start program
-        primaryStage.setTitle("Customer");
+        primaryStage.setTitle("Login");
         primaryStage.setScene(customerLoginScene);
         primaryStage.show();
 

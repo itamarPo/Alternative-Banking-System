@@ -133,11 +133,14 @@ public class CustomerScreenController {
                 }
             }
         });
+        ThemeCB.getItems().addAll(DEFAULT,BRIGHT,DARK);
         MainSP.getStylesheets().add(THEMEDEFAULT);
     }
 
 
     //getters
+
+    public Label getNameLabel() {return nameLabel;}
     public Label getFileLABEL() {return FileLABEL;}
     public ComboBox<String> getUserCB() {return UserCB;}
     public Label getYazLABEL() {return YazLABEL;}
@@ -359,6 +362,7 @@ public class CustomerScreenController {
                                 paymentUpdateDTO.getRiskLoans(), paymentUpdateDTO.getCloseActiveLoans());
                         paymentsTabController.getCloseLoanError().setText("");
                         paymentsTabController.getCompletePaymentError().setText("");
+                        paymentsTabController.getPaymentAmountTextField().setText("");
                     });
                 }
             }
@@ -539,7 +543,7 @@ public class CustomerScreenController {
                     Platform.runLater(() -> {
                         inlayTabController.resetFields();
                         Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
-                        successInlay.showInformation();
+                        successInlay.showConfirm();
                     });
                 }
             }
@@ -649,7 +653,7 @@ public class CustomerScreenController {
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
                         Platform.runLater(()->{
-                                Notifications.create().title("Loan Created!").text("The loan was successfully created!").hideAfter(Duration.seconds(3)).position(Pos.CENTER).showInformation();
+                                Notifications.create().title("Loan Created!").text("The loan was successfully created!").hideAfter(Duration.seconds(3)).position(Pos.CENTER).showConfirm();
                                 createLoanTabController.resetFields();});
 
                     } else{
@@ -693,7 +697,7 @@ public class CustomerScreenController {
             @Override
             public void onFailure(Call call, IOException e) {
                 Platform.runLater(() ->
-                        Notifications.create().title("Error").text("Unknown Error").hideAfter(Duration.seconds(5)).position(Pos.CENTER).show());
+                        Notifications.create().title("Error").text("Unknown Error").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError());
             }
 
             @Override
@@ -702,7 +706,7 @@ public class CustomerScreenController {
                     Platform.runLater(() ->
                     {
                         try {
-                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).show();
+                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
                         } catch (IOException e) {
 //                            throw new RuntimeException(e);
                         }
@@ -711,7 +715,7 @@ public class CustomerScreenController {
                     Platform.runLater(() ->
                     {
                         try {
-                            Notifications.create().title("Success").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).show();
+                            Notifications.create().title("Success").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
                         } catch (IOException e) {
 //                            throw new RuntimeException(e);
                         }
@@ -806,7 +810,7 @@ public class CustomerScreenController {
                 }
                 else {
                     Platform.runLater(()
-                            ->Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(4)).position(Pos.CENTER).showInformation());
+                            ->Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(4)).position(Pos.CENTER).showConfirm());
                     updatePayments();
                 }
             }
@@ -871,7 +875,7 @@ public class CustomerScreenController {
                 Platform.runLater(()->{
                     if(response.isSuccessful()){
                         Notifications.create().title("Success").text("Loan purchase has been completed successfully!")
-                                .hideAfter(Duration.seconds(5)).position(Pos.CENTER).showInformation();
+                                .hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
 
                     }
                     else{

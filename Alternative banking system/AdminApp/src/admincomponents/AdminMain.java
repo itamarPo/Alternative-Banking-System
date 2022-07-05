@@ -53,10 +53,9 @@ public class AdminMain extends Application {
 //        mainController.setSubControllers();
 
         //Start program
-        primaryStage.setTitle("Admin");
+        primaryStage.setTitle("Login");
         primaryStage.setScene(adminLoginScene);
         primaryStage.show();
-
     }
 
     public static void main(String[] args) {

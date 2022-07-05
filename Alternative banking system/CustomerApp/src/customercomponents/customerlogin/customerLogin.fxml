@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="265.0" prefWidth="365.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customercomponents.customerlogin.CustomerLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="265.0" prefWidth="365.0" styleClass="background-only" stylesheets="@customerLogin.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customercomponents.customerlogin.CustomerLoginController">
    <children>
       <VBox alignment="CENTER" layoutX="54.0" layoutY="33.0" prefHeight="200.0" prefWidth="258.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label text="Welcome" />
+            <Label styleClass="labels" text="Welcome!" />
             <HBox alignment="CENTER" prefHeight="45.0" prefWidth="258.0" spacing="10.0">
                <children>
-                  <Label text="User name:" />
+                  <Label styleClass="labels" text="User name:" />
                   <TextField fx:id="nameTextField" prefHeight="25.0" prefWidth="184.0" />
                </children>
             </HBox>
@@ -24,6 +24,7 @@
                   <Insets />
                </VBox.margin>
             </Button>
+            <Label fx:id="errorLabel" styleClass="error-label" text="Please enter a valid name!" visible="false" />
          </children>
       </VBox>
    </children>

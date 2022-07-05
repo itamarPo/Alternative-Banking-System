@@ -1,6 +1,5 @@
 package servlet.Admin;
 
-import com.google.gson.Gson;
 import database.Engine;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,18 +10,15 @@ import utils.EngineServlet;
 
 import java.io.IOException;
 
-@WebServlet(name = "AdminIncreaseYazServlet", urlPatterns = {"/Admin-Increase-Yaz-Servlet"})
-public class AdminIncreaseYazServlet extends HttpServlet {
+@WebServlet(name = "AdminDeactivateRewindServlet", urlPatterns = {"/Admin-Deactivate-Rewind-Servlet"})
+public class AdminDeactivateRewindServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //TODO: make sure there is an active session for admin!
         Engine engine = EngineServlet.getEngine(getServletContext());
-        engine.moveTImeForward2();
-        response.setContentType("application/json");
-        Gson gson = new Gson();
-        Integer yaz = Engine.getTime();
-        String json = gson.toJson(yaz.toString());
-        response.getWriter().println(json);
-        response.getWriter().flush();
-        response.getWriter().close();
+        getServletContext().setAttribute("Engine", engine.deactivateRewind());
+        //TODO: might not work!
+        Engine engine2 = EngineServlet.getEngine(getServletContext());
+//        engine = engine.deactivateRewind();
     }
 }

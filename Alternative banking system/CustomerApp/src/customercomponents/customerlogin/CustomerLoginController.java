@@ -77,7 +77,6 @@ public class CustomerLoginController {
                         primaryStage.setTitle(userName);
                         primaryStage.setScene(customerScreenScene);
                         customerScreenController.setUserName(userName);
-                        //TODO: get customer's name to label!
                         customerScreenController.getNameLabel().setText(customerScreenController.getNameLabel().getText() + userName);
                         customerScreenController.startInfoRefresh(userName);
 

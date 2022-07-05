@@ -80,8 +80,16 @@ public class AdminScreenController {
         skinCB.getItems().addAll(DEFAULT,BRIGHT,DARK);
         rewindCB.getItems().add("1");
         MainSP.getStylesheets().add(THEMEDEFAULT);
-        rewindToggleSwitch.selectedProperty().addListener((ov, oldTab, newTab) -> {
+        rewindToggleSwitch.selectedProperty().addListener((ov, oldValue, newValue) -> {
             rewindCB.setDisable(!rewindCB.isDisable());
+            if (newValue) {
+                activateRewind();
+                //TODO: that means the toggle button has switched on -> need to perform rewind
+            } else{
+                deactivateRewind();
+                //TODO: that means the toggle button has switched off -> need to return to current yaz and load the updated engine.
+            }
+
         });
     }
 
@@ -160,6 +168,8 @@ public class AdminScreenController {
                         }
                         String YAZ = GSON_INSTANCE.fromJson(jsonYaz, String.class);
                         currentYazLabel.setText(YAZSTATEMENT + YAZ);
+                        rewindCB.getItems().add(YAZ);
+                        rewindCB.getSelectionModel().selectLast();
                     });
                 }
             }
@@ -184,5 +194,100 @@ public class AdminScreenController {
         timer = new Timer();
         timer.schedule(adminInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
+
+    public void activateRewind(){
+        RequestBody body = RequestBody.create("", MediaType.parse("txt"));
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + ADMIN_ACTIVATE_REWIND_RESOURCE )
+                .newBuilder()
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .post(body)
+                .build();
+        HttpUtil.runAsync(request, true, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful()){
+                    //TODO: Error!
+                } else{
+                    Platform.runLater(() -> {
+                        rewindCB.setDisable(false);
+                        IncreaseYazBUTTON.setDisable(true);
+                    });
+                }
+            }
+        });
+    }
+
+    public void deactivateRewind(){
+        RequestBody body = RequestBody.create("", MediaType.parse("txt"));
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + ADMIN_DEACTIVATE_REWIND_RESOURCE )
+                .newBuilder()
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .post(body)
+                .build();
+        HttpUtil.runAsync(request, true, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful()){
+                    //TODO: error!
+                } else{
+                    Platform.runLater(() -> {
+                        rewindCB.getSelectionModel().selectLast();
+                        rewindCB.setDisable(true);
+                        IncreaseYazBUTTON.setDisable(false);
+                    });
+                }
+            }
+        });
+    }
+
+    @FXML
+    void changeTimeForEngine(ActionEvent event){
+        if(!rewindToggleSwitch.isSelected()){
+            return;
+        }
+        RequestBody body = RequestBody.create("", MediaType.parse("txt"));
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + ADMIN_REWIND_TIME_RESOURCE )
+                .newBuilder()
+                .addQueryParameter("TimeToMove", rewindCB.getValue())
+                .build()
+                .toString();
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .post(body)
+                .build();
+        HttpUtil.runAsync(request, true, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful()){
+                    //TODO: error!
+                } else{
+                    //TODO: think what needs to happen once we actually rewinded the engine!
+                }
+            }
+        });
+
+    }
+
 
 }

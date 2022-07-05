@@ -7,6 +7,9 @@ public class Constants {
     public final static String LOGIN_RESOURCE = "/login";
     public final static String ADMIN_PULL_INFORMATION_RESOURCE = "/Admin-Pull-Information-Servlet";
     public final static String ADMIN_INCREASE_YAZ_RESOURCE = "/Admin-Increase-Yaz-Servlet";
+    public final static String ADMIN_ACTIVATE_REWIND_RESOURCE = "/Admin-Activate-Rewind-Servlet";
+    public final static String ADMIN_DEACTIVATE_REWIND_RESOURCE = "/Admin-Deactivate-Rewind-Servlet";
+    public final static String ADMIN_REWIND_TIME_RESOURCE = "/Admin-Rewind-Time-Servlet";
     public final static String AVAILABLE_CATEGORIES_PULL_RESOURCE = "/Available-Categories-Pull-Servlet";
     public final static String CUSTOMER_PULL_INFORMATION_RESOURCE = "/Customer-Pull-Information-Servlet";
     public final static String CUSTOMER_PULL_CATEGORIES_RESOURCE = "/Customer-Categories-Pull-Servlet";
@@ -22,13 +25,15 @@ public class Constants {
     public final static String CUSTOMER_SELL_LOANS_RESOURCE = "/Customer-Sell-Loans-Servlet";
     public final static String CUSTOMER_BUY_LOAN_RESOURCE = "/Customer-Buy-Loan-Servlet";
     public final static Gson GSON_INSTANCE = new Gson();
+
     public final static int REFRESH_RATE = 1000;
     public final static String UPLOAD_FILE = "/upload-file";
     public final static String USERNAME = "userName";
     public final static String AMOUNT = "Amount";
     public final static int INVALID = -1;
     public final static int DIFFERENT = -2;
-
+    public final static String REWIND = "Read Only";
+    public final static String NOTREWIND = "Active";
     private final String FILESTATEMENT = "File: " ;
     private final String ADMIN = "Admin";
 

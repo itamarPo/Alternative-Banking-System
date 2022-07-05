@@ -41,9 +41,10 @@ public class CustomerPullInformationServlet extends HttpServlet {
             List<FinishedLoanDTO> finishedLoans = new ArrayList<>();
             allRelatedLoans.stream().filter(l -> l.getStatus().equals("Finished")).forEach(l-> finishedLoans.add((FinishedLoanDTO) l));
             CustomerInfoDTO customerInfoDTO = engine.getCustomerInfo(userName);
-
+            String serverStatus = engine.getServerStatus();
+            Integer currentYaz = Engine.getTime();
             CustomersRelatedInfoDTO loanAndCustomerInfoDTO = new CustomersRelatedInfoDTO(newLoans, pendingLoans, activeLoans,
-                    riskLoans,finishedLoans, customerInfoDTO);
+                    riskLoans,finishedLoans, customerInfoDTO, serverStatus, currentYaz.toString());
             response.setContentType("application/json");
             try (PrintWriter out = response.getWriter()) {
                 Gson gson = new Gson();

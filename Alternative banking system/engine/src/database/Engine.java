@@ -23,6 +23,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.nio.channels.FileLockInterruptionException;
 import java.util.*;
 import java.util.stream.Collectors;
 import javafx.scene.control.CheckBox;
@@ -30,11 +31,15 @@ import javafx.scene.control.CheckBox;
 import static java.lang.Math.min;
 
 public class Engine implements EngineInterface , Serializable {
+   private static final String NOTREWIND = "Active";
+   private static final String REWIND = "Read Only";
+   private static final String FILENAME = "Yaz";
    private List<Customer> customers;
    private List<Loans> loans;
    private Map<String, List<Loans>> loansByCategories; //saves all the loans which has the same category
    private static int time = 1;
-   private int timeToSave; // A field which we use in the bonus, to save the current time.
+   private Integer timeToReturn; // A field which we use in the bonus, to save the current time.
+   private String serverStatus;
    private boolean adminExist;
    private String adminName;
 
@@ -42,21 +47,23 @@ public class Engine implements EngineInterface , Serializable {
       customers = new ArrayList<>();
       loans = new ArrayList<>();
       loansByCategories = new LinkedHashMap<>();
-      timeToSave = 1;
+      timeToReturn = 1;
       this.adminExist = false;
+      this.serverStatus = NOTREWIND;
    }
 
    public static int getTime() {
       return time;
    }
+   public String getServerStatus() {return serverStatus;}
 
    public boolean isAdminExist() {
       return adminExist;
    }
 
    public void resetTime() {
-      timeToSave = 1;
-      time = timeToSave;
+//      timeToSave = 1;
+//      time = timeToSave;
    }
 
 
@@ -101,25 +108,57 @@ public class Engine implements EngineInterface , Serializable {
       return true;
    }
 
-   public void saveState(String filePath, Engine data) throws IOException{
-      filePath += ".xtxt";
+   public void saveState(String filePath, Integer currentYaz) throws IOException{
+      filePath = filePath + currentYaz + ".xtxt";
       File file = new File(filePath);
+      if(file.exists()){
+         file.delete();
+      }
       file.createNewFile();
+      file.deleteOnExit();
       ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-      out.writeObject(data);
+      out.writeObject(this);
       out.flush();
+      timeToReturn = currentYaz;
    }
 
-   public Engine loadLastFile(String filePath) throws FileNotFoundException, Exception{
-      filePath += ".xtxt";
+   public Engine loadSelcetedYaz(String filePath, String selectedYaz) throws FileNotFoundException, Exception{
+      filePath += selectedYaz+".xtxt";
       File lastFile = new File(filePath);
       if(!lastFile.exists())
          throw new FileNotFoundException();
       ObjectInputStream in = new ObjectInputStream(new FileInputStream(lastFile.getAbsolutePath()));
-
+      //keep saving the original time to return!
+      Integer toReturn = this.timeToReturn;
       Engine loadedInfo = (Engine)in.readObject();
-      loadedInfo.time = loadedInfo.timeToSave;
+      Engine.time = Integer.parseInt(selectedYaz);
+      //updates the new loaded engine with the time to return!
+      loadedInfo.timeToReturn = toReturn;
+      loadedInfo.serverStatus = REWIND;
       return loadedInfo;
+   }
+
+   public void activateRewind(){
+      synchronized (this) {
+         try {
+            saveState(FILENAME, Engine.getTime());
+         } catch (IOException e) {
+         }
+         serverStatus = REWIND;
+      }
+   }
+
+   public Engine deactivateRewind(){
+      synchronized (this) {
+         try {
+            Engine newEngine = loadSelcetedYaz(FILENAME, timeToReturn.toString());
+            newEngine.serverStatus = NOTREWIND;
+              return newEngine;
+         } catch (Exception e) {
+         }
+
+      }
+      return null;
    }
 
 
@@ -632,6 +671,11 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public void moveTImeForward2(){
+      //Saving file!! (for rewind)
+      try {
+         saveState(FILENAME, Engine.getTime());
+      } catch (IOException e) {
+      }
       //Moving needed loans from active to risk!!
       for(Loans loan: loans){
          if (loan.getStatus().getStatus().equals("Risk")) {

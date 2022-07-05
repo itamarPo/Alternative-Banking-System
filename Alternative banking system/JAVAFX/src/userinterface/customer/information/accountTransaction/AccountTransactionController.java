@@ -46,7 +46,6 @@ public class AccountTransactionController {
     //Regular Fields
     private InformationTabController informationTabController;
     private Engine engine;
-
     private String userName;
 
     public void setUserName(String userName) {
@@ -72,6 +71,8 @@ public class AccountTransactionController {
     }
 
     //Getters
+    public Button getCharge() {return charge;}
+    public Button getWithdraw() {return withdraw;}
 
     public void setEngine(Engine engine) {
         this.engine = engine;

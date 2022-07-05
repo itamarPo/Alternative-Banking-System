@@ -13,23 +13,23 @@ public class CustomersRelatedInfoDTO {
     List<ActiveRiskLoanDTO> riskLoans;
     List<FinishedLoanDTO> finishedLoans;
     CustomerInfoDTO customerInfo;
-//    List<String> categories;
-//    List<PaymentNotificationDTO> paymentsNotificationList;
-//    List<LoansForSaleDTO> loansForSaleList;
+    String serverStatus;
+    String currentYaz;
 
-    public CustomersRelatedInfoDTO(List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans, List<FinishedLoanDTO> finishedLoans, CustomerInfoDTO customerInfo) {
+    public CustomersRelatedInfoDTO(List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans, List<FinishedLoanDTO> finishedLoans, CustomerInfoDTO customerInfo, String serverStatus, String currentYaz) {
         this.newLoans = newLoans;
         this.pendingLoans = pendingLoans;
         this.activeLoans = activeLoans;
         this.riskLoans = riskLoans;
         this.finishedLoans = finishedLoans;
         this.customerInfo = customerInfo;
-//        this.categories = categories;
-//        this.paymentsNotificationList = paymentsNotificationList;
-//        this.loansForSaleList = loansForSaleList;
+        this.serverStatus = serverStatus;
+        this.currentYaz = currentYaz;
     }
 
     //Getters
+    public String getServerStatus() {return serverStatus;}
+    public String getCurrentYaz() {return currentYaz;}
     public List<NewLoanDTO> getNewLoans() {return newLoans;}
     public List<PendingLoanDTO> getPendingLoans() {return pendingLoans;}
     public List<ActiveRiskLoanDTO> getActiveLoans() {return activeLoans;}
@@ -38,13 +38,5 @@ public class CustomersRelatedInfoDTO {
     public CustomerInfoDTO getCustomerInfo() {
         return customerInfo;
     }
-//    public List<String> getCategories() {
-//        return categories;
-//    }
-//    public List<PaymentNotificationDTO> getPaymentsNotificationList() {
-//        return paymentsNotificationList;
-//    }
-//    public List<LoansForSaleDTO> getLoansForSaleList() {
-//        return loansForSaleList;
-//    }
+
 }

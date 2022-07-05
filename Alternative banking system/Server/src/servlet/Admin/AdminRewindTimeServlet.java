@@ -1,6 +1,5 @@
 package servlet.Admin;
 
-import com.google.gson.Gson;
 import database.Engine;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,18 +10,16 @@ import utils.EngineServlet;
 
 import java.io.IOException;
 
-@WebServlet(name = "AdminIncreaseYazServlet", urlPatterns = {"/Admin-Increase-Yaz-Servlet"})
-public class AdminIncreaseYazServlet extends HttpServlet {
+@WebServlet(name = "AdminRewindTimeServlet", urlPatterns = {"/Admin-Rewind-Time-Servlet"})
+public class AdminRewindTimeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Engine engine = EngineServlet.getEngine(getServletContext());
-        engine.moveTImeForward2();
-        response.setContentType("application/json");
-        Gson gson = new Gson();
-        Integer yaz = Engine.getTime();
-        String json = gson.toJson(yaz.toString());
-        response.getWriter().println(json);
-        response.getWriter().flush();
-        response.getWriter().close();
+        String selectedYaz = request.getParameter("TimeToMove");
+        try {
+            getServletContext().setAttribute("Engine", engine.loadSelcetedYaz("Yaz", selectedYaz));
+        } catch (Exception e) {
+            //TODO: error, there is no file for the selected yaz! (probably postman user!)
+        }
     }
 }

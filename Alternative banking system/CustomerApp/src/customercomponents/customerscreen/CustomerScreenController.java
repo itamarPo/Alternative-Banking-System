@@ -77,20 +77,20 @@ public class CustomerScreenController {
 
 
     //JavaFX
-    @FXML private ComboBox<String> UserCB;
     @FXML private ComboBox<String> ThemeCB;
     @FXML private ScrollPane MainSP;
     @FXML private BorderPane MainBP;
-    @FXML private Label FileLABEL;
     @FXML private Label YazLABEL;
     @FXML private TabPane customerOptionsTB;
     @FXML private Label serverStatusLabel;
     @FXML private Label nameLabel;
+    @FXML private Button loadFileButton;
 
     @FXML private Tab information;
     @FXML private Tab inlay;
     @FXML private Tab payments;
     @FXML private Tab createLoan;
+    @FXML private Tab buySellLoans;
 
     //Regular Fields
     private Stage primaryStage;
@@ -141,8 +141,6 @@ public class CustomerScreenController {
     //getters
 
     public Label getNameLabel() {return nameLabel;}
-    public Label getFileLABEL() {return FileLABEL;}
-    public ComboBox<String> getUserCB() {return UserCB;}
     public Label getYazLABEL() {return YazLABEL;}
     //public MainController getMainController() {return mainController;}
     public ScrollPane getMainSP() {return MainSP;}
@@ -273,7 +271,7 @@ public class CustomerScreenController {
 //
 //    }
 
-    public void updateInformationTab (String UserPick, List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans , List<FinishedLoanDTO> finishedLoans, CustomerInfoDTO customerInfo){
+    public void updateInformationTab (String UserPick, List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans , List<FinishedLoanDTO> finishedLoans, CustomerInfoDTO customerInfo,String currentYaz, String serverStatus){
         //Transactions and balance
         informationTabController.setUserName(UserPick);
         informationTabController.getTransactionInfoController().setTableValues(customerInfo);
@@ -291,6 +289,9 @@ public class CustomerScreenController {
         informationTabController.getActiveLenderTableController().setValues(activeLoans.stream().filter(l -> l.getListOfLenders().containsKey(UserPick)).collect(Collectors.toList()));
         informationTabController.getRiskLenderTableController().setValues(riskLoans.stream().filter(l -> l.getListOfLenders().containsKey(UserPick)).collect(Collectors.toList()));
         informationTabController.getFinishedLenderTableController().setValues(finishedLoans.stream().filter(l -> l.getListOfLenders().containsKey(UserPick)).collect(Collectors.toList()));
+
+        serverStatusLabel.setText("Server Status: " + serverStatus);
+        YazLABEL.setText(YAZSTATEMENT + currentYaz);
 
     }
 
@@ -889,5 +890,25 @@ public class CustomerScreenController {
                 });
             }
         });
+    }
+    public void setReadOnlyMode(){
+        customerOptionsTB.getSelectionModel().selectFirst();
+        inlay.setDisable(true);
+        payments.setDisable(true);
+        createLoan.setDisable(true);
+        buySellLoans.setDisable(true);
+        loadFileButton.setDisable(true);
+        informationTabController.getTransactionInfoController().getCharge().setDisable(true);
+        informationTabController.getTransactionInfoController().getWithdraw().setDisable(true);
+
+    }
+    public void setActiveMode(){
+        inlay.setDisable(false);
+        payments.setDisable(false);
+        createLoan.setDisable(false);
+        buySellLoans.setDisable(false);
+        loadFileButton.setDisable(false);
+        informationTabController.getTransactionInfoController().getCharge().setDisable(false);
+        informationTabController.getTransactionInfoController().getWithdraw().setDisable(false);
     }
 }

@@ -22,7 +22,7 @@ public class Constants {
     public final static String CUSTOMER_SELL_LOANS_RESOURCE = "/Customer-Sell-Loans-Servlet";
     public final static String CUSTOMER_BUY_LOAN_RESOURCE = "/Customer-Buy-Loan-Servlet";
     public final static Gson GSON_INSTANCE = new Gson();
-    public final static int REFRESH_RATE = 3000;
+    public final static int REFRESH_RATE = 1000;
     public final static String UPLOAD_FILE = "/upload-file";
     public final static String USERNAME = "userName";
     public final static String AMOUNT = "Amount";

@@ -1,4 +1,4 @@
-package servlet.customer.inputchecks;
+package servlet.customer.information;
 
 import com.google.gson.Gson;
 import database.Engine;

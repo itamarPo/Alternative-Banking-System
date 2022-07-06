@@ -1,4 +1,4 @@
-package servlet.customer;
+package servlet.customer.createLoan;
 
 import database.Engine;
 import jakarta.servlet.ServletException;

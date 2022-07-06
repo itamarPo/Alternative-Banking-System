@@ -1,4 +1,4 @@
-package servlet.customer.pullrequest;
+package servlet.customer.information;
 
 import com.google.gson.Gson;
 import database.Engine;
@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import objects.customers.CustomerInfoDTO;
 import objects.customers.CustomersRelatedInfoDTO;
 import objects.loans.*;
-import objects.loans.payments.PaymentNotificationDTO;
 import utils.EngineServlet;
 
 import java.io.IOException;

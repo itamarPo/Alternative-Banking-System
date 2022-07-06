@@ -20,6 +20,8 @@ import userinterface.utils.HttpUtil;
 
 import java.io.IOException;
 
+import static userinterface.Constants.RESPONSE_ERROR;
+
 public class AdminLoginController {
 
     //JAVAFX components
@@ -47,11 +49,9 @@ public class AdminLoginController {
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-
     public void setAdminScreenScene(Scene adminScreenScene) {
         this.adminScreenScene = adminScreenScene;
     }
-
     public void setAdminScreenController(AdminScreenController adminScreenController) {
         this.adminScreenController = adminScreenController;
     }
@@ -79,14 +79,22 @@ public class AdminLoginController {
             @Override
             public void onFailure(Call call, IOException e) {
                 Platform.runLater(() ->
-                        Notifications.create().title("Error").text("Can't communicate with the server!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError());
+                        Notifications.create().title("Error").text(RESPONSE_ERROR).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.code() != 200) {
                     Platform.runLater(() ->
-                            Notifications.create().title("Error").text("Admin is already logged in!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError());
+                    {
+                        try {
+                            Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError();
+                        } catch (IOException e) {
+
+                        }
+                        response.body().close();
+                    });
+
                 } else {
                     Platform.runLater(() -> {
                         primaryStage.setTitle("Admin");
@@ -94,6 +102,7 @@ public class AdminLoginController {
                         adminScreenController.setUserName(userName);
                         adminScreenController.getNameLabel().setText(adminScreenController.getNameLabel().getText() + userName);
                         adminScreenController.startInfoRefresh();
+                        response.body().close();
                     });
                 }
             }

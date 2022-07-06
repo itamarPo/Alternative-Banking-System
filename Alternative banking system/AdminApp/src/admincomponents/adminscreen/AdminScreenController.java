@@ -4,6 +4,7 @@ import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -11,6 +12,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import objects.admin.LoanAndCustomerInfoDTO;
 import okhttp3.*;
 import org.controlsfx.control.*;
@@ -103,14 +105,6 @@ public class AdminScreenController {
     //Setters
     public void setUserName(String userName) {this.userName = userName;}
 
-    //    public void setControllersAndStages(){
-//        pendingLoanController.setPrimaryStage(topAdminController.getMainController().getPrimaryStage());
-//        activeLoanController.setPrimaryStage(topAdminController.getMainController().getPrimaryStage());
-//        riskLoanController.setPrimaryStage(topAdminController.getMainController().getPrimaryStage());
-//        finishedLoanController.setPrimaryStage(topAdminController.getMainController().getPrimaryStage());
-//    }
-
-
     @FXML
     public void SetSkinCBOnAction(ActionEvent actionEvent) {
         MainSP.getStylesheets().clear();
@@ -144,7 +138,7 @@ public class AdminScreenController {
         HttpUtil.runAsync(request, true, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Platform.runLater(() -> Notifications.create().title("Error").text(RESPONSE_ERROR).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError());
             }
 
             @Override
@@ -167,20 +161,7 @@ public class AdminScreenController {
                 }
             }
         });
-        //engine.moveTImeForward2();
-        //Integer time = Engine.getTime() ;
-      //  topAdminController.getYazLABEL().setText( "Current Yaz: " + time.toString());
-
-        //topAdminController.updateAdminTable();
-        //if(topAdminController.isAnimationOn())
-           // topAdminController.yazIncreaseAnimation();
     }
-
-    public void disableWhileRewind(){
-        IncreaseYazBUTTON.setDisable(true);
-    }
-
-    public void enableAfterRewind(){IncreaseYazBUTTON.setDisable(false);}
 
     public void startInfoRefresh(){
         AdminInfoRefresher adminInfoRefresher = new AdminInfoRefresher(this);
@@ -201,13 +182,13 @@ public class AdminScreenController {
         HttpUtil.runAsync(request, true, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Platform.runLater(() -> Notifications.create().title("Error").text(RESPONSE_ERROR).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showError());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(!response.isSuccessful()){
-                    //TODO: Error!
+
                 } else{
                     Platform.runLater(() -> {
                         rewindCB.setDisable(false);
@@ -267,7 +248,7 @@ public class AdminScreenController {
         HttpUtil.runAsync(request, true, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                Notifications.create().title("Error").text(RESPONSE_ERROR).hideAfter(Duration.seconds(3)).position(Pos.CENTER).showError();
             }
 
             @Override

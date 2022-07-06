@@ -49,7 +49,6 @@ public class FileUploadServlet extends HttpServlet{
             }
 
             response.setContentType("text/plain");
-            //InputStream file = request.getParts();
             PrintWriter out = response.getWriter();
             Collection<Part> parts = request.getParts();
             //User entered more than 1 file!
@@ -58,13 +57,8 @@ public class FileUploadServlet extends HttpServlet{
                 ServerChecks.setMessageOnResponse(response.getWriter(), "User can only load 1 file at a time!");
                 return;
             }
-//            out.println("Total parts : " + parts.size());
             StringBuilder fileContent = new StringBuilder();
             for (Part part : parts) {
-                //printPart(part, out);
-                //to write the content of the file to an actual file in the system (will be created at c:\samplefile)
-                //part.write("samplefile");
-                //to write the content of the file to a string
                 if(part.getSize() == 0){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     ServerChecks.setMessageOnResponse(response.getWriter(), "No file has been selected to be loaded!");
@@ -95,36 +89,11 @@ public class FileUploadServlet extends HttpServlet{
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 ServerChecks.setMessageOnResponse(response.getWriter(), "Unknown file error!");
             }
-
-            //printFileContent(fileContent.toString(), out);
-
         }
 
-//        private void printPart(Part part, PrintWriter out) {
-//            StringBuilder sb = new StringBuilder();
-//            sb
-//                    .append("Parameter Name: ").append(part.getName()).append("\n")
-//                    .append("Content Type (of the file): ").append(part.getContentType()).append("\n")
-//                    .append("Size (of the file): ").append(part.getSize()).append("\n")
-//                    .append("Part Headers:").append("\n");
-//
-//            for (String header : part.getHeaderNames()) {
-//                sb.append(header).append(" : ").append(part.getHeader(header)).append("\n");
-//            }
-//
-//            out.println(sb.toString());
-//        }
-
-    private String readFromInputStream(InputStream inputStream) {
-        return new Scanner(inputStream).useDelimiter("\\Z").next();
-    }
-
-//    private void printFileContent(String content, PrintWriter out) {
-//        out.println("File content:");
-//        out.println(content);
-//    }
-
-
+        private String readFromInputStream(InputStream inputStream) {
+            return new Scanner(inputStream).useDelimiter("\\Z").next();
+        }
 }
 
 

@@ -259,7 +259,7 @@ public class CustomerScreenController {
                 .newBuilder()
                 .addQueryParameter(AMOUNT, amount.toString())
                 .addQueryParameter(USERNAME, userName)
-                .addQueryParameter("chargeOrWithdraw", chargeOrWithdraw.toString())
+                .addQueryParameter("charge", chargeOrWithdraw.toString())
                 .build()
                 .toString();
 
@@ -615,7 +615,14 @@ public class CustomerScreenController {
                                 createLoanTabController.resetFields();});
 
                     } else{
-                        Platform.runLater(()->createLoanTabController.setNameError("Loan's name already exists!"));
+                        Platform.runLater(()-> {
+                            try {
+                                Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(3)).position(Pos.CENTER).showError();
+                            } catch (IOException e) {
+
+                            }
+                            response.body().close();
+                        });
                     }
                 }
             });

@@ -1,6 +1,5 @@
 package userinterface.customer.information.accountTransaction;
 
-import database.Engine;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -45,7 +44,6 @@ public class AccountTransactionController {
 
     //Regular Fields
     private InformationTabController informationTabController;
-    private Engine engine;
     private String userName;
 
     public void setUserName(String userName) {
@@ -73,11 +71,6 @@ public class AccountTransactionController {
     //Getters
     public Button getCharge() {return charge;}
     public Button getWithdraw() {return withdraw;}
-
-    public void setEngine(Engine engine) {
-        this.engine = engine;
-        popUpController.setEngine(this.engine);
-    }
 
     public TransactionPopUpController getPopUpController() {
         return popUpController;

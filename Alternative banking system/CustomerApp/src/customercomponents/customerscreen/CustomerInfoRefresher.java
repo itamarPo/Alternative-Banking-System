@@ -20,11 +20,13 @@ import static userinterface.Constants.*;
 public class CustomerInfoRefresher extends TimerTask {
     private CustomerScreenController customerScreenController;
     private String userName;
+    private String lastSeenYaz;
 
 
     public CustomerInfoRefresher(CustomerScreenController customerScreenController, String userName) {
         this.customerScreenController = customerScreenController;
         this.userName = userName;
+        lastSeenYaz = "1";
     }
 
     @Override
@@ -62,7 +64,12 @@ public class CustomerInfoRefresher extends TimerTask {
                     if(serverStatus.equals(REWIND)){
                         Platform.runLater(() -> customerScreenController.setReadOnlyMode());
                     } else{
-                        Platform.runLater(() -> customerScreenController.setActiveMode());
+                        Platform.runLater(() -> {
+                            customerScreenController.setActiveMode();
+                            if(!currentYaz.equals(lastSeenYaz)){
+                                lastSeenYaz = currentYaz;
+                                customerScreenController.updateCurrentTab();
+                            }});
                     }
                         Platform.runLater(() -> customerScreenController.updateInformationTab(userName, newLoans,pendingLoans,activeLoans,riskLoans,finishedLoans, customerInfo, currentYaz, serverStatus));
                 }

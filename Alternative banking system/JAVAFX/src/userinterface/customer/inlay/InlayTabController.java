@@ -1,7 +1,6 @@
 package userinterface.customer.inlay;
 
 import customercomponents.customerscreen.CustomerScreenController;
-import database.Engine;
 import exceptions.accountexception.WithDrawMoneyException;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -89,7 +88,7 @@ public class InlayTabController {
 
     //Regular fields
     private CustomerScreenController customerScreenController;
-    private Engine engine;
+
 
 
     //Initialize after constructor
@@ -146,7 +145,6 @@ public class InlayTabController {
     public void setCustomerScreenController(CustomerScreenController customerScreenController) {
         this.customerScreenController = customerScreenController;
     }
-    public void setEngine(Engine engine) {this.engine = engine;}
 
 
     //Regular methods
@@ -401,6 +399,7 @@ public class InlayTabController {
         maxOwnershipLoanCB.setSelected(false);
         newLoanTBController.getTableView().getItems().clear();
         pendingLoanTBController.getTableView().getItems().clear();
+        categoriesCCB.getCheckModel().clearChecks();
         if(!filterInProgress) {
             progressBar.setVisible(false);
             progressPercent.setText("");

@@ -27,13 +27,10 @@
     <orderEntry type="library" exported="" name="gson-2.1-javadoc (1)" level="project" />
     <orderEntry type="library" exported="" name="gson-2.1-sources (1)" level="project" />
     <orderEntry type="library" exported="" name="gson-2.1 (1)" level="project" />
-    <orderEntry type="module" module-name="AdminApp" exported="" />
     <orderEntry type="module" module-name="Alternative-Banking-System" exported="" />
-    <orderEntry type="module" module-name="CustomerApp" exported="" />
     <orderEntry type="module" module-name="DTO" exported="" />
     <orderEntry type="module" module-name="engine" exported="" />
     <orderEntry type="module" module-name="JAVAFX" exported="" />
-    <orderEntry type="library" scope="PROVIDED" name="Tomcat 10.0.22" level="application_server_libraries" />
     <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 10.0.11" level="application_server_libraries" />
   </component>
 </module>

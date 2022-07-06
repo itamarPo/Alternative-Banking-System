@@ -1,7 +1,6 @@
 package userinterface.customer.information;
 
 import customercomponents.customerscreen.CustomerScreenController;
-import database.Engine;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -59,7 +58,6 @@ public class InformationTabController {
 
     //Regular Fields
     private CustomerScreenController customerScreenController;
-    private Engine engine;
     private String userName;
 
     public AccountTransactionController getTransactionInfoController() {
@@ -144,11 +142,6 @@ public class InformationTabController {
     //Setters
     public void setCustomerScreenController(CustomerScreenController customerScreenController) {
         this.customerScreenController = customerScreenController;
-    }
-
-    public void setEngine(Engine engine){
-        this.engine = engine;
-        transactionInfoController.setEngine(this.engine);
     }
 
 }

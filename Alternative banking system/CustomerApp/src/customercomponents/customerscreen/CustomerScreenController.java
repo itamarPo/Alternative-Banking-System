@@ -3,7 +3,6 @@ package customercomponents.customerscreen;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import customercomponents.customerlogin.CustomerLoginController;
-import database.Engine;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -96,8 +95,7 @@ public class CustomerScreenController {
     private Stage primaryStage;
     private String userName;
     private CustomerLoginController customerLoginController;
-    //TODO: add last seen yaz, so when the yaz change we can know about it through the refresher! same for rewind!
-    //
+    private Integer lastSeenYaz;
     private Timer timer;
 
     //constructor
@@ -127,14 +125,17 @@ public class CustomerScreenController {
                 }
                 case "Buy/Sell Loans":{
                     updateLoanSellTab();
+                    break;
                 }
                 case "Create Loan":{
                     updateCreateLoanTab();
+                    break;
                 }
             }
         });
         ThemeCB.getItems().addAll(DEFAULT,BRIGHT,DARK);
         MainSP.getStylesheets().add(THEMEDEFAULT);
+        lastSeenYaz = 1;
     }
 
 
@@ -910,5 +911,28 @@ public class CustomerScreenController {
         loadFileButton.setDisable(false);
         informationTabController.getTransactionInfoController().getCharge().setDisable(false);
         informationTabController.getTransactionInfoController().getWithdraw().setDisable(false);
+    }
+
+    public void updateCurrentTab(){
+        switch(customerOptionsTB.getSelectionModel().getSelectedItem().getText()){
+            case "Information":{
+                //updateInformationTab(user);
+                break;
+            } case "Inlay":{
+                updateInlayTab();
+                break;
+            } case "Payments":{
+                updatePayments();
+                break;
+            }
+            case "Buy/Sell Loans":{
+                updateLoanSellTab();
+                break;
+            }
+            case "Create Loan":{
+                updateCreateLoanTab();
+                break;
+            }
+        }
     }
 }

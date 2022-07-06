@@ -17,8 +17,5 @@ public class AdminDeactivateRewindServlet extends HttpServlet {
         //TODO: make sure there is an active session for admin!
         Engine engine = EngineServlet.getEngine(getServletContext());
         getServletContext().setAttribute("Engine", engine.deactivateRewind());
-        //TODO: might not work!
-        Engine engine2 = EngineServlet.getEngine(getServletContext());
-//        engine = engine.deactivateRewind();
     }
 }

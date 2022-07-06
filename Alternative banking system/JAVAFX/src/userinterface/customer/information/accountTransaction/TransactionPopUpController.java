@@ -1,6 +1,5 @@
 package userinterface.customer.information.accountTransaction;
 
-import database.Engine;
 import exceptions.accountexception.WithDrawMoneyException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +25,7 @@ public class TransactionPopUpController {
 
 
     private Scene popUpScene;
-    private Engine engine;
+
 
     private String userName;
     boolean chargeOrWithdraw;
@@ -56,10 +55,6 @@ public class TransactionPopUpController {
     //Setters
     public void setMessageButton(String Message) {
         messageButton.setText(Message);
-    }
-
-    public void setEngine(Engine engine) {
-        this.engine = engine;
     }
 
     //Regular Methods

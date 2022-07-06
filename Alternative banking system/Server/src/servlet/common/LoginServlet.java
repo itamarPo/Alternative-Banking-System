@@ -11,6 +11,7 @@ import utils.EngineServlet;
 
 import java.io.IOException;
 
+import static userinterface.Constants.REWIND;
 import static userinterface.Constants.USERNAME;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
@@ -27,18 +28,24 @@ public class LoginServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
             else{
-                if(isAdmin.equals("true")){
-                    if(!engine.isAdminExist()){
-                        engine.setAdminExist(true);
-                        request.getSession(true).setAttribute(USERNAME, userName);
-                        engine.setAdminName(userName);
-                    } else{
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    }
+                if(engine.getServerStatus().equals(REWIND)){
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.getWriter().println("Can't login because admin uses rewind!");
                 } else{
-                    engine.addCustomer(userName,false);
-                    request.getSession(true).setAttribute(USERNAME, userName);
+                    if(isAdmin.equals("true")){
+                        if(!engine.isAdminExist()){
+                            engine.setAdminExist(true);
+                            request.getSession(true).setAttribute(USERNAME, userName);
+                            engine.setAdminName(userName);
+                        } else{
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        }
+                    } else{
+                        engine.addCustomer(userName,false);
+                        request.getSession(true).setAttribute(USERNAME, userName);
+                    }
                 }
+
             }
         }
     }

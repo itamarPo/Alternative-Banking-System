@@ -56,6 +56,7 @@ public class Engine implements EngineInterface , Serializable {
       return time;
    }
    public String getServerStatus() {return serverStatus;}
+   public Integer getTimeToReturn() {return timeToReturn;}
 
    public boolean isAdminExist() {
       return adminExist;
@@ -83,6 +84,10 @@ public class Engine implements EngineInterface , Serializable {
 
    public void setAdminName(String adminName) {
       this.adminName = adminName;
+   }
+
+   public boolean isUserAdmin(String userName){
+      return userName.equalsIgnoreCase(adminName);
    }
 
    public void addCustomer(String userName, boolean isAdmin){

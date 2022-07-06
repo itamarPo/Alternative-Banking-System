@@ -140,10 +140,8 @@ public class CustomerScreenController {
 
 
     //getters
-
     public Label getNameLabel() {return nameLabel;}
     public Label getYazLABEL() {return YazLABEL;}
-    //public MainController getMainController() {return mainController;}
     public ScrollPane getMainSP() {return MainSP;}
     public ComboBox<String> getThemeCB() {return ThemeCB;}
     public String getUserName() {return userName;}
@@ -158,52 +156,16 @@ public class CustomerScreenController {
         return inlayTabController;
     }
 
-    //setters
-//    public void setMainControllerAndEngine(MainController mainController, Engine engine) {
-//        this.mainController = mainController;
-//        this.engine = engine;
-//        informationTabController.setEngine(this.engine);
-//        inlayTabController.setEngine(this.engine);
-//        paymentsTabController.setEngine(this.engine);
-//        loanSellTabController.setEngine(this.engine);
-////        informationTabController.setControllersAndStages();
-////        inlayTabController.setControllersAndStages();
-////        paymentsTabController.setControllersAndStages();
-////        loanSellTabController.setControllersAndStages();
-//    }
-    public void setPrimaryStage(Stage primaryStage) {
-        this.primaryStage = primaryStage;
+    //Setters
+    public void setPrimaryStage(Stage primaryStage) {this.primaryStage = primaryStage;}
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
-    //****Regular Methods****//
-//    public void setTopBarAfterFileLoaded(TopAdminController topAdminController){
-//        this.FileLABEL.setText(topAdminController.getFileLABEL().getText());
-//        this.UserCB.setItems(topAdminController.getUserCB().getItems());
-//        this.YazLABEL.setText(topAdminController.getYazLABEL().getText());
-//        if(ThemeCB.getItems().size() == 0){
-//            ThemeCB.setItems(topAdminController.getThemeCB().getItems());
-//        }
-//    }
+    public void setCustomerLoginController(CustomerLoginController customerLoginController) {
+        this.customerLoginController = customerLoginController;
+    }
 
-//    public void setTopBar(TopAdminController topAdminController, String newChoice){
-//        this.FileLABEL.setText(topAdminController.getFileLABEL().getText());
-//        this.UserCB.setValue(newChoice);
-//        if(!newChoice.equals(ADMIN))
-//            changeInfoFollowedComboBox(newChoice);
-//        this.YazLABEL.setText(topAdminController.getYazLABEL().getText());
-//        this.ThemeCB.setValue(topAdminController.getThemeCB().getValue());
-//    }
-
-//    @FXML
-//    public void SetCBOnAction(ActionEvent actionEvent) {
-//        String UserPick = UserCB.getValue();
-//        if(UserPick.equals(ADMIN)){
-//            mainController.changeScene(ADMIN);
-////            mainController.getTopAdminController().updateAdminTable();
-//        }
-//        else {
-//            changeInfoFollowedComboBox(UserPick);
-//        }
-//    }
+    //Regular Methods
     @FXML
     public void SetThemeCBOnAction(ActionEvent actionEvent) {
         MainSP.getStylesheets().clear();
@@ -223,13 +185,7 @@ public class CustomerScreenController {
         }
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
-    public void setCustomerLoginController(CustomerLoginController customerLoginController) {
-        this.customerLoginController = customerLoginController;
-    }
 
     /*Pitaron elganti yoter: kria po le HTTP aim ma she ani zarih*/
     public void startInfoRefresh(String customerName){

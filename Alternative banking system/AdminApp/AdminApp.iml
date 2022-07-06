@@ -8,7 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="DTO" exported="" />
-    <orderEntry type="module" module-name="engine" exported="" />
     <orderEntry type="module" module-name="JAVAFX" exported="" />
     <orderEntry type="library" exported="" name="kotlin-stdlib-1.4.10" level="project" />
     <orderEntry type="library" exported="" name="kotlin-stdlib-common-1.4.10" level="project" />

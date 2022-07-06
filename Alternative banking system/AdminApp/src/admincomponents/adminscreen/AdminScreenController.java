@@ -1,6 +1,5 @@
 package admincomponents.adminscreen;
 
-import database.Engine;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -84,17 +83,11 @@ public class AdminScreenController {
             rewindCB.setDisable(!rewindCB.isDisable());
             if (newValue) {
                 activateRewind();
-                //TODO: that means the toggle button has switched on -> need to perform rewind
             } else{
                 deactivateRewind();
-                //TODO: that means the toggle button has switched off -> need to return to current yaz and load the updated engine.
             }
-
         });
     }
-
-
-
 
     //Getters
     public Label getCurrentYazLabel() {return currentYazLabel;}

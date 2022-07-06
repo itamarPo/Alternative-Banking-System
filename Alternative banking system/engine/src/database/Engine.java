@@ -229,8 +229,10 @@ public class Engine implements EngineInterface , Serializable {
          iterateLoans = loans;
       } else{
          Customer customer = getCustomerByName(userName);
-         iterateLoans.addAll(customer.getBorrowerList());
-         iterateLoans.addAll(customer.getLenderList());
+         if(customer != null) {
+            iterateLoans.addAll(customer.getBorrowerList());
+            iterateLoans.addAll(customer.getLenderList());
+         }
       }
 
       for (Loans loan : iterateLoans){
@@ -300,6 +302,10 @@ public class Engine implements EngineInterface , Serializable {
 //         }
 //         customerDTO.setLoansAmounts();
          return customerDTO;
+      } else{
+         if(serverStatus.equals(REWIND)){
+            return new CustomerInfoDTO(userName, 0.0);
+         }
       }
       return null;
    }
@@ -453,7 +459,7 @@ public class Engine implements EngineInterface , Serializable {
                     candidateLoan.getTimeLimitOfLoan(), candidateLoan.getInterestPerPayment(),
                     candidateLoan.getTimePerPayment(), candidateLoan.getStatus().getStatus(),
                     candidateLoan.getListOflenders(), candidateLoan.getCollectedSoFar(),
-                    candidateLoan.getLoanSize() - candidateLoan.getCollectedSoFar()));
+                    candidateLoan.getLoanSizeNoInterest() - candidateLoan.getCollectedSoFar()));
          }
       }
       return validLoans;

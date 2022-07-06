@@ -2,7 +2,7 @@ package userinterface.MainController;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import database.Engine;
+
 //import userinterface.customer.TopCustomerController;
 
 public class MainController {
@@ -17,7 +17,6 @@ public class MainController {
     private Scene CustomerScene;
 
     //Regular Fields
-    private Engine engine;
 
     //constructor
 //    public MainController(Stage primaryStage, TopAdminController topAdminController, Scene adminScene, TopCustomerController topCustomerController, Scene customerScene) {

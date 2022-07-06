@@ -1,6 +1,5 @@
 package userinterface.table.customerTable;
 
-import database.client.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

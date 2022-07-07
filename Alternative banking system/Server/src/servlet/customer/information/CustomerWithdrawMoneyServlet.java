@@ -1,4 +1,4 @@
-package servlet.customer.inlay;
+package servlet.customer.information;
 
 import com.google.gson.Gson;
 import database.Engine;
@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import objects.customers.CustomerInfoInlayDTO;
 import utils.EngineServlet;
 import utils.ServerChecks;
 
@@ -15,9 +14,8 @@ import java.io.IOException;
 
 import static userinterface.Constants.*;
 
-@WebServlet(name = "CheckInlayInputServlet", urlPatterns = {"/Check-Inlay-Input-Servlet"})
-public class CheckInlayInputServlet extends HttpServlet {
-    @Override
+@WebServlet(name = "CustomerWithdrawMoneyServlet", urlPatterns = {"/Customer-Withdraw-Money-Servlet"})
+public class CustomerWithdrawMoneyServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = ServerChecks.getUserName(request);
         //Session doesn't exist!
@@ -40,26 +38,22 @@ public class CheckInlayInputServlet extends HttpServlet {
             return;
         }
         try{
-            String number = request.getParameter(AMOUNT);
-            double amount = Double.parseDouble(number);
-            String MaxOwnership = request.getParameter("maxOwnership");
-            double maxOwnership;
-            if(MaxOwnership.equalsIgnoreCase("")){
-                maxOwnership = 100;
-            } else{
-                maxOwnership = Double.parseDouble(MaxOwnership);
+            Double amount = Double.parseDouble(request.getParameter(AMOUNT));
+            if(amount <= 0){
+                throw new Exception();
             }
-            if(maxOwnership <= 0 || maxOwnership > 100){
-                throw new NumberFormatException();
+            Gson gson = GSON_INSTANCE;
+            try {
+                engine.drawMoneyFromAccount(engine.getCustomerByName(userName), amount);
+                response.setContentType("application/json");
+                ServerChecks.setMessageOnResponse(response.getWriter(),gson.toJson(engine.getCustomerInfo(userName)));
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                ServerChecks.setMessageOnResponse(response.getWriter(), e.toString());
             }
-            engine.checkAmountOfInvestment(userName, amount);
-            request.getServletContext().getRequestDispatcher(CUSTOMER_MAKE_INLAY_RESOURCE).forward(request,response);
-        } catch (NumberFormatException e){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            ServerChecks.setMessageOnResponse(response.getWriter(), "One of the query parameters is invalid!");
+
         } catch (Exception e){
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            ServerChecks.setMessageOnResponse(response.getWriter(), e.toString());
+            ServerChecks.setMessageOnResponse(response.getWriter(),"Invalid amount. Please enter a positive number!");
         }
     }
 }

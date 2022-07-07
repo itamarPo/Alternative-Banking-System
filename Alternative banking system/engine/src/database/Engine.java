@@ -843,17 +843,19 @@ public class Engine implements EngineInterface , Serializable {
 //      Buyer.getLenderList().add(loan);
    }
 
-   public boolean checkLoansStatus(List<String> newLoanDTOList) {
+   public void checkLoansStatus(List<String> newLoanDTOList, String userName) throws Exception {
       for(String loan: newLoanDTOList){
          Loans loanToCheck = getLoanByName(loan);
          if(loanToCheck == null){
-            return false;
+            throw new Exception("One of the loans you chose to invest in doesn't exist!");
          }
          if(!loanToCheck.getStatus().getStatus().equals("New") && !loanToCheck.getStatus().getStatus().equals("Pending")){
-            return false;
+            throw new Exception("One or more loans are no longer pending/new!");
+         }
+         if(loanToCheck.getBorrowerName().equalsIgnoreCase(userName)){
+            throw new Exception("Can't invest in a self owned loan!");
          }
       }
-      return true;
    }
 
    public List<ActiveRiskLoanDTO> getCustomerActiveRiskLoan (String userName){

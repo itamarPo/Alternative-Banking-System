@@ -92,29 +92,18 @@ public class TransactionPopUpController {
     void confirmButtonSetOnAction(ActionEvent event) {
         String userInput = textField.getText();
         Double userSum;
-        //Customer customer;
         try {
            userSum =  Double.parseDouble(userInput);
            if(userSum<=0){
                throw new Exception();
            }
-//           if(chargeOrWithdraw)
-//               engine.addMoneyToAccount(engine.getCustomerByName(userName), userSum);
-//           else {
-//               try {
-//                   engine.drawMoneyFromAccount(engine.getCustomerByName(userName), userSum);
-//               }
-//               catch (WithDrawMoneyException e){
-//                   errorMessage.setText(e.toString());
-//                   return;
-//               }
-//           }
-//
-//           accountTransactionController.getInformationTabController().getBalanceLabel().setText("Balance: " + engine.getCustomerByName(userName).getBalance());
-//           accountTransactionController.setTableValues(engine.getCustomersInfo().stream().filter(l->l.getName().equals(userName)).findFirst().orElse(null));
-//           errorMessage.setText(null);
-//           popUpStage.close();
-            getAccountTransactionController().getInformationTabController().getCustomerScreenController().transactionUpdate(chargeOrWithdraw,userSum);
+            //TODO: add check in order to decide which servlet to use!
+            //Charge!
+            if(chargeOrWithdraw) {
+                getAccountTransactionController().getInformationTabController().getCustomerScreenController().chargeMoney(userSum);
+            } else{
+                getAccountTransactionController().getInformationTabController().getCustomerScreenController().withdrawMoney(userSum);
+            }
         }
         catch (Exception e){
             errorMessage.setText("Incorrect Input. Please Enter a valid Number");

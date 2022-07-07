@@ -46,6 +46,7 @@ import static userinterface.Constants.GSON_INSTANCE;
 
 public class CustomerScreenController {
 
+
     //constants
     private final String YAZSTATEMENT = "Current Yaz: " ;
     private final String FILESTATEMENT = "File: " ;
@@ -138,7 +139,6 @@ public class CustomerScreenController {
         lastSeenYaz = 1;
     }
 
-
     //getters
     public Label getNameLabel() {return nameLabel;}
     public Label getYazLABEL() {return YazLABEL;}
@@ -185,48 +185,11 @@ public class CustomerScreenController {
         }
     }
 
-
-
-    /*Pitaron elganti yoter: kria po le HTTP aim ma she ani zarih*/
     public void startInfoRefresh(String customerName){
         CustomerInfoRefresher customerInfoRefresher = new CustomerInfoRefresher(this, customerName);
         timer = new Timer();
         timer.schedule(customerInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
-//    public void changeInfoFollowedComboBox(String UserPick){
-//        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_INFORMATION_RESOURCE)
-//                .newBuilder().addQueryParameter("userName", UserPick)
-//                .build()
-//                .toString();
-//        Request requestCustomerTable = new Request.Builder()
-//                .url(finalUrlInformation)
-//                .build();
-//
-//        HttpUtil.runAsync(requestCustomerTable,true, new Callback() {
-//            public void onFailure(Call call, IOException e) {
-//                System.out.println("problem");
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                String jsonArrayOfInformation = response.body().string();
-//                CustomersRelatedInfoDTO CustomersRelatedInfo = GSON_INSTANCE.fromJson(jsonArrayOfInformation, CustomersRelatedInfoDTO.class);
-//                List<NewLoanDTO> loans = CustomersRelatedInfo.getRelatedLoans();
-//                CustomerInfoDTO customer = CustomersRelatedInfo.getCustomerInfo();
-//                List<PaymentNotificationDTO> paymentNotification = CustomersRelatedInfo.getPaymentsNotificationList();
-//                List<LoansForSaleDTO> loansOnSale = CustomersRelatedInfo.getLoansForSaleList();
-//                List<String> categories = CustomersRelatedInfo.getCategories();
-//                Platform.runLater(() ->{
-//                   // updateInformationTab(UserPick, customer, loans);
-//                    updatePayments(UserPick, paymentNotification, loans);
-//                    updateInlayTab();
-//                    updateLoanSellTab(UserPick, customer, loansOnSale);
-//                });
-//            }
-//
-//        });
-//
-//    }
 
     public void updateInformationTab (String UserPick, List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans , List<FinishedLoanDTO> finishedLoans, CustomerInfoDTO customerInfo,String currentYaz, String serverStatus){
         //Transactions and balance
@@ -252,14 +215,12 @@ public class CustomerScreenController {
 
     }
 
-    public void transactionUpdate(Boolean chargeOrWithdraw, final Double amount){
+    public void chargeMoney(final Double amount){
         RequestBody body = RequestBody.create("", MediaType.parse("txt"));
 
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + TRANSACTION_POPUP_IMPLEMENTATION)
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_CHARGE_MONEY)
                 .newBuilder()
                 .addQueryParameter(AMOUNT, amount.toString())
-                .addQueryParameter(USERNAME, userName)
-                .addQueryParameter("charge", chargeOrWithdraw.toString())
                 .build()
                 .toString();
 
@@ -283,6 +244,7 @@ public class CustomerScreenController {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
+                        response.body().close();
                     });
                 }
                 else{
@@ -291,7 +253,54 @@ public class CustomerScreenController {
                         informationTabController.getBalanceLabel().setText("Balance: " + customerInfo.getBalance());
                         informationTabController.getTransactionInfoController().setTableValues(customerInfo);
                         informationTabController.getTransactionInfoController().getPopUpController().setErrorMessage(null);
-                        informationTabController.getTransactionInfoController().getPopUpController().getPopUpStage().close();});
+                        informationTabController.getTransactionInfoController().getPopUpController().getPopUpStage().close();
+                    });
+
+                }
+            }
+        });
+    }
+    public void withdrawMoney(final Double amount){
+        RequestBody body = RequestBody.create("", MediaType.parse("txt"));
+
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_WITHDRAW_MONEY)
+                .newBuilder()
+                .addQueryParameter(AMOUNT, amount.toString())
+                .build()
+                .toString();
+
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .post(body)
+                .build();
+
+        HttpUtil.runAsync(request, false, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("call = " + call + ", e = " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(!response.isSuccessful()){
+                    Platform.runLater(()-> {
+                        try {
+                            informationTabController.getTransactionInfoController().getPopUpController().setErrorMessage(response.body().string());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        response.body().close();
+                    });
+                }
+                else{
+                    CustomerInfoDTO customerInfo = GSON_INSTANCE.fromJson(response.body().string(), CustomerInfoDTO.class);
+                    Platform.runLater(()->{
+                        informationTabController.getBalanceLabel().setText("Balance: " + customerInfo.getBalance());
+                        informationTabController.getTransactionInfoController().setTableValues(customerInfo);
+                        informationTabController.getTransactionInfoController().getPopUpController().setErrorMessage(null);
+                        informationTabController.getTransactionInfoController().getPopUpController().getPopUpStage().close();
+                    });
+
                 }
             }
         });
@@ -420,12 +429,11 @@ public class CustomerScreenController {
         String json = gson.toJson(categories);
         RequestBody body = RequestBody.create(json, MediaType.parse("application/json"));
 
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_INLAY_INPUT_RESOURCE)
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_INLAY_FILTER_RESOURCE)
                 .newBuilder()
                 .addQueryParameter("minInterest", String.valueOf(minInterest))
                 .addQueryParameter("minYAZ", String.valueOf(minYAZ))
                 .addQueryParameter("maxOpenLoans", String.valueOf(maxOpenLoans))
-                .addQueryParameter(AMOUNT, String.valueOf(amountToInvest))
                 .build()
                 .toString();
         Request request = new Request.Builder()
@@ -470,7 +478,7 @@ public class CustomerScreenController {
         String json = gson.toJson(loans.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()));
         RequestBody body = RequestBody.create(
                 json, MediaType.parse("application/json"));
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_MAKE_INLAY_RESOURCE)
+        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_INLAY_INPUT_RESOURCE)
                 .newBuilder()
                 .addQueryParameter(AMOUNT, String.valueOf(amountToInvest))
                 .addQueryParameter("maxOwnership", String.valueOf(maxOwnership))

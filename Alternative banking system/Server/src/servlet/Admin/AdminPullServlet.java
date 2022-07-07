@@ -14,18 +14,35 @@ import objects.loans.FinishedLoanDTO;
 import objects.loans.NewLoanDTO;
 import objects.loans.PendingLoanDTO;
 import utils.EngineServlet;
+import utils.ServerChecks;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static userinterface.Constants.REWIND;
+
 @WebServlet(name = "AdminPullInformationServlet", urlPatterns = {"/Admin-Pull-Information-Servlet"})
 public class AdminPullServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userName = ServerChecks.getUserName(request);
+        //Session doesn't exist!
+        if (userName == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            ServerChecks.setMessageOnResponse(response.getWriter(), ServerChecks.NO_SESSION_FOUND);
+            return;
+        }
         Engine engine = EngineServlet.getEngine(getServletContext());
-        //loans info
+        //User isn't admin!
+        if (!engine.isUserAdmin(userName)) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            ServerChecks.setMessageOnResponse(response.getWriter(), ServerChecks.LIMITED_ACCESS);
+            return;
+        }
+
+        // loans info
         List<NewLoanDTO> allLoans = engine.getLoansInfo(null);
         List<NewLoanDTO> newLoans = new ArrayList<>();
         allLoans.stream().filter(l -> l.getStatus().equals("New")).forEach(l -> newLoans.add(l));
@@ -39,16 +56,11 @@ public class AdminPullServlet extends HttpServlet {
         allLoans.stream().filter(l -> l.getStatus().equals("Finished")).forEach(l-> finishedLoans.add((FinishedLoanDTO) l));
         // customer info
         List<CustomerInfoDTO> customerInfoDTOList = engine.getCustomersInfo();
-
+        // Wrap in JSON
         LoanAndCustomerInfoDTO loanAndCustomerInfoDTO = new LoanAndCustomerInfoDTO(customerInfoDTOList,newLoans,pendingLoans,activeLoans,riskLoans,finishedLoans);
+        Gson gson = new Gson();
+        String json = gson.toJson(loanAndCustomerInfoDTO);
         response.setContentType("application/json");
-        try (PrintWriter out = response.getWriter()) {
-            Gson gson = new Gson();
-            String json = gson.toJson(loanAndCustomerInfoDTO);
-            out.println(json);
-            out.flush();
-        }
-
-
+        ServerChecks.setMessageOnResponse(response.getWriter(),json);
     }
 }

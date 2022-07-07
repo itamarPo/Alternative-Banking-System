@@ -7,14 +7,15 @@ import objects.loans.payments.PaymentNotificationDTO;
 import java.util.List;
 
 public class CustomersRelatedInfoDTO {
+    String serverStatus;
+    String currentYaz;
     List<NewLoanDTO> newLoans;
     List<PendingLoanDTO> pendingLoans;
     List<ActiveRiskLoanDTO> activeLoans;
     List<ActiveRiskLoanDTO> riskLoans;
     List<FinishedLoanDTO> finishedLoans;
     CustomerInfoDTO customerInfo;
-    String serverStatus;
-    String currentYaz;
+
 
     public CustomersRelatedInfoDTO(List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans, List<FinishedLoanDTO> finishedLoans, CustomerInfoDTO customerInfo, String serverStatus, String currentYaz) {
         this.newLoans = newLoans;

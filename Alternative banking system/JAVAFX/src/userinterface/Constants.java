@@ -10,14 +10,14 @@ public class Constants {
     public final static String ADMIN_ACTIVATE_REWIND_RESOURCE = "/Admin-Activate-Rewind-Servlet";
     public final static String ADMIN_DEACTIVATE_REWIND_RESOURCE = "/Admin-Deactivate-Rewind-Servlet";
     public final static String ADMIN_REWIND_TIME_RESOURCE = "/Admin-Rewind-Time-Servlet";
-    public final static String AVAILABLE_CATEGORIES_PULL_RESOURCE = "/Available-Categories-Pull-Servlet";
     public final static String CUSTOMER_PULL_INFORMATION_RESOURCE = "/Customer-Pull-Information-Servlet";
-    public final static String CUSTOMER_PULL_CATEGORIES_RESOURCE = "/Customer-Categories-Pull-Servlet";
+    public final static String CUSTOMER_PULL_CATEGORIES_RESOURCE = "/Categories-Pull-Servlet";
     public final static String CREATE_LOAN_RESOURCE = "/Create-Loan-Servlet";
     public final static String CHECK_INLAY_INPUT_RESOURCE = "/Check-Inlay-Input-Servlet";
     public final static String CUSTOMER_INLAY_FILTER_RESOURCE = "/Customer-Inlay-Filter-Pull-Servlet";
     public final static String CUSTOMER_MAKE_INLAY_RESOURCE = "/Customer-Make-Inlay-Servlet";
-    public final static String TRANSACTION_POPUP_IMPLEMENTATION = "/Transaction-CheckAndUpdate-Servlet";
+    public final static String CUSTOMER_CHARGE_MONEY = "/Customer-Charge-Money-Servlet";
+    public final static String CUSTOMER_WITHDRAW_MONEY = "/Customer-Withdraw-Money-Servlet";
     public final static String CUSTOMER_PAYMENT_INFO_RESOURCE = "/Customer-Pull-Payments-Servlet";
     public final static String CUSTOMER_CLOSE_LOAN_RESOURCE = "/Customer-Close-Loan-Servlet";
     public final static String CUSTOMER_MAKE_PAYMENT_RESOURCE = "/Customer-Make-Payment-Servlet";

@@ -9,12 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import objects.customers.loanInfo.BuySellUpdateDTO;
 import objects.loans.LoansForSaleDTO;
 import utils.EngineServlet;
+import utils.ServerChecks;
 
 import java.io.IOException;
 import java.util.List;
 
-import static userinterface.Constants.GSON_INSTANCE;
-import static userinterface.Constants.USERNAME;
+import static userinterface.Constants.*;
 
 @WebServlet(name = "CustomerBuySellPullServlet", urlPatterns = {"/Customer-BuySell-Pull-Servlet"})
 public class CustomerBuySellPullServlet extends HttpServlet {
@@ -23,13 +23,30 @@ public class CustomerBuySellPullServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String userName = ServerChecks.getUserName(request);
+        //Session doesn't exist!
+        if (userName == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            ServerChecks.setMessageOnResponse(response.getWriter(), ServerChecks.NO_SESSION_FOUND);
+            return;
+        }
         Engine engine = EngineServlet.getEngine(getServletContext());
-        String userName = String.valueOf(request.getSession().getAttribute(USERNAME));
+        //User isn't customer!
+        if (engine.isUserAdmin(userName)) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            ServerChecks.setMessageOnResponse(response.getWriter(), ServerChecks.LIMITED_ACCESS);
+            return;
+        }
+        //Server is in rewind!
+        if (engine.getServerStatus().equals(REWIND)) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            ServerChecks.setMessageOnResponse(response.getWriter(), ServerChecks.STATUS_PROBLEM);
+            return;
+        }
         List<String> loansAvailableToSell = engine.getLoansAvailableToSell(userName);
         List<LoansForSaleDTO> loansAvailableToBuy = engine.getLoansAvailableToBuy(userName);
         BuySellUpdateDTO buySellLoans = new BuySellUpdateDTO(loansAvailableToBuy,loansAvailableToSell);
-        response.getWriter().println(GSON_INSTANCE.toJson(buySellLoans));
-        response.getWriter().flush();
-        response.getWriter().close();
+        response.setContentType("application/json");
+        ServerChecks.setMessageOnResponse(response.getWriter(), GSON_INSTANCE.toJson(buySellLoans));
     }
 }

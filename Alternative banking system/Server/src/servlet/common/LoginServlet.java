@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
         Engine engine = EngineServlet.getEngine(getServletContext());
         String userName = request.getParameter(USERNAME);
         String isAdmin = request.getParameter("isAdmin");
-        if(isAdmin.equals("")){
+        if(!isAdmin.equalsIgnoreCase("true") && !isAdmin.equalsIgnoreCase("false")){
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             ServerChecks.setMessageOnResponse(response.getWriter(), "You must choose client type!");
             return;

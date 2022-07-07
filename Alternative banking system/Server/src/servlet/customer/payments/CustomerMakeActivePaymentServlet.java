@@ -1,6 +1,5 @@
-package servlet.customer.buySellLoans;
+package servlet.customer.payments;
 
-import com.google.gson.Gson;
 import database.Engine;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,14 +10,11 @@ import utils.EngineServlet;
 import utils.ServerChecks;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static userinterface.Constants.*;
 
-@WebServlet(name = "CustomerSellLoansServlet", urlPatterns = {"/Customer-Sell-Loans-Servlet"})
-public class CustomerSellLoansServlet extends HttpServlet {
+@WebServlet(name = "CustomerMakeActivePaymentServlet", urlPatterns = {"/Customer-Make-Active-Payment-Servlet"})
+public class CustomerMakeActivePaymentServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = ServerChecks.getUserName(request);
@@ -41,21 +37,14 @@ public class CustomerSellLoansServlet extends HttpServlet {
             ServerChecks.setMessageOnResponse(response.getWriter(), ServerChecks.STATUS_PROBLEM);
             return;
         }
-
-
-        try{
-            String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            List<String> loansToSell = Arrays.asList(GSON_INSTANCE.fromJson(json, String[].class));
-            if(loansToSell.size() == 0){
-                throw new Exception("No loan has been selected!");
-            }
-            engine.setLoansForSale(userName,loansToSell);
-            ServerChecks.setMessageOnResponse(response.getWriter(), "Selected loans has moved to the transfer list!!");
-        } //TODO: find out what error JSON throws! line 48 prob!
-        catch (Exception e){
+        String loanID = request.getParameter("loanID");
+        try {
+            engine.checkLoanBeforePayment(loanID, userName, "Active");
+            engine.makeActivePayment(loanID, userName);
+            ServerChecks.setMessageOnResponse(response.getWriter(), "Payment completed successfully!");
+        } catch (Exception e){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             ServerChecks.setMessageOnResponse(response.getWriter(), e.getMessage());
-            //response.getWriter().println("One or more loans are not active anymore so it can't be sold!");
         }
     }
 }

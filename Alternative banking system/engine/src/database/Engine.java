@@ -661,6 +661,15 @@ public class Engine implements EngineInterface , Serializable {
    public void closeLoan(String customerName, String loanName)throws Exception{
       Customer customer = getCustomerByName(customerName);
       Loans loan = getLoanByName(loanName);
+      if(loan == null){
+         throw new Exception("There is no loan with an id of '" + loanName +"'");
+      }
+      if(!customer.getBorrowerList().contains(loan)){
+         throw new Exception("This loan does not belong to this customer, therefore he can't pay it's bills!");
+      }
+      if(!loan.getStatus().getStatus().equals("Active") && !loan.getStatus().getStatus().equals("Risk")){
+         throw new Exception("Can't close this loan because it isn't Active or Risk!");
+      }
       double amount = loan.getLoanSize() - (loan.getStatus().getInterestPayed() + loan.getStatus().getInitialPayed());
       if(amount>customer.getBalance())
          throw new WithDrawMoneyException(customer.getBalance(), amount);
@@ -712,6 +721,24 @@ public class Engine implements EngineInterface , Serializable {
             if (loan.getStatus().getStatus().equals("Risk")) {
                customer.addNotification(loan.getLOANID(), time, sumOfPayment);
             }
+         }
+      }
+   }
+   public void checkLoanBeforePayment(String loadId, String loanOwner, String expectedStatus) throws Exception {
+      Customer customer = getCustomerByName(loanOwner);
+      Loans loan = getLoanByName(loadId);
+      if(loan == null){
+         throw new Exception("There is no loan with an id of '" + loadId +"'");
+      }
+      if(!customer.getBorrowerList().contains(loan)){
+         throw new Exception("This loan does not belong to this customer, therefore he can't pay it's bills!");
+      }
+      if(!loan.getStatus().getStatus().equals(expectedStatus)){
+         throw new Exception("Can't make payment for this loan because it isn't " + expectedStatus);
+      }
+      if(expectedStatus.equalsIgnoreCase("Active")){
+         if(loan.getStatus().getNextPaymentTime() != Engine.getTime()){
+            throw new Exception("This isn't the correct Yaz to pay this payment for this loan!");
          }
       }
    }
@@ -769,14 +796,18 @@ public class Engine implements EngineInterface , Serializable {
 
    public void setLoansForSale(String userName, List<String> listForSale) throws Exception{
       Customer customer = getCustomerByName(userName);
-      Loans loanCheck;
       for(String loan: listForSale){
+         if(getLoanByName(loan) == null){
+            throw new Exception("One of the loans does not exist!");
+         }
+         if(!getLoanByName(loan).getListOflenders().containsKey(userName)){
+            throw new Exception("You can't sell loans that you haven't invested at!");
+         }
          if(!getLoanByName(loan).getStatus().getStatus().equals("Active")){
-            throw new Exception();
+            throw new Exception("Can't sell loans that aren't active!");
          }
       }
      listForSale.forEach(p->customer.getLoansForSale().add(getLoanByName(p)));
-
    }
 
    public List<LoansForSaleDTO> getLoansAvailableToBuy(String UserName){

@@ -19,8 +19,6 @@ import static userinterface.Constants.*;
 @WebServlet(name = "CustomerBuySellPullServlet", urlPatterns = {"/Customer-BuySell-Pull-Servlet"})
 public class CustomerBuySellPullServlet extends HttpServlet {
 
-
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = ServerChecks.getUserName(request);

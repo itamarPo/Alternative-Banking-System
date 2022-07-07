@@ -1,6 +1,5 @@
-package servlet.customer.buySellLoans;
+package servlet.customer.payments;
 
-import com.google.gson.Gson;
 import database.Engine;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,14 +10,12 @@ import utils.EngineServlet;
 import utils.ServerChecks;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import static userinterface.Constants.*;
+import static userinterface.Constants.AMOUNT;
+import static userinterface.Constants.REWIND;
 
-@WebServlet(name = "CustomerSellLoansServlet", urlPatterns = {"/Customer-Sell-Loans-Servlet"})
-public class CustomerSellLoansServlet extends HttpServlet {
+@WebServlet(name = "CustomerMakeRiskPaymentServlet", urlPatterns = {"/Customer-Make-Risk-Payment-Servlet"})
+public class CustomerMakeRiskPayment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = ServerChecks.getUserName(request);
@@ -41,21 +38,22 @@ public class CustomerSellLoansServlet extends HttpServlet {
             ServerChecks.setMessageOnResponse(response.getWriter(), ServerChecks.STATUS_PROBLEM);
             return;
         }
+        String loanID = request.getParameter("loanID");
 
-
-        try{
-            String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-            List<String> loansToSell = Arrays.asList(GSON_INSTANCE.fromJson(json, String[].class));
-            if(loansToSell.size() == 0){
-                throw new Exception("No loan has been selected!");
+        try {
+            Double amount= Double.parseDouble(request.getParameter(AMOUNT));
+            if(amount <= 0){
+                throw new NumberFormatException();
             }
-            engine.setLoansForSale(userName,loansToSell);
-            ServerChecks.setMessageOnResponse(response.getWriter(), "Selected loans has moved to the transfer list!!");
-        } //TODO: find out what error JSON throws! line 48 prob!
-        catch (Exception e){
+            engine.checkLoanBeforePayment(loanID, userName, "Risk");
+            engine.makeRiskPayment(loanID, userName, amount);
+            ServerChecks.setMessageOnResponse(response.getWriter(), "Payment completed successfully!");
+        } catch (NumberFormatException e){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            ServerChecks.setMessageOnResponse(response.getWriter(), "Invalid amount to pay!");
+        } catch (Exception e){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             ServerChecks.setMessageOnResponse(response.getWriter(), e.getMessage());
-            //response.getWriter().println("One or more loans are not active anymore so it can't be sold!");
         }
     }
 }

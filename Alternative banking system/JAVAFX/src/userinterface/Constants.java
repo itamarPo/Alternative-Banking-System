@@ -20,7 +20,8 @@ public class Constants {
     public final static String CUSTOMER_WITHDRAW_MONEY = "/Customer-Withdraw-Money-Servlet";
     public final static String CUSTOMER_PAYMENT_INFO_RESOURCE = "/Customer-Pull-Payments-Servlet";
     public final static String CUSTOMER_CLOSE_LOAN_RESOURCE = "/Customer-Close-Loan-Servlet";
-    public final static String CUSTOMER_MAKE_PAYMENT_RESOURCE = "/Customer-Make-Payment-Servlet";
+    public final static String CUSTOMER_MAKE_ACTIVE_PAYMENT_RESOURCE = "/Customer-Make-Active-Payment-Servlet";
+    public final static String CUSTOMER_MAKE_RISK_PAYMENT_RESOURCE = "/Customer-Make-Risk-Payment-Servlet";
     public final static String CUSTOMER_BUYSELL_PULL_RESOURCE = "/Customer-BuySell-Pull-Servlet";
     public final static String CUSTOMER_SELL_LOANS_RESOURCE = "/Customer-Sell-Loans-Servlet";
     public final static String CUSTOMER_BUY_LOAN_RESOURCE = "/Customer-Buy-Loan-Servlet";

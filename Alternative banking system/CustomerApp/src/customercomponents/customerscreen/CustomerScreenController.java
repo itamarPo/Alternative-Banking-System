@@ -709,14 +709,22 @@ public class CustomerScreenController {
     public void makePayment(String loanID, String activeOrRisk, Double amountToPay){
         RequestBody body = RequestBody.create(
                 "", MediaType.parse("txt"));
+        String finalUrlLoansTable;
+        if(activeOrRisk.equalsIgnoreCase("Active")){
+            finalUrlLoansTable = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_MAKE_ACTIVE_PAYMENT_RESOURCE)
+                    .newBuilder()
+                    .addQueryParameter("loanID", loanID)
+                    .build()
+                    .toString();
+        } else{
+            finalUrlLoansTable = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_MAKE_RISK_PAYMENT_RESOURCE)
+                    .newBuilder()
+                    .addQueryParameter("loanID", loanID)
+                    .addQueryParameter(AMOUNT, String.valueOf(amountToPay))
+                    .build()
+                    .toString();
+        }
 
-        String finalUrlLoansTable = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_MAKE_PAYMENT_RESOURCE)
-                .newBuilder()
-                .addQueryParameter("loanID", loanID)
-                .addQueryParameter("activeOrRisk", activeOrRisk)
-                .addQueryParameter(AMOUNT, String.valueOf(amountToPay))
-                .build()
-                .toString();
         Request request = new Request.Builder()
                 .url(finalUrlLoansTable)
                 .post(body)
@@ -849,7 +857,6 @@ public class CustomerScreenController {
                     if(response.isSuccessful()){
                         Notifications.create().title("Success").text("Loan purchase has been completed successfully!")
                                 .hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
-
                     }
                     else{
                         try {

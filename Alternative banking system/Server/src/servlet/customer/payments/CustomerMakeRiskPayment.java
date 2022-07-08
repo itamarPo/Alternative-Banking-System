@@ -1,6 +1,7 @@
 package servlet.customer.payments;
 
 import database.Engine;
+import exceptions.accountexception.NotEnoughMoneyInAccount;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -51,6 +52,9 @@ public class CustomerMakeRiskPayment extends HttpServlet {
         } catch (NumberFormatException e){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             ServerChecks.setMessageOnResponse(response.getWriter(), "Invalid amount to pay!");
+        } catch (NotEnoughMoneyInAccount e){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            ServerChecks.setMessageOnResponse(response.getWriter(), e.toString());
         } catch (Exception e){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             ServerChecks.setMessageOnResponse(response.getWriter(), e.getMessage());

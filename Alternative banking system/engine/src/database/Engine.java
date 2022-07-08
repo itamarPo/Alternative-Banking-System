@@ -125,6 +125,7 @@ public class Engine implements EngineInterface , Serializable {
       in = new ObjectInputStream(bis);
       try {
          Engine engineToSave = (Engine)in.readObject();
+         engineToSave.timeToReturn = currentYaz;
          String key = EngineName + currentYaz.toString();
          Engine.allEngines.put(key, engineToSave);
          timeToReturn = currentYaz;

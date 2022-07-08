@@ -1,6 +1,8 @@
 package database.client;
 
-public class PaymentNotification {
+import java.io.Serializable;
+
+public class PaymentNotification implements Serializable {
 
     private String loanID;
     private int paymentYaz;

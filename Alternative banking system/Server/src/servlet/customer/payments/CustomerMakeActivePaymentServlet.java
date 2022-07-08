@@ -1,6 +1,7 @@
 package servlet.customer.payments;
 
 import database.Engine;
+import exceptions.accountexception.NotEnoughMoneyInAccount;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -42,6 +43,9 @@ public class CustomerMakeActivePaymentServlet extends HttpServlet {
             engine.checkLoanBeforePayment(loanID, userName, "Active");
             engine.makeActivePayment(loanID, userName);
             ServerChecks.setMessageOnResponse(response.getWriter(), "Payment completed successfully!");
+        } catch (NotEnoughMoneyInAccount e){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            ServerChecks.setMessageOnResponse(response.getWriter(), e.toString());
         } catch (Exception e){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             ServerChecks.setMessageOnResponse(response.getWriter(), e.getMessage());

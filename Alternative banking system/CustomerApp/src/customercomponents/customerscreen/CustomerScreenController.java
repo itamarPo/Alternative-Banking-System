@@ -254,6 +254,7 @@ public class CustomerScreenController {
                         informationTabController.getTransactionInfoController().setTableValues(customerInfo);
                         informationTabController.getTransactionInfoController().getPopUpController().setErrorMessage(null);
                         informationTabController.getTransactionInfoController().getPopUpController().getPopUpStage().close();
+                        response.body().close();
                     });
 
                 }
@@ -299,6 +300,7 @@ public class CustomerScreenController {
                         informationTabController.getTransactionInfoController().setTableValues(customerInfo);
                         informationTabController.getTransactionInfoController().getPopUpController().setErrorMessage(null);
                         informationTabController.getTransactionInfoController().getPopUpController().getPopUpStage().close();
+                        response.body().close();
                     });
 
                 }
@@ -330,6 +332,7 @@ public class CustomerScreenController {
                         paymentsTabController.getCloseLoanError().setText("");
                         paymentsTabController.getCompletePaymentError().setText("");
                         paymentsTabController.getPaymentAmountTextField().setText("");
+                        response.body().close();
                     });
                 }
             }
@@ -378,7 +381,9 @@ public class CustomerScreenController {
                     Notifications.create().title("Error").text(response.body().string()).hideAfter(Duration.seconds(3)).position(Pos.CENTER).showError();
                     Platform.runLater(()->{
                         inlayTabController.addCategoriesToCCB(null);
-                        inlayTabController.resetFields();});
+                        inlayTabController.resetFields();
+                        response.body().close();});
+
                 }
                 else
                 {
@@ -386,7 +391,8 @@ public class CustomerScreenController {
                     categories = Arrays.asList(GSON_INSTANCE.fromJson(response.body().string(), String[].class)).stream().collect(Collectors.toList());
                     Platform.runLater(()->{
                         inlayTabController.addCategoriesToCCB(categories);
-                        inlayTabController.resetFields();});
+                        inlayTabController.resetFields();
+                        response.body().close();});
                 }
             }
         });
@@ -418,8 +424,10 @@ public class CustomerScreenController {
 //                    customerInfoInlayDTO.get(customerInfoInlayDTO.size()-1).setOpenLoans(customerInfoInlay.getOpenLoans());
 //                    customerInfoInlayDTO.get(customerInfoInlayDTO.size()-1).setResult(customerInfoInlay.getResult());
 //                    customerInfoInlayDTO.get(customerInfoInlayDTO.size()-1).setWithDrawException(customerInfoInlay.isWithDrawException());
-                    Platform.runLater(()->
-                            inlayTabController.filterCheckAndContinue(customerInfoInlay, maxOwnerShip, categories, minInterest, minYaz));
+                    Platform.runLater(()->{
+                            inlayTabController.filterCheckAndContinue(customerInfoInlay, maxOwnerShip, categories, minInterest, minYaz);
+                            response.body().close();
+                    });
                 }
             });
     }
@@ -457,8 +465,7 @@ public class CustomerScreenController {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-//                        String errorMessage = userName + " doesn't have enough money in account!";
-
+                        response.body().close();
                     });
                 } else
                 {
@@ -467,7 +474,9 @@ public class CustomerScreenController {
                     CustomerFilterLoansDTO filteredLoans = GSON_INSTANCE.fromJson(responseJson, CustomerFilterLoansDTO.class);
                     List<NewLoanDTO> newLoans = filteredLoans.getNewLoans();
                     List<PendingLoanDTO> pendingLoans = filteredLoans.getPendingLoans();
-                    Platform.runLater(()->inlayTabController.inlayImplement(newLoans, pendingLoans));
+                    Platform.runLater(()-> {
+                        inlayTabController.inlayImplement(newLoans, pendingLoans);
+                        response.body().close();});
                 }
             }
         });
@@ -504,12 +513,14 @@ public class CustomerScreenController {
                         } catch (IOException e) {
 
                         }
+                        response.body().close();
                     });
                 } else{
                     Platform.runLater(() -> {
                         inlayTabController.resetFields();
                         Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
                         successInlay.showConfirm();
+                        response.body().close();
                     });
                 }
             }
@@ -530,7 +541,7 @@ public class CustomerScreenController {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(!response.isSuccessful()){
-
+                    response.body().close();
                 } else{
                     String responseJson = response.body().string();
                     response.body().close();
@@ -539,6 +550,7 @@ public class CustomerScreenController {
                     List<LoansForSaleDTO> loansAvailableToBuy = buySellLoans.getLoansAvailableToBuy();
                     Platform.runLater(() ->{
                         loanSellTabController.setValues(loansAvailableToSell,loansAvailableToBuy);
+                        response.body().close();
                     });
 
 
@@ -579,6 +591,7 @@ public class CustomerScreenController {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                    response.body().close();
                 });
             }
         });
@@ -619,8 +632,11 @@ public class CustomerScreenController {
                 public void onResponse(Call call, Response response) throws IOException {
                     if (response.isSuccessful()) {
                         Platform.runLater(()->{
-                                Notifications.create().title("Loan Created!").text("The loan was successfully created!").hideAfter(Duration.seconds(3)).position(Pos.CENTER).showConfirm();
-                                createLoanTabController.resetFields();});
+                            Notifications.create().title("Loan Created!").text("The loan was successfully created!").hideAfter(Duration.seconds(3)).position(Pos.CENTER).showConfirm();
+                            createLoanTabController.resetFields();
+                            response.body().close();
+                        });
+
 
                     } else{
                         Platform.runLater(()-> {
@@ -683,6 +699,7 @@ public class CustomerScreenController {
                         } catch (IOException e) {
 //                            throw new RuntimeException(e);
                         }
+                        response.body().close();
                     });
                 } else{
                     Platform.runLater(() ->
@@ -692,6 +709,7 @@ public class CustomerScreenController {
                         } catch (IOException e) {
 //                            throw new RuntimeException(e);
                         }
+                        response.body().close();
                     });
                 }
              //   return false;
@@ -744,12 +762,16 @@ public class CustomerScreenController {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
-                        paymentsTabController.getCompletePaymentError().setText("");});
+                        paymentsTabController.getCompletePaymentError().setText("");
+                        response.body().close();
+                    });
 
                 } else{
                     Platform.runLater(()->{
                         Notifications.create().text("Payment completed Successfully!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
-                        updatePayments();});
+                        updatePayments();
+                        response.body().close();
+                    });
 
                 }
             }
@@ -786,13 +808,17 @@ public class CustomerScreenController {
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
+                        response.body().close();
                     });
 
                 }
                 else {
-                    Platform.runLater(()
-                            ->Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(4)).position(Pos.CENTER).showConfirm());
-                    updatePayments();
+                    Platform.runLater(() -> {
+                        Notifications.create().title("Success").text("The loan was successfully closed!").hideAfter(Duration.seconds(4)).position(Pos.CENTER).showConfirm();
+                        updatePayments();
+                        response.body().close();
+                    });
+
                 }
             }
         });
@@ -824,10 +850,12 @@ public class CustomerScreenController {
                         } catch (IOException e) {
 
                         }
+
                     } else {
                         Notifications.create().title("Success").text("The chosen loans has moved to the transfer list!").hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
                     }
                     updateLoanSellTab();
+                    response.body().close();
                 });
             }
         });
@@ -866,6 +894,7 @@ public class CustomerScreenController {
                         }
                     }
                     updateLoanSellTab();
+                    response.body().close();
                 });
             }
         });

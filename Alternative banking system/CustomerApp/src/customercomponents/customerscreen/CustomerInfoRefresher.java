@@ -62,16 +62,24 @@ public class CustomerInfoRefresher extends TimerTask {
                     String currentYaz = allTabsCustomerInformation.getCurrentYaz();
                     String serverStatus = allTabsCustomerInformation.getServerStatus();
                     if(serverStatus.equals(REWIND)){
-                        Platform.runLater(() -> customerScreenController.setReadOnlyMode());
+                        Platform.runLater(() ->  {
+                            customerScreenController.setReadOnlyMode();
+                            response.body().close();
+                        });
                     } else{
                         Platform.runLater(() -> {
                             customerScreenController.setActiveMode();
                             if(!currentYaz.equals(lastSeenYaz)){
                                 lastSeenYaz = currentYaz;
                                 customerScreenController.updateCurrentTab();
+                                response.body().close();
                             }});
                     }
-                        Platform.runLater(() -> customerScreenController.updateInformationTab(userName, newLoans,pendingLoans,activeLoans,riskLoans,finishedLoans, customerInfo, currentYaz, serverStatus));
+                        Platform.runLater(() -> {
+                            customerScreenController.updateInformationTab(userName, newLoans,pendingLoans,activeLoans,riskLoans,finishedLoans, customerInfo, currentYaz, serverStatus);
+                            response.body().close();
+                        });
+
                 }
             }
         });

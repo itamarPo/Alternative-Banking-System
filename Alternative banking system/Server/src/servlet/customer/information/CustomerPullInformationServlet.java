@@ -40,7 +40,6 @@ public class CustomerPullInformationServlet extends HttpServlet {
             return;
         }
 
-        //TODO: add request for postman!
         List<NewLoanDTO> allRelatedLoans = engine.getLoansInfo(userName);
         List<NewLoanDTO> newLoans = new ArrayList<>();
         allRelatedLoans.stream().filter(l -> l.getStatus().equals("New")).forEach(l -> newLoans.add(l));

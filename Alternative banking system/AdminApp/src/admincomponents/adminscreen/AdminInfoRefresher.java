@@ -62,6 +62,7 @@ public class AdminInfoRefresher extends TimerTask {
                       adminScreenController.getActiveLoanController().setValues(activeLoans);
                       adminScreenController.getRiskLoanController().setValues(riskLoans);
                       adminScreenController.getFinishLoanController().setValues(finishedLoans);
+                      response.body().close();
                 });
             }
 

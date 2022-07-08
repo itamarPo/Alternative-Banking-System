@@ -44,7 +44,7 @@ public class AdminRewindTimeServlet extends HttpServlet {
             if (selectedYaz < 1 || selectedYaz > engine.getTimeToReturn()) {
                 throw new NumberFormatException();
             }
-            getServletContext().setAttribute("Engine", engine.loadSelcetedYaz("Yaz", selectedYaz.toString()));
+            getServletContext().setAttribute("Engine", engine.loadSelcetedYaz("Engine", selectedYaz.toString()));
             ServerChecks.setMessageOnResponse(response.getWriter(), "Successfully rewinded to Yaz " + selectedYaz);
 
         } catch (NumberFormatException e){

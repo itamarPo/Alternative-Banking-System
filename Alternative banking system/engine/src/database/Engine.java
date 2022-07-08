@@ -112,26 +112,39 @@ public class Engine implements EngineInterface , Serializable {
 
    public void saveState(String EngineName, Integer currentYaz) throws IOException{
       //Save engine to bytes!
-      ByteArrayOutputStream bos = new ByteArrayOutputStream();
-      ObjectOutputStream out = null;
-      out = new ObjectOutputStream(bos);
-      out.writeObject(this);
-      out.flush();
-      //get bytes
-      byte[] engineBytes = bos.toByteArray();
 
-      ByteArrayInputStream bis = new ByteArrayInputStream(engineBytes);
-      ObjectInput in = null;
-      in = new ObjectInputStream(bis);
-      try {
+      try{
+         ByteArrayOutputStream bos = new ByteArrayOutputStream();
+         ObjectOutputStream out = null;
+         out = new ObjectOutputStream(bos);
+         out.writeObject(this);
+         out.flush();
+         //get bytes
+         byte[] engineBytes = bos.toByteArray();
+         ByteArrayInputStream bis = new ByteArrayInputStream(engineBytes);
+         ObjectInput in = null;
+         in = new ObjectInputStream(bis);
          Engine engineToSave = (Engine)in.readObject();
          engineToSave.timeToReturn = currentYaz;
          String key = EngineName + currentYaz.toString();
          Engine.allEngines.put(key, engineToSave);
          timeToReturn = currentYaz;
+      } catch (IOException e){
+         e.printStackTrace();
       } catch (ClassNotFoundException e) {
-
+         e.printStackTrace();
       }
+
+//
+//      //get bytes
+//
+//
+//
+//      try {
+//
+//      } catch (ClassNotFoundException e) {
+//
+//      }
    }
 
    public Engine loadSelcetedYaz(String EngineName, String selectedYaz) throws FileNotFoundException, Exception{

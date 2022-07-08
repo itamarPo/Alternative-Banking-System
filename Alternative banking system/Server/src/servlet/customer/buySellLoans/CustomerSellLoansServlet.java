@@ -51,7 +51,7 @@ public class CustomerSellLoansServlet extends HttpServlet {
             }
             engine.setLoansForSale(userName,loansToSell);
             ServerChecks.setMessageOnResponse(response.getWriter(), "Selected loans has moved to the transfer list!!");
-        } //TODO: find out what error JSON throws! line 48 prob!
+        }
         catch (Exception e){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             ServerChecks.setMessageOnResponse(response.getWriter(), e.getMessage());

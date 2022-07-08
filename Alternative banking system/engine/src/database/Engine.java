@@ -33,7 +33,7 @@ import static java.lang.Math.min;
 public class Engine implements EngineInterface , Serializable {
    private static final String NOTREWIND = "Active";
    private static final String REWIND = "Read Only";
-   private static final String FILENAME = "Yaz";
+   private static final String ENGINENAME = "Engine";
    private List<Customer> customers;
    private List<Loans> loans;
    private Map<String, List<Loans>> loansByCategories; //saves all the loans which has the same category
@@ -42,6 +42,7 @@ public class Engine implements EngineInterface , Serializable {
    private String serverStatus;
    private boolean adminExist;
    private String adminName;
+   private static Map<String, Engine> allEngines = new LinkedHashMap<>();
 
    public Engine() {
       customers = new ArrayList<>();
@@ -50,6 +51,7 @@ public class Engine implements EngineInterface , Serializable {
       timeToReturn = 1;
       this.adminExist = false;
       this.serverStatus = NOTREWIND;
+      this.adminName = null;
    }
 
    public static int getTime() {
@@ -99,11 +101,6 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public Boolean loadFile(InputStream XMLFile, String customerName) throws FileNotFoundException, JAXBException, Exception {
-//      String[] list = filePath.split("\\.");
-////      if (!list[list.length - 1].equals("xml")) {
-////         throw new NotXmlExcpetion();
-////      }
-      //InputStream XMLFile = new FileInputStream(filePath);
       JAXBContext jc = JAXBContext.newInstance("database.fileresource.exe3.generated");
       Unmarshaller u = jc.createUnmarshaller();
       AbsDescriptor descriptor = (AbsDescriptor) u.unmarshal(XMLFile);
@@ -113,40 +110,48 @@ public class Engine implements EngineInterface , Serializable {
       return true;
    }
 
-   public void saveState(String filePath, Integer currentYaz) throws IOException{
-      filePath = filePath + currentYaz + ".xtxt";
-      File file = new File(filePath);
-      if(file.exists()){
-         file.delete();
-      }
-      file.createNewFile();
-      file.deleteOnExit();
-      ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+   public void saveState(String EngineName, Integer currentYaz) throws IOException{
+      //Save engine to bytes!
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      ObjectOutputStream out = null;
+      out = new ObjectOutputStream(bos);
       out.writeObject(this);
       out.flush();
-      timeToReturn = currentYaz;
+      //get bytes
+      byte[] engineBytes = bos.toByteArray();
+
+      ByteArrayInputStream bis = new ByteArrayInputStream(engineBytes);
+      ObjectInput in = null;
+      in = new ObjectInputStream(bis);
+      try {
+         Engine engineToSave = (Engine)in.readObject();
+         String key = EngineName + currentYaz.toString();
+         Engine.allEngines.put(key, engineToSave);
+         timeToReturn = currentYaz;
+      } catch (ClassNotFoundException e) {
+
+      }
    }
 
-   public Engine loadSelcetedYaz(String filePath, String selectedYaz) throws FileNotFoundException, Exception{
-      filePath += selectedYaz+".xtxt";
-      File lastFile = new File(filePath);
-      if(!lastFile.exists())
-         throw new FileNotFoundException();
-      ObjectInputStream in = new ObjectInputStream(new FileInputStream(lastFile.getAbsolutePath()));
+   public Engine loadSelcetedYaz(String EngineName, String selectedYaz) throws FileNotFoundException, Exception{
+      String Key = EngineName + selectedYaz.toString();
+      Engine engineToLoad = Engine.allEngines.get(Key);
+      if(engineToLoad == null){
+
+      }
       //keep saving the original time to return!
       Integer toReturn = this.timeToReturn;
-      Engine loadedInfo = (Engine)in.readObject();
       Engine.time = Integer.parseInt(selectedYaz);
       //updates the new loaded engine with the time to return!
-      loadedInfo.timeToReturn = toReturn;
-      loadedInfo.serverStatus = REWIND;
-      return loadedInfo;
+      engineToLoad.timeToReturn = toReturn;
+      engineToLoad.serverStatus = REWIND;
+      return engineToLoad;
    }
 
    public void activateRewind(){
       synchronized (this) {
          try {
-            saveState(FILENAME, Engine.getTime());
+            saveState(ENGINENAME, Engine.getTime());
          } catch (IOException e) {
          }
          serverStatus = REWIND;
@@ -156,7 +161,7 @@ public class Engine implements EngineInterface , Serializable {
    public Engine deactivateRewind(){
       synchronized (this) {
          try {
-            Engine newEngine = loadSelcetedYaz(FILENAME, timeToReturn.toString());
+            Engine newEngine = loadSelcetedYaz(ENGINENAME, timeToReturn.toString());
             newEngine.serverStatus = NOTREWIND;
               return newEngine;
          } catch (Exception e) {
@@ -693,7 +698,7 @@ public class Engine implements EngineInterface , Serializable {
    public void moveTImeForward2(){
       //Saving file!! (for rewind)
       try {
-         saveState(FILENAME, Engine.getTime());
+         saveState(ENGINENAME, Engine.getTime());
       } catch (IOException e) {
       }
       //Moving needed loans from active to risk!!

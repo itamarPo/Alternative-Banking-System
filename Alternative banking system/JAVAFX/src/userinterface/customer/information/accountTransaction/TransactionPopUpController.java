@@ -97,7 +97,7 @@ public class TransactionPopUpController {
            if(userSum<=0){
                throw new Exception();
            }
-            //TODO: add check in order to decide which servlet to use!
+
             //Charge!
             if(chargeOrWithdraw) {
                 getAccountTransactionController().getInformationTabController().getCustomerScreenController().chargeMoney(userSum);

@@ -144,7 +144,7 @@ public class AdminScreenController {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(!response.isSuccessful()){
-
+                    response.body().close();
                 } else{
                     Platform.runLater(() ->{
                         String jsonYaz = null;
@@ -157,6 +157,7 @@ public class AdminScreenController {
                         currentYazLabel.setText(YAZSTATEMENT + YAZ);
                         rewindCB.getItems().add(YAZ);
                         rewindCB.getSelectionModel().selectLast();
+                        response.body().close();
                     });
                 }
             }
@@ -188,11 +189,12 @@ public class AdminScreenController {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(!response.isSuccessful()){
-
+                    response.body().close();
                 } else{
                     Platform.runLater(() -> {
                         rewindCB.setDisable(false);
                         IncreaseYazBUTTON.setDisable(true);
+                        response.body().close();
                     });
                 }
             }
@@ -218,12 +220,13 @@ public class AdminScreenController {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(!response.isSuccessful()){
-                    //TODO: error!
+                    response.body().close();
                 } else{
                     Platform.runLater(() -> {
                         rewindCB.getSelectionModel().selectLast();
                         rewindCB.setDisable(true);
                         IncreaseYazBUTTON.setDisable(false);
+                        response.body().close();
                     });
                 }
             }
@@ -254,9 +257,9 @@ public class AdminScreenController {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if(!response.isSuccessful()){
-                    //TODO: error!
+                    response.body().close();
                 } else{
-                    //TODO: think what needs to happen once we actually rewinded the engine!
+                    response.body().close();
                 }
             }
         });

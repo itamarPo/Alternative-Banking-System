@@ -27,6 +27,7 @@ public class Constants {
     public final static String CUSTOMER_BUY_LOAN_RESOURCE = "/Customer-Buy-Loan-Servlet";
     public final static Gson GSON_INSTANCE = new Gson();
     public final static String RESPONSE_ERROR = "Unable to connect the server!";
+    public final static String USERS_LIST = "/userslist";
 
 
     public final static int REFRESH_RATE = 1000;

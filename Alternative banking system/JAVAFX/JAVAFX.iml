@@ -17,6 +17,6 @@
     <orderEntry type="library" exported="" name="gson-2.1 (1)" level="project" />
     <orderEntry type="module" module-name="AdminApp" exported="" />
     <orderEntry type="module" module-name="CustomerApp" exported="" />
-    <orderEntry type="library" exported="" name="controlsfx-8.40.11" level="project" />
+    <orderEntry type="library" exported="" name="controlsfx-8.40.141" level="project" />
   </component>
 </module>

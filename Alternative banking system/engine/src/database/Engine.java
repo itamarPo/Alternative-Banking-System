@@ -148,7 +148,7 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public Engine loadSelcetedYaz(String EngineName, String selectedYaz) throws FileNotFoundException, Exception{
-      String Key = EngineName + selectedYaz.toString();
+      String Key = EngineName + selectedYaz;
       Engine engineToLoad = Engine.allEngines.get(Key);
       if(engineToLoad == null){
 

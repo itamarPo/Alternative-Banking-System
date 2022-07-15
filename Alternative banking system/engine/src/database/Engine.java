@@ -183,8 +183,6 @@ public class Engine implements EngineInterface , Serializable {
 
   // @Override
    public void organizeInformation(String customerName, AbsDescriptor descriptor) throws Exception {
-//      AbsCustomers newCustomers = descriptor.getAbsCustomers();
-//      checkCustomerInfo(newCustomers);
          AbsCategories newCategories = descriptor.getAbsCategories();
          AbsLoans newLoans = descriptor.getAbsLoans();
          checkLoansInfo(newCategories.getAbsCategory(), newLoans);
@@ -519,19 +517,6 @@ public class Engine implements EngineInterface , Serializable {
       return min;
    }
 
-   private void investInAllLoans(List<Loans> loansToInvest, double moneyToInvest, String customerSelected) throws Exception {
-      Customer lender = getCustomerByName(customerSelected);
-      double moneyInvested;
-      double totalInvested = 0;
-      for (Loans investInLoan : loansToInvest) {
-         moneyInvested = investInLoan.getLeftToBeCollected();
-         totalInvested += moneyInvested;
-         addCustomerToLoan(investInLoan, lender, moneyInvested);
-      }
-      if (totalInvested < moneyToInvest) {
-         throw new notAllAmountSuccessfullyInvested(moneyToInvest - totalInvested, totalInvested);
-      }
-   }
 
    public void addCustomerToLoan(Loans loan, Customer investor, double moneyToInvest) {
       if(loan.getListOflenders().containsKey(investor.getName())){
@@ -549,69 +534,6 @@ public class Engine implements EngineInterface , Serializable {
       }
    }
 
-//   public void moveTimeForward() {
-//      List<Loans> listByTime = new ArrayList<>();
-//
-//      for (Loans itr : loans) {
-//         if (itr.getStatus().getNextPaymentTime() == time) {
-//            listByTime.add(itr);
-//            double InitialComponent = itr.getLoanSizeNoInterest() / (itr.getTimeLimitOfLoan() / itr.getTimePerPayment());
-//            double InterestComponent = InitialComponent * ((double) itr.getInterestPerPayment() / 100);
-//            if (itr.getStatus().getStatus().equals("Risk")){
-//               if ((itr.getStatus().getPayments().size() >= itr.getTimeLimitOfLoan() / itr.getTimePerPayment())) {
-//                  itr.getStatus().addPayment(new Payment(time, itr.getStatus().returnLastPayment().getInterestComponent(),
-//                          itr.getStatus().returnLastPayment().getSumOfPayment(),
-//                          itr.getStatus().returnLastPayment().getInitialComponent(), false));
-//               } else {
-//                  itr.getStatus().addPayment(new Payment(time, itr.getStatus().returnLastPayment().getInterestComponent() + InterestComponent,
-//                          itr.getStatus().returnLastPayment().getSumOfPayment() + InterestComponent + InitialComponent,
-//                          itr.getStatus().returnLastPayment().getInitialComponent() + InitialComponent, false));
-//               }
-//            }
-//            else if (itr.getStatus().getStatus().equals("Active")) {
-//               itr.getStatus().addPayment(new Payment(time, InterestComponent,
-//                       InterestComponent + InitialComponent,
-//                       InitialComponent, false));
-//            }
-//
-//         }
-//      }
-//      listByTime = listByTime.stream().sorted(Loans::compareTo).collect(Collectors.toList());
-//      for(Loans itr : listByTime)
-//      {
-//         if(!itr.getStatus().getStatus().equals("Finished"))
-//            paymentMethod(itr);
-//      }
-//      timeToSave++;
-//      time = timeToSave;
-//   }
-//
-//   public void paymentMethod(Loans loan)
-//   {
-//      double money = loan.getStatus().returnLastPayment().getSumOfPayment();
-//      Customer customer = getCustomerByName(loan.getBorrowerName());
-//      if(money > customer.getBalance()){
-//         if(loan.getStatus().getStatus().equals("Active"))
-//            loan.getStatus().setStatus("Risk");
-//      }
-//      else {
-//         customer.drawMoney(money);
-//         for(Map.Entry<String,Double> entry : loan.getListOflenders().entrySet()){
-//            double ahuzYahasi = entry.getValue()/loan.getLoanSizeNoInterest();
-//            getCustomerByName(entry.getKey()).addMoney(ahuzYahasi*money);
-//         }
-//         loan.getStatus().returnLastPayment().setPayedSuccesfully(true);
-//         if(loan.getStatus().getStatus().equals("Risk")) {
-//            loan.getStatus().setStatus("Active");
-//         }
-//         updatePaymentComponents(loan);
-//
-//      }
-//      loan.getStatus().setNextPaymentTime(loan.getTimePerPayment());
-//      if(loan.getStatus().getInitialLeftToPay() == 0) {
-//         loan.changeToFinish();
-//      }
-//   }
 
    public void updatePaymentComponents(Loans loan, double initialPayed, double interestPayed){
       loan.getStatus().setInitialLeftToPay(initialPayed);
@@ -656,9 +578,6 @@ public class Engine implements EngineInterface , Serializable {
       updateLoansForSale();
    }
 
-   public int getNumOfLoans(){
-      return loans.size();
-   }
 
    public List<PaymentNotificationDTO> getNotifications(String userName){
       List<PaymentNotificationDTO> notifications = new ArrayList<>();

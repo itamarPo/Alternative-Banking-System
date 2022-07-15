@@ -57,30 +57,6 @@ public class CreateLoanTabController {
 
     @FXML
     private void initialize() {
-        //Binding check boxes with text fields in inlay details
-//        minInterestCB.selectedProperty().addListener((observable, newEnable, oldEnable) -> {
-//            minInterestTF.setDisable(newEnable);
-//            minInterestTF.setText("");
-//            minInterestErrorLabel.setText("");}
-//        );
-//        minYazCB.selectedProperty().addListener((observable, newEnable, oldEnable) -> {
-//            minYazTF.setDisable(newEnable);
-//            minYazTF.setText("");
-//            minYazErrorLabel.setText("");}
-//        );
-//        maxOpenLoansCB.selectedProperty().addListener((observable, newEnable, oldEnable) -> {
-//            maxOpenLoansTF.setDisable(newEnable);
-//            maxOpenLoansTF.setText("");
-//            maxOpenLoanErrorLabel.setText("");}
-//        );
-//        maxOwnershipLoanCB.selectedProperty().addListener((observable, newEnable, oldEnable) -> {
-//            maxOwnershipLoanTF.setDisable(newEnable);
-//            maxOwnershipLoanTF.setText("");
-//            maxOwnershipLoanErrorLabel.setText("");}
-//        );
-
-
-
 
     }
 
@@ -100,9 +76,6 @@ public class CreateLoanTabController {
     @FXML
     public void createNewLoanOnAction(ActionEvent event) {
         if(checkInputs()){
-            /** Here we will make a new HTTP call which shall call the relative engine method which will add the new loan.
-             * NEED TO CHECK IF THERE IS A SYNC REQUIREMENT!!!!!
-             * I suggest we send the information via gson.*/
             customerScreenController.LoanNameCheckAndCreate(loanNameTF.getText(), category, amount, duration, timePerPayment, InterestPerPayment);
         } else{
 
@@ -146,19 +119,6 @@ public class CreateLoanTabController {
         if(nameOK == false){
             return false;
         }
-//        if(!checkCategory()) {
-//            return false;
-//        }
-//        else
-//            category = categoryCB.getSelectionModel().getSelectedItem().toString();
-//        if(InterestPerPayment==INVALID)
-//            return false;
-//        if(loanNameTF.getText().equals(""))
-//        {
-//            nameError.setText("Please insert a name!");
-//            return false;
-//        }
-
         return true;
     }
 

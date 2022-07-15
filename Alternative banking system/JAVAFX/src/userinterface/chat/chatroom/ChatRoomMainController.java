@@ -49,11 +49,6 @@ public class ChatRoomMainController implements Closeable, HttpStatusUpdate{
         usersListComponentController.autoUpdatesProperty().bind(actionCommandsComponentController.autoUpdatesProperty());
     }
 
-//    @Override
-//    public void updateHttpLine(String line) {
-//        chatAppMainController.updateHttpLine(line);
-//    }
-
     @Override
     public void close() throws IOException {
         usersListComponentController.close();
@@ -119,12 +114,4 @@ public class ChatRoomMainController implements Closeable, HttpStatusUpdate{
     public UsersListController getUsersListComponentController() {
         return usersListComponentController;
     }
-    //    public void setChatAppMainController(ChatAppMainController chatAppMainController) {
-//        this.chatAppMainController = chatAppMainController;
-//    }
-
-//    @Override
-//    public void logout() {
-//        chatAppMainController.switchToLogin();
-//    }
 }

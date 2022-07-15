@@ -89,7 +89,6 @@ public class AccountTransactionController {
         popUpController.setPopUp(informationTabController.getCustomerScreenController().getPrimaryStage(), MESSAGE + "charge:", popUpExist, true);
         if(!popUpExist) {
             popUpExist = true;
-           // popUpController.setEngine(this.engine);
         }
     }
 
@@ -100,7 +99,6 @@ public class AccountTransactionController {
         popUpController.setPopUp(informationTabController.getCustomerScreenController().getPrimaryStage(), MESSAGE + "withdraw:", popUpExist, false);
         if(!popUpExist) {
             popUpExist = true;
-            //popUpController.setEngine(this.engine);
         }
     }
 

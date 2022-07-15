@@ -20,12 +20,10 @@ public class CustomerTableController implements Initializable {
     @FXML private TableView<CustomerInfoDTO> table;
     @FXML private TableColumn<CustomerInfoDTO, String> name;
     @FXML private TableColumn<CustomerInfoDTO, Double> balance;
-//    @FXML private TableColumn<TableColumn, ?> totalLending;
     @FXML private TableColumn<CustomerInfoDTO, Integer> pendingLender;
     @FXML private TableColumn<CustomerInfoDTO, Integer> activeLender;
     @FXML private TableColumn<CustomerInfoDTO, Integer> riskLender;
     @FXML private TableColumn<CustomerInfoDTO, Integer> finishedLender;
-//    @FXML private TableColumn<TableColumn, ?> totalBorrowing;
     @FXML private TableColumn<CustomerInfoDTO, Integer> newBorrower;
     @FXML private TableColumn<CustomerInfoDTO, Integer> pendingBorrower;
     @FXML private TableColumn<CustomerInfoDTO, Integer> activeBorrower;

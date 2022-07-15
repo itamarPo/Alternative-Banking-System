@@ -29,7 +29,6 @@ public class inlayTask extends Task<List<NewLoanDTO>> {
         Thread.sleep(700);
         updateProgress(0.6,1);
         Thread.sleep(700);
-        // List<NewLoanDTO> filteredLoans = engine.validLoansToInlay(loans);
         updateProgress(1,1);
         return null;
     }

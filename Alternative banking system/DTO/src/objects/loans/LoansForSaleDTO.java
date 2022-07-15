@@ -52,7 +52,6 @@ public class LoansForSaleDTO {
     public double getInterestPerPayment() {return interestPerPayment;}
     public int getTimePerPayment() {return timePerPayment;}
     public Map<String, Double> getListOfLenders() {return listOfLenders;}
-    //public Button getLendersButton() {return lendersButton;}
     public int getStartingActiveTime() {return startingActiveTime;}
     public int getNextPaymentTime() {return nextPaymentTime;}
     public List<PaymentsDTO> getPayments() {return Payments;}

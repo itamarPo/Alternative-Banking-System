@@ -35,7 +35,6 @@ public class TransactionPopUpController {
 
     public TransactionPopUpController() {
         popUpStage = new Stage();
-        //popUpStage = (Stage)confirmButton.getScene().getWindow();
     }
 
 

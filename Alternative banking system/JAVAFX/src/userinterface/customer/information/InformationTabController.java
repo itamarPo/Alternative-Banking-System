@@ -111,25 +111,6 @@ public class InformationTabController {
 
     }
 
-//    public void setControllersAndStages(){
-//        newLoanerTableController.setInformationTabController(this);
-//        pendingLoanerTableController.setInformationTabController(this);
-//        pendingLoanerTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
-//        pendingLenderTableController.setInformationTabController(this);
-//        pendingLenderTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
-//        activeLoanerTableController.setInformationTabController(this);
-//        activeLoanerTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
-//        activeLenderTableController.setInformationTabController(this);
-//        activeLenderTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
-//        riskLoanerTableController.setInformationTabController(this);
-//        riskLoanerTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
-//        riskLenderTableController.setInformationTabController(this);
-//        riskLenderTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
-//        finishedLoanerTableController.setInformationTabController(this);
-//        finishedLoanerTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
-//        finishedLenderTableController.setInformationTabController(this);
-//        finishedLenderTableController.setPrimaryStage(CustomerScreenController.getMainController().getPrimaryStage());
-//    }
     public void setUserName(String userName) {
         this.userName = userName;
         transactionInfoController.setUserName(this.userName);

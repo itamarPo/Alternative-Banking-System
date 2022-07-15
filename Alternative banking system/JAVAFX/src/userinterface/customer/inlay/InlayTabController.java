@@ -132,11 +132,6 @@ public class InlayTabController {
 
     }
 
-//    public void setControllersAndStages(){
-//        newLoanTBController.setInlayTabController(this);
-//        pendingLoanTBController.setInlayTabController(this);
-//        pendingLoanTBController.setPrimaryStage(topCustomerController.getMainController().getPrimaryStage());
-//    }
 
     //Getters
     public CheckComboBox getCategoriesCCB() {return categoriesCCB;}
@@ -162,83 +157,9 @@ public class InlayTabController {
         this.amountToInvest = amountToinvest;
         this.maxOwnership = maxownership;
         customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans,amountToinvest);
-//        customerScreenController.inlaySumCheck((double)amountToinvest, maxownership, categoriesList ,minInterest,minYAZ);
-//        if(maxOpenLoans==DIFFERENT) {
-//            if(customerInfoInlay==null)
-//                Notifications.create().title("ERROR").text("ERRORRRRRR").hideAfter(Duration.seconds(2)).position(Pos.CENTER).showError();
-//            else
-//                maxOpenLoans = customerInfoInlay.getOpenLoans();
-//        }
-//        if(customerInfoInlay.isWithDrawException()){
-//            amountErrorLabel.setText(customerInfoInlay.getResult());
-//            amountToinvest = INVALID;
-//        }
 
-//        if(amountToinvest == INVALID || minInterest == INVALID || minYAZ == INVALID || maxOpenLoans == INVALID || maxownership == INVALID) {
-////            newLoanTBController.getTableView().getItems().clear();
-////            pendingLoanTBController.getTableView().getItems().clear();
-//            return;
-//        }
-//        enableAllErrors();
-//        this.amountToInvest = amountToinvest;
-//        this.maxOwnership = maxownership;
-        //input check
-
-            //throw new WithDrawMoneyException(customerScreenController.getUserCB().getValue(), (double)amountToinvest);
-        //filtering
-       // List<NewLoanDTO> filteredLoans = customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans);
-                //inlay
-//        //final List<NewLoanDTO>[] filteredLoans = new List[]{new ArrayList<>()};
-//        inlayTask filteredNewLoans = new inlayTask(categoriesList,minInterest,minYAZ,"Name"/*Cus.getUserCB().getValue()*/, maxOpenLoans, engine);
-//        Thread thread = new Thread(filteredNewLoans);
-//        thread.setName("HELPME");
-//        bindTaskToProgress(filteredNewLoans,()-> {confirmSelectionButton.setDisable(false); confirmScrambleButton.setDisable(false);
-//            filterInProgress = false;});
-//        thread.start();
-//        filteredNewLoans.valueProperty().addListener(new ChangeListener<List<NewLoanDTO>>() {
-//            @Override
-//            public void changed(ObservableValue<? extends List<NewLoanDTO>> observable, List<NewLoanDTO> oldValue, List<NewLoanDTO> newValue) {
-//                if (newValue != null) {
-//                   // filteredLoans[0] = newValue;
-//                    newLoanTBController.setValues(newValue.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()));
-//                    List<PendingLoanDTO> filteredPendingLoans = new ArrayList<>();
-//                    newValue.stream().filter(p -> p.getStatus().equals("Pending")).forEach(x -> filteredPendingLoans.add((PendingLoanDTO) x));
-//                    pendingLoanTBController.setValues(filteredPendingLoans);
-//                }
-//            }
-//       });
-//        this.amountToInvest = amountToinvest;
-//        this.maxOwnership = maxownership;
     }
 
-    public void filterCheckAndContinue(CustomerInfoInlayDTO customerInfoInlay, int maxownership, List<String> categoriesList,
-                                       int minInterest, int minYAZ){
-       int maxOpenLoans = getMaxOpenLoans();
-        int amountToinvest = getAmountToInvest();
-        if(maxOpenLoans==DIFFERENT) {
-            if(customerInfoInlay==null)
-                Notifications.create().title("ERROR").text("ERRORRRRRR").hideAfter(Duration.seconds(2)).position(Pos.CENTER).showError();
-            else
-                maxOpenLoans = customerInfoInlay.getOpenLoans();
-        }
-        if(customerInfoInlay.isWithDrawException()){
-            amountErrorLabel.setText(customerInfoInlay.getResult());
-            amountToinvest = INVALID;
-        }
-
-        if(amountToinvest == INVALID || maxOpenLoans == INVALID) {
-//            newLoanTBController.getTableView().getItems().clear();
-//            pendingLoanTBController.getTableView().getItems().clear();
-            return;
-        }
-        enableAllErrors();
-        this.amountToInvest = amountToinvest;
-        this.maxOwnership = maxownership;
-        //input check
-        //throw new WithDrawMoneyException(customerScreenController.getUserCB().getValue(), (double)amountToinvest);
-        //filtering
-     //  customerScreenController.getFilteredLoans(categoriesList,minInterest,minYAZ,maxOpenLoans);
-    }
 
     public void inlayImplement(List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans){
         if(newLoans.size() == 0 && pendingLoans.size() == 0){
@@ -406,31 +327,6 @@ public class InlayTabController {
         }
     }
 
-    public void bindTaskToProgress(inlayTask filteredNewLoans, Runnable onFinish){
-//        topCustomerController.getUserCB().setDisable(true);
-        confirmSelectionButton.setDisable(true);
-        confirmScrambleButton.setDisable(true);
-        filterInProgress = true;
-        progressBar.setVisible(true);
-        progressBar.progressProperty().bind(filteredNewLoans.progressProperty());
-        progressPercent.textProperty().bind(
-                Bindings.concat(
-                        Bindings.format(
-                                "%.0f",
-                                Bindings.multiply(
-                                        filteredNewLoans.progressProperty(),
-                                        100)),
-                        " %"));
-    filteredNewLoans.valueProperty().addListener((observable, oldValue, newValue) -> {
-        onTaskFinished(Optional.ofNullable(onFinish));
-    });
-}
-
-    public void onTaskFinished(Optional<Runnable> onFinish) {
-        this.progressPercent.textProperty().unbind();
-        this.progressBar.progressProperty().unbind();
-        onFinish.ifPresent(Runnable::run);
-    }
     @FXML
     public void confirmInlayOnAction(ActionEvent actionEvent)throws Exception{
         List<NewLoanDTO> newLoansPicked = newLoanTBController.getTableView().getItems().stream().filter(x -> x.getIsSelected().isSelected())
@@ -447,12 +343,6 @@ public class InlayTabController {
             return;
         }
         customerScreenController.makeInlay(newLoansPicked, amountToInvest, maxOwnership);
-//        engine.splitMoneyBetweenLoans(newLoansPicked.stream().map(NewLoanDTO::getLoanID).collect(Collectors.toList()), amountToInvest, topCustomerController.getUserCB().getValue(), maxOwnership);
-
-//        resetFields();
-//        Notifications successInlay = Notifications.create().title("Success").text("The Inlay was successfully complete!").hideAfter(Duration.seconds(5)).position(Pos.CENTER);
-//        successInlay.showInformation();
-//        topCustomerController.updateInformationTab(topCustomerController.getUserCB().getValue());
     }
 
     public void clearSelectionCategoryOnAction(ActionEvent actionEvent){

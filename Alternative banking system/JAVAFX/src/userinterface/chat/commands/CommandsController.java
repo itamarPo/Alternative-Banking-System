@@ -32,32 +32,4 @@ public class CommandsController {
         return autoUpdates;
     }
 
-//    @FXML
-//    void logoutClicked(ActionEvent event) {
-//        chatCommands.updateHttpLine(Constants.LOGOUT);
-//        HttpUtil.runAsync(Constants.LOGOUT, new Callback() {
-//            @Override
-//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//                chatCommands.updateHttpLine("Logout request ended with failure...:(");
-//            }
-//
-//            @Override
-//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                if (response.isSuccessful() || response.isRedirect()) {
-//                    HttpClientUtil.removeCookiesOf(Constants.BASE_DOMAIN);
-//                    chatCommands.logout();
-//                }
-//            }
-//        });
-//
-//    }
-
-    @FXML
-    void quitClicked(ActionEvent event) {
-        Platform.exit();
-    }
-
-//   public void setChatCommands(ChatCommands chatRoomMainController) {
-//        this.chatCommands = chatRoomMainController;
-//    }
 }

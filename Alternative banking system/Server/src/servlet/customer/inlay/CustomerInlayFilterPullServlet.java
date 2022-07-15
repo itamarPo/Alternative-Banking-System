@@ -83,23 +83,5 @@ public class CustomerInlayFilterPullServlet extends HttpServlet {
         }
 
 
-//        Integer minYaz = Integer.parseInt(request.getParameter("minYAZ"));
-//        Integer minInterest = Integer.parseInt(request.getParameter("minInterest"));
-//        Integer maxOpenLoans = Integer.parseInt(request.getParameter("maxOpenLoans"));
-//        Gson gson = new Gson();
-//        String json = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-//        List<String> categories= Arrays.asList(gson.fromJson(json, String[].class));
-//        Engine engine = EngineServlet.getEngine(getServletContext());
-//        List<NewLoanDTO> filteredList = engine.getFilteredLoans(categories, minInterest, minYaz, String.valueOf(request.getSession().getAttribute(USERNAME)), maxOpenLoans);
-//        List<NewLoanDTO> newLoans = new ArrayList<>();
-//        filteredList.stream().filter(l -> l.getStatus().equals("New")).forEach(l -> newLoans.add(l));
-//        List<PendingLoanDTO> pendingLoans = new ArrayList<>();
-//        filteredList.stream().filter(l -> l.getStatus().equals("Pending")).forEach(l -> pendingLoans.add((PendingLoanDTO) l));
-//        CustomerFilterLoansDTO loans = new CustomerFilterLoansDTO(newLoans,pendingLoans);
-//        Gson returnGson = new Gson();
-//        String returnJson = returnGson.toJson(loans);
-//        response.getWriter().println(returnJson);
-//        response.getWriter().flush();
-//        response.getWriter().close();
     }
 }

@@ -24,6 +24,8 @@ import objects.loans.*;
 import objects.loans.payments.PaymentNotificationDTO;
 import okhttp3.*;
 import org.controlsfx.control.Notifications;
+import userinterface.chat.chatarea.ChatAreaController;
+import userinterface.chat.chatroom.ChatRoomMainController;
 import userinterface.customer.createloan.CreateLoanTabController;
 import userinterface.customer.information.InformationTabController;
 import userinterface.customer.inlay.InlayTabController;
@@ -74,6 +76,8 @@ public class CustomerScreenController {
     @FXML private ScrollPane loanSellTab;
     @FXML private LoanSellTabController loanSellTabController;
 
+    @FXML private BorderPane chatRoomTab;
+    @FXML private ChatRoomMainController chatRoomTabController;
 
 
     //JavaFX
@@ -91,6 +95,7 @@ public class CustomerScreenController {
     @FXML private Tab payments;
     @FXML private Tab createLoan;
     @FXML private Tab buySellLoans;
+    @FXML private Tab chatRoom;
 
     //Regular Fields
     private Stage primaryStage;
@@ -111,11 +116,11 @@ public class CustomerScreenController {
         inlayTabController.setCustomerScreenController(this);
         loanSellTabController.setCustomerScreenController(this);
         createLoanTabController.setCustomerScreenController(this);
+        chatRoomTabController.setCustomerScreenController(this);
         customerOptionsTB.getSelectionModel().selectedItemProperty().addListener((ov, oldTab, newTab) -> {
             //String user = UserCB.getValue();
             switch(newTab.getText()){
                 case "Information":{
-                    //updateInformationTab(user);
                     break;
                 } case "Inlay":{
                     updateInlayTab();
@@ -155,6 +160,7 @@ public class CustomerScreenController {
     public InlayTabController getInlayTabController() {
         return inlayTabController;
     }
+    public ChatRoomMainController getChatRoomMainController() {return chatRoomTabController;}
 
     //Setters
     public void setPrimaryStage(Stage primaryStage) {this.primaryStage = primaryStage;}
@@ -191,6 +197,9 @@ public class CustomerScreenController {
         timer.schedule(customerInfoRefresher, REFRESH_RATE, REFRESH_RATE);
     }
 
+    public void startChatRefresh(){
+
+    };
     public void updateInformationTab (String UserPick, List<NewLoanDTO> newLoans, List<PendingLoanDTO> pendingLoans, List<ActiveRiskLoanDTO> activeLoans, List<ActiveRiskLoanDTO> riskLoans , List<FinishedLoanDTO> finishedLoans, CustomerInfoDTO customerInfo,String currentYaz, String serverStatus){
         //Transactions and balance
         informationTabController.setUserName(UserPick);
@@ -340,26 +349,7 @@ public class CustomerScreenController {
     }
 
 
-//    public void updatePayments(String userPick, List<PaymentNotificationDTO> paymentNotificationList, List<NewLoanDTO> loanList){
-//        List<NewLoanDTO> temp = loanList.stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
-//        List<ActiveRiskLoanDTO> closeLoanActive = new ArrayList<>();
-//        List<ActiveRiskLoanDTO> closeLoanRisk = new ArrayList<>();
-//        List<NewLoanDTO> temp2 = loanList.stream().filter(l->l.getBorrowerName().equals(userPick)).collect(Collectors.toList());
-//        List<ActiveRiskLoanDTO> makePaymentActive = new ArrayList<>();
-//        List<ActiveRiskLoanDTO> makePaymentRisk = new ArrayList<>();
-//        //Loaner Tables
-//        temp.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> closeLoanActive.add((ActiveRiskLoanDTO)  y));
-//        temp.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> closeLoanRisk.add((ActiveRiskLoanDTO) y));
-//        temp2.stream().filter(x -> x.getStatus().equals("Active")).forEach(y -> makePaymentActive.add((ActiveRiskLoanDTO)  y));
-//        makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
-//        temp2.stream().filter(x -> x.getStatus().equals("Risk")).forEach(y -> makePaymentRisk.add((ActiveRiskLoanDTO)  y));
-//        makePaymentActive.removeIf(x -> x.getNextPaymentTime() != Engine.getTime());
-//        paymentsTabController.setValues(paymentNotificationList,makePaymentActive,makePaymentRisk,closeLoanActive,closeLoanRisk);
-//        paymentsTabController.getFinishImage().setVisible(false);
-//      //  paymentsTabController.setAnimation(mainController.getTopAdminController().isAnimationOn());
-//    }
     public void updateInlayTab(){
-        //final List<String>[] categories = (List<String>[]) new Object[1];
         String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CUSTOMER_PULL_CATEGORIES_RESOURCE)
                 .newBuilder()
                 .build()
@@ -397,39 +387,6 @@ public class CustomerScreenController {
             }
         });
 
-    }
-
-    public void inlaySumCheck(final Double amount/*,final List<CustomerInfoInlayDTO> customerInfoInlayDTO*/, final int maxOwnerShip,
-                                              final List<String> categories, final int minInterest ,final int minYaz ){
-       // final CustomerInfoInlayDTO customerInfoInlayDTO[] = new CustomerInfoInlayDTO[1];
-        //customerInfoInlayDTO.add(new CustomerInfoInlayDTO(false, "", 0));
-
-       // customerInfoInlayDTO[0] = new CustomerInfoInlayDTO(false, "", 0);
-        String finalUrlInformation = HttpUrl.parse(FULL_PATH_DOMAIN + CHECK_INLAY_INPUT_RESOURCE)
-                .newBuilder().addQueryParameter("Amount", amount.toString())
-                .build()
-                .toString();
-        Request request = new Request.Builder()
-                .url(finalUrlInformation)
-                .build();
-            HttpUtil.runAsync(request, false, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    System.out.println("call = " + call + ", e = " + e);
-                }
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    Gson gson = GSON_INSTANCE;
-                    CustomerInfoInlayDTO customerInfoInlay = gson.fromJson(response.body().string(), CustomerInfoInlayDTO.class);
-//                    customerInfoInlayDTO.get(customerInfoInlayDTO.size()-1).setOpenLoans(customerInfoInlay.getOpenLoans());
-//                    customerInfoInlayDTO.get(customerInfoInlayDTO.size()-1).setResult(customerInfoInlay.getResult());
-//                    customerInfoInlayDTO.get(customerInfoInlayDTO.size()-1).setWithDrawException(customerInfoInlay.isWithDrawException());
-                    Platform.runLater(()->{
-                            inlayTabController.filterCheckAndContinue(customerInfoInlay, maxOwnerShip, categories, minInterest, minYaz);
-                            response.body().close();
-                    });
-                }
-            });
     }
 
     public void getFilteredLoans(List<String> categories, Integer minInterest, Integer minYAZ, Integer maxOpenLoans , Integer amountToInvest){
@@ -557,17 +514,6 @@ public class CustomerScreenController {
                 }
             }
         });
-      // CustomerInfoDTO customer = customers.stream().filter(l->l.getName().equals(userPick)).findFirst().orElse(null);
-//        CustomerInfoDTO customer = null;
-//        for(CustomerInfoDTO customerInfoDTO: customers){
-//            if(customerInfoDTO.getName().equals(userPick))
-//                customer=customerInfoDTO;
-//        }
-//        List<String> loanID = new ArrayList<>();
-//        List<String> loansForSale = customer.getLoansForSale().stream().map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
-//        List<String> lenderLoans = customer.getLenderList().stream().filter(p -> p.getStatus().equals("Active")).map(LoanInfoDTO::getLoanName).collect(Collectors.toList());
-//        lenderLoans.removeIf(p -> loansForSale.contains(p));
-//        //List<LoansForSaleDTO> loansOnSale = engine.getLoansAvailableToBuy(userPick);
 
     }
 
@@ -598,13 +544,6 @@ public class CustomerScreenController {
     }
 
     public void LoanNameCheckAndCreate(String loanID,String category, Double amount, Integer loanDuration, Integer timePerPayment, Integer loanInterest){
-//        final boolean[] checkName = new boolean[1];
-//        checkName[0] = false;
-//        if(loanNameTF.getText().equals("") || loanNameTF.getText().equals(null))
-//        {
-//            nameError.setText("Please insert a name.");
-//            return false;
-//        }
         RequestBody body = RequestBody.create(
                 "", MediaType.parse("txt"));
 
@@ -650,9 +589,6 @@ public class CustomerScreenController {
                     }
                 }
             });
-//        if (checkName[0]==true)
-//            return false;
-//        return true;
 
     }
 
@@ -674,7 +610,6 @@ public class CustomerScreenController {
         RequestBody body =
                 new MultipartBody.Builder()
                         .addFormDataPart("file1", f.getName(), RequestBody.create(f, MediaType.parse("text/xml")))
-                        //.addFormDataPart("key1", "value1") // you can add multiple, different parts as needed
                         .build();
 
        Request request = new Request.Builder()
@@ -707,22 +642,15 @@ public class CustomerScreenController {
                         try {
                             Notifications.create().title("Success").text(response.body().string()).hideAfter(Duration.seconds(5)).position(Pos.CENTER).showConfirm();
                         } catch (IOException e) {
-//                            throw new RuntimeException(e);
+//
                         }
                         response.body().close();
                     });
                 }
-             //   return false;
+
             }
         });
 
-
-   //    Call call = HTTP_CLIENT.newCall(request);
-
-     //   Response response = call.execute();
-
-      //  System.out.println(response.body().string());
-        return;
     }
     public void makePayment(String loanID, String activeOrRisk, Double amountToPay){
         RequestBody body = RequestBody.create(
@@ -899,13 +827,42 @@ public class CustomerScreenController {
             }
         });
     }
+
+    public void sendMessage(String chatLine){
+        String finalUrlInformation = HttpUrl
+                .parse(FULL_PATH_DOMAIN + SEND_CHAT_LINE)
+                .newBuilder()
+                .addQueryParameter("userstring", chatLine)
+                .build()
+                .toString();
+
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .build();
+        HttpUtil.runAsync(request, false ,new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                }
+                else
+                    chatRoomTabController.getChatAreaComponentController().getChatLineTextArea().clear();
+                response.body().close();
+            }
+        });
+    }
     public void setReadOnlyMode(){
         customerOptionsTB.getSelectionModel().selectFirst();
         inlay.setDisable(true);
         payments.setDisable(true);
         createLoan.setDisable(true);
         buySellLoans.setDisable(true);
+        chatRoom.setDisable(true);
         loadFileButton.setDisable(true);
+        chatRoomTabController.setInActive();
         informationTabController.getTransactionInfoController().getCharge().setDisable(true);
         informationTabController.getTransactionInfoController().getWithdraw().setDisable(true);
 
@@ -915,7 +872,9 @@ public class CustomerScreenController {
         payments.setDisable(false);
         createLoan.setDisable(false);
         buySellLoans.setDisable(false);
+        chatRoom.setDisable(false);
         loadFileButton.setDisable(false);
+        chatRoomTabController.setActive();
         informationTabController.getTransactionInfoController().getCharge().setDisable(false);
         informationTabController.getTransactionInfoController().getWithdraw().setDisable(false);
     }
@@ -923,7 +882,6 @@ public class CustomerScreenController {
     public void updateCurrentTab(){
         switch(customerOptionsTB.getSelectionModel().getSelectedItem().getText()){
             case "Information":{
-                //updateInformationTab(user);
                 break;
             } case "Inlay":{
                 updateInlayTab();
@@ -942,4 +900,5 @@ public class CustomerScreenController {
             }
         }
     }
+
 }

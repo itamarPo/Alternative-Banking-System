@@ -1,6 +1,8 @@
 package database.chat;
 
-public class SingleChatEntry {
+import java.io.Serializable;
+
+public class SingleChatEntry implements Serializable {
     private final String chatString;
     private final String username;
     private final long time;

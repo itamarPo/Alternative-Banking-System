@@ -57,7 +57,7 @@ public class CommandsController {
         Platform.exit();
     }
 
-   public void setChatCommands(ChatCommands chatRoomMainController) {
-        this.chatCommands = chatRoomMainController;
-    }
+//   public void setChatCommands(ChatCommands chatRoomMainController) {
+//        this.chatCommands = chatRoomMainController;
+//    }
 }

@@ -1,5 +1,6 @@
 package database;
 
+import database.chat.ChatManager;
 import database.client.AccountTransaction;
 import database.client.Customer;
 import database.loan.Loans;
@@ -37,6 +38,7 @@ public class Engine implements EngineInterface , Serializable {
    private List<Customer> customers;
    private List<Loans> loans;
    private Map<String, List<Loans>> loansByCategories; //saves all the loans which has the same category
+   private ChatManager chatManager;
    private static int time = 1;
    private Integer timeToReturn; // A field which we use in the bonus, to save the current time.
    private String serverStatus;
@@ -48,6 +50,7 @@ public class Engine implements EngineInterface , Serializable {
       customers = new ArrayList<>();
       loans = new ArrayList<>();
       loansByCategories = new LinkedHashMap<>();
+      chatManager = new ChatManager();
       timeToReturn = 1;
       this.adminExist = false;
       this.serverStatus = NOTREWIND;
@@ -63,6 +66,8 @@ public class Engine implements EngineInterface , Serializable {
    public boolean isAdminExist() {
       return adminExist;
    }
+
+   public ChatManager getChatManager() {return chatManager;}
 
    public void resetTime() {
 //      timeToSave = 1;
@@ -135,16 +140,6 @@ public class Engine implements EngineInterface , Serializable {
          e.printStackTrace();
       }
 
-//
-//      //get bytes
-//
-//
-//
-//      try {
-//
-//      } catch (ClassNotFoundException e) {
-//
-//      }
    }
 
    public Engine loadSelcetedYaz(String EngineName, String selectedYaz) throws FileNotFoundException, Exception{
@@ -228,12 +223,7 @@ public class Engine implements EngineInterface , Serializable {
          loansByCategories.get(loan.getLoanCategory()).add(loan);
          customer.getBorrowerList().add(loan);
       }
-//         for (Customer neededCustomer : customers) {
-//            if (neededCustomer.getName().equals(loan.getBorrowerName())) {
-//               neededCustomer.getBorrowerList().add(loan);
-//               break;
-//            }
-//         }
+
    }
 
    public void createNewLoan(String customerName, String category, String loanID, int loanDuration,
@@ -315,16 +305,6 @@ public class Engine implements EngineInterface , Serializable {
          customerDTO.setActiveLender(lending.stream().filter(l -> l.getStatus().getStatus().equals("Active")).collect(Collectors.toList()).size());
          customerDTO.setRiskLender(lending.stream().filter(l -> l.getStatus().getStatus().equals("Risk")).collect(Collectors.toList()).size());
          customerDTO.setFinishedLender(lending.stream().filter(l -> l.getStatus().getStatus().equals("Finished")).collect(Collectors.toList()).size());
-//         for (Loans lenderLoan : customer.getLenderList()) {
-//            customerDTO.getLenderList().add(customerDTOClassArrange(lenderLoan));
-//         }
-//         for (Loans borrowerLoan : customer.getBorrowerList()) {
-//            customerDTO.getBorrowerList().add(customerDTOClassArrange(borrowerLoan));
-//         }
-//         for (Loans loanForSale : customer.getLoansForSale()) {
-//            customerDTO.getLoansForSale().add(customerDTOClassArrange(loanForSale));
-//         }
-//         customerDTO.setLoansAmounts();
          return customerDTO;
       } else{
          if(serverStatus.equals(REWIND)){
@@ -341,27 +321,6 @@ public class Engine implements EngineInterface , Serializable {
       //LoanInfoDTO newLoan;
       for (Customer customer : customers) {
          customersInfo.add(getCustomerInfo(customer.getName()));
-
-//         customersInfo.add(new CustomerInfoDTO(customer.getName(), customer.getBalance()));
-//         for (AccountTransaction accountTransaction : customer.getTransactions()) {
-//            customersInfo.get(customersInfo.size() - 1).getTransactionDTOS().add(new AccountTransactionDTO(accountTransaction.getTimeOfTransaction(),
-//                    accountTransaction.getTransactionAmount(), accountTransaction.getIncomeOrExpense(),
-//                    accountTransaction.getBalanceBefore(), accountTransaction.getBalanceAfter()));
-//
-//         }
-//         for (Loans lenderLoan : customer.getLenderList()) {
-//            newLoan = customerDTOClassArrange(lenderLoan);
-//            customersInfo.get(customersInfo.size() - 1).getLenderList().add(newLoan);
-//         }
-//         for (Loans borrowerLoan : customer.getBorrowerList()) {
-//            newLoan = customerDTOClassArrange(borrowerLoan);
-//            customersInfo.get(customersInfo.size() - 1).getBorrowerList().add(newLoan);
-//         }
-//         for (Loans loanForSale : customer.getLoansForSale()) {
-//            newLoan = customerDTOClassArrange(loanForSale);
-//            customersInfo.get(customersInfo.size() - 1).getLoansForSale().add(newLoan);
-//         }
-//         customersInfo.get(customersInfo.size() - 1).setLoansAmounts();
       }
 
       return customersInfo;
@@ -537,13 +496,9 @@ public class Engine implements EngineInterface , Serializable {
          for (Map.Entry<Loans,Integer> entry : maxAmountPerLoan.entrySet()) {
             if (entry.getValue() == min) {
                addCustomerToLoan(entry.getKey(),customerSelected, min);
-
-//               maxAmountPerLoan.remove(entry);
-
             }
          }
          maxAmountPerLoan.values().removeIf(value-> value == min);
-//         loansToInvest.removeIf(x -> x.getLeftToBeCollected() + min == min);
          splitEquallyBetweenLoans(maxAmountPerLoan, moneyToInvest - (min - remainingLoansMin) * numOfLoans, customerSelected, min);
       }
    }
@@ -666,7 +621,10 @@ public class Engine implements EngineInterface , Serializable {
    }
 
    public ArrayList getCustomerNames(){
-      return (ArrayList) customers.stream().map(user ->user.getName()).collect(Collectors.toList());
+      ArrayList list =  (ArrayList) customers.stream().map(user ->user.getName()).collect(Collectors.toList());
+      if(adminExist)
+         list.add(adminName);
+      return list;
    }
 
    public Loans getLoanByName(String loanName){

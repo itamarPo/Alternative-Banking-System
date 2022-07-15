@@ -1,9 +1,6 @@
 package userinterface.chat.chatarea;
 
-import chat.client.component.api.HttpStatusUpdate;
-import chat.client.component.chatarea.model.ChatLinesWithVersion;
-import chat.client.util.Constants;
-import chat.client.util.http.HttpClientUtil;
+
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
@@ -15,18 +12,18 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleButton;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.HttpUrl;
-import okhttp3.Response;
-import org.jetbrains.annotations.NotNull;
+import okhttp3.*;
+
+import userinterface.chat.api.HttpStatusUpdate;
+import userinterface.chat.chatarea.model.ChatLinesWithVersion;
+import userinterface.chat.chatroom.ChatRoomMainController;
+import userinterface.utils.HttpUtil;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.stream.Collectors;
-
-import static chat.client.util.Constants.*;
+import static userinterface.Constants.*;
 
 public class ChatAreaController implements Closeable {
 
@@ -35,7 +32,9 @@ public class ChatAreaController implements Closeable {
     private final BooleanProperty autoUpdate;
     private HttpStatusUpdate httpStatusUpdate;
     private ChatAreaRefresher chatAreaRefresher;
+    private ChatRoomMainController chatRoomMainController;
     private Timer timer;
+    private boolean isAdmin = false;
 
     @FXML private ToggleButton autoScrollButton;
     @FXML private TextArea chatLineTextArea;
@@ -54,36 +53,27 @@ public class ChatAreaController implements Closeable {
         chatVersionLabel.textProperty().bind(Bindings.concat("Chat Version: ", chatVersion.asString()));
     }
 
+    public TextArea getChatLineTextArea() {
+        return chatLineTextArea;
+    }
+
+    public void setChatRoomMainController(ChatRoomMainController chatRoomMainController) {
+        this.chatRoomMainController = chatRoomMainController;
+    }
+
+    public void setAdmin(boolean admin) {isAdmin = admin;}
+
     public BooleanProperty autoUpdatesProperty() {
         return autoUpdate;
     }
 
     @FXML
-    void sendButtonClicked(ActionEvent event) {
+    public void sendButtonClicked(ActionEvent event) {
         String chatLine = chatLineTextArea.getText();
-        String finalUrl = HttpUrl
-                .parse(Constants.SEND_CHAT_LINE)
-                .newBuilder()
-                .addQueryParameter("userstring", chatLine)
-                .build()
-                .toString();
-
-        httpStatusUpdate.updateHttpLine(finalUrl);
-        HttpClientUtil.runAsync(finalUrl, new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure...:(");
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    httpStatusUpdate.updateHttpLine("Attempt to send chat line [" + chatLine + "] request ended with failure. Error code: " + response.code());
-                }
-            }
-        });
-
-        chatLineTextArea.clear();
+        if(!isAdmin)
+         chatRoomMainController.getCustomerScreenController().sendMessage(chatLine);
+        else
+            chatRoomMainController.getAdminScreenController().sendMessage(chatLine);
     }
 
     public void setHttpStatusUpdate(HttpStatusUpdate chatRoomMainController) {
@@ -121,7 +111,7 @@ public class ChatAreaController implements Closeable {
                 chatVersion,
                 autoUpdate,
                 httpStatusUpdate::updateHttpLine,
-                this::updateChatLines);
+                this::updateChatLines, isAdmin);
         timer = new Timer();
         timer.schedule(chatAreaRefresher, REFRESH_RATE, REFRESH_RATE);
     }

@@ -38,8 +38,5 @@ public class PendingLoanDTO extends NewLoanDTO{
     public double getCollectedSoFar() {
         return collectedSoFar;
     }
-
-//    public Button getLendersButton() {
-//        return lendersButton;
-//    }
+    
 }

@@ -10,10 +10,6 @@ import java.util.stream.Collectors;
 
 public class CustomerInfoDTO {
 
-//  private List<LoanInfoDTO> lenderList; //remove
-//  private List<LoanInfoDTO> borrowerList; //remove
-//  private List<LoanInfoDTO> loansForSale; //  might remove
-//  private List<PaymentNotificationDTO> notificationDTOS; // remove
    private List<AccountTransactionDTO> transactionDTOS;
    private String name;
    private double balance;
@@ -52,49 +48,12 @@ public class CustomerInfoDTO {
     public void setRiskLender(Integer riskLender) {this.riskLender = riskLender;}
     public void setFinishedLender(Integer finishedLender) {this.finishedLender = finishedLender;}
 
-    //    public List<LoanInfoDTO> getLenderList() {
-//        return lenderList;
-//    }
-//    public List<LoanInfoDTO> getBorrowerList() {
-//        return borrowerList;
-//    }
-//    public List<LoanInfoDTO> getLoansForSale() {return loansForSale;}
-
-//    public void setLoansAmounts(){
-//        newBorrower = borrowerList.stream().filter(x -> x.getStatus().equals("New")).collect(Collectors.toList()).size();
-//        pendingBorrower = borrowerList.stream().filter(x -> x.getStatus().equals("Pending")).collect(Collectors.toList()).size();
-//        activeBorrower = borrowerList.stream().filter(x -> x.getStatus().equals("Active")).collect(Collectors.toList()).size();
-//        riskBorrower = borrowerList.stream().filter(x -> x.getStatus().equals("Risk")).collect(Collectors.toList()).size();
-//        finishedBorrower = borrowerList.stream().filter(x -> x.getStatus().equals("Finished")).collect(Collectors.toList()).size();
-//        pendingLender = lenderList.stream().filter(x -> x.getStatus().equals("Pending")).collect(Collectors.toList()).size();
-//        activeLender = lenderList.stream().filter(x -> x.getStatus().equals("Active")).collect(Collectors.toList()).size();
-//        riskLender = lenderList.stream().filter(x -> x.getStatus().equals("Risk")).collect(Collectors.toList()).size();
-//        finishedLender = lenderList.stream().filter(x -> x.getStatus().equals("finished")).collect(Collectors.toList()).size();
-//    }
 
     public CustomerInfoDTO(String name, double balance) {
         this.transactionDTOS = new ArrayList<>();
-//        this.lenderList = new ArrayList<>();
-//        this.borrowerList = new ArrayList<>();
-//        this.loansForSale = new ArrayList<>();
         this.name = name;
         this.balance = balance;
     }
 
-//    public void print(){
-//        System.out.println("\r\nCustomer's name: " + name);
-//        System.out.println("Current balance: " + String.format("%.2f", balance));
-//        System.out.println("Customer's transactions: ");
-//        for(AccountTransactionDTO transaction: transactionDTOS)
-//            transaction.print();
-//        System.out.println("The loans that the costumer is lending to: ");
-//        for(LoanInfoDTO lenderLoan: lenderList)
-//            lenderLoan.print();
-//        System.out.println("-------");
-//        System.out.println("The loans that the costumer is borrowing from: ");
-//        for(LoanInfoDTO borrowerLoan: borrowerList)
-//            borrowerLoan.print();
-//        System.out.println("----------------------------------------------");
-//    }
 
 }

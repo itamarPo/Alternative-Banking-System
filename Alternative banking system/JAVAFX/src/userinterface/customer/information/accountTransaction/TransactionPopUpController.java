@@ -23,7 +23,6 @@ public class TransactionPopUpController {
     @FXML private TextField textField;
     private Stage popUpStage;
 
-
     private Scene popUpScene;
 
 

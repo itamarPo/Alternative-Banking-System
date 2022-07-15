@@ -37,20 +37,6 @@ public class AdminMain extends Application {
 
         adminLoginController.setAdminScreenScene(adminScreenScene);
         adminLoginController.setAdminScreenController(adminScreenController);
-        
-        //../../../../JAVAFX/src/userinterface/admin/centerAdmin/adminScreen.fxml
-
-//        Customer
-//        FXMLLoader loaderCustomer = new FXMLLoader();
-//        URL customerFXML = getClass().getResource("/userinterface/customer/customerScreen.fxml");
-//        loaderCustomer.setLocation(customerFXML);
-//        Parent root2 = loaderCustomer.load();
-//        TopCustomerController topCustomerController = loaderCustomer.getController();
-//        Scene CustomerScene = new Scene(root2, WIDTH, HEIGHT);
-
-        //Main Controller
-//        MainController mainController = new MainController(primaryStage, topAdminController, AdminScene, topCustomerController,CustomerScene);
-//        mainController.setSubControllers();
 
         //Start program
         primaryStage.setTitle("Login");

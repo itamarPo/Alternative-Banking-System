@@ -99,6 +99,7 @@ public class AdminLoginController {
                     Platform.runLater(() -> {
                         primaryStage.setTitle("Admin");
                         primaryStage.setScene(adminScreenScene);
+                        adminScreenController.setPrimaryStage(primaryStage);
                         adminScreenController.setUserName(userName);
                         adminScreenController.getNameLabel().setText(adminScreenController.getNameLabel().getText() + userName);
                         adminScreenController.startInfoRefresh();

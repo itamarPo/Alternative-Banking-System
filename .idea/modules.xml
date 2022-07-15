@@ -9,7 +9,6 @@
       <module fileurl="file://$PROJECT_DIR$/Alternative banking system/JAVAFX/JAVAFX.iml" filepath="$PROJECT_DIR$/Alternative banking system/JAVAFX/JAVAFX.iml" />
       <module fileurl="file://$PROJECT_DIR$/Alternative banking system/Server/Server.iml" filepath="$PROJECT_DIR$/Alternative banking system/Server/Server.iml" />
       <module fileurl="file://$PROJECT_DIR$/Alternative banking system/engine/engine.iml" filepath="$PROJECT_DIR$/Alternative banking system/engine/engine.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Alternative banking system/ui/ui.iml" filepath="$PROJECT_DIR$/Alternative banking system/ui/ui.iml" />
     </modules>
   </component>
 </project>

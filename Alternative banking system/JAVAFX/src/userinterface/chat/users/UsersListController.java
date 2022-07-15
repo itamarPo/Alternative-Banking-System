@@ -41,10 +41,10 @@ public class UsersListController implements Closeable {
         chatUsersLabel.textProperty().bind(Bindings.concat("Chat Users: (", totalUsers.asString(), ")"));
     }
 
-//    public void setHttpStatusUpdate(HttpStatusUpdate httpStatusUpdate) {
-//        this.httpStatusUpdate = httpStatusUpdate;
-//
-//    }
+    public void setHttpStatusUpdate(HttpStatusUpdate httpStatusUpdate) {
+        this.httpStatusUpdate = httpStatusUpdate;
+
+    }
     public BooleanProperty autoUpdatesProperty() {
         return autoUpdate;
     }

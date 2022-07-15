@@ -25,11 +25,18 @@ public class Constants {
     public final static String CUSTOMER_BUYSELL_PULL_RESOURCE = "/Customer-BuySell-Pull-Servlet";
     public final static String CUSTOMER_SELL_LOANS_RESOURCE = "/Customer-Sell-Loans-Servlet";
     public final static String CUSTOMER_BUY_LOAN_RESOURCE = "/Customer-Buy-Loan-Servlet";
+    public final static String USERS_LIST = "/usersList";
+    public final static String SEND_CHAT_LINE = "/pages/chatroom/sendChat";
+    public final static String CHAT_LINES_LIST = "/chat";
+    public final static String LINE_SEPARATOR = System.getProperty("line.separator");
+
     public final static Gson GSON_INSTANCE = new Gson();
     public final static String RESPONSE_ERROR = "Unable to connect the server!";
-    public final static String USERS_LIST = "/userslist";
 
-
+    public static final String CHAT_PARAMETER = "userstring";
+    public static final String CHAT_VERSION_PARAMETER = "chatVersion";
+    public static final int INT_PARAMETER_ERROR = Integer.MIN_VALUE;
+    public final static String CHAT_LINE_FORMATTING = "%tH:%tM:%tS | %.10s: %s%n";
     public final static int REFRESH_RATE = 1000;
     public final static String UPLOAD_FILE = "/upload-file";
     public final static String USERNAME = "userName";

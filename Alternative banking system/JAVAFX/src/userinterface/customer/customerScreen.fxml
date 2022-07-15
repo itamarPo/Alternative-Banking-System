@@ -60,6 +60,11 @@
                         <fx:include fx:id="loanSellTab" source="loanforsell/loanforsell.fxml" />
                      </content>
                   </Tab>
+                  <Tab fx:id="chatRoom" text="Chat Room">
+                     <content>
+                        <fx:include fx:id="chatRoomTab" source="../chat/chatroom/chat-room-main.fxml" />
+                     </content>
+                  </Tab>
               </tabs>
                <BorderPane.margin>
                   <Insets top="-50.0" />

@@ -122,9 +122,7 @@ public class PaymentsTabController {
     public Label getCloseLoanError() {return closeLoanError;}
     public Label getCompletePaymentError() {return completePaymentError;}
     public TextField getPaymentAmountTextField() {return paymentAmountTextField;}
-    //    public AnchorPane getFinishImage() {
-//        return finishImage;
-//    }
+
 
     //Setters
     public void setCustomerScreenController(CustomerScreenController customerScreenController) {
@@ -149,10 +147,6 @@ public class PaymentsTabController {
         completePaymentError.setText("");
 
     }
-
-//    public void setEngine(Engine engine) {
-//        this.engine = engine;
-//    }
 
     //Regular methods
     @FXML

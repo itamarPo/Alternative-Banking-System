@@ -51,15 +51,17 @@ public class UserListRefresher extends TimerTask {
             @Override
             public void onFailure(Call call, IOException e) {
                 httpRequestLoggerConsumer.accept("Users Request # " + finalRequestNumber + " | Ended with failure...");
-
             }
 
             @Override
             public void onResponse(Call call,  Response response) throws IOException {
-                String jsonArrayOfUsersNames = response.body().string();
-                httpRequestLoggerConsumer.accept("Users Request # " + finalRequestNumber + " | Response: " + jsonArrayOfUsersNames);
-                String[] usersNames = GSON_INSTANCE.fromJson(jsonArrayOfUsersNames, String[].class);
-                usersListConsumer.accept(Arrays.asList(usersNames));
+                if (response.isSuccessful()) {
+                    String jsonArrayOfUsersNames = response.body().string();
+                    httpRequestLoggerConsumer.accept("Users Request # " + finalRequestNumber + " | Response: " + jsonArrayOfUsersNames);
+                    String[] usersNames = GSON_INSTANCE.fromJson(jsonArrayOfUsersNames, String[].class);
+                    usersListConsumer.accept(Arrays.asList(usersNames));
+                }
+                response.body().close();
             }
         });
     }

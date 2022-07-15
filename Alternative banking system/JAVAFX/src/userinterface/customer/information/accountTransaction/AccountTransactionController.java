@@ -105,7 +105,7 @@ public class AccountTransactionController {
     }
 
     public void setTableValues(CustomerInfoDTO customer){
-        ObservableList<AccountTransactionDTO>  customerTransactions= FXCollections.observableArrayList(customer.getTransactionDTOS());
+        ObservableList<AccountTransactionDTO> customerTransactions= FXCollections.observableArrayList(customer.getTransactionDTOS());
         tableView.getItems().setAll(customerTransactions);
     }
 

@@ -80,6 +80,7 @@ public class CustomerLoginController {
                         customerScreenController.setUserName(userName);
                         customerScreenController.getNameLabel().setText(customerScreenController.getNameLabel().getText() + userName);
                         customerScreenController.startInfoRefresh(userName);
+                        customerScreenController.getChatRoomMainController().setActive();
                         response.body().close();
 
                     });

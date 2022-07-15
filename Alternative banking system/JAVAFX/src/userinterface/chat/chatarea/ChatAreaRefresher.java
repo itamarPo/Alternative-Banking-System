@@ -1,21 +1,17 @@
 package userinterface.chat.chatarea;
 
-import chat.client.component.chatarea.model.ChatLinesWithVersion;
-import chat.client.util.Constants;
-import chat.client.util.http.HttpClientUtil;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.HttpUrl;
-import okhttp3.Response;
-import org.jetbrains.annotations.NotNull;
+import okhttp3.*;
+import userinterface.chat.chatarea.model.ChatLinesWithVersion;
+import userinterface.utils.HttpUtil;
 
 import java.io.IOException;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
-import static chat.client.util.Constants.GSON_INSTANCE;
+import static userinterface.Constants.*;
 
 public class ChatAreaRefresher extends TimerTask {
 
@@ -23,14 +19,16 @@ public class ChatAreaRefresher extends TimerTask {
     private final Consumer<ChatLinesWithVersion> chatlinesConsumer;
     private final IntegerProperty chatVersion;
     private final BooleanProperty shouldUpdate;
+    private final boolean isAdmin;
     private int requestNumber;
 
-    public ChatAreaRefresher(IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<String> httpRequestLoggerConsumer, Consumer<ChatLinesWithVersion> chatlinesConsumer) {
+    public ChatAreaRefresher(IntegerProperty chatVersion, BooleanProperty shouldUpdate, Consumer<String> httpRequestLoggerConsumer, Consumer<ChatLinesWithVersion> chatlinesConsumer, boolean isAdmin) {
         this.httpRequestLoggerConsumer = httpRequestLoggerConsumer;
         this.chatlinesConsumer = chatlinesConsumer;
         this.chatVersion = chatVersion;
         this.shouldUpdate = shouldUpdate;
         requestNumber = 0;
+        this.isAdmin = isAdmin;
     }
 
     @Override
@@ -43,23 +41,27 @@ public class ChatAreaRefresher extends TimerTask {
         final int finalRequestNumber = ++requestNumber;
 
         //noinspection ConstantConditions
-        String finalUrl = HttpUrl
-                .parse(Constants.CHAT_LINES_LIST)
+        String finalUrlInformation = HttpUrl
+                .parse(FULL_PATH_DOMAIN + CHAT_LINES_LIST)
                 .newBuilder()
-                .addQueryParameter("chatversion", String.valueOf(chatVersion.get()))
+                .addQueryParameter("chatVersion", String.valueOf(chatVersion.get()))
                 .build()
                 .toString();
 
-        httpRequestLoggerConsumer.accept("About to invoke: " + finalUrl + " | Chat Request # " + finalRequestNumber);
+        Request request = new Request.Builder()
+                .url(finalUrlInformation)
+                .build();
 
-        HttpClientUtil.runAsync(finalUrl, new Callback() {
+        httpRequestLoggerConsumer.accept("About to invoke: " + finalUrlInformation + " | Chat Request # " + finalRequestNumber);
+
+        HttpUtil.runAsync(request, isAdmin, new Callback() {
             @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            public void onFailure(Call call, IOException e) {
                 httpRequestLoggerConsumer.accept("Something went wrong with Chat Request # " + finalRequestNumber);
             }
 
             @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            public void onResponse( Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
                     String rawBody = response.body().string();
                     httpRequestLoggerConsumer.accept("Response of Chat Request # " + finalRequestNumber + ": " + rawBody);
@@ -68,6 +70,7 @@ public class ChatAreaRefresher extends TimerTask {
                 } else {
                     httpRequestLoggerConsumer.accept("Something went wrong with Request # " + finalRequestNumber + ". Code is " + response.code());
                 }
+                response.body().close();
             }
         });
 

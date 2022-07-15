@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CustomerApp:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CustomerApp_jar</output-path>
+    <root id="archive" name="CustomerApp.jar">
+      <element id="module-output" name="CustomerApp" />
+      <element id="module-output" name="DTO" />
+      <element id="module-output" name="JAVAFX" />
+      <element id="module-output" name="AdminApp" />
+      <element id="extracted-dir" path="D:/Downloads/okHttp (1)/okHttp/kotlin-stdlib-1.4.10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Downloads/okHttp (1)/okHttp/okhttp-4.9.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Downloads/okHttp (1)/okHttp/okio-2.8.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Downloads/08. Java FX/tools/controlsfx/controlsfx-8.40.14.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/Downloads/gson-2.1 (1).jar" path-in-jar="/" />
+      <element id="library" level="project" name="gson-2.1-javadoc (1)" />
+      <element id="extracted-dir" path="D:/Downloads/okHttp (1)/okHttp/kotlin-stdlib-common-1.4.10.jar" path-in-jar="/" />
+      <element id="library" level="project" name="gson-2.1-sources (1)" />
+    </root>
+  </artifact>
+</component>

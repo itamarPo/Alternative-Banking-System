@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class Loans implements Serializable, LoansInterface {
 
-    //private String loanName;
     private String borrowerName;
     private final String LOANID;
     private String loanCategory;

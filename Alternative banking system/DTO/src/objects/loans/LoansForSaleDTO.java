@@ -17,11 +17,9 @@ public class LoansForSaleDTO {
     private double interestPerPayment;
     private int timePerPayment;
     private Map<String, Double> listOfLenders;
-  //  private Button lendersButton;
     private int startingActiveTime;
     private int nextPaymentTime;
     private List<PaymentsDTO> Payments;
-    //private Button paymentsButton;
     private double price;
     private double expectedProfit;
 
@@ -58,7 +56,6 @@ public class LoansForSaleDTO {
     public int getStartingActiveTime() {return startingActiveTime;}
     public int getNextPaymentTime() {return nextPaymentTime;}
     public List<PaymentsDTO> getPayments() {return Payments;}
-    //public Button getPaymentsButton() {return paymentsButton;}
     public double getPrice() {return price;}
     public double getExpectedProfit() {return expectedProfit;}
 }

@@ -73,6 +73,7 @@ public class CustomerInfoRefresher extends TimerTask {
                                 lastSeenYaz = currentYaz;
                                 customerScreenController.updateCurrentTab();
                                 response.body().close();
+                                customerScreenController.setActiveMode();
                             }});
                     }
                         Platform.runLater(() -> {

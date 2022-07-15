@@ -1,4 +1,4 @@
-package servlet.Admin;
+package servlet.admin;
 
 import database.Engine;
 import jakarta.servlet.ServletException;

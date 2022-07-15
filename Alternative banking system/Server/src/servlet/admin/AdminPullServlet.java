@@ -1,4 +1,4 @@
-package servlet.Admin;
+package servlet.admin;
 
 import com.google.gson.Gson;
 import database.Engine;
@@ -17,11 +17,8 @@ import utils.EngineServlet;
 import utils.ServerChecks;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
-import static userinterface.Constants.REWIND;
 
 @WebServlet(name = "AdminPullInformationServlet", urlPatterns = {"/Admin-Pull-Information-Servlet"})
 public class AdminPullServlet extends HttpServlet {

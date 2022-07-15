@@ -93,17 +93,6 @@ public class FinishedLoanTableController {
     }
 
     //Setters
-    public void setPaymentsTabController(PaymentsTabController paymentsTabController) {
-        this.paymentsTabController = paymentsTabController;
-    }
-
-    public void setInformationTabController(InformationTabController informationTabController) {
-        this.informationTabController = informationTabController;
-    }
-
-    public void setCenterAdminController(AdminScreenController adminScreenController) {
-        this.adminScreenController = adminScreenController;
-    }
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;

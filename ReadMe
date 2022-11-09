@@ -4,7 +4,7 @@ In this project we created an alternative way to make a loans, (alternative from
 
 How to start:
 1. Please make sure you have java installed in your computer and that your PATH is defined. 
-2. Extract apache-tomcat-10.0.22.zip (if you already have apache-tomcat simply copy Server_War to the webapps directory)
+2. Download and extract apache-tomcat-10.0.22.zip from Application Directory (if you already have apache-tomcat simply copy Server_Web.war to the webapps directory)
 3. In cmd go to the location of your extracted apache-tomcat -> bin -> and type : startup.bat (that will open up your server)
 4. To Open an admin app or customer app simply double click either AdminApp.bat or CustomerApp.bat in their own directory
 

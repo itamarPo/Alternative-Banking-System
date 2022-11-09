@@ -4,10 +4,9 @@ In this project we created an alternative way to make a loans, (alternative from
 
 How to start:
 1. Please make sure you have java installed in your computer and that your PATH is defined. 
-We used tomcat servers for this project, so please make sure you also have that.
-2. Go To the Application directory in this repository and download the files. Right afterward copy Server_Web to the webapp directory where your tomcat is located
-(for Example, copy Server_Web to the next Directory: D:\Downloads\apache-tomcat-10.0.22\webapps
-3. To Open an admin app or customer app simply double click either AdminApp.bat or CustomerApp.bat in their own directory
+2. Extract apache-tomcat-10.0.22.zip (if you already have apache-tomcat simply copy Server_War to the webapps directory)
+3. In cmd go to the location of your extracted apache-tomcat -> bin -> and type : startup.bat (that will open up your server)
+4. To Open an admin app or customer app simply double click either AdminApp.bat or CustomerApp.bat in their own directory
 
 How the application works?
 At the Application directory in this repository, go to the ABS README 3. there exists an explenation at hebrew, which i will translate to english and update in this
@@ -15,3 +14,5 @@ ReadMe at a later date.
 
 Please Note, you cant make your own category. In order to have categories to create a loan you have to load an existing category using the example XML files in the 
 Application directory.
+
+A simple video demonstration is below

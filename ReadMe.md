@@ -16,7 +16,10 @@ Please Note, you cant make your own category. In order to have categories to cre
 Application directory.
 
 
+Here is a video demonstration about using the app:
+
+https://github.com/itamarPo/Alternative-Banking-System/assets/94309307/1db872c0-c43a-4380-b598-95073e9040f1
 
 
-https://github.com/itamarPo/Alternative-Banking-System/assets/94309307/b2e92d83-65b8-49e5-80c0-64da8477189a
+
 

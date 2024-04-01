@@ -15,5 +15,8 @@ ReadMe at a later date.
 Please Note, you cant make your own category. In order to have categories to create a loan you have to load an existing category using the example XML files in the 
 Application directory.
 
-A simple video demonstration is availiable 
-<iframe width="560" height="315" src="https://raw.githack.com/itamarPo/Alternative-Banking-System/main/8df2bd52-b061-4b84-ab53-b59e0e491a36.mp4" frameborder="0" allowfullscreen></iframe>
+
+
+
+https://github.com/itamarPo/Alternative-Banking-System/assets/94309307/b2e92d83-65b8-49e5-80c0-64da8477189a
+

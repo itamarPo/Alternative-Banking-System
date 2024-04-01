@@ -17,6 +17,6 @@ Application directory.
 
 A simple video demonstration is availiable 
 <video width="320" height="240" controls>
-  <source src="https://github.com/itamarPo/Alternative-Banking-System/raw/main/Java%20project%20demonstratio.mkv" type="video/mp4">
+  <source src="https://github.com/itamarPo/Alternative-Banking-System/raw/main/Java%20project%20demonstratio" type="video/mp4">
   Your browser does not support the video tag.
 </video>

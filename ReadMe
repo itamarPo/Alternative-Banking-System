@@ -17,6 +17,6 @@ Application directory.
 
 A simple video demonstration is availiable 
 <video width="320" height="240" controls>
-  <source src="https://raw.githubusercontent.com/itamarPo/Alternative-Banking-System/main/8df2bd52-b061-4b84-ab53-b59e0e491a36.mp4" type="video/mp4">
+  <source src="https://github.com/itamarPo/Alternative-Banking-System/blob/main/8df2bd52-b061-4b84-ab53-b59e0e491a36.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
